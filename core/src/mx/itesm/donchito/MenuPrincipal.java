@@ -5,11 +5,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
@@ -22,17 +20,15 @@ public class MenuPrincipal implements Screen {
 
 
     //TODO Refactor to interface
-    private Texture texturaFondo;
-    private Sprite fondo;
     private SpriteBatch batch;
 
     private Music musicaFondo;
 
-    private Sprite botonInicio;
-    private Texture texturabtnInicio;
+    private SimpleAsset btnInicio;
+    private SimpleAsset donChitoBtn;
+    private SimpleAsset fondo;
 
-    private Sprite botonDonChito;
-    private Texture texturaDonChito;
+
 
     public MenuPrincipal(DonChito game) {
         this.game = game;
@@ -47,19 +43,9 @@ public class MenuPrincipal implements Screen {
         batch = new SpriteBatch();
 
         //TODO Refactor next code into an Asset Manager
-        texturaFondo = new Texture(Gdx.files.internal("Imagenes/Menuprincipal/menuPrincipal.jpg"));
-        texturabtnInicio = new Texture(Gdx.files.internal("Imagenes/Menuprincipal/cargarpartida.png"));
-        texturaDonChito = new Texture(Gdx.files.internal("Imagenes/Menuprincipal/carteldonchito.png"));
-
-        botonInicio = new Sprite(texturabtnInicio);
-        botonInicio.setPosition(870,290);
-
-        botonDonChito = new Sprite(texturaDonChito);
-        botonDonChito.setPosition(430,230);
-        botonDonChito.setRotation(23);
-
-
-        fondo = new Sprite(texturaFondo);
+        fondo = new SimpleAsset("Imagenes/Menuprincipal/menuPrincipal.jpg",new Vector2(0,0));
+        btnInicio = new SimpleAsset("Imagenes/Menuprincipal/cargarpartida.png",new Vector2(870,290));
+        donChitoBtn = new SimpleAsset("Imagenes/Menuprincipal/carteldonchito.png",new Vector2(420,230));
 
         leerEntrada();
         cargarAudio();
@@ -82,9 +68,9 @@ public class MenuPrincipal implements Screen {
 
         batch.begin();
 
-        fondo.draw(batch);
-        botonInicio.draw(batch);
-        botonDonChito.draw(batch);
+        fondo.render(batch);
+        btnInicio.render(batch);
+        donChitoBtn.render(batch);
 
         batch.end();
     }
