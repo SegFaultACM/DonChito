@@ -39,14 +39,14 @@ public class MenuPrincipal implements Screen {
 
         //TODO Refactor next code into an Asset Manager
         batch = new SpriteBatch();
-        texturaFondo = new Texture(Gdx.files.internal("MenuPrincipal.jpg"));
+        texturaFondo = new Texture(Gdx.files.internal("Imagenes/Menuprincipal/MenuPrincipal.jpg"));
 
         fondo = new Sprite(texturaFondo);
         cargarAudio();
     }
 
     private void cargarAudio() {
-        musicaFondo = Gdx.audio.newMusic(Gdx.files.internal("menuPrincipal.mp3"));
+        musicaFondo = Gdx.audio.newMusic(Gdx.files.internal("Musica/menuPrincipal.mp3"));
         musicaFondo.setLooping(true);
         musicaFondo.play();
     }
