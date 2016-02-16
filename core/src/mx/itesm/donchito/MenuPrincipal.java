@@ -97,7 +97,7 @@ public class MenuPrincipal implements Screen {
 
     @Override
     public void dispose() {
-        texturaFondo.dispose();
+        fondo.dispose();
         musicaFondo.dispose();
     }
 }
