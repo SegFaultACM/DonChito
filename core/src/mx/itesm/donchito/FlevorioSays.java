@@ -8,8 +8,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
+import sun.java2d.pipe.SpanShapeRenderer;
 
 /**
  * Created by Esteban on 2/16/2016.
@@ -20,18 +24,16 @@ public class FlevorioSays implements Screen{
     private static final float INCREMENTO = 0.6f;
     private Viewport view;
 
-
     //TODO Refactor to interface
-    private Texture texturaFondo;
     private Texture texturaRoca;
-    private Sprite rocaP;
+
     private SpriteBatch batch;
     private Music musicaFondo;
-    private Sprite fondo;
-    private Texture texturaRocaLvl1;
-    private Texture texturaRocaLvl2;
-    private Texture texturaRocaLvl3;
-    //private Array<Rocas> rocas;
+
+    private SimpleAsset rocaP;
+    private SimpleAsset fondo;
+
+    private Array<SimpleAsset> rocas;
 
     public FlevorioSays(DonChito game) {
         this.game = game;
@@ -46,34 +48,32 @@ public class FlevorioSays implements Screen{
 
         //TODO Refactor next code into an Asset Manager
         batch = new SpriteBatch();
-        texturaFondo = new Texture(Gdx.files.internal("Imagenes/Simon/base simons.png"));
-        fondo = new Sprite(texturaFondo);
-        fondo.scale(1);
-        fondo.setScale(0.1f);
+        fondo = new SimpleAsset("Imagenes/Simon/base simons.png",new Vector2(0,0));
+        fondo.getSprite().scale(1);
+        fondo.getSprite().setScale(0.1f);
 
         crearRoca();
         cargarAudio();
     }
 
     private void crearRoca() {
-        texturaRoca = new Texture(Gdx.files.internal("Imagenes/Simon/Simonst.png"));
-        rocaP = new Sprite(texturaRoca);
-        rocaP.setPosition(DonChito.ALTO_MUNDO / 2, DonChito.ANCHO_MUNDO / 2);
+        rocaP = new SimpleAsset("Imagenes/Simon/Simonst.png",new Vector2(0,0));
+        rocaP.setPosition(new Vector2(DonChito.ALTO_MUNDO / 2, DonChito.ANCHO_MUNDO / 2));
+        SimpleAsset nuevo;
 
-        texturaRocaLvl1 = new Texture(Gdx.files.internal("Imagenes/Simon/Botongrande.jpg"));
-        texturaRocaLvl2 = new Texture(Gdx.files.internal("Imagenes/Simon/Botonchico.jpg"));
-        texturaRocaLvl3 = new Texture(Gdx.files.internal("Imagenes/Simon/diamante_nivel3.png"));
-
-        //rocas = new Array<Rocas>(24);
-
-        /*
-        hoyos = new Array<Hoyo>(9);
-        for(int i=0;i<9;i++){
-            Hoyo nuevo = new Hoyo(texturaHoyo);
-            nuevo.setPosicion(150+(i%3)*350,100+200*(i/3));
-            hoyos.add(nuevo);
+        rocas = new Array<SimpleAsset>(24);
+        for(int i=0;i<8;i++){
+            nuevo = new SimpleAsset("Imagenes/Simon/Botongrande.jpg",new Vector2(0,0));
+            rocas.add(nuevo);
         }
-        */
+        for(int i=0;i<8;i++){
+            nuevo = new SimpleAsset("Imagenes/Simon/Botonchico.jpg",new Vector2(0,0));
+            rocas.add(nuevo);
+        }
+        for(int i=0;i<8;i++){
+            nuevo = new SimpleAsset("Imagenes/Simon/diamante_nivel3.png",new Vector2(0,0));
+            rocas.add(nuevo);
+        }
     }
 
     private void cargarAudio() {
