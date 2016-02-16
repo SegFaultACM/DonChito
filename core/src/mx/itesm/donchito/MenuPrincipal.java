@@ -3,6 +3,7 @@ package mx.itesm.donchito;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -24,7 +25,14 @@ public class MenuPrincipal implements Screen {
     private Texture texturaFondo;
     private Sprite fondo;
     private SpriteBatch batch;
+
     private Music musicaFondo;
+
+    private Sprite botonInicio;
+    private Texture texturabtnInicio;
+
+    private Sprite botonDonChito;
+    private Texture texturaDonChito;
 
     public MenuPrincipal(DonChito game) {
         this.game = game;
@@ -36,13 +44,29 @@ public class MenuPrincipal implements Screen {
         camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         camera.update();
         view = new FitViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,camera);
+        batch = new SpriteBatch();
 
         //TODO Refactor next code into an Asset Manager
-        batch = new SpriteBatch();
-        texturaFondo = new Texture(Gdx.files.internal("MenuPrincipal.jpg"));
+        texturaFondo = new Texture(Gdx.files.internal("Imagenes/Menuprincipal/menuPrincipal.jpg"));
+        texturabtnInicio = new Texture(Gdx.files.internal("Imagenes/Menuprincipal/cargarpartida.png"));
+        texturaDonChito = new Texture(Gdx.files.internal("Imagenes/Menuprincipal/carteldonchito.png"));
+
+        botonInicio = new Sprite(texturabtnInicio);
+        botonInicio.setPosition(870,290);
+
+        botonDonChito = new Sprite(texturaDonChito);
+        botonDonChito.setPosition(430,230);
+        botonDonChito.setRotation(23);
+
 
         fondo = new Sprite(texturaFondo);
+
+        leerEntrada();
         cargarAudio();
+    }
+
+    private void leerEntrada() {
+
     }
 
     private void cargarAudio() {
@@ -53,9 +77,15 @@ public class MenuPrincipal implements Screen {
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
+
         fondo.draw(batch);
+        botonInicio.draw(batch);
+        botonDonChito.draw(batch);
+
         batch.end();
     }
 
