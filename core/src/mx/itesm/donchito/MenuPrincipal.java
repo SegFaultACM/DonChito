@@ -70,7 +70,7 @@ public class MenuPrincipal implements Screen {
     }
 
     private void cargarAudio() {
-        musicaFondo = Gdx.audio.newMusic(Gdx.files.internal("menuPrincipal.mp3"));
+        musicaFondo = Gdx.audio.newMusic(Gdx.files.internal("Musica/menuPrincipal.mp3"));
         musicaFondo.setLooping(true);
         musicaFondo.play();
     }
