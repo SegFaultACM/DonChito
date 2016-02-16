@@ -2,6 +2,7 @@ package mx.itesm.donchito;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -23,6 +24,7 @@ public class MenuPrincipal implements Screen {
     private Texture texturaFondo;
     private Sprite fondo;
     private SpriteBatch batch;
+    private Music musicaFondo;
 
     public MenuPrincipal(DonChito game) {
         this.game = game;
@@ -38,7 +40,15 @@ public class MenuPrincipal implements Screen {
         //TODO Refactor next code into an Asset Manager
         batch = new SpriteBatch();
         texturaFondo = new Texture(Gdx.files.internal("MenuPrincipal.jpg"));
+
         fondo = new Sprite(texturaFondo);
+        cargarAudio();
+    }
+
+    private void cargarAudio() {
+        musicaFondo = Gdx.audio.newMusic(Gdx.files.internal("menuPrincipal.mp3"));
+        musicaFondo.setLooping(true);
+        musicaFondo.play();
     }
 
     @Override
