@@ -40,4 +40,8 @@ public class SimpleAsset {
     public void dispose(){
         this.texture.dispose();
     }
+    public boolean isTouched(float x,float y){
+        return this.getSprite().getBoundingRectangle().contains(x,y);
+    }
+
 }

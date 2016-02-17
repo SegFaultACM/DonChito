@@ -1,12 +1,14 @@
 package mx.itesm.donchito;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -45,14 +47,32 @@ public class MenuPrincipal implements Screen {
         //TODO Refactor next code into an Asset Manager
         fondo = new SimpleAsset("Imagenes/Menuprincipal/menuPrincipal.jpg",new Vector2(0,0));
         btnInicio = new SimpleAsset("Imagenes/Menuprincipal/cargarpartida.png",new Vector2(870,290));
-        donChitoBtn = new SimpleAsset("Imagenes/Menuprincipal/carteldonchito.png",new Vector2(420,230));
+        donChitoBtn = new SimpleAsset("Imagenes/Menuprincipal/carteldonchito.jpg",new Vector2(420,230));
 
         leerEntrada();
-        cargarAudio();
+        //cargarAudio();
     }
 
     private void leerEntrada() {
 
+        Gdx.input.setInputProcessor(new InputAdapter() {
+            @Override
+            public boolean touchDown (int x, int y, int pointer, int button) {
+                Vector3 temp = camera.project(new Vector3(x, y, 0));
+                if(btnInicio.isTouched(temp.x, temp.y)){
+                    Gdx.app.log("Juego","botonIncio");
+                    game.setScreen(new FlevorioSays(game));
+                }
+                //donChitoBtn.isTouched(x,y);
+                return true; // return true to indicate the event was handled
+            }
+
+            @Override
+            public boolean touchUp (int x, int y, int pointer, int button) {
+                // your touch up code here
+                return true; // return true to indicate the event was handled
+            }
+        });
     }
 
     private void cargarAudio() {
@@ -66,8 +86,10 @@ public class MenuPrincipal implements Screen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        view.apply();
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
         batch.begin();
-
         fondo.render(batch);
         btnInicio.render(batch);
         donChitoBtn.render(batch);
@@ -77,7 +99,7 @@ public class MenuPrincipal implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        view.update(width,height);
+        view.update(width, height);
     }
 
     @Override
@@ -100,4 +122,5 @@ public class MenuPrincipal implements Screen {
         fondo.dispose();
         musicaFondo.dispose();
     }
+
 }
