@@ -45,14 +45,20 @@ public class MenuPrincipal implements Screen {
         //TODO Refactor next code into an Asset Manager
         fondo = new SimpleAsset("Imagenes/Menuprincipal/menuPrincipal.jpg",new Vector2(0,0));
         btnInicio = new SimpleAsset("Imagenes/Menuprincipal/cargarpartida.png",new Vector2(870,290));
-        donChitoBtn = new SimpleAsset("Imagenes/Menuprincipal/carteldonchito.png",new Vector2(420,230));
+        donChitoBtn = new SimpleAsset("Imagenes/Menuprincipal/carteldonchito.jpg",new Vector2(420,230));
 
         leerEntrada();
         cargarAudio();
     }
 
     private void leerEntrada() {
+        if(Gdx.input.justTouched()){
+            if(musicaFondo.isPlaying()){
+                musicaFondo.stop();
+            }
+            game.setScreen(new FlevorioSays(game));
 
+        }
     }
 
     private void cargarAudio() {
@@ -67,7 +73,7 @@ public class MenuPrincipal implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-
+        leerEntrada();
         fondo.render(batch);
         btnInicio.render(batch);
         donChitoBtn.render(batch);

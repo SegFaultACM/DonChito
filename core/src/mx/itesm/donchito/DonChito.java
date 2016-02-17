@@ -8,6 +8,6 @@ public class DonChito extends Game {
 	public static final float ANCHO_MUNDO = 1280;
 	@Override
 	public void create() {
-		this.setScreen(new MenuPrincipal(this));
+		this.setScreen(new FlevorioSays(this));
 	}
 }
