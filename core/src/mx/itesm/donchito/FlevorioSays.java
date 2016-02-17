@@ -62,15 +62,15 @@ public class FlevorioSays implements Screen{
 
         rocas = new Array<SimpleAsset>(24);
         for(int i=0;i<8;i++){
-            nuevo = new SimpleAsset("Imagenes/Simon/Botongrande.jpg",new Vector2(0,0));
+            nuevo = new SimpleAsset("Imagenes/Simon/nivel1.png",new Vector2(0,0));
             rocas.add(nuevo);
         }
         for(int i=0;i<8;i++){
-            nuevo = new SimpleAsset("Imagenes/Simon/Botonchico.jpg",new Vector2(0,0));
+            nuevo = new SimpleAsset("Imagenes/Simon/nivel2.png",new Vector2(0,0));
             rocas.add(nuevo);
         }
         for(int i=0;i<8;i++){
-            nuevo = new SimpleAsset("Imagenes/Simon/diamante_nivel3.png",new Vector2(0,0));
+            nuevo = new SimpleAsset("Imagenes/Simon/nivel3.png",new Vector2(0,0));
             rocas.add(nuevo);
         }
         crearCoordenadas();
@@ -78,23 +78,45 @@ public class FlevorioSays implements Screen{
     }
 
     private void crearCoordenadas() {
-        rocas.get(1).setPosition(new Vector2(625,360));
+        rocas.get(0).setPosition(new Vector2(625,360));
+        rocas.get(1).setPosition(new Vector2(630,210));
+        rocas.get(1).setRotation(180f);
+        rocas.get(2).setPosition(new Vector2(540, 280));
+        rocas.get(2).setRotation(90f);
+        rocas.get(3).setPosition(new Vector2(713, 288));
+        rocas.get(3).setRotation(270f);
+        rocas.get(4).setPosition(new Vector2(687, 336));
+        rocas.get(4).setRotation(138f);
+        rocas.get(5).setPosition(new Vector2(683, 230));
+        rocas.get(5).setRotation(45f);
+        rocas.get(6).setPosition(new Vector2(570, 235));
+        rocas.get(6).setRotation(318f);
+        rocas.get(7).setPosition(new Vector2(572, 340));
+        rocas.get(7).setRotation(225f);
 
-        rocas.get(2).setPosition(new Vector2(630,210));
-        rocas.get(2).setRotation(180f);
+        /*
+        rocas.get(9).setPosition(new Vector2(630,210));
+        rocas.get(9).setRotation(180f);
 
-        rocas.get(3).setPosition(new Vector2(540, 280));
-        rocas.get(3).setRotation(90f);
+        rocas.get(10).setPosition(new Vector2(540, 280));
+        rocas.get(10).setRotation(90f);
 
-        rocas.get(4).setPosition(new Vector2(713, 288));
-        rocas.get(4).setRotation(270f);
+        rocas.get(11).setPosition(new Vector2(713, 288));
+        rocas.get(11).setRotation(270f);
 
-        rocas.get(5).setPosition(new Vector2(690, 345));
-        rocas.get(5).setRotation(135f);
+        rocas.get(12).setPosition(new Vector2(687, 336));
+        rocas.get(12).setRotation(138f);
 
-        //rocas.get(6).setPosition(new Vector2(600,360));
-        //rocas.get(7).setPosition(new Vector2(625,360));
-        //rocas.get(8).setPosition(new Vector2(800,360));
+        rocas.get(13).setPosition(new Vector2(683, 230));
+        rocas.get(13).setRotation(45f);
+
+        rocas.get(14).setPosition(new Vector2(570, 235));
+        rocas.get(14).setRotation(318f);
+
+        rocas.get(15).setPosition(new Vector2(572, 340));
+        rocas.get(15).setRotation(225f);
+        */
+
     }
 
     private void cargarAudio() {
