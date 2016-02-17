@@ -2,7 +2,7 @@ package mx.itesm.donchito;
 
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Gdx;
 
 public class DonChito extends Game {
 	public static final float ALTO_MUNDO = 720;

@@ -21,6 +21,8 @@ public class FlevorioSays implements Screen{
     private static final float INCREMENTO = 0.6f;
     private Viewport view;
 
+    private boolean rocasCreadas = false;
+
     //TODO Refactor to interface
     private Texture texturaRoca;
 
@@ -48,45 +50,99 @@ public class FlevorioSays implements Screen{
         fondo = new SimpleAsset("Imagenes/Simon/base simons.png",new Vector2(0,0));
         fondo.getSprite().scale(1);
         fondo.getSprite().setScale(0.1f);
-
-        crearRoca();
         cargarAudio();
     }
 
     private void crearRoca() {
-        rocaP = new SimpleAsset("Imagenes/Simon/Simonst.png",new Vector2(0,0));
-        rocaP.setPosition(new Vector2(DonChito.ALTO_MUNDO / 2, DonChito.ANCHO_MUNDO / 2));
+        //rocaP = new SimpleAsset("Imagenes/Simon/Simonst.png",new Vector2(0,0));
+        //rocaP.setPosition(new Vector2(DonChito.ALTO_MUNDO / 2, DonChito.ANCHO_MUNDO / 2));
+        rocasCreadas = true;
         SimpleAsset nuevo;
 
         rocas = new Array<SimpleAsset>(24);
         for(int i=0;i<8;i++){
-            nuevo = new SimpleAsset("Imagenes/Simon/Botongrande.jpg",new Vector2(0,0));
+            nuevo = new SimpleAsset("Imagenes/Simon/nivel1.png",new Vector2(0,0));
             rocas.add(nuevo);
         }
         for(int i=0;i<8;i++){
-            nuevo = new SimpleAsset("Imagenes/Simon/Botonchico.jpg",new Vector2(0,0));
+            nuevo = new SimpleAsset("Imagenes/Simon/nivel2.png",new Vector2(0,0));
             rocas.add(nuevo);
         }
         for(int i=0;i<8;i++){
-            nuevo = new SimpleAsset("Imagenes/Simon/diamante_nivel3.png",new Vector2(0,0));
+            nuevo = new SimpleAsset("Imagenes/Simon/nivel3.png",new Vector2(0,0));
             rocas.add(nuevo);
         }
+        crearCoordenadas();
+        Gdx.app.log("Creando rocas", "Se crean rocas");
+    }
+
+    private void crearCoordenadas() {
+        rocas.get(0).setPosition(new Vector2(625,360));
+        rocas.get(1).setPosition(new Vector2(630,210));
+        rocas.get(1).setRotation(180f);
+        rocas.get(2).setPosition(new Vector2(540, 280));
+        rocas.get(2).setRotation(90f);
+        rocas.get(3).setPosition(new Vector2(713, 288));
+        rocas.get(3).setRotation(270f);
+        rocas.get(4).setPosition(new Vector2(687, 336));
+        rocas.get(4).setRotation(138f);
+        rocas.get(5).setPosition(new Vector2(683, 230));
+        rocas.get(5).setRotation(45f);
+        rocas.get(6).setPosition(new Vector2(570, 235));
+        rocas.get(6).setRotation(318f);
+        rocas.get(7).setPosition(new Vector2(572, 340));
+        rocas.get(7).setRotation(225f);
+
+        /*
+        rocas.get(9).setPosition(new Vector2(630,210));
+        rocas.get(9).setRotation(180f);
+
+        rocas.get(10).setPosition(new Vector2(540, 280));
+        rocas.get(10).setRotation(90f);
+
+        rocas.get(11).setPosition(new Vector2(713, 288));
+        rocas.get(11).setRotation(270f);
+
+        rocas.get(12).setPosition(new Vector2(687, 336));
+        rocas.get(12).setRotation(138f);
+
+        rocas.get(13).setPosition(new Vector2(683, 230));
+        rocas.get(13).setRotation(45f);
+
+        rocas.get(14).setPosition(new Vector2(570, 235));
+        rocas.get(14).setRotation(318f);
+
+        rocas.get(15).setPosition(new Vector2(572, 340));
+        rocas.get(15).setRotation(225f);
+        */
+
     }
 
     private void cargarAudio() {
         musicaFondo = Gdx.audio.newMusic(Gdx.files.internal("Musica/FlavioSays.mp3"));
         musicaFondo.setLooping(true);
-        musicaFondo.play();
+        //musicaFondo.play();
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); //quiere decir que va a borrar con las caracteristicas de arriba
-
-        fondo.getSprite().setScale(MathUtils.clamp(delta*INCREMENTO+fondo.getSprite().getScaleX(),.1f,1f));
-
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
+
+        if(fondo.getSprite().getScaleX()>=1f){
+            if(!rocasCreadas){
+                crearRoca();
+            }
+            else{
+                for(SimpleAsset roca: rocas){
+                    roca.render(batch);
+                }
+            }
+        }
+        else{
+            fondo.getSprite().setScale(MathUtils.clamp(delta*INCREMENTO+fondo.getSprite().getScaleX(),.1f,1f));
+        }
         fondo.render(batch);
         batch.end();
     }

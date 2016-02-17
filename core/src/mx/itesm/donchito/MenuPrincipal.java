@@ -55,6 +55,7 @@ public class MenuPrincipal implements Screen {
 
     private void leerEntrada() {
 
+
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean touchDown (int x, int y, int pointer, int button) {
@@ -73,6 +74,7 @@ public class MenuPrincipal implements Screen {
                 return true; // return true to indicate the event was handled
             }
         });
+
     }
 
     private void cargarAudio() {
@@ -90,6 +92,7 @@ public class MenuPrincipal implements Screen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
+
         fondo.render(batch);
         btnInicio.render(batch);
         donChitoBtn.render(batch);
