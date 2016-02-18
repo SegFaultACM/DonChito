@@ -25,9 +25,7 @@ public class MenuPrincipal implements Screen {
 
     private Music musicaFondo;
 
-    private SimpleAsset btnInicio;
-    private SimpleAsset donChitoBtn;
-    private SimpleAsset fondo;
+    private SimpleAsset btnCargarPartida, donChitoBtn,fondo,btnNuevaPartida,btnNuevaPartidaFondo;
 
 
 
@@ -45,8 +43,11 @@ public class MenuPrincipal implements Screen {
 
         //TODO Refactor next code into an Asset Manager
         fondo = new SimpleAsset(Constants.MENUPRINCIPAL_FONDO_JPG,new Vector2(0,0));
-        btnInicio = new SimpleAsset(Constants.MENUPRINCIPAL_CARGARPARTIDA_PNG,new Vector2(870,290));
+        btnCargarPartida = new SimpleAsset(Constants.MENUPRINCIPAL_CARGARPARTIDA_PNG,new Vector2(870,290));
+        btnNuevaPartida = new SimpleAsset(Constants.MENUPRINCIPAL_NUEVAPARTIDA_PNG,new Vector2(480,600));
+        btnNuevaPartidaFondo = new SimpleAsset(Constants.MENUPRINCIPAL_NUEVAPARTIDAFONDO_PNG,new Vector2(420,550));
         donChitoBtn = new SimpleAsset(Constants.MENUPRINCIPAL_CARTELDONCHITO_PNG,new Vector2(420,230));
+
         leerEntrada();
         //cargarAudio();
     }
@@ -56,9 +57,7 @@ public class MenuPrincipal implements Screen {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean touchDown (int x, int y, int pointexr, int button) {
-                Gdx.app.log("Touch","lol");
-                if(btnInicio.isTouched(x,y,camera)){
-                    Gdx.app.log("Juego","botonIncio");
+                if(btnCargarPartida.isTouched(x,y,camera)){
                     game.setScreen(new FlevorioSays(game));
                 }
                 //donChitoBtn.isTouched(x,y);
@@ -91,9 +90,10 @@ public class MenuPrincipal implements Screen {
         batch.begin();
 
         fondo.render(batch);
-        btnInicio.render(batch);
+        btnCargarPartida.render(batch);
         donChitoBtn.render(batch);
-
+        btnNuevaPartidaFondo.render(batch);
+        btnNuevaPartida.render(batch);
         batch.end();
     }
 
@@ -121,6 +121,10 @@ public class MenuPrincipal implements Screen {
     public void dispose() {
         fondo.dispose();
         musicaFondo.dispose();
+        btnCargarPartida.dispose();
+        donChitoBtn.dispose();
+        btnNuevaPartidaFondo.dispose();
+        btnNuevaPartida.dispose();
     }
 
 }

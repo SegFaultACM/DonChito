@@ -7,6 +7,7 @@ public class Constants {
     public static final String MENUPRINCIPAL_FONDO_JPG = "Imagenes/Menuprincipal/menuPrincipal.jpg";
     public static final String MENUPRINCIPAL_CARTELDONCHITO_PNG = "Imagenes/Menuprincipal/carteldonchito.png";
     public static final String MUSICA_FLAVIO_SAYS_MP3 = "Musica/FlavioSays.mp3";
+    public static final String MENUPRINCIPAL_NUEVAPARTIDAFONDO_PNG = "Imagenes/Menuprincipal/nuevapartidaluz.png";
 
     //FlevorioSays
     public static final String IMAGENES_FLEVORIO_FONDOPANTALLA = "Imagenes/Simon/fondosimon.png";
