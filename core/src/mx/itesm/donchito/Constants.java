@@ -34,5 +34,8 @@ public class Constants {
             "Esteban Gil Martínez A01375048\n" +
             "Luis Manuel Alcala Alcaraz   A01372538\n" +
             "Karla Aidee Gonz\u00e1lez Vega A01373938\n";
+    public static final String TITULO_OPCIONES = "Opciones del programa ";
+    public static final String TEXTO_MUSICA_OPCIONES = "¿Habilitar música?";
+    public static final String TEXTO_SONIDO_OPCIONES = "¿Habilitar sonido?";
 
 }
