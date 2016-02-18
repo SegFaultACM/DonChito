@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -45,9 +44,9 @@ public class MenuPrincipal implements Screen {
         batch = new SpriteBatch();
 
         //TODO Refactor next code into an Asset Manager
-        fondo = new SimpleAsset(Constants.IMAGENES_MENUPRINCIPAL_MENU_PRINCIPAL_JPG,new Vector2(0,0));
-        btnInicio = new SimpleAsset(Constants.IMAGENES_MENUPRINCIPAL_CARGARPARTIDA_PNG,new Vector2(870,290));
-        donChitoBtn = new SimpleAsset(Constants.IMAGENES_NUEVAPARTIDA,new Vector2(420,230));
+        fondo = new SimpleAsset(Constants.MENUPRINCIPAL_FONDO_JPG,new Vector2(0,0));
+        btnInicio = new SimpleAsset(Constants.MENUPRINCIPAL_CARGARPARTIDA_PNG,new Vector2(870,290));
+        donChitoBtn = new SimpleAsset(Constants.MENUPRINCIPAL_CARTELDONCHITO_PNG,new Vector2(420,230));
         leerEntrada();
         //cargarAudio();
     }
@@ -76,14 +75,14 @@ public class MenuPrincipal implements Screen {
     }
 
     private void cargarAudio() {
-        musicaFondo = Gdx.audio.newMusic(Gdx.files.internal(Constants.MUSICA_MENU_PRINCIPAL_MP3));
+        musicaFondo = Gdx.audio.newMusic(Gdx.files.internal(Constants.MENU_PRINCIPAL_MP3));
         musicaFondo.setLooping(true);
         musicaFondo.play();
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         view.apply();
