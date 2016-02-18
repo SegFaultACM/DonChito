@@ -119,7 +119,7 @@ public class FlevorioSays implements Screen{
     }
 
     private void cargarAudio() {
-        musicaFondo = Gdx.audio.newMusic(Gdx.files.internal("Musica/FlavioSays.mp3"));
+        musicaFondo = Gdx.audio.newMusic(Gdx.files.internal(Constants.MUSICA_FLAVIO_SAYS_MP3));
         musicaFondo.setLooping(true);
         //musicaFondo.play();
     }

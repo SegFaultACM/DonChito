@@ -45,9 +45,9 @@ public class MenuPrincipal implements Screen {
         batch = new SpriteBatch();
 
         //TODO Refactor next code into an Asset Manager
-        fondo = new SimpleAsset("Imagenes/Menuprincipal/menuPrincipal.jpg",new Vector2(0,0));
-        btnInicio = new SimpleAsset("Imagenes/Menuprincipal/cargarpartida.png",new Vector2(870,290));
-        donChitoBtn = new SimpleAsset("Imagenes/Menuprincipal/carteldonchito.jpg",new Vector2(420,230));
+        fondo = new SimpleAsset(Constants.IMAGENES_MENUPRINCIPAL_MENU_PRINCIPAL_JPG,new Vector2(0,0));
+        btnInicio = new SimpleAsset(Constants.IMAGENES_MENUPRINCIPAL_CARGARPARTIDA_PNG,new Vector2(870,290));
+        donChitoBtn = new SimpleAsset(Constants.IMAGENES_NUEVAPARTIDA,new Vector2(420,230));
         leerEntrada();
         //cargarAudio();
     }
@@ -76,7 +76,7 @@ public class MenuPrincipal implements Screen {
     }
 
     private void cargarAudio() {
-        musicaFondo = Gdx.audio.newMusic(Gdx.files.internal("Musica/menuPrincipal.mp3"));
+        musicaFondo = Gdx.audio.newMusic(Gdx.files.internal(Constants.MUSICA_MENU_PRINCIPAL_MP3));
         musicaFondo.setLooping(true);
         musicaFondo.play();
     }
