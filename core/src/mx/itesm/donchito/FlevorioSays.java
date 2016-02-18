@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  * Created by Esteban on 2/16/2016.
  */
 public class FlevorioSays implements Screen{
+    public static final String "" = "Imagenes/Simon/base simons.png";
     private OrthographicCamera camera;
     private final DonChito game;
     private static final float INCREMENTO = 0.6f;
@@ -33,6 +34,9 @@ public class FlevorioSays implements Screen{
     private SimpleAsset fondo;
 
     private Array<SimpleAsset> rocas;
+    private SimpleAsset fondoPantalla;
+
+    private Array<Integer> combinaciones = new Array<Integer>(10);
 
     public FlevorioSays(DonChito game) {
         this.game = game;
@@ -47,7 +51,8 @@ public class FlevorioSays implements Screen{
 
         //TODO Refactor next code into an Asset Manager
         batch = new SpriteBatch();
-        fondo = new SimpleAsset("Imagenes/Simon/base simons.png",new Vector2(0,0));
+        fondoPantalla = new SimpleAsset(Constants.IMAGENES_FLEVORIO_FONDOPANTALLA,new Vector2(0,0));
+        fondo = new SimpleAsset("",new Vector2(0,0));
         fondo.getSprite().scale(1);
         fondo.getSprite().setScale(0.1f);
         cargarAudio();
@@ -59,24 +64,21 @@ public class FlevorioSays implements Screen{
         rocasCreadas = true;
         SimpleAsset nuevo;
 
-        rocas = new Array<SimpleAsset>(24);
-        for(int i=0;i<8;i++){
-            nuevo = new SimpleAsset("Imagenes/Simon/nivel1.png",new Vector2(0,0));
-            rocas.add(nuevo);
-        }
-        for(int i=0;i<8;i++){
-            nuevo = new SimpleAsset("Imagenes/Simon/nivel2.png",new Vector2(0,0));
-            rocas.add(nuevo);
-        }
-        for(int i=0;i<8;i++){
-            nuevo = new SimpleAsset("Imagenes/Simon/nivel3.png",new Vector2(0,0));
-            rocas.add(nuevo);
-        }
-        crearCoordenadas();
+        rocas = new Array<SimpleAsset>(3);
+
+        nuevo = new SimpleAsset("Imagenes/Simon/botoncentral.png",new Vector2(555,250));
+        nuevo.getSprite().setScale(1.1f);
+        rocas.add(nuevo);
+        //nuevo = new SimpleAsset("Imagenes/Simon/nivel2.png",new Vector2(0,0));
+        //rocas.add(nuevo);
+        //nuevo = new SimpleAsset("Imagenes/Simon/nivel3.png",new Vector2(0,0));
+        //rocas.add(nuevo);
+        //crearCoordenadas();
         Gdx.app.log("Creando rocas", "Se crean rocas");
     }
 
     private void crearCoordenadas() {
+        /*
         rocas.get(0).setPosition(new Vector2(625,360));
         rocas.get(1).setPosition(new Vector2(630,210));
         rocas.get(1).setRotation(180f);
@@ -93,7 +95,7 @@ public class FlevorioSays implements Screen{
         rocas.get(7).setPosition(new Vector2(572, 340));
         rocas.get(7).setRotation(225f);
 
-        /*
+
         rocas.get(9).setPosition(new Vector2(630,210));
         rocas.get(9).setRotation(180f);
 
@@ -130,6 +132,9 @@ public class FlevorioSays implements Screen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
 
+        fondoPantalla.render(batch);
+        fondo.render(batch);
+
         if(fondo.getSprite().getScaleX()>=1f){
             if(!rocasCreadas){
                 crearRoca();
@@ -138,12 +143,16 @@ public class FlevorioSays implements Screen{
                 for(SimpleAsset roca: rocas){
                     roca.render(batch);
                 }
+                rocas.get(0).getSprite().setColor(103,128,150,1);
             }
         }
         else{
             fondo.getSprite().setScale(MathUtils.clamp(delta*INCREMENTO+fondo.getSprite().getScaleX(),.1f,1f));
         }
-        fondo.render(batch);
+
+
+        //rocas.get(0).getSprite().getColor();
+
         batch.end();
     }
 
