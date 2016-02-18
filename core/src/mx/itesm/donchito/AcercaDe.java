@@ -23,15 +23,12 @@ public class AcercaDe implements Screen {
     BitmapFont body = new BitmapFont();
     BitmapFont title = new BitmapFont();
     private SimpleAsset background;
-    private String AcercaDeText;
-    private String Title;
-
     public AcercaDe(DonChito game) {
         this.game = game;
     }
-
     @Override
     public void show() {
+
         camera = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
         camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         camera.update();
@@ -39,19 +36,8 @@ public class AcercaDe implements Screen {
         batch = new SpriteBatch();
 
         // Assets and text declaration
-        background = new SimpleAsset("Imagenes/PantallasConfig/Config.png",new Vector2(0,0));
-        Title = "Primer entregable de Videojuegos.";
-        AcercaDeText = "Don chito es un pueblerino ejemplar el \n" +
-                "cual ha sido designado para proteger el mineral que \n" +
-                "hace que el pueblo Laurencio destaque de los demás. \n" +
-                "Siempre busca la honestidad,amabilidad,confianza,\n " +
-                "siempre busca el bienestar del prójimo.\n" +
-                " El será quien luche contra el enemigo para salvar al pueblo.\n\n" +
-                "Daniel Sada Caraveo A01169735\n" +
-                "Joel Lara Quintana A01374649\n" +
-                "Esteban Gil Martínez A01375048\n" +
-                "Luis Manuel Alcala Alcaraz   A01372538\n" +
-                "Karla Aidee Gonz\u00e1lez Vega A01373938\n";
+        background = new SimpleAsset(Constants.PANTALLA_CONFIG_PNG,new Vector2(0,0));
+        
     }
 
     private void cargarAudio() {
@@ -64,8 +50,8 @@ public class AcercaDe implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         background.render(batch);
-        title.draw(batch, Title,350, 600);
-        body.draw(batch, AcercaDeText,DonChito.ANCHO_MUNDO / 4 ,500);
+        title.draw(batch, Constants.TITULO_ACERCA_DE,350, 600);
+        body.draw(batch, Constants.TEXTO_ACERCA_DE,DonChito.ANCHO_MUNDO / 4 ,500);
         title.getData().setScale(2.5f);
         body.getData().setScale(1.7f);
         batch.end();

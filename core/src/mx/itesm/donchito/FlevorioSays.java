@@ -16,7 +16,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  * Created by Esteban on 2/16/2016.
  */
 public class FlevorioSays implements Screen{
-    public static final String "" = "Imagenes/Simon/base simons.png";
     private OrthographicCamera camera;
     private final DonChito game;
     private static final float INCREMENTO = 0.6f;
