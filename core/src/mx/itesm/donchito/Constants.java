@@ -11,9 +11,13 @@ public class Constants {
     public static final String MENUPRINCIPAL_NUEVAPARTIDA_PNG = "Imagenes/Menuprincipal/nuevapartida.png";
 
     //FlevorioSays
-    public static final String FLEVORIO_FONDOPANTALLA = "Imagenes/Simon/fondosimon.png";
-    public static final String FLEVORIO_FONDO = "Imagenes/Simon/base simons.png";
-    public static final String FLEVORIO_BOTONCENTRAL = "Imagenes/Simon/botoncentral.png";
+    public static final String FLEVORIO_FONDOPANTALLA_PNG = "Imagenes/Simon/fondosimon.png";
+    public static final String FLEVORIO_FONDO_PNG = "Imagenes/Simon/base simons.png";
+    public static final String FLEVORIO_BOTONCENTRAL_PNG = "Imagenes/Simon/botoncentral.png";
+    public static final String FLEVORIO_BOTON2_PNG = "Imagenes/Simon/Img_botonnivel2simons.png";
+    public static final String FLEVORIO_BOTON3_PNG = "Imagenes/Simon/Img_nivel3simons.png";
+    public static final String FLEVORIO_SONIDOBOTON_WAV = "Musica/efectoBoton.wav";
+
 
 
 
@@ -34,5 +38,8 @@ public class Constants {
             "Esteban Gil Martínez A01375048\n" +
             "Luis Manuel Alcala Alcaraz   A01372538\n" +
             "Karla Aidee Gonz\u00e1lez Vega A01373938\n";
+    public static final String TITULO_OPCIONES = "Opciones del programa ";
+    public static final String TEXTO_MUSICA_OPCIONES = "¿Habilitar música?";
+    public static final String TEXTO_SONIDO_OPCIONES = "¿Habilitar sonido?";
 
 }
