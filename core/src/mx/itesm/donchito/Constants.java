@@ -8,11 +8,16 @@ public class Constants {
     public static final String MENUPRINCIPAL_CARTELDONCHITO_PNG = "Imagenes/Menuprincipal/carteldonchito.png";
     public static final String MUSICA_FLAVIO_SAYS_MP3 = "Musica/FlavioSays.mp3";
     public static final String MENUPRINCIPAL_NUEVAPARTIDAFONDO_PNG = "Imagenes/Menuprincipal/nuevapartidaluz.png";
+    public static final String MENUPRINCIPAL_NUEVAPARTIDA_PNG = "Imagenes/Menuprincipal/nuevapartida.png";
 
     //FlevorioSays
-    public static final String IMAGENES_FLEVORIO_FONDOPANTALLA = "Imagenes/Simon/fondosimon.png";
+    public static final String FLEVORIO_FONDOPANTALLA = "Imagenes/Simon/fondosimon.png";
+    public static final String FLEVORIO_FONDO = "Imagenes/Simon/base simons.png";
+    public static final String FLEVORIO_BOTONCENTRAL = "Imagenes/Simon/botoncentral.png";
 
-    public static final String MENUPRINCIPAL_NUEVAPARTIDA_PNG = "Imagenes/Menuprincipal/nuevapartida.png";
+
+
+    //Configuracion
     public static final String PANTALLA_CONFIG_PNG = "Imagenes/PantallasConfig/Config.png";
 
 
