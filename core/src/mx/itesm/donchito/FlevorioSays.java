@@ -28,7 +28,7 @@ public class FlevorioSays implements Screen{
     private boolean nivelCompleto = true;
     private boolean brillando = true;
 
-    private float tiempoEsperar = 3f;
+    private float tiempoEsperar = 1f;
 
     private int nivel = 5; //corregir que pasa desde lvl 1
     private Texture texturaRoca;
@@ -78,12 +78,18 @@ public class FlevorioSays implements Screen{
         nuevo.getSprite().setScale(1.1f);
         rocas.add(nuevo);
 
-        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTONCENTRAL_PNG,new Vector2(400,250));
-        nuevo.getSprite().setScale(1.1f);
+        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON2_PNG,new Vector2(410,360));
+        rocas.add(nuevo);
+        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON2_PNG,new Vector2(410,130));
+        nuevo.setRotation(180f);
         rocas.add(nuevo);
 
-        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTONCENTRAL_PNG,new Vector2(700,250));
-        nuevo.getSprite().setScale(1.1f);
+        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON3_PNG,new Vector2(278,360));
+        nuevo.getSprite().setScale(0.98f);
+        rocas.add(nuevo);
+        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON3_PNG,new Vector2(278,25));
+        nuevo.setRotation(180f);
+        nuevo.getSprite().setScale(0.98f);
         rocas.add(nuevo);
 
         Gdx.app.log("Creando rocas", "Se crean rocas");
@@ -143,7 +149,7 @@ public class FlevorioSays implements Screen{
 
     private boolean esperar(float delta){
         if(tiempoEsperar <=0){
-            tiempoEsperar = 3f;
+            tiempoEsperar = 1f;
             return true;
         }
         tiempoEsperar -= delta;
@@ -156,7 +162,7 @@ public class FlevorioSays implements Screen{
             combinacionesPR[i] = false;
         }
         for(int i=0;i<nivel*2;i++){
-            combinaciones[i] = MathUtils.random(1,3);
+            combinaciones[i] = MathUtils.random(1,5);
         }
     }
 

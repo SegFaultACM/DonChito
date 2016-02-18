@@ -14,7 +14,10 @@ public class Constants {
     public static final String FLEVORIO_FONDOPANTALLA_PNG = "Imagenes/Simon/fondosimon.png";
     public static final String FLEVORIO_FONDO_PNG = "Imagenes/Simon/base simons.png";
     public static final String FLEVORIO_BOTONCENTRAL_PNG = "Imagenes/Simon/botoncentral.png";
+    public static final String FLEVORIO_BOTON2_PNG = "Imagenes/Simon/Img_botonnivel2simons.png";
+    public static final String FLEVORIO_BOTON3_PNG = "Imagenes/Simon/Img_nivel3simons.png";
     public static final String FLEVORIO_SONIDOBOTON_WAV = "Musica/efectoBoton.wav";
+
 
 
 
