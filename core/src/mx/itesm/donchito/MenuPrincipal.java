@@ -48,19 +48,17 @@ public class MenuPrincipal implements Screen {
         fondo = new SimpleAsset("Imagenes/Menuprincipal/menuPrincipal.jpg",new Vector2(0,0));
         btnInicio = new SimpleAsset("Imagenes/Menuprincipal/cargarpartida.png",new Vector2(870,290));
         donChitoBtn = new SimpleAsset("Imagenes/Menuprincipal/carteldonchito.jpg",new Vector2(420,230));
-
         leerEntrada();
         //cargarAudio();
     }
 
     private void leerEntrada() {
 
-
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
-            public boolean touchDown (int x, int y, int pointer, int button) {
-                Vector3 temp = camera.project(new Vector3(x, y, 0));
-                if(btnInicio.isTouched(temp.x, temp.y)){
+            public boolean touchDown (int x, int y, int pointexr, int button) {
+                Gdx.app.log("Touch","lol");
+                if(btnInicio.isTouched(x,y,camera)){
                     Gdx.app.log("Juego","botonIncio");
                     game.setScreen(new FlevorioSays(game));
                 }

@@ -1,10 +1,12 @@
 package mx.itesm.donchito;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 /**
  * Created by joell on 2/16/2016.
@@ -40,8 +42,9 @@ public class SimpleAsset {
     public void dispose(){
         this.texture.dispose();
     }
-    public boolean isTouched(float x,float y){
-        return this.getSprite().getBoundingRectangle().contains(x,y);
+    public boolean isTouched(float x,float y,Camera camera){
+        Vector3 temp = camera.unproject(new Vector3(x, y, 0));
+        return this.getSprite().getBoundingRectangle().contains(temp.x,temp.y);
     }
 
 }
