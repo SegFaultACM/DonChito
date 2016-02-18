@@ -11,9 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-/**
- * Created by joell on 2/12/2016.
- */
+
 public class MenuPrincipal implements Screen {
     private OrthographicCamera camera;
     private final DonChito game;
@@ -28,6 +26,12 @@ public class MenuPrincipal implements Screen {
     private SimpleAsset btnCargarPartida, donChitoBtn,fondo,btnNuevaPartida,btnNuevaPartidaFondo;
 
 
+    //TODO better code pls
+    boolean clickOnButton;
+    float tiempoRecorrido;
+    int direccion = 1;
+    int numeroDeMovimiento = 0;
+    char pantallaSiguiente;
 
     public MenuPrincipal(DonChito game) {
         this.game = game;
@@ -41,6 +45,9 @@ public class MenuPrincipal implements Screen {
         view = new FitViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,camera);
         batch = new SpriteBatch();
 
+        clickOnButton = false;
+        tiempoRecorrido = 0;
+
         //TODO Refactor next code into an Asset Manager
         fondo = new SimpleAsset(Constants.MENUPRINCIPAL_FONDO_JPG,new Vector2(0,0));
         btnCargarPartida = new SimpleAsset(Constants.MENUPRINCIPAL_CARGARPARTIDA_PNG,new Vector2(870,290));
@@ -49,25 +56,31 @@ public class MenuPrincipal implements Screen {
         donChitoBtn = new SimpleAsset(Constants.MENUPRINCIPAL_CARTELDONCHITO_PNG,new Vector2(420,230));
 
         leerEntrada();
-        //cargarAudio();
+        cargarAudio();
     }
 
     private void leerEntrada() {
-
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean touchDown (int x, int y, int pointexr, int button) {
-                if(btnCargarPartida.isTouched(x,y,camera)){
-                    game.setScreen(new FlevorioSays(game));
+                if(btnNuevaPartida.isTouched(x,y,camera)){
+                    clickOnButton = true;
+                    pantallaSiguiente = 'G';
+                    return true;
                 }
-                //donChitoBtn.isTouched(x,y);
-                return true; // return true to indicate the event was handled
+                if(btnCargarPartida.isTouched(x,y,camera)){
+                    //TODO Load screen
+                    clickOnButton = true;
+                    pantallaSiguiente = 'A';
+                    return true;
+                }
+                return false;
             }
 
             @Override
             public boolean touchUp (int x, int y, int pointer, int button) {
                 // your touch up code here
-                return true; // return true to indicate the event was handled
+                return true;
             }
         });
 
@@ -88,7 +101,33 @@ public class MenuPrincipal implements Screen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
+        if(clickOnButton){
+            if(tiempoRecorrido >=10 || tiempoRecorrido <=-10){
+                //tiempoRecorrido = 0;
+                direccion *=-1;
+                numeroDeMovimiento++;
+            }
+            if(direccion <0){
+                tiempoRecorrido -= delta*100;
+            }else{
+                tiempoRecorrido += delta*100;
+            }
+            switch (pantallaSiguiente){
+                case 'G': btnNuevaPartida.setRotation(tiempoRecorrido);break;
+                case 'A':  btnCargarPartida.setRotation(tiempoRecorrido);break;
+                default:break;
+            }
 
+            if(numeroDeMovimiento == 5){
+                direccion = 1;
+                switch (pantallaSiguiente){
+                    case 'G': game.setScreen(new FlevorioSays(game));break;
+                    case 'A':  game.setScreen(new AcercaDe(game));break;
+                    default:break;
+                }
+
+            }
+        }
         fondo.render(batch);
         btnCargarPartida.render(batch);
         donChitoBtn.render(batch);
@@ -126,5 +165,4 @@ public class MenuPrincipal implements Screen {
         btnNuevaPartidaFondo.dispose();
         btnNuevaPartida.dispose();
     }
-
 }

@@ -14,6 +14,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import javax.xml.soap.Text;
+
 public class AcercaDe implements Screen {
     private OrthographicCamera camera;
     private final DonChito game;
@@ -36,7 +38,7 @@ public class AcercaDe implements Screen {
         batch = new SpriteBatch();
 
         // Assets and text declaration
-        background = new SimpleAsset(Constants.PANTALLA_CONFIG_PNG,new Vector2(0,0));
+         background = new SimpleAsset(Constants.PANTALLA_CONFIG_PNG,new Vector2(0,0));
         
     }
 
