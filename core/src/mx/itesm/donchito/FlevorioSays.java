@@ -22,7 +22,10 @@ public class FlevorioSays implements Screen{
     private Viewport view;
 
     private boolean rocasCreadas = false;
+    private boolean nivelCompleto = true;
+    private boolean brillando = false;
 
+    private int nivel = 1;
     //TODO Refactor to interface
     private Texture texturaRoca;
 
@@ -35,7 +38,7 @@ public class FlevorioSays implements Screen{
     private Array<SimpleAsset> rocas;
     private SimpleAsset fondoPantalla;
 
-    private Array<Integer> combinaciones = new Array<Integer>(10);
+    private int[] combinaciones = new int[]{0,0,0,0,0,0,0,0,0,0};
 
     public FlevorioSays(DonChito game) {
         this.game = game;
@@ -50,69 +53,28 @@ public class FlevorioSays implements Screen{
 
         //TODO Refactor next code into an Asset Manager
         batch = new SpriteBatch();
-        fondoPantalla = new SimpleAsset(Constants.IMAGENES_FLEVORIO_FONDOPANTALLA,new Vector2(0,0));
-        fondo = new SimpleAsset("",new Vector2(0,0));
+        fondoPantalla = new SimpleAsset(Constants.FLEVORIO_FONDOPANTALLA,new Vector2(0,0));
+        fondo = new SimpleAsset(Constants.FLEVORIO_FONDO,new Vector2(0,0));
         fondo.getSprite().scale(1);
         fondo.getSprite().setScale(0.1f);
         cargarAudio();
     }
 
     private void crearRoca() {
-        //rocaP = new SimpleAsset("Imagenes/Simon/Simonst.png",new Vector2(0,0));
-        //rocaP.setPosition(new Vector2(DonChito.ALTO_MUNDO / 2, DonChito.ANCHO_MUNDO / 2));
         rocasCreadas = true;
         SimpleAsset nuevo;
 
         rocas = new Array<SimpleAsset>(3);
 
-        nuevo = new SimpleAsset("Imagenes/Simon/botoncentral.png",new Vector2(555,250));
+        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTONCENTRAL,new Vector2(555,250));
         nuevo.getSprite().setScale(1.1f);
         rocas.add(nuevo);
-        //nuevo = new SimpleAsset("Imagenes/Simon/nivel2.png",new Vector2(0,0));
-        //rocas.add(nuevo);
-        //nuevo = new SimpleAsset("Imagenes/Simon/nivel3.png",new Vector2(0,0));
-        //rocas.add(nuevo);
-        //crearCoordenadas();
+
         Gdx.app.log("Creando rocas", "Se crean rocas");
     }
 
     private void crearCoordenadas() {
         /*
-        rocas.get(0).setPosition(new Vector2(625,360));
-        rocas.get(1).setPosition(new Vector2(630,210));
-        rocas.get(1).setRotation(180f);
-        rocas.get(2).setPosition(new Vector2(540, 280));
-        rocas.get(2).setRotation(90f);
-        rocas.get(3).setPosition(new Vector2(713, 288));
-        rocas.get(3).setRotation(270f);
-        rocas.get(4).setPosition(new Vector2(687, 336));
-        rocas.get(4).setRotation(138f);
-        rocas.get(5).setPosition(new Vector2(683, 230));
-        rocas.get(5).setRotation(45f);
-        rocas.get(6).setPosition(new Vector2(570, 235));
-        rocas.get(6).setRotation(318f);
-        rocas.get(7).setPosition(new Vector2(572, 340));
-        rocas.get(7).setRotation(225f);
-
-
-        rocas.get(9).setPosition(new Vector2(630,210));
-        rocas.get(9).setRotation(180f);
-
-        rocas.get(10).setPosition(new Vector2(540, 280));
-        rocas.get(10).setRotation(90f);
-
-        rocas.get(11).setPosition(new Vector2(713, 288));
-        rocas.get(11).setRotation(270f);
-
-        rocas.get(12).setPosition(new Vector2(687, 336));
-        rocas.get(12).setRotation(138f);
-
-        rocas.get(13).setPosition(new Vector2(683, 230));
-        rocas.get(13).setRotation(45f);
-
-        rocas.get(14).setPosition(new Vector2(570, 235));
-        rocas.get(14).setRotation(318f);
-
         rocas.get(15).setPosition(new Vector2(572, 340));
         rocas.get(15).setRotation(225f);
         */
@@ -129,6 +91,10 @@ public class FlevorioSays implements Screen{
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        if(nivelCompleto){
+            crearCombinacion(nivel);
+            nivelCompleto = false;
+        }
         batch.begin();
 
         fondoPantalla.render(batch);
@@ -148,11 +114,20 @@ public class FlevorioSays implements Screen{
         else{
             fondo.getSprite().setScale(MathUtils.clamp(delta*INCREMENTO+fondo.getSprite().getScaleX(),.1f,1f));
         }
-
-
-        //rocas.get(0).getSprite().getColor();
-
         batch.end();
+    }
+
+    private void crearCombinacion(int nivel) {
+        for(int i=0;i<combinaciones.length;i++){
+            combinaciones[i] = 0;
+        }
+        for(int i=0;i<nivel*2;i++){
+            combinaciones[i] = MathUtils.random(1,4);
+        }
+        for(int i=0;i<combinaciones.length;i++){
+            Gdx.app.log(i+"",combinaciones[i]+"");
+        }
+
     }
 
     @Override
