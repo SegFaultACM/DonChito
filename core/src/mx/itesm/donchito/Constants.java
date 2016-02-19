@@ -9,6 +9,8 @@ public class Constants {
     public static final String MUSICA_FLAVIO_SAYS_MP3 = "Musica/FlavioSays.mp3";
     public static final String MENUPRINCIPAL_NUEVAPARTIDAFONDO_PNG = "Imagenes/Menuprincipal/nuevapartidaluz.png";
     public static final String MENUPRINCIPAL_NUEVAPARTIDA_PNG = "Imagenes/Menuprincipal/nuevapartida.png";
+    public static final String MENUPRINCIPAL_PALA_PNG = "Imagenes/Menuprincipal/pala.png";
+    public static final String MENUPRINCIPAL_EXTRA_PNG = "Imagenes/Menuprincipal/extra.png";
 
     //FlevorioSays
     public static final String FLEVORIO_FONDOPANTALLA_PNG = "Imagenes/Simon/fondosimon.jpg";

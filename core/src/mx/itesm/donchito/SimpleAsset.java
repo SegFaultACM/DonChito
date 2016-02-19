@@ -8,9 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
-/**
- * Created by joell on 2/16/2016.
- */
+
 public class SimpleAsset {
     private Texture texture;
     private Sprite sprite;
