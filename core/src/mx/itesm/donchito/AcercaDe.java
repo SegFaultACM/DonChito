@@ -1,6 +1,7 @@
 package mx.itesm.donchito;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
@@ -40,13 +41,31 @@ public class AcercaDe implements Screen {
         // Assets and text declaration
 
         background = new SimpleAsset(Constants.PANTALLA_CONFIG_PNG,new Vector2(0,0));
-
+        leerEntrada();
     }
 
     private void cargarAudio() {
 
     }
+    private void leerEntrada() {
+        Gdx.input.setInputProcessor(new InputAdapter() {
+            @Override
+            public boolean touchDown (int x, int y, int pointexr, int button) {
+                return false;
+            }
 
+            @Override
+            public boolean touchUp (int x, int y, int pointer, int button) {
+                // your touch up code here
+                if(background.isTouched(x,y,camera)){
+                    game.setScreen(new MenuPrincipal(game));
+                    return true;
+                }
+                return false;
+            }
+        });
+
+    }
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0,0,0,0);
