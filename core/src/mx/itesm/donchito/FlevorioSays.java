@@ -25,18 +25,17 @@ public class FlevorioSays implements Screen{
     private Viewport view;
 
     private boolean rocasCreadas = false;
-    private boolean nivelCompleto = true;
     private boolean brillando = true;
+    private boolean efecto = false;
 
     private float tiempoEsperar = 1f;
 
-    private int nivel = 5; //corregir que pasa desde lvl 1
-    private Texture texturaRoca;
+    private int nivel = 0;
+    private int indiceSecuencia = 0;
 
     private SpriteBatch batch;
     private Music musicaFondo;
 
-    private SimpleAsset rocaP;
     private SimpleAsset fondo;
 
     private Array<SimpleAsset> rocas;
@@ -44,7 +43,9 @@ public class FlevorioSays implements Screen{
 
     private int[] combinaciones = new int[]{0,0,0,0,0,0,0,0,0,0};
     private boolean[] combinacionesPR = new boolean[]{false,false,false,false,false,false,false,false,false,false};
-    private Sound efecto;
+    private Sound efectoBoton;
+    private Music efectoGanar;
+    private Music efectoPerder;
 
     public FlevorioSays(DonChito game) {
         this.game = game;
@@ -91,8 +92,6 @@ public class FlevorioSays implements Screen{
         nuevo.setRotation(180f);
         nuevo.getSprite().setScale(0.98f);
         rocas.add(nuevo);
-
-        Gdx.app.log("Creando rocas", "Se crean rocas");
     }
 
     private void cargarAudio() {
@@ -100,7 +99,9 @@ public class FlevorioSays implements Screen{
         musicaFondo.setLooping(true);
         //musicaFondo.play();
 
-        efecto = Gdx.audio.newSound(Gdx.files.internal(Constants.FLEVORIO_SONIDOBOTON_WAV));
+        efectoBoton = Gdx.audio.newSound(Gdx.files.internal(Constants.FLEVORIO_SONIDOBOTON_WAV));
+        efectoGanar = Gdx.audio.newMusic(Gdx.files.internal(Constants.FLEVORIO_SONIDOBOTON_WAV));
+        efectoPerder = Gdx.audio.newMusic(Gdx.files.internal(Constants.FLEVORIO_SONIDOBOTON_WAV));
 
     }
 
@@ -108,10 +109,17 @@ public class FlevorioSays implements Screen{
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        if(nivelCompleto){
+
+        if(indiceSecuencia == nivel*2){
             //correr animacion de SUCCEES!! NEXT LVL...
+            nivel++;
+            if(nivel == 5){
+                //acabar juego
+            }
+            efecto = false;
             crearCombinacion(nivel);
-            nivelCompleto = false;
+            indiceSecuencia = 0;
+            efectoGanar.play();
         }
 
         batch.begin();
@@ -121,22 +129,35 @@ public class FlevorioSays implements Screen{
 
         if(fondo.getSprite().getScaleX()>=1f){
             if(!rocasCreadas){
-                efecto.play();
+                efectoBoton.play();
                 crearRoca();
             }
             else {
                 for (SimpleAsset roca : rocas) {
                     roca.render(batch);
                 }
-                for (int i = 0; i < nivel * 2; i++) {
-                    if (!combinacionesPR[i]) {
-                        rocas.get(combinaciones[i]-1).getSprite().setColor(103, 128, 150, 1);
-                        if(esperar(delta)){
-                            efecto.play();
-                            rocas.get(combinaciones[i]-1).getSprite().setColor(Color.WHITE);
-                            combinacionesPR[i] = true;
+                if(!efectoGanar.isPlaying() && !efectoPerder.isPlaying()) {
+                    for (int i = 0; i < nivel * 2; i++) {
+                        if (!combinacionesPR[i]) {
+                            if(!efecto){
+                                efectoBoton.play();
+                                efecto = true;
+                            }
+                            rocas.get(combinaciones[i] - 1).getSprite().setColor(103, 128, 150, 1);
+                            if (esperar(delta)) {
+                                efectoBoton.play();
+                                rocas.get(combinaciones[i] - 1).getSprite().setColor(Color.WHITE);
+                                combinacionesPR[i] = true;
+                            }
+                            break;
                         }
-                        break;
+                    }
+                    brillando = false;
+                    for (int i = 0; i < nivel * 2; i++) {
+                        if (!combinacionesPR[i]) {
+                            brillando = true;
+                            break;
+                        }
                     }
                 }
             }
@@ -195,13 +216,42 @@ public class FlevorioSays implements Screen{
             @Override
             public boolean touchDown (int x, int y, int pointexr, int button) {
                 if(!brillando){
-                    Gdx.app.log("Touch","lol");
-                    //if(btnInicio.isTouched(x,y,camera)){
-                    //    Gdx.app.log("Juego","botonIncio");
-                    //
-                    //}
+                    int roca = 0;
+                    float distancia = (float) Math.sqrt(Math.pow(661-x,2)+Math.pow(358-y,2));
+                    if(distancia>=0 && distancia<= 164){
+                        roca = 1;
+                    }
+                    if(distancia>=165 && distancia<= 269){
+                        if(y<358){
+                            roca = 2;
+                        }
+                        else{
+                            roca = 3;
+                        }
+                    }
+                    if(distancia>=270 && distancia<= 396){
+                        if(y<358){
+                            roca = 4;
+                        }
+                        else{
+                            roca = 5;
+                        }
+                    }
+                    if(roca !=0){
+                        efectoBoton.play();
+                        Gdx.app.log("Se apreto ",roca+" y tenia que ser "+ combinaciones[indiceSecuencia]);
+                        if(roca == combinaciones[indiceSecuencia]){
+                            Gdx.app.log("Se apreto ","CORRECTO");
+                            indiceSecuencia++;
+                        }
+                        else{
+                            nivel --;
+                            indiceSecuencia = nivel*2;
+                            efectoPerder.play();
+                        }
+                    }
+
                 }
-                //donChitoBtn.isTouched(x,y);
                 return true; // return true to indicate the event was handled
             }
 

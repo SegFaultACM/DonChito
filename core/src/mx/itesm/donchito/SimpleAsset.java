@@ -46,5 +46,4 @@ public class SimpleAsset {
         Vector3 temp = camera.unproject(new Vector3(x, y, 0));
         return this.getSprite().getBoundingRectangle().contains(temp.x,temp.y);
     }
-
 }
