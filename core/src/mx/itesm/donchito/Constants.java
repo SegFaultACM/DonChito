@@ -19,6 +19,8 @@ public class Constants {
     public static final String FLEVORIO_BOTON2_PNG = "Imagenes/Simon/Img_botonnivel2simons.png";
     public static final String FLEVORIO_BOTON3_PNG = "Imagenes/Simon/Img_nivel3simons.png";
     public static final String FLEVORIO_SONIDOBOTON_WAV = "Musica/efectoBoton.wav";
+    public static final String FLEVORIO_SONIDOFAIL_WAV = "Musica/fail.wav";
+    public static final String FLEVORIO_SONIDOVICTORY_WAV = "Musica/victory.wav";
 
 
 

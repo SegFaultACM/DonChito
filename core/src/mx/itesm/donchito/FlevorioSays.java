@@ -27,6 +27,7 @@ public class FlevorioSays implements Screen{
     private boolean rocasCreadas = false;
     private boolean brillando = true;
     private boolean efecto = false;
+    private boolean perdio = false;
 
     private float tiempoEsperar = 1f;
 
@@ -100,8 +101,8 @@ public class FlevorioSays implements Screen{
         //musicaFondo.play();
 
         efectoBoton = Gdx.audio.newSound(Gdx.files.internal(Constants.FLEVORIO_SONIDOBOTON_WAV));
-        efectoGanar = Gdx.audio.newMusic(Gdx.files.internal(Constants.FLEVORIO_SONIDOBOTON_WAV));
-        efectoPerder = Gdx.audio.newMusic(Gdx.files.internal(Constants.FLEVORIO_SONIDOBOTON_WAV));
+        efectoGanar = Gdx.audio.newMusic(Gdx.files.internal(Constants.FLEVORIO_SONIDOVICTORY_WAV));
+        efectoPerder = Gdx.audio.newMusic(Gdx.files.internal(Constants.FLEVORIO_SONIDOFAIL_WAV));
 
     }
 
@@ -114,12 +115,15 @@ public class FlevorioSays implements Screen{
             //correr animacion de SUCCEES!! NEXT LVL...
             nivel++;
             if(nivel == 5){
-                //acabar juego
+                game.setScreen(new MenuPrincipal(game));
             }
             efecto = false;
             crearCombinacion(nivel);
             indiceSecuencia = 0;
-            efectoGanar.play();
+            if(nivel != 1 && !perdio){
+                efectoGanar.play();
+                perdio = false;
+            }
         }
 
         batch.begin();
@@ -243,9 +247,11 @@ public class FlevorioSays implements Screen{
                         if(roca == combinaciones[indiceSecuencia]){
                             Gdx.app.log("Se apreto ","CORRECTO");
                             indiceSecuencia++;
+                            perdio = false;
                         }
                         else{
                             nivel --;
+                            perdio = true;
                             indiceSecuencia = nivel*2;
                             efectoPerder.play();
                         }
