@@ -125,9 +125,9 @@ public class FlevorioSays implements Screen{
                 perdio = false;
             }
         }
-
+        camera.update();
         batch.begin();
-
+        view.apply();
         fondoPantalla.render(batch);
         fondo.render(batch);
 
@@ -193,7 +193,7 @@ public class FlevorioSays implements Screen{
 
     @Override
     public void resize(int width, int height) {
-
+        view.update(width,height);
     }
 
     @Override
