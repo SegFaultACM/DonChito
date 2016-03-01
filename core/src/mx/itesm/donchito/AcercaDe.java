@@ -3,6 +3,7 @@ package mx.itesm.donchito;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -37,7 +38,7 @@ public class AcercaDe implements Screen {
         camera.update();
         view = new FitViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,camera);
         batch = new SpriteBatch();
-
+        cargarRecursos();
         // Assets and text declaration
 
         background = new SimpleAsset(Constants.PANTALLA_CONFIG_PNG,new Vector2(0,0));
@@ -46,6 +47,17 @@ public class AcercaDe implements Screen {
 
     private void cargarAudio() {
 
+    }
+    private void cargarRecursos() {
+        AssetManager assetManager = DonChito.getAssetManager();
+        assetManager.load(Constants.MENUPRINCIPAL_FONDO_JPG,Texture.class);
+        assetManager.load(Constants.MENUPRINCIPAL_CARGARPARTIDA_PNG,Texture.class);
+        assetManager.load(Constants.MENUPRINCIPAL_NUEVAPARTIDA_PNG,Texture.class);
+        assetManager.load(Constants.MENUPRINCIPAL_CARTELDONCHITO_PNG,Texture.class);
+        assetManager.load(Constants.MENUPRINCIPAL_EXTRA_PNG,Texture.class);
+        assetManager.load(Constants.MENUPRINCIPAL_PALA_PNG,Texture.class);
+        assetManager.load(Constants.MENUPRINCIPAL_NUEVAPARTIDAFONDO_PNG,Texture.class);
+        assetManager.finishLoading();
     }
     private void leerEntrada() {
         Gdx.input.setInputProcessor(new InputAdapter() {
@@ -102,6 +114,6 @@ public class AcercaDe implements Screen {
 
     @Override
     public void dispose() {
-
+        DonChito.getAssetManager().clear();
     }
 }

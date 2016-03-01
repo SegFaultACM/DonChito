@@ -3,10 +3,13 @@ package mx.itesm.donchito;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -21,7 +24,6 @@ public class MenuPrincipal implements Screen {
     private Viewport view;
 
 
-    //TODO Refactor to interface
     private SpriteBatch batch;
 
     private Music musicaFondo;
@@ -35,6 +37,7 @@ public class MenuPrincipal implements Screen {
     int direccion;
     int movimientosActual;
     char pantallaSiguiente;
+    boolean isClick;
 
     public MenuPrincipal(DonChito game) {
         this.game = game;
@@ -48,22 +51,31 @@ public class MenuPrincipal implements Screen {
         view = new FitViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,camera);
         batch = new SpriteBatch();
 
-        //TODO Refactor next code into an Asset Manager
+        cargarRecursos();
+
         fondo = new SimpleAsset(Constants.MENUPRINCIPAL_FONDO_JPG,new Vector2(0,0));
         btnCargarPartida = new SimpleAsset(Constants.MENUPRINCIPAL_CARGARPARTIDA_PNG,new Vector2(870,290));
         btnNuevaPartida = new SimpleAsset(Constants.MENUPRINCIPAL_NUEVAPARTIDA_PNG,new Vector2(480,600));
         btnDonChito = new SimpleAsset(Constants.MENUPRINCIPAL_CARTELDONCHITO_PNG,new Vector2(420,230));
         btnExtra = new SimpleAsset(Constants.MENUPRINCIPAL_EXTRA_PNG,new Vector2(800,100));
         btnPala = new SimpleAsset(Constants.MENUPRINCIPAL_PALA_PNG,new Vector2(830,100));
-        btnPala.getSprite().setRotation(-10);
 
-        //TODO Integrar a menu principal
         btnNuevaPartidaFondo = new SimpleAsset(Constants.MENUPRINCIPAL_NUEVAPARTIDAFONDO_PNG,new Vector2(420,550));
         leerEntrada();
         cargarAudio();
         init();
     }
-
+    private void cargarRecursos() {
+        AssetManager assetManager = DonChito.getAssetManager();
+        assetManager.load(Constants.MENUPRINCIPAL_FONDO_JPG,Texture.class);
+        assetManager.load(Constants.MENUPRINCIPAL_CARGARPARTIDA_PNG,Texture.class);
+        assetManager.load(Constants.MENUPRINCIPAL_NUEVAPARTIDA_PNG,Texture.class);
+        assetManager.load(Constants.MENUPRINCIPAL_CARTELDONCHITO_PNG,Texture.class);
+        assetManager.load(Constants.MENUPRINCIPAL_EXTRA_PNG,Texture.class);
+        assetManager.load(Constants.MENUPRINCIPAL_PALA_PNG,Texture.class);
+        assetManager.load(Constants.MENUPRINCIPAL_NUEVAPARTIDAFONDO_PNG,Texture.class);
+        assetManager.finishLoading();
+    }
     private void leerEntrada() {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
@@ -73,22 +85,26 @@ public class MenuPrincipal implements Screen {
 
             @Override
             public boolean touchUp (int x, int y, int pointer, int button) {
-                // your touch up code here
-                if(btnNuevaPartida.isTouched(x,y,camera)){
-                    clickOnButton = true;
-                    pantallaSiguiente = 'G';
-                    return true;
-                }
-                if(btnExtra.isTouched(x,y,camera)){
-                    //TODO Load screen
-                    clickOnButton = true;
-                    pantallaSiguiente = 'A';
-                    return true;
-                }
-                if(btnDonChito.isTouched(x,y,camera)){
-                    clickOnButton = true;
-                    pantallaSiguiente = 'D';
-                    return true;
+                if(!isClick){
+                    if(btnNuevaPartida.isTouched(x,y,camera)){
+                        clickOnButton = true;
+                        isClick = true;
+                        pantallaSiguiente = 'G';
+                        return true;
+                    }
+                    if(btnExtra.isTouched(x,y,camera)){
+                        //TODO Load screen for extras
+                        clickOnButton = true;
+                        isClick = true;
+                        pantallaSiguiente = 'A';
+                        return true;
+                    }
+                    if(btnDonChito.isTouched(x,y,camera)){
+                        clickOnButton = true;
+                        isClick = true;
+                        pantallaSiguiente = 'D';
+                        return true;
+                    }
                 }
                 return false;
             }
@@ -109,6 +125,7 @@ public class MenuPrincipal implements Screen {
         direccion = 1;
         movimientosActual =  0;
         pantallaSiguiente = '\0';
+        isClick = false;
     }
     @Override
     public void render(float delta) {
@@ -183,11 +200,6 @@ public class MenuPrincipal implements Screen {
 
     @Override
     public void dispose() {
-        fondo.dispose();
-        musicaFondo.dispose();
-        btnCargarPartida.dispose();
-        btnDonChito.dispose();
-        btnNuevaPartidaFondo.dispose();
-        btnNuevaPartida.dispose();
+        DonChito.getAssetManager().clear();
     }
 }
