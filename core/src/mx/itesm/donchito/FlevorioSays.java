@@ -26,8 +26,8 @@ public class FlevorioSays implements Screen{
 
     private boolean rocasCreadas = false;
     private boolean brillando = true;
-    private boolean efecto = false;
     private boolean perdio = false;
+    private boolean inicio = true;
 
     private float tiempoEsperar = 1f;
 
@@ -35,7 +35,6 @@ public class FlevorioSays implements Screen{
     private int indiceSecuencia = 0;
 
     private SpriteBatch batch;
-    private Music musicaFondo;
 
     private SimpleAsset fondo;
 
@@ -44,9 +43,13 @@ public class FlevorioSays implements Screen{
 
     private int[] combinaciones = new int[]{0,0,0,0,0,0,0,0,0,0};
     private boolean[] combinacionesPR = new boolean[]{false,false,false,false,false,false,false,false,false,false};
-    private Sound efectoBoton;
+
+    private Music efectoBoton;
     private Music efectoGanar;
     private Music efectoPerder;
+    private Music musicaFondo;
+    private Music musicaIntro;
+
 
     public FlevorioSays(DonChito game) {
         this.game = game;
@@ -76,20 +79,20 @@ public class FlevorioSays implements Screen{
 
         rocas = new Array<SimpleAsset>(3);
 
-        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTONCENTRAL_PNG,new Vector2(555,250));
+        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTONCENTRAL_PNG,new Vector2(505,250));
         nuevo.getSprite().setScale(1.1f);
         rocas.add(nuevo);
 
-        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON2_PNG,new Vector2(410,360));
+        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON2_PNG,new Vector2(370,365));
         rocas.add(nuevo);
-        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON2_PNG,new Vector2(410,130));
+        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON2_PNG,new Vector2(370,135));
         nuevo.setRotation(180f);
         rocas.add(nuevo);
 
-        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON3_PNG,new Vector2(278,360));
+        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON3_PNG,new Vector2(253,370));
         nuevo.getSprite().setScale(0.98f);
         rocas.add(nuevo);
-        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON3_PNG,new Vector2(278,25));
+        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON3_PNG,new Vector2(253,18));
         nuevo.setRotation(180f);
         nuevo.getSprite().setScale(0.98f);
         rocas.add(nuevo);
@@ -100,9 +103,15 @@ public class FlevorioSays implements Screen{
         musicaFondo.setLooping(true);
         //musicaFondo.play();
 
-        efectoBoton = Gdx.audio.newSound(Gdx.files.internal(Constants.FLEVORIO_SONIDOBOTON_WAV));
+        efectoBoton = Gdx.audio.newMusic(Gdx.files.internal(Constants.FLEVORIO_SONIDOBOTON_WAV));
         efectoGanar = Gdx.audio.newMusic(Gdx.files.internal(Constants.FLEVORIO_SONIDOVICTORY_WAV));
         efectoPerder = Gdx.audio.newMusic(Gdx.files.internal(Constants.FLEVORIO_SONIDOFAIL_WAV));
+
+        musicaFondo = Gdx.audio.newMusic(Gdx.files.internal(Constants.FLEVORIO_MUSICAFONDO_WAV));
+        musicaIntro = Gdx.audio.newMusic(Gdx.files.internal(Constants.FLEVORIO_MUSICAINTRO_WAV));
+
+        musicaFondo.setLooping(true);
+        musicaIntro.play();
 
     }
 
@@ -114,13 +123,14 @@ public class FlevorioSays implements Screen{
         if(indiceSecuencia == nivel*2){
             //correr animacion de SUCCEES!! NEXT LVL...
             nivel++;
-            if(nivel == 5){
+            if(nivel == 3){
+                this.dispose();
                 game.setScreen(new MenuPrincipal(game));
             }
-            efecto = false;
             crearCombinacion(nivel);
             indiceSecuencia = 0;
             if(nivel != 1 && !perdio){
+                efectoBoton.stop();
                 efectoGanar.play();
                 perdio = false;
             }
@@ -133,34 +143,40 @@ public class FlevorioSays implements Screen{
 
         if(fondo.getSprite().getScaleX()>=1f){
             if(!rocasCreadas){
+                // Sonido que se reproduce al abrir el proyector
                 efectoBoton.play();
+
                 crearRoca();
             }
             else {
-                for (SimpleAsset roca : rocas) {
-                    roca.render(batch);
-                }
-                if(!efectoGanar.isPlaying() && !efectoPerder.isPlaying()) {
-                    for (int i = 0; i < nivel * 2; i++) {
-                        if (!combinacionesPR[i]) {
-                            if(!efecto){
-                                efectoBoton.play();
-                                efecto = true;
-                            }
-                            rocas.get(combinaciones[i] - 1).getSprite().setColor(103, 128, 150, 1);
-                            if (esperar(delta)) {
-                                efectoBoton.play();
-                                rocas.get(combinaciones[i] - 1).getSprite().setColor(Color.WHITE);
-                                combinacionesPR[i] = true;
-                            }
-                            break;
-                        }
+                if(!musicaIntro.isPlaying()) {
+                    if(!musicaFondo.isPlaying()){
+                        musicaFondo.play();
                     }
-                    brillando = false;
-                    for (int i = 0; i < nivel * 2; i++) {
-                        if (!combinacionesPR[i]) {
-                            brillando = true;
-                            break;
+                    for (SimpleAsset roca : rocas) {
+                        roca.render(batch);
+                    }
+                    if (!efectoGanar.isPlaying() && !efectoPerder.isPlaying()) {
+                        for (int i = 0; i < nivel * 2; i++) {
+                            if (!combinacionesPR[i]) {
+                                if (!efectoBoton.isPlaying()) {
+                                    efectoBoton.play();
+                                }
+                                rocas.get(combinaciones[i] - 1).getSprite().setColor(103, 128, 150, 1);
+                                if (esperar(delta)) {
+                                    rocas.get(combinaciones[i] - 1).getSprite().setColor(Color.WHITE);
+                                    combinacionesPR[i] = true;
+                                    efectoBoton.stop();
+                                }
+                                break;
+                            }
+                        }
+                        brillando = false;
+                        for (int i = 0; i < nivel * 2; i++) {
+                            if (!combinacionesPR[i]) {
+                                brillando = true;
+                                break;
+                            }
                         }
                     }
                 }
@@ -213,7 +229,7 @@ public class FlevorioSays implements Screen{
 
     @Override
     public void dispose() {
-
+        
     }
     private void leerEntrada() {
         Gdx.input.setInputProcessor(new InputAdapter() {
@@ -221,7 +237,7 @@ public class FlevorioSays implements Screen{
             public boolean touchDown (int x, int y, int pointexr, int button) {
                 if(!brillando){
                     int roca = 0;
-                    float distancia = (float) Math.sqrt(Math.pow(661-x,2)+Math.pow(358-y,2));
+                    float distancia = (float) Math.sqrt(Math.pow(625-x,2)+Math.pow(348-y,2));
                     if(distancia>=0 && distancia<= 164){
                         roca = 1;
                     }
@@ -242,7 +258,9 @@ public class FlevorioSays implements Screen{
                         }
                     }
                     if(roca !=0){
+                        efectoBoton.stop();
                         efectoBoton.play();
+                        Gdx.app.log("Coordenadas",x+" "+y);
                         Gdx.app.log("Se apreto ",roca+" y tenia que ser "+ combinaciones[indiceSecuencia]);
                         if(roca == combinaciones[indiceSecuencia]){
                             Gdx.app.log("Se apreto ","CORRECTO");
@@ -253,6 +271,8 @@ public class FlevorioSays implements Screen{
                             nivel --;
                             perdio = true;
                             indiceSecuencia = nivel*2;
+                            brillando = true;
+                            efectoBoton.stop();
                             efectoPerder.play();
                         }
                     }

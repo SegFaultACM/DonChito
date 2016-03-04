@@ -14,13 +14,15 @@ public class Constants {
 
     //FlevorioSays
     public static final String FLEVORIO_FONDOPANTALLA_PNG = "Imagenes/Simon/fondosimon.jpg";
-    public static final String FLEVORIO_FONDO_PNG = "Imagenes/Simon/base simons.png";
-    public static final String FLEVORIO_BOTONCENTRAL_PNG = "Imagenes/Simon/botoncentral.png";
-    public static final String FLEVORIO_BOTON2_PNG = "Imagenes/Simon/Img_botonnivel2simons.png";
-    public static final String FLEVORIO_BOTON3_PNG = "Imagenes/Simon/Img_nivel3simons.png";
+    public static final String FLEVORIO_FONDO_PNG = "Imagenes/Simon/baseSimon.png";
+    public static final String FLEVORIO_BOTONCENTRAL_PNG = "Imagenes/Simon/botonCentral.png";
+    public static final String FLEVORIO_BOTON2_PNG = "Imagenes/Simon/nivel2.png";
+    public static final String FLEVORIO_BOTON3_PNG = "Imagenes/Simon/nivel3.png";
     public static final String FLEVORIO_SONIDOBOTON_WAV = "Musica/efectoBoton.wav";
     public static final String FLEVORIO_SONIDOFAIL_WAV = "Musica/fail.wav";
     public static final String FLEVORIO_SONIDOVICTORY_WAV = "Musica/victory.wav";
+    public static final String FLEVORIO_MUSICAINTRO_WAV = "Musica/flevorioIntro2.mp3";
+    public static final String FLEVORIO_MUSICAFONDO_WAV = "Musica/flevorioFondo.mp3";
 
 
 
