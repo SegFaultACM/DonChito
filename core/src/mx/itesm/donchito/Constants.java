@@ -6,7 +6,6 @@ public class Constants {
     public static final String MENUPRINCIPAL_CARGARPARTIDA_PNG = "Imagenes/Menuprincipal/cargarpartida.png";
     public static final String MENUPRINCIPAL_FONDO_JPG = "Imagenes/Menuprincipal/menuprincipal.jpg";
     public static final String MENUPRINCIPAL_CARTELDONCHITO_PNG = "Imagenes/Menuprincipal/carteldonchito.png";
-    public static final String MUSICA_FLAVIO_SAYS_MP3 = "Musica/FlavioSays.mp3";
     public static final String MENUPRINCIPAL_NUEVAPARTIDAFONDO_PNG = "Imagenes/Menuprincipal/nuevapartidaluz.png";
     public static final String MENUPRINCIPAL_NUEVAPARTIDA_PNG = "Imagenes/Menuprincipal/nuevapartida.png";
     public static final String MENUPRINCIPAL_PALA_PNG = "Imagenes/Menuprincipal/pala.png";
@@ -18,6 +17,9 @@ public class Constants {
     public static final String FLEVORIO_BOTONCENTRAL_PNG = "Imagenes/Simon/botonCentral.png";
     public static final String FLEVORIO_BOTON2_PNG = "Imagenes/Simon/nivel2.png";
     public static final String FLEVORIO_BOTON3_PNG = "Imagenes/Simon/nivel3.png";
+
+    public static final String FLEVORIO_BOTON_PAUSA_PNG = "Imagenes/Pausa/pausa_herramientas.png";
+
     public static final String FLEVORIO_SONIDOBOTON_WAV = "Musica/efectoBoton.wav";
     public static final String FLEVORIO_SONIDOFAIL_WAV = "Musica/fail.wav";
     public static final String FLEVORIO_SONIDOVICTORY_WAV = "Musica/victory.wav";
