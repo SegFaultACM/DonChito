@@ -11,12 +11,21 @@ public class Constants {
     public static final String MENUPRINCIPAL_PALA_PNG = "Imagenes/Menuprincipal/pala.png";
     public static final String MENUPRINCIPAL_EXTRA_PNG = "Imagenes/Menuprincipal/Extra.png";
 
+    //Cueva
+    public static final String CUEVA_FONDO_JPG = "Imagenes/Cueva/fondoCueva.jpg";
+    public static final String CUEVA_DON_CHITO_PNG = "Imagenes/Cueva/donChito.png";
+    public static final String CUEVA_ARROW_UP = "Imagenes/Cueva/ArrowUp.png";
+    public static final String CUEVA_ARROW_DOWN = "Imagenes/Cueva/ArrowDown.png";
+    public static final String CUEVA_ARROW_LEFT = "Imagenes/Cueva/ArrowLeft.png";
+    public static final String CUEVA_ARROW_RIGHT = "Imagenes/Cueva/ArrowRight.png";
+
     //FlevorioSays
     public static final String FLEVORIO_FONDOPANTALLA_PNG = "Imagenes/Simon/fondosimon.jpg";
     public static final String FLEVORIO_FONDO_PNG = "Imagenes/Simon/baseSimon.png";
     public static final String FLEVORIO_BOTONCENTRAL_PNG = "Imagenes/Simon/botonCentral.png";
     public static final String FLEVORIO_BOTON2_PNG = "Imagenes/Simon/nivel2.png";
     public static final String FLEVORIO_BOTON3_PNG = "Imagenes/Simon/nivel3.png";
+
 
     public static final String FLEVORIO_BOTON_PAUSA_PNG = "Imagenes/Pausa/stop_boton.png";
     public static final String FLEVORIO_BOTON_PLAY_PNG = "Imagenes/Pausa/play_boton.png";
@@ -25,12 +34,12 @@ public class Constants {
 
     public static final String FLEVORIO_MENU_PAUSA_PNG = "Imagenes/Pausa/marco_fondo.png";
 
-
     public static final String FLEVORIO_SONIDOBOTON_WAV = "Musica/efectoBoton.wav";
     public static final String FLEVORIO_SONIDOFAIL_WAV = "Musica/fail.wav";
     public static final String FLEVORIO_SONIDOVICTORY_WAV = "Musica/victory.wav";
     public static final String FLEVORIO_MUSICAINTRO_WAV = "Musica/flevorioIntro2.mp3";
     public static final String FLEVORIO_MUSICAFONDO_WAV = "Musica/flevorioFondo.mp3";
+    public static final String FLEVORIO_BOTON_PAUSA_PNG = "Imagenes/Pausa/pausa_herramientas.png";
 
 
 
