@@ -50,13 +50,7 @@ public class AcercaDe implements Screen {
     }
     private void cargarRecursos() {
         AssetManager assetManager = DonChito.getAssetManager();
-        assetManager.load(Constants.MENUPRINCIPAL_FONDO_JPG,Texture.class);
-        assetManager.load(Constants.MENUPRINCIPAL_CARGARPARTIDA_PNG,Texture.class);
-        assetManager.load(Constants.MENUPRINCIPAL_NUEVAPARTIDA_PNG,Texture.class);
-        assetManager.load(Constants.MENUPRINCIPAL_CARTELDONCHITO_PNG,Texture.class);
-        assetManager.load(Constants.MENUPRINCIPAL_EXTRA_PNG,Texture.class);
-        assetManager.load(Constants.MENUPRINCIPAL_PALA_PNG,Texture.class);
-        assetManager.load(Constants.MENUPRINCIPAL_NUEVAPARTIDAFONDO_PNG,Texture.class);
+        assetManager.load(Constants.PANTALLA_CONFIG_PNG,Texture.class);
         assetManager.finishLoading();
     }
     private void leerEntrada() {
