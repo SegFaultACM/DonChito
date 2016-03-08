@@ -31,6 +31,13 @@ public class FlevorioSays implements Screen{
     private boolean perdio = false;
 
     private SimpleAsset botonPausa;
+    private SimpleAsset botonPlay;
+    private SimpleAsset botonSalirMenu;
+    private SimpleAsset botonConfiguracion;
+
+    private SimpleAsset fondoPantalla;
+    private SimpleAsset fondoPausa;
+
 
     private State estado = State.PLAY;
 
@@ -44,7 +51,8 @@ public class FlevorioSays implements Screen{
     private SimpleAsset fondo;
 
     private Array<SimpleAsset> rocas;
-    private SimpleAsset fondoPantalla;
+
+
 
     private int[] combinaciones = new int[]{0,0,0,0,0,0,0,0,0,0};
     private boolean[] combinacionesPR = new boolean[]{false,false,false,false,false,false,false,false,false,false};
@@ -62,6 +70,7 @@ public class FlevorioSays implements Screen{
 
     @Override
     public void show() {
+        init();
         camera = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
         camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         camera.update();
@@ -77,9 +86,12 @@ public class FlevorioSays implements Screen{
         batch = new SpriteBatch();
         fondoPantalla = new SimpleAsset(Constants.FLEVORIO_FONDOPANTALLA_PNG,new Vector2(0,0));
         fondo = new SimpleAsset(Constants.FLEVORIO_FONDO_PNG,new Vector2(0,0));
-        botonPausa = new SimpleAsset(Constants.FLEVORIO_BOTON_PAUSA_PNG,new Vector2(1050,10));
         fondo.getSprite().scale(1);
         fondo.getSprite().setScale(0.1f);
+    }
+    private void init() {
+        nivel = 0;
+        indiceSecuencia = 0;
     }
 
     private void cargarRecursos() {
@@ -90,8 +102,12 @@ public class FlevorioSays implements Screen{
         assetManager.load(Constants.FLEVORIO_BOTONCENTRAL_PNG, Texture.class);
         assetManager.load(Constants.FLEVORIO_BOTON2_PNG, Texture.class);
         assetManager.load(Constants.FLEVORIO_BOTON3_PNG, Texture.class);
+        assetManager.load(Constants.FLEVORIO_MENU_PAUSA_PNG, Texture.class);
 
         assetManager.load(Constants.FLEVORIO_BOTON_PAUSA_PNG, Texture.class);
+        assetManager.load(Constants.FLEVORIO_BOTON_PLAY_PNG, Texture.class);
+        assetManager.load(Constants.FLEVORIO_BOTON_CONFIGURACION_PNG, Texture.class);
+        assetManager.load(Constants.FLEVORIO_BOTON_SALIRMENU_PNG, Texture.class);
 
         assetManager.load(Constants.FLEVORIO_SONIDOBOTON_WAV, Music.class);
         assetManager.load(Constants.FLEVORIO_SONIDOFAIL_WAV,Music.class);
@@ -138,18 +154,6 @@ public class FlevorioSays implements Screen{
     public void render(float delta) {
         camera.update();
         batch.begin();
-        if(estado == State.PAUSA){
-
-            Gdx.gl.glClearColor(0, 0, 0, 0);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-            batch.setColor(0,0,0,0);
-            batch.end();
-            return;
-        }
-        else{
-            batch.setColor(0,0,0,0);
-        }
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if(indiceSecuencia == nivel*2){
             //correr animacion de SUCCEES!! NEXT LVL...
@@ -172,7 +176,6 @@ public class FlevorioSays implements Screen{
         view.apply();
         fondoPantalla.render(batch);
         fondo.render(batch);
-        botonPausa.render(batch);
         if(nivel != 4) {
             if (fondo.getSprite().getScaleX() >= 1f) {
                 if (!rocasCreadas) {
@@ -218,6 +221,21 @@ public class FlevorioSays implements Screen{
             } else {
                 fondo.getSprite().setScale(MathUtils.clamp(delta * INCREMENTO + fondo.getSprite().getScaleX(), .1f, 1f));
             }
+        }
+        if(estado == State.PAUSA){
+            fondoPausa = new SimpleAsset(Constants.FLEVORIO_MENU_PAUSA_PNG,new Vector2(0,0));
+            botonPlay = new SimpleAsset(Constants.FLEVORIO_BOTON_PLAY_PNG,new Vector2(1050,10));
+            botonConfiguracion = new SimpleAsset(Constants.FLEVORIO_BOTON_CONFIGURACION_PNG,new Vector2(405,175));
+            botonSalirMenu = new SimpleAsset(Constants.FLEVORIO_BOTON_SALIRMENU_PNG,new Vector2(405,425));
+
+            fondoPausa.render(batch);
+            botonPlay.render(batch);
+            botonConfiguracion.render(batch);
+            botonSalirMenu.render(batch);
+        }
+        else{
+            botonPausa = new SimpleAsset(Constants.FLEVORIO_BOTON_PAUSA_PNG,new Vector2(1050,10));
+            botonPausa.render(batch);
         }
         batch.end();
     }
@@ -291,7 +309,7 @@ public class FlevorioSays implements Screen{
                             roca = 5;
                         }
                     }
-                    if(roca !=0){
+                    if(roca !=0 && estado == State.PLAY){
                         efectoBoton.stop();
                         efectoBoton.play();
                         if(roca == combinaciones[indiceSecuencia]){
@@ -308,15 +326,27 @@ public class FlevorioSays implements Screen{
                         }
                     }
                     else{
-                        //    VER SI SE APRETO EL BOTON DE MENU
-                        Gdx.app.log(""+x,""+y);
                         if(x>1050 && y >540){
-                            estado = State.PAUSA;
-                            Gdx.app.log("PAUSA","PAUSA");
+                            if(estado == State.PLAY){
+                                estado = State.PAUSA;
+                            }
+                            else{
+                                estado = State.PLAY;
+                            }
                         }
 
                     }
-
+                }
+                if(estado == State.PAUSA){
+                    //detectar los botones en el menu de pausa.
+                    if(x<828 && x>414 && y<284 && y>213){
+                        init();
+                        musicaFondo.setLooping(false);
+                        if(musicaFondo.isPlaying()) {
+                            musicaFondo.stop();
+                        }
+                        game.setScreen(new MenuPrincipal(game));
+                    }
                 }
                 return true; // return true to indicate the event was handled
             }
