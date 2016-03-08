@@ -30,7 +30,7 @@ public class Cueva implements Screen{
 
     private SimpleAsset fondoPantalla;
     //private SimpleAsset donchito;
-    private Texture donchitoImage
+    private Texture donchitoImage;
     private SimpleAsset flechaArriba;
     private SimpleAsset flechaAbajo;
     private SimpleAsset flechaDer;
@@ -99,7 +99,7 @@ public class Cueva implements Screen{
         batch.begin();
 
         fondoPantalla.render(batch);
-        donchito.render(batch);
+        //donchito.render(batch);
         flechaAbajo.render(batch);
         flechaArriba.render(batch);
         flechaDer.render(batch);
@@ -133,7 +133,7 @@ public class Cueva implements Screen{
 
     }
     private void leerEntrada() {
-        Gdx.input.setInputProcessor(new InputAdapter() {
+      /*  Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean touchDown (int x, int y, int pointexr, int button) {
                 if(flechaArriba.isTouched(x,y,camera)){
@@ -175,7 +175,7 @@ public class Cueva implements Screen{
                 }
                 return false;
             }*/
-        });
+        //});
 
 
     }
