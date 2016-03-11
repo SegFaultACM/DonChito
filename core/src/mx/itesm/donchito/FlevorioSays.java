@@ -2,6 +2,7 @@ package mx.itesm.donchito;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -27,7 +29,17 @@ public class FlevorioSays implements Screen{
     private boolean rocasCreadas = false;
     private boolean brillando = true;
     private boolean perdio = false;
-    private boolean inicio = true;
+
+    private SimpleAsset botonPausa;
+    private SimpleAsset botonPlay;
+    private SimpleAsset botonSalirMenu;
+    private SimpleAsset botonConfiguracion;
+
+    private SimpleAsset fondoPantalla;
+    private SimpleAsset fondoPausa;
+
+
+    private State estado = State.PLAY;
 
     private float tiempoEsperar = 1f;
 
@@ -39,7 +51,8 @@ public class FlevorioSays implements Screen{
     private SimpleAsset fondo;
 
     private Array<SimpleAsset> rocas;
-    private SimpleAsset fondoPantalla;
+
+
 
     private int[] combinaciones = new int[]{0,0,0,0,0,0,0,0,0,0};
     private boolean[] combinacionesPR = new boolean[]{false,false,false,false,false,false,false,false,false,false};
@@ -57,12 +70,17 @@ public class FlevorioSays implements Screen{
 
     @Override
     public void show() {
+        init();
         camera = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
         camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         camera.update();
         view = new FitViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,camera);
 
         leerEntrada();
+        cargarRecursos();
+
+        musicaFondo.setLooping(true);
+        musicaIntro.play();
 
         //TODO Refactor next code into an Asset Manager
         batch = new SpriteBatch();
@@ -70,7 +88,41 @@ public class FlevorioSays implements Screen{
         fondo = new SimpleAsset(Constants.FLEVORIO_FONDO_PNG,new Vector2(0,0));
         fondo.getSprite().scale(1);
         fondo.getSprite().setScale(0.1f);
-        cargarAudio();
+    }
+    private void init() {
+        nivel = 0;
+        indiceSecuencia = 0;
+    }
+
+    private void cargarRecursos() {
+        AssetManager assetManager = DonChito.getAssetManager();
+
+        assetManager.load(Constants.FLEVORIO_FONDOPANTALLA_PNG,Texture.class);
+        assetManager.load(Constants.FLEVORIO_FONDO_PNG,Texture.class);
+        assetManager.load(Constants.FLEVORIO_BOTONCENTRAL_PNG, Texture.class);
+        assetManager.load(Constants.FLEVORIO_BOTON2_PNG, Texture.class);
+        assetManager.load(Constants.FLEVORIO_BOTON3_PNG, Texture.class);
+        assetManager.load(Constants.FLEVORIO_MENU_PAUSA_PNG, Texture.class);
+
+        assetManager.load(Constants.FLEVORIO_BOTON_PAUSA_PNG, Texture.class);
+        assetManager.load(Constants.FLEVORIO_BOTON_PLAY_PNG, Texture.class);
+        assetManager.load(Constants.FLEVORIO_BOTON_CONFIGURACION_PNG, Texture.class);
+        assetManager.load(Constants.FLEVORIO_BOTON_SALIRMENU_PNG, Texture.class);
+
+        assetManager.load(Constants.FLEVORIO_SONIDOBOTON_WAV, Music.class);
+        assetManager.load(Constants.FLEVORIO_SONIDOFAIL_WAV,Music.class);
+        assetManager.load(Constants.FLEVORIO_SONIDOVICTORY_WAV, Music.class);
+        assetManager.load(Constants.FLEVORIO_MUSICAINTRO_WAV, Music.class);
+        assetManager.load(Constants.FLEVORIO_MUSICAFONDO_WAV,Music.class);
+        assetManager.finishLoading();
+
+        efectoBoton = assetManager.get(Constants.FLEVORIO_SONIDOBOTON_WAV);
+        efectoGanar = assetManager.get(Constants.FLEVORIO_SONIDOVICTORY_WAV);
+        efectoPerder = assetManager.get(Constants.FLEVORIO_SONIDOFAIL_WAV);
+
+        musicaFondo = assetManager.get(Constants.FLEVORIO_MUSICAFONDO_WAV);
+        musicaIntro = assetManager.get(Constants.FLEVORIO_MUSICAINTRO_WAV);
+
     }
 
     private void crearRoca() {
@@ -98,33 +150,19 @@ public class FlevorioSays implements Screen{
         rocas.add(nuevo);
     }
 
-    private void cargarAudio() {
-        musicaFondo = Gdx.audio.newMusic(Gdx.files.internal(Constants.MUSICA_FLAVIO_SAYS_MP3));
-        musicaFondo.setLooping(true);
-        //musicaFondo.play();
-
-        efectoBoton = Gdx.audio.newMusic(Gdx.files.internal(Constants.FLEVORIO_SONIDOBOTON_WAV));
-        efectoGanar = Gdx.audio.newMusic(Gdx.files.internal(Constants.FLEVORIO_SONIDOVICTORY_WAV));
-        efectoPerder = Gdx.audio.newMusic(Gdx.files.internal(Constants.FLEVORIO_SONIDOFAIL_WAV));
-
-        musicaFondo = Gdx.audio.newMusic(Gdx.files.internal(Constants.FLEVORIO_MUSICAFONDO_WAV));
-        musicaIntro = Gdx.audio.newMusic(Gdx.files.internal(Constants.FLEVORIO_MUSICAINTRO_WAV));
-
-        musicaFondo.setLooping(true);
-        musicaIntro.play();
-
-    }
-
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 0);
+        camera.update();
+        batch.begin();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         if(indiceSecuencia == nivel*2){
             //correr animacion de SUCCEES!! NEXT LVL...
             nivel++;
-            if(nivel == 3){
-                this.dispose();
+            if(nivel == 4){
+                musicaFondo.setLooping(false);
+                if(musicaFondo.isPlaying()) {
+                    musicaFondo.stop();
+                }
                 game.setScreen(new MenuPrincipal(game));
             }
             crearCombinacion(nivel);
@@ -135,55 +173,69 @@ public class FlevorioSays implements Screen{
                 perdio = false;
             }
         }
-        camera.update();
-        batch.begin();
         view.apply();
         fondoPantalla.render(batch);
         fondo.render(batch);
+        if(nivel != 4) {
+            if (fondo.getSprite().getScaleX() >= 1f) {
+                if (!rocasCreadas) {
+                    // Sonido que se reproduce al abrir el proyector
+                    efectoBoton.play();
 
-        if(fondo.getSprite().getScaleX()>=1f){
-            if(!rocasCreadas){
-                // Sonido que se reproduce al abrir el proyector
-                efectoBoton.play();
-
-                crearRoca();
-            }
-            else {
-                if(!musicaIntro.isPlaying()) {
-                    if(!musicaFondo.isPlaying()){
-                        musicaFondo.play();
-                    }
-                    for (SimpleAsset roca : rocas) {
-                        roca.render(batch);
-                    }
-                    if (!efectoGanar.isPlaying() && !efectoPerder.isPlaying()) {
-                        for (int i = 0; i < nivel * 2; i++) {
-                            if (!combinacionesPR[i]) {
-                                if (!efectoBoton.isPlaying()) {
-                                    efectoBoton.play();
-                                }
-                                rocas.get(combinaciones[i] - 1).getSprite().setColor(103, 128, 150, 1);
-                                if (esperar(delta)) {
-                                    rocas.get(combinaciones[i] - 1).getSprite().setColor(Color.WHITE);
-                                    combinacionesPR[i] = true;
-                                    efectoBoton.stop();
-                                }
-                                break;
-                            }
+                    crearRoca();
+                } else {
+                    if (!musicaIntro.isPlaying()) {
+                        if (!musicaFondo.isPlaying()) {
+                            Gdx.app.log("Musica", "Render");
+                            musicaFondo.play();
                         }
-                        brillando = false;
-                        for (int i = 0; i < nivel * 2; i++) {
-                            if (!combinacionesPR[i]) {
-                                brillando = true;
-                                break;
+                        for (SimpleAsset roca : rocas) {
+                            roca.render(batch);
+                        }
+                        if (!efectoGanar.isPlaying() && !efectoPerder.isPlaying()) {
+                            for (int i = 0; i < nivel * 2; i++) {
+                                if (!combinacionesPR[i]) {
+                                    if (!efectoBoton.isPlaying()) {
+                                        efectoBoton.play();
+                                    }
+                                    rocas.get(combinaciones[i] - 1).getSprite().setColor(103, 128, 150, 1);
+                                    if (esperar(delta)) {
+                                        rocas.get(combinaciones[i] - 1).getSprite().setColor(Color.WHITE);
+                                        combinacionesPR[i] = true;
+                                        efectoBoton.stop();
+                                    }
+                                    break;
+                                }
+                            }
+                            brillando = false;
+                            for (int i = 0; i < nivel * 2; i++) {
+                                if (!combinacionesPR[i]) {
+                                    brillando = true;
+                                    break;
+                                }
                             }
                         }
                     }
                 }
-            }
 
-        } else {
-            fondo.getSprite().setScale(MathUtils.clamp(delta * INCREMENTO + fondo.getSprite().getScaleX(), .1f, 1f));
+            } else {
+                fondo.getSprite().setScale(MathUtils.clamp(delta * INCREMENTO + fondo.getSprite().getScaleX(), .1f, 1f));
+            }
+        }
+        if(estado == State.PAUSA){
+            fondoPausa = new SimpleAsset(Constants.FLEVORIO_MENU_PAUSA_PNG,new Vector2(0,0));
+            botonPlay = new SimpleAsset(Constants.FLEVORIO_BOTON_PLAY_PNG,new Vector2(1050,10));
+            botonConfiguracion = new SimpleAsset(Constants.FLEVORIO_BOTON_CONFIGURACION_PNG,new Vector2(405,175));
+            botonSalirMenu = new SimpleAsset(Constants.FLEVORIO_BOTON_SALIRMENU_PNG,new Vector2(405,425));
+
+            fondoPausa.render(batch);
+            botonPlay.render(batch);
+            botonConfiguracion.render(batch);
+            botonSalirMenu.render(batch);
+        }
+        else{
+            botonPausa = new SimpleAsset(Constants.FLEVORIO_BOTON_PAUSA_PNG,new Vector2(1050,10));
+            botonPausa.render(batch);
         }
         batch.end();
     }
@@ -229,7 +281,7 @@ public class FlevorioSays implements Screen{
 
     @Override
     public void dispose() {
-        
+        DonChito.getAssetManager().clear();
     }
     private void leerEntrada() {
         Gdx.input.setInputProcessor(new InputAdapter() {
@@ -257,13 +309,10 @@ public class FlevorioSays implements Screen{
                             roca = 5;
                         }
                     }
-                    if(roca !=0){
+                    if(roca !=0 && estado == State.PLAY){
                         efectoBoton.stop();
                         efectoBoton.play();
-                        Gdx.app.log("Coordenadas",x+" "+y);
-                        Gdx.app.log("Se apreto ",roca+" y tenia que ser "+ combinaciones[indiceSecuencia]);
                         if(roca == combinaciones[indiceSecuencia]){
-                            Gdx.app.log("Se apreto ","CORRECTO");
                             indiceSecuencia++;
                             perdio = false;
                         }
@@ -276,7 +325,28 @@ public class FlevorioSays implements Screen{
                             efectoPerder.play();
                         }
                     }
+                    else{
+                        if(x>1050 && y >540){
+                            if(estado == State.PLAY){
+                                estado = State.PAUSA;
+                            }
+                            else{
+                                estado = State.PLAY;
+                            }
+                        }
 
+                    }
+                }
+                if(estado == State.PAUSA){
+                    //detectar los botones en el menu de pausa.
+                    if(x<828 && x>414 && y<284 && y>213){
+                        init();
+                        musicaFondo.setLooping(false);
+                        if(musicaFondo.isPlaying()) {
+                            musicaFondo.stop();
+                        }
+                        game.setScreen(new MenuPrincipal(game));
+                    }
                 }
                 return true; // return true to indicate the event was handled
             }
@@ -287,6 +357,10 @@ public class FlevorioSays implements Screen{
                 return true; // return true to indicate the event was handled
             }
         });
-
+    }
+    public enum State
+    {
+        PAUSA,
+        PLAY
     }
 }
