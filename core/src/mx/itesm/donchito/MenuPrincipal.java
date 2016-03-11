@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -28,7 +27,13 @@ public class MenuPrincipal implements Screen {
 
     private Music musicaFondo;
 
-    private SimpleAsset btnCargarPartida, btnDonChito,fondo,btnNuevaPartida,btnNuevaPartidaFondo,btnExtra,btnPala;
+    private SimpleAsset btnCargarPartida,
+                        btnDonChito,
+                        fondo,
+                        btnNuevaPartida,
+                        btnExtra,
+                        btnPala,
+                        btnAjustes;
 
 
     //TODO better code pls
@@ -55,12 +60,12 @@ public class MenuPrincipal implements Screen {
 
         fondo = new SimpleAsset(Constants.MENUPRINCIPAL_FONDO_JPG,new Vector2(0,0));
         btnCargarPartida = new SimpleAsset(Constants.MENUPRINCIPAL_CARGARPARTIDA_PNG,new Vector2(870,290));
-        btnNuevaPartida = new SimpleAsset(Constants.MENUPRINCIPAL_NUEVAPARTIDA_PNG,new Vector2(480,600));
+        btnNuevaPartida = new SimpleAsset(Constants.MENUPRINCIPAL_NUEVAPARTIDA_PNG,new Vector2(480,575));
         btnDonChito = new SimpleAsset(Constants.MENUPRINCIPAL_CARTELDONCHITO_PNG,new Vector2(420,230));
         btnExtra = new SimpleAsset(Constants.MENUPRINCIPAL_EXTRA_PNG,new Vector2(800,100));
-        btnPala = new SimpleAsset(Constants.MENUPRINCIPAL_PALA_PNG,new Vector2(830,100));
+        btnPala = new SimpleAsset(Constants.MENUPRINCIPAL_PALA_PNG,new Vector2(820,125));
+        btnAjustes = new SimpleAsset(Constants.AJUSTES_BOTON_PNG,new Vector2(50,475));
 
-        btnNuevaPartidaFondo = new SimpleAsset(Constants.MENUPRINCIPAL_NUEVAPARTIDAFONDO_PNG,new Vector2(420,550));
         leerEntrada();
         cargarAudio();
         init();
@@ -73,7 +78,8 @@ public class MenuPrincipal implements Screen {
         assetManager.load(Constants.MENUPRINCIPAL_CARTELDONCHITO_PNG,Texture.class);
         assetManager.load(Constants.MENUPRINCIPAL_EXTRA_PNG,Texture.class);
         assetManager.load(Constants.MENUPRINCIPAL_PALA_PNG,Texture.class);
-        assetManager.load(Constants.MENUPRINCIPAL_NUEVAPARTIDAFONDO_PNG,Texture.class);
+        assetManager.load(Constants.AJUSTES_BOTON_PNG,Texture.class);
+        assetManager.load(Constants.MENU_PRINCIPAL_MP3,Music.class);
         assetManager.finishLoading();
     }
     private void leerEntrada() {
@@ -113,7 +119,7 @@ public class MenuPrincipal implements Screen {
     }
 
     private void cargarAudio() {
-        musicaFondo = Gdx.audio.newMusic(Gdx.files.internal(Constants.MENU_PRINCIPAL_MP3));
+        musicaFondo = DonChito.getAssetManager().get(Constants.MENU_PRINCIPAL_MP3);
         musicaFondo.setLooping(true);
         musicaFondo.play();
     }
@@ -145,8 +151,8 @@ public class MenuPrincipal implements Screen {
                         musicaFondo.stop();
                     }
                     switch (pantallaSiguiente){
-                        case 'G': game.setScreen(new FlevorioSays(game));break;
-                        case 'A':  game.setScreen(new AcercaDe(game));break;
+                        case 'G': dispose();game.setScreen(new FlevorioSays(game));break;
+                        case 'A':  dispose();game.setScreen(new AcercaDe(game));break;
                         default:break;
                     }
                 }
@@ -171,10 +177,10 @@ public class MenuPrincipal implements Screen {
         fondo.render(batch);
         btnCargarPartida.render(batch);
         btnDonChito.render(batch);
-        btnNuevaPartidaFondo.render(batch);
         btnNuevaPartida.render(batch);
         btnExtra.render(batch);
         btnPala.render(batch);
+        btnAjustes.render(batch);
         batch.end();
     }
 

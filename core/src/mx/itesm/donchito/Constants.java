@@ -7,7 +7,6 @@ public class Constants {
     public static final String MENUPRINCIPAL_FONDO_JPG = "Imagenes/Menuprincipal/menuprincipal.jpg";
     public static final String MENUPRINCIPAL_CARTELDONCHITO_PNG = "Imagenes/Menuprincipal/carteldonchito.png";
     public static final String MUSICA_FLAVIO_SAYS_MP3 = "Musica/FlavioSays.mp3";
-    public static final String MENUPRINCIPAL_NUEVAPARTIDAFONDO_PNG = "Imagenes/Menuprincipal/nuevapartidaluz.png";
     public static final String MENUPRINCIPAL_NUEVAPARTIDA_PNG = "Imagenes/Menuprincipal/nuevapartida.png";
     public static final String MENUPRINCIPAL_PALA_PNG = "Imagenes/Menuprincipal/pala.png";
     public static final String MENUPRINCIPAL_EXTRA_PNG = "Imagenes/Menuprincipal/Extra.png";
@@ -25,7 +24,11 @@ public class Constants {
     public static final String FLEVORIO_MUSICAFONDO_WAV = "Musica/flevorioFondo.mp3";
 
 
+    //Ajustes
+    public static final String AJUSTES_BOTON_PNG = "Imagenes/Pausa/pausa_herramientas.png";
 
+    //Extras
+    public static final String EXTRAS_FONDO_JPG = "Imagenes/Extras/plataformaExtras.jpg";
 
     //Configuracion
     public static final String PANTALLA_CONFIG_PNG = "Imagenes/PantallasConfig/Config.png";
