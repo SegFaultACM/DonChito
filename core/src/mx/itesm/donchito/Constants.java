@@ -39,13 +39,14 @@ public class Constants {
     public static final String FLEVORIO_SONIDOVICTORY_WAV = "Musica/victory.wav";
     public static final String FLEVORIO_MUSICAINTRO_WAV = "Musica/flevorioIntro2.mp3";
     public static final String FLEVORIO_MUSICAFONDO_WAV = "Musica/flevorioFondo.mp3";
-    public static final String FLEVORIO_BOTON_PAUSA_PNG = "Imagenes/Pausa/pausa_herramientas.png";
 
-
-
+    //Ajustes
+    public static final String AJUSTES_BOTON_PNG = "Imagenes/Pausa/pausa_herramientas.png";
+    //Extras
+    public static final String EXTRAS_FONDO_JPG = "Imagenes/Extras/plataformaExtras.jpg";
 
     //Configuracion
-    public static final String PANTALLA_CONFIG_PNG = "Imagenes/PantallasConfig/Config.png";
+    //public static final String PANTALLA_CONFIG_PNG = "Imagenes/PantallasConfig/Config.png";
 
 
     // Texts
