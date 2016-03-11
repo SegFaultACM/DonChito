@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -29,13 +30,12 @@ public class Cueva implements Screen{
     private Music musicaFondo;
 
     private SimpleAsset fondoPantalla;
-    //private SimpleAsset donchito;
+    private SimpleAsset donchito;
     private Texture donchitoImage;
     private SimpleAsset flechaArriba;
     private SimpleAsset flechaAbajo;
     private SimpleAsset flechaDer;
     private SimpleAsset flechaIzq;
-    private Rectangle donchito;
 
     public Cueva(DonChito game) {
         this.game = game;
@@ -49,18 +49,13 @@ public class Cueva implements Screen{
         camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         camera.update();
         view = new FitViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,camera);
-
         cargarRecursos();
         cargarElementos();
         leerEntrada();
         cargarAudio();
         donchitoImage = new Texture(Gdx.files.internal(Constants.CUEVA_DON_CHITO_PNG));
-        donchito = new Rectangle();
-        donchito.x = 800 / 2 - 64 / 2;
-        donchito.y = 20;
-        donchito.width = 64;
-        donchito.height = 64;
         batch = new SpriteBatch();
+
 
     }
 
@@ -84,7 +79,7 @@ public class Cueva implements Screen{
 
     private void cargarElementos(){
         fondoPantalla = new SimpleAsset(Constants.CUEVA_FONDO_JPG,new Vector2(0,0));
-        // donchito = new SimpleAsset(Constants.CUEVA_DON_CHITO_PNG,new Vector2(DonChito.ANCHO_MUNDO/2-75,DonChito.ALTO_MUNDO/2-75));
+        donchito = new SimpleAsset(Constants.CUEVA_DON_CHITO_PNG,new Vector2(DonChito.ANCHO_MUNDO/2-75,DonChito.ALTO_MUNDO/2-75));
         flechaArriba = new SimpleAsset(Constants.CUEVA_ARROW_UP, new Vector2(100,300));
         flechaAbajo = new SimpleAsset(Constants.CUEVA_ARROW_DOWN, new Vector2(100,100));
         flechaDer = new SimpleAsset(Constants.CUEVA_ARROW_RIGHT, new Vector2(200,200));
@@ -99,12 +94,11 @@ public class Cueva implements Screen{
         batch.begin();
 
         fondoPantalla.render(batch);
-        //donchito.render(batch);
+        donchito.render(batch);
         flechaAbajo.render(batch);
         flechaArriba.render(batch);
         flechaDer.render(batch);
         flechaIzq.render(batch);
-
         batch.end();
     }
 
@@ -133,49 +127,18 @@ public class Cueva implements Screen{
 
     }
     private void leerEntrada() {
-      /*  Gdx.input.setInputProcessor(new InputAdapter() {
+        Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
-            public boolean touchDown (int x, int y, int pointexr, int button) {
-                if(flechaArriba.isTouched(x,y,camera)){
-                    donchito.getSprite()
+            public boolean touchDown(int x, int y, int pointexr, int button) {
+                if (flechaArriba.isTouched(x, y, camera)) {
+
                 }
-
-
-
-
 
 
                 return false;
             }
 
-            @Override
-            public boolean touchUp (int x, int y, int pointer, int button) {
-
-
-                /*if(!isClick){
-                    if(btnNuevaPartida.isTouched(x,y,camera)){
-                        clickOnButton = true;
-                        isClick = true;
-                        pantallaSiguiente = 'G';
-                        return true;
-                    }
-                    if(btnExtra.isTouched(x,y,camera)){
-                        //TODO Load screen for extras
-                        clickOnButton = true;
-                        isClick = true;
-                        pantallaSiguiente = 'A';
-                        return true;
-                    }
-                    if(btnDonChito.isTouched(x,y,camera)){
-                        clickOnButton = true;
-                        isClick = true;
-                        pantallaSiguiente = 'D';
-                        return true;
-                    }
-                }
-                return false;
-            }*/
-        //});
+    });
 
 
     }
