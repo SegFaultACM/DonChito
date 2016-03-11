@@ -46,7 +46,7 @@ public class Constants {
     public static final String EXTRAS_FONDO_JPG = "Imagenes/Extras/plataformaExtras.jpg";
 
     //Configuracion
-    //public static final String PANTALLA_CONFIG_PNG = "Imagenes/PantallasConfig/Config.png";
+    public static final String PANTALLA_CONFIG_PNG = "Imagenes/PantallasConfig/Config.png";
 
 
     // Texts
