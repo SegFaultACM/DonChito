@@ -31,7 +31,6 @@ public class Constants {
     public static final String FLEVORIO_BOTON_PLAY_PNG = "Imagenes/Pausa/play_boton.png";
     public static final String FLEVORIO_BOTON_CONFIGURACION_PNG = "Imagenes/Pausa/pausa_herramientas.png";
     public static final String FLEVORIO_BOTON_SALIRMENU_PNG = "Imagenes/Pausa/pausa_regresarAlMenuPrincipal.png";
-
     public static final String FLEVORIO_MENU_PAUSA_PNG = "Imagenes/Pausa/marco_fondo.png";
 
     public static final String FLEVORIO_SONIDOBOTON_WAV = "Musica/efectoBoton.wav";
@@ -39,6 +38,13 @@ public class Constants {
     public static final String FLEVORIO_SONIDOVICTORY_WAV = "Musica/victory.wav";
     public static final String FLEVORIO_MUSICAINTRO_WAV = "Musica/flevorioIntro2.mp3";
     public static final String FLEVORIO_MUSICAFONDO_WAV = "Musica/flevorioFondo.mp3";
+
+    //RomanStruggle
+    public static final String ROMAN_BOTON_IZQUIERDA = "Imagenes/Cueva/ArrowLeft.png";
+    public static final String ROMAN_BOTON_DERECHA= "Imagenes/Cueva/ArrowRight.png";
+    public static final String ROMAN_BOTON_DISPARA = "Imagenes/Cueva/ArrowUp.png";
+    public static final String ROMAN_PERSONAJE_DONCHITO = "Imagenes/Cueva/DonChito.png";
+    public static final String ROMAN_FONDO = "Imagenes/Cueva/fondoCueva.jpg";
 
     //Ajustes
     public static final String AJUSTES_BOTON_PNG = "Imagenes/Pausa/pausa_herramientas.png";
