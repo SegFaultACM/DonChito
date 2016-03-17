@@ -29,17 +29,22 @@ public class romanRock extends SimpleAsset{
         return escala;
     }
 
+    public float getVelocidad() {
+        return velocidad;
+    }
+
     private float escala;
-    private static float ACELERACION = 0.1f;
+    private static float ACELERACION = 0.08f;
     private static float MOVIMIENTOH = 2f;
     private static float VELOCIDADLIMITE = 10f;
+    private static float ALTURAMAXIMA = 550f;
 
 
-    public romanRock(String strtexture, Vector2 vec,int direccionH, int direccionV,float escala) {
+    public romanRock(String strtexture, Vector2 vec,int direccionH, int direccionV,float escala,float velocidad) {
         super(strtexture, vec);
         this.direccionH = direccionH;
         this.direccionV = direccionV;
-        this.velocidad = 0;
+        this.velocidad = velocidad;
         this.escala = escala;
         this.getSprite().setScale(this.escala);
 
@@ -65,9 +70,11 @@ public class romanRock extends SimpleAsset{
             }
         }
         else{
-            if(this.velocidad <=0){
-                this.velocidad = 0;
-                this.direccionV = 1;
+            if(this.velocidad <0){
+                this.velocidad = 1;
+                if(this.getSprite().getY()>ALTURAMAXIMA){
+                    this.direccionV = 1;
+                }
             }
             else{
                 this.velocidad-= ACELERACION;

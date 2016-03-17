@@ -92,7 +92,7 @@ public class RomanStruggle implements Screen {
         rocas = new DelayedRemovalArray<romanRock>();
         //TODO Refactor next code into an Asset Manager
         batch = new SpriteBatch();
-        rocaP = new romanRock(Constants.ROMAN_PERSONAJE_DONCHITO,new Vector2(550,700),1,1,1);
+        rocaP = new romanRock(Constants.ROMAN_PERSONAJE_DONCHITO,new Vector2(550,700),1,1,1,0);
         rocas.add(rocaP);
 
         fondoPantalla = new SimpleAsset(Constants.ROMAN_FONDO,new Vector2(0,0));
@@ -212,9 +212,9 @@ public class RomanStruggle implements Screen {
                 proyectil.setPosition(new Vector2(1000,1000));
                 disparado = false;
                 if(roca.getEscala()/2 >= 0.25) {
-                    romanRock nuevo = new romanRock(Constants.ROMAN_PERSONAJE_DONCHITO, new Vector2(roca.getSprite().getX(), roca.getSprite().getY()), 1, roca.getDireccionV(), roca.getEscala()/2);
+                    romanRock nuevo = new romanRock(Constants.ROMAN_PERSONAJE_DONCHITO, new Vector2(roca.getSprite().getX(), roca.getSprite().getY()), 1, roca.getDireccionV(), roca.getEscala()/2,roca.getVelocidad());
                     rocas.add(nuevo);
-                    nuevo = new romanRock(Constants.ROMAN_PERSONAJE_DONCHITO, new Vector2(roca.getSprite().getX(), roca.getSprite().getY()), 0, roca.getDireccionV(), roca.getEscala()/2);
+                    nuevo = new romanRock(Constants.ROMAN_PERSONAJE_DONCHITO, new Vector2(roca.getSprite().getX(), roca.getSprite().getY()), 0, roca.getDireccionV(), roca.getEscala()/2,roca.getVelocidad());
                     rocas.add(nuevo);
                 }
                 rocas.removeIndex(indiceRocas);
