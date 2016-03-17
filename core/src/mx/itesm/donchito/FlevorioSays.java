@@ -334,7 +334,6 @@ public class FlevorioSays implements Screen{
                                 estado = State.PLAY;
                             }
                         }
-
                     }
                 }
                 if(estado == State.PAUSA){

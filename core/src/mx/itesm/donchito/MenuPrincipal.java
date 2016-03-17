@@ -151,7 +151,7 @@ public class MenuPrincipal implements Screen {
                         musicaFondo.stop();
                     }
                     switch (pantallaSiguiente){
-                        case 'G': dispose();game.setScreen(new FlevorioSays(game));break;
+                        case 'G': dispose();game.setScreen(new RomanStruggle(game));break;
                         case 'A':  dispose();game.setScreen(new AcercaDe(game));break;
                         default:break;
                     }
