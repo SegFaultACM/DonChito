@@ -21,10 +21,18 @@ public class SimpleAsset {
         this.sprite = new Sprite(texture);
         this.vector2 = vec;
         this.setPosition(this.vector2);
-
+    }
+    public SimpleAsset(String strtexture,float x, float y){
+        assetManager = DonChito.getAssetManager();
+        this.texture = assetManager.get(strtexture);
+        this.sprite = new Sprite(texture);
+        this.setPosition(x,y);
     }
     public void setPosition(Vector2 vec){
         this.sprite.setPosition(vec.x, vec.y);
+    }
+    public void setPosition(float x, float y){
+        this.sprite.setPosition(x,y);
     }
 
     public void setRotation(float degree){

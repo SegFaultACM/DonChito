@@ -5,21 +5,14 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
-import java.util.ArrayList;
 
 public class RomanStruggle implements Screen {
     //Ver transparencia en botones, que don chito pasa adelante de ellos
@@ -54,8 +47,8 @@ public class RomanStruggle implements Screen {
     private SimpleAsset fondoPantalla;
     private SimpleAsset fondoPausa;
 
-    private DelayedRemovalArray<romanRock> rocas;
-    romanRock rocaP;
+    private DelayedRemovalArray<RomanRock> rocas;
+    RomanRock rocaP;
 
     private boolean disparado = false;
 
@@ -89,19 +82,19 @@ public class RomanStruggle implements Screen {
 
         //musicaFondo.setLooping(true);
         //musicaIntro.play();
-        rocas = new DelayedRemovalArray<romanRock>();
+        rocas = new DelayedRemovalArray<RomanRock>();
         //TODO Refactor next code into an Asset Manager
         batch = new SpriteBatch();
-        rocaP = new romanRock(Constants.ROMAN_PERSONAJE_DONCHITO,new Vector2(550,700),1,1,1,0);
+        rocaP = new RomanRock(Constants.ROMAN_PERSONAJE_DONCHITO,550,700,1,1,1,0);
         rocas.add(rocaP);
 
-        fondoPantalla = new SimpleAsset(Constants.ROMAN_FONDO,new Vector2(0,0));
-        botonIzquierda = new SimpleAsset(Constants.ROMAN_BOTON_IZQUIERDA,new Vector2(20,10));
-        botonDerecha = new SimpleAsset(Constants.ROMAN_BOTON_DERECHA,new Vector2(170,10));
-        botonDisparo = new SimpleAsset(Constants.ROMAN_BOTON_DISPARA,new Vector2(320,10));
+        fondoPantalla = new SimpleAsset(Constants.ROMAN_FONDO,0,0);
+        botonIzquierda = new SimpleAsset(Constants.ROMAN_BOTON_IZQUIERDA,20,10);
+        botonDerecha = new SimpleAsset(Constants.ROMAN_BOTON_DERECHA,170,10);
+        botonDisparo = new SimpleAsset(Constants.ROMAN_BOTON_DISPARA,320,10);
 
         //FALTA HACER A DON CHITO COMO UN PERSONAJE
-        donChito = new SimpleAsset(Constants.ROMAN_PERSONAJE_DONCHITO,new Vector2(550,10));
+        donChito = new SimpleAsset(Constants.ROMAN_PERSONAJE_DONCHITO,550,10);
     }
 
     /* inicializar niveles, vidas, etc.
@@ -160,10 +153,10 @@ public class RomanStruggle implements Screen {
         view.apply();
 
         if(estado == State.PAUSA){
-            fondoPausa = new SimpleAsset(Constants.FLEVORIO_MENU_PAUSA_PNG,new Vector2(0,0));
-            botonPlay = new SimpleAsset(Constants.FLEVORIO_BOTON_PLAY_PNG,new Vector2(1050,10));
-            botonConfiguracion = new SimpleAsset(Constants.FLEVORIO_BOTON_CONFIGURACION_PNG,new Vector2(405,175));
-            botonSalirMenu = new SimpleAsset(Constants.FLEVORIO_BOTON_SALIRMENU_PNG,new Vector2(405,425));
+            fondoPausa = new SimpleAsset(Constants.FLEVORIO_MENU_PAUSA_PNG,0,0);
+            botonPlay = new SimpleAsset(Constants.FLEVORIO_BOTON_PLAY_PNG,1050,10);
+            botonConfiguracion = new SimpleAsset(Constants.FLEVORIO_BOTON_CONFIGURACION_PNG,405,175);
+            botonSalirMenu = new SimpleAsset(Constants.FLEVORIO_BOTON_SALIRMENU_PNG,405,425);
 
             fondoPausa.render(batch);
             botonPlay.render(batch);
@@ -171,8 +164,15 @@ public class RomanStruggle implements Screen {
             botonSalirMenu.render(batch);
         }
         else{
-            botonPausa = new SimpleAsset(Constants.FLEVORIO_BOTON_PAUSA_PNG,new Vector2(1050,10));
+            botonPausa = new SimpleAsset(Constants.FLEVORIO_BOTON_PAUSA_PNG,1050,10);
             botonPausa.render(batch);
+            for(RomanRock roca: rocas){
+                roca.updateRock();
+                roca.render(batch);
+                revisarColisiones(roca);
+                indiceRocas++;
+            }
+            indiceRocas = 0;
             if(disparado){
                 if(proyectil.getSprite().getY() >600){
                     disparado = false;
@@ -183,38 +183,28 @@ public class RomanStruggle implements Screen {
                 }
             }
         }
-
-        for(romanRock roca: rocas){
-            roca.updateRock();
-            roca.render(batch);
-            revisarColisiones(roca);
-            indiceRocas++;
-        }
-        indiceRocas = 0;
-
-
         batch.end();
     }
 
-    private void revisarColisiones(romanRock roca) {
+    private void revisarColisiones(RomanRock roca) {
         float rocaX = roca.getSprite().getX();
         float rocaY = roca.getSprite().getY();
 
         //revisar con personaje
         if(roca.getSprite().getY() <60){
             if(rocaX>donChito.getSprite().getX()-100 && rocaX<donChito.getSprite().getX()+100){
-                Gdx.app.log("CHOCO CON PERSONAJE"," LOL TONTO PERDISTEEEE");
+                //Gdx.app.log("CHOCO CON PERSONAJE"," LOL TONTO PERDISTEEEE");
             }
         }
         //revisar con bala
         if(disparado) {
-            if (rocaX> proyectil.getSprite().getX() - 20 &&rocaX< proyectil.getSprite().getX() + 20 &&rocaY<proyectil.getSprite().getY()+20) {
+            if (rocaX> proyectil.getSprite().getX() - 40 &&rocaX< proyectil.getSprite().getX() + 40 &&rocaY<proyectil.getSprite().getY()+20) {
                 proyectil.setPosition(new Vector2(1000,1000));
                 disparado = false;
                 if(roca.getEscala()/2 >= 0.25) {
-                    romanRock nuevo = new romanRock(Constants.ROMAN_PERSONAJE_DONCHITO, new Vector2(roca.getSprite().getX(), roca.getSprite().getY()), 1, roca.getDireccionV(), roca.getEscala()/2,roca.getVelocidad());
+                    RomanRock nuevo = new RomanRock(Constants.ROMAN_PERSONAJE_DONCHITO,roca.getSprite().getX(), roca.getSprite().getY(), 1, roca.getDireccionV(), roca.getEscala()/2,roca.getVelocidad());
                     rocas.add(nuevo);
-                    nuevo = new romanRock(Constants.ROMAN_PERSONAJE_DONCHITO, new Vector2(roca.getSprite().getX(), roca.getSprite().getY()), 0, roca.getDireccionV(), roca.getEscala()/2,roca.getVelocidad());
+                    nuevo = new RomanRock(Constants.ROMAN_PERSONAJE_DONCHITO, roca.getSprite().getX(), roca.getSprite().getY(), 0, roca.getDireccionV(), roca.getEscala()/2,roca.getVelocidad());
                     rocas.add(nuevo);
                 }
                 rocas.removeIndex(indiceRocas);
@@ -307,17 +297,17 @@ public class RomanStruggle implements Screen {
             switch(botonPresionado){
                 case 1:
                     if(donChito.getSprite().getX()>20){
-                        donChito.setPosition(new Vector2(donChito.getSprite().getX() - velocidad,donChito.getSprite().getY()));
+                        donChito.setPosition(donChito.getSprite().getX() - velocidad,donChito.getSprite().getY());
                     }
                     break;
                 case 2:
                     if(donChito.getSprite().getX()<1100){
-                        donChito.setPosition(new Vector2(donChito.getSprite().getX() + velocidad, donChito.getSprite().getY()));
+                        donChito.setPosition(donChito.getSprite().getX() + velocidad, donChito.getSprite().getY());
                     }
                     break;
                 case 3:
                     if(!disparado){
-                        proyectil = new SimpleAsset(Constants.ROMAN_PERSONAJE_DONCHITO,new Vector2(donChito.getSprite().getX(),donChito.getSprite().getY()+30));
+                        proyectil = new SimpleAsset(Constants.ROMAN_PERSONAJE_DONCHITO,donChito.getSprite().getX(),donChito.getSprite().getY()+30);
                         proyectil.getSprite().setScale(0.5f);
                         proyectil.render(batch);
                         disparado = true;

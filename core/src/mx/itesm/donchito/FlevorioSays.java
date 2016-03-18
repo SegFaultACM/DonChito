@@ -84,8 +84,8 @@ public class FlevorioSays implements Screen{
 
         //TODO Refactor next code into an Asset Manager
         batch = new SpriteBatch();
-        fondoPantalla = new SimpleAsset(Constants.FLEVORIO_FONDOPANTALLA_PNG,new Vector2(0,0));
-        fondo = new SimpleAsset(Constants.FLEVORIO_FONDO_PNG,new Vector2(0,0));
+        fondoPantalla = new SimpleAsset(Constants.FLEVORIO_FONDOPANTALLA_PNG,0,0);
+        fondo = new SimpleAsset(Constants.FLEVORIO_FONDO_PNG,0,0);
         fondo.getSprite().scale(1);
         fondo.getSprite().setScale(0.1f);
     }
@@ -131,20 +131,20 @@ public class FlevorioSays implements Screen{
 
         rocas = new Array<SimpleAsset>(3);
 
-        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTONCENTRAL_PNG,new Vector2(505,250));
+        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTONCENTRAL_PNG,505,250);
         nuevo.getSprite().setScale(1.1f);
         rocas.add(nuevo);
 
-        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON2_PNG,new Vector2(370,365));
+        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON2_PNG,370,365);
         rocas.add(nuevo);
-        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON2_PNG,new Vector2(370,135));
+        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON2_PNG,370,135);
         nuevo.setRotation(180f);
         rocas.add(nuevo);
 
-        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON3_PNG,new Vector2(253,370));
+        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON3_PNG,253,370);
         nuevo.getSprite().setScale(0.98f);
         rocas.add(nuevo);
-        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON3_PNG,new Vector2(253,18));
+        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON3_PNG,253,18);
         nuevo.setRotation(180f);
         nuevo.getSprite().setScale(0.98f);
         rocas.add(nuevo);
@@ -186,7 +186,6 @@ public class FlevorioSays implements Screen{
                 } else {
                     if (!musicaIntro.isPlaying()) {
                         if (!musicaFondo.isPlaying()) {
-                            Gdx.app.log("Musica", "Render");
                             musicaFondo.play();
                         }
                         for (SimpleAsset roca : rocas) {
@@ -223,10 +222,10 @@ public class FlevorioSays implements Screen{
             }
         }
         if(estado == State.PAUSA){
-            fondoPausa = new SimpleAsset(Constants.FLEVORIO_MENU_PAUSA_PNG,new Vector2(0,0));
-            botonPlay = new SimpleAsset(Constants.FLEVORIO_BOTON_PLAY_PNG,new Vector2(1050,10));
-            botonConfiguracion = new SimpleAsset(Constants.FLEVORIO_BOTON_CONFIGURACION_PNG,new Vector2(405,175));
-            botonSalirMenu = new SimpleAsset(Constants.FLEVORIO_BOTON_SALIRMENU_PNG,new Vector2(405,425));
+            fondoPausa = new SimpleAsset(Constants.FLEVORIO_MENU_PAUSA_PNG,0,0);
+            botonPlay = new SimpleAsset(Constants.FLEVORIO_BOTON_PLAY_PNG,1050,10);
+            botonConfiguracion = new SimpleAsset(Constants.FLEVORIO_BOTON_CONFIGURACION_PNG,405,175);
+            botonSalirMenu = new SimpleAsset(Constants.FLEVORIO_BOTON_SALIRMENU_PNG,405,425);
 
             fondoPausa.render(batch);
             botonPlay.render(batch);
@@ -234,7 +233,7 @@ public class FlevorioSays implements Screen{
             botonSalirMenu.render(batch);
         }
         else{
-            botonPausa = new SimpleAsset(Constants.FLEVORIO_BOTON_PAUSA_PNG,new Vector2(1050,10));
+            botonPausa = new SimpleAsset(Constants.FLEVORIO_BOTON_PAUSA_PNG,1050,10);
             botonPausa.render(batch);
         }
         batch.end();

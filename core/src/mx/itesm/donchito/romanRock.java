@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector3;
 /**
  * Created by Esteban on 3/17/2016.
  */
-public class romanRock extends SimpleAsset{
+public class RomanRock extends SimpleAsset{
     private SimpleAsset simpelasset;
     private int direccionH; // 1 es derecha, 0 es izquierda
 
@@ -22,7 +22,7 @@ public class romanRock extends SimpleAsset{
         return direccionH;
     }
 
-    private int direccionV; //1 es abajo, 0 es arriba
+    private int direccionV; //1 es abajo, 0 es arriba cambiar a ENUM
     private float velocidad;
 
     public float getEscala() {
@@ -37,11 +37,11 @@ public class romanRock extends SimpleAsset{
     private static float ACELERACION = 0.08f;
     private static float MOVIMIENTOH = 2f;
     private static float VELOCIDADLIMITE = 10f;
-    private static float ALTURAMAXIMA = 550f;
+    private static float ALTURAMAXIMA = 550f; // para que no se salga de la pantalla.
 
 
-    public romanRock(String strtexture, Vector2 vec,int direccionH, int direccionV,float escala,float velocidad) {
-        super(strtexture, vec);
+    public RomanRock(String strtexture, float x, float y, int direccionH, int direccionV, float escala, float velocidad) {
+        super(strtexture, x,y);
         this.direccionH = direccionH;
         this.direccionV = direccionV;
         this.velocidad = velocidad;
@@ -66,7 +66,7 @@ public class romanRock extends SimpleAsset{
                 this.direccionV = 0;
             }
             else {
-                movimientoY = this.velocidad * -1;
+                movimientoY = -this.velocidad;
             }
         }
         else{
@@ -87,24 +87,21 @@ public class romanRock extends SimpleAsset{
                 movimientoX = MOVIMIENTOH;
             }
             else{
-                movimientoX = MOVIMIENTOH*-1;
+                movimientoX = -MOVIMIENTOH;
                 this.direccionH = 0;
             }
         }
         else{
             if(this.getSprite().getX()>10){
-                movimientoX = MOVIMIENTOH*-1;
+                movimientoX = -MOVIMIENTOH;
             }
             else{
                 movimientoX = MOVIMIENTOH;
                 this.direccionH = 1;
             }
         }
+        //optimizar
         this.setPosition(new Vector2(this.getSprite().getX()+movimientoX,this.getSprite().getY()+movimientoY));
-    }
-
-    public void changeVerticalMovement(){
-
     }
 
     @Override

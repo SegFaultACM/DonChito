@@ -58,13 +58,13 @@ public class MenuPrincipal implements Screen {
 
         cargarRecursos();
 
-        fondo = new SimpleAsset(Constants.MENUPRINCIPAL_FONDO_JPG,new Vector2(0,0));
-        btnCargarPartida = new SimpleAsset(Constants.MENUPRINCIPAL_CARGARPARTIDA_PNG,new Vector2(870,290));
-        btnNuevaPartida = new SimpleAsset(Constants.MENUPRINCIPAL_NUEVAPARTIDA_PNG,new Vector2(480,575));
-        btnDonChito = new SimpleAsset(Constants.MENUPRINCIPAL_CARTELDONCHITO_PNG,new Vector2(420,230));
-        btnExtra = new SimpleAsset(Constants.MENUPRINCIPAL_EXTRA_PNG,new Vector2(800,100));
-        btnPala = new SimpleAsset(Constants.MENUPRINCIPAL_PALA_PNG,new Vector2(820,125));
-        btnAjustes = new SimpleAsset(Constants.AJUSTES_BOTON_PNG,new Vector2(50,475));
+        fondo = new SimpleAsset(Constants.MENUPRINCIPAL_FONDO_JPG,0,0);
+        btnCargarPartida = new SimpleAsset(Constants.MENUPRINCIPAL_CARGARPARTIDA_PNG,870,290);
+        btnNuevaPartida = new SimpleAsset(Constants.MENUPRINCIPAL_NUEVAPARTIDA_PNG,480,575);
+        btnDonChito = new SimpleAsset(Constants.MENUPRINCIPAL_CARTELDONCHITO_PNG,420,230);
+        btnExtra = new SimpleAsset(Constants.MENUPRINCIPAL_EXTRA_PNG,800,100);
+        btnPala = new SimpleAsset(Constants.MENUPRINCIPAL_PALA_PNG,820,125);
+        btnAjustes = new SimpleAsset(Constants.AJUSTES_BOTON_PNG,50,475);
 
         leerEntrada();
         cargarAudio();
@@ -151,7 +151,8 @@ public class MenuPrincipal implements Screen {
                         musicaFondo.stop();
                     }
                     switch (pantallaSiguiente){
-                        case 'G': dispose();game.setScreen(new RomanStruggle(game));break;
+                        //case 'G': dispose();game.setScreen(new RomanStruggle(game));break;
+                        case 'G': dispose();game.setScreen(new FlevorioSays(game));break;
                         case 'A':  dispose();game.setScreen(new AcercaDe(game));break;
                         default:break;
                     }
