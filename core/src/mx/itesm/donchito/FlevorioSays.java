@@ -102,8 +102,8 @@ public class FlevorioSays implements Screen{
         assetManager.load(Constants.FLEVORIO_BOTONCENTRAL_PNG, Texture.class);
         assetManager.load(Constants.FLEVORIO_BOTON2_PNG, Texture.class);
         assetManager.load(Constants.FLEVORIO_BOTON3_PNG, Texture.class);
-        assetManager.load(Constants.FLEVORIO_MENU_PAUSA_PNG, Texture.class);
 
+        assetManager.load(Constants.FLEVORIO_MENU_PAUSA_PNG, Texture.class);
         assetManager.load(Constants.FLEVORIO_BOTON_PAUSA_PNG, Texture.class);
         assetManager.load(Constants.FLEVORIO_BOTON_PLAY_PNG, Texture.class);
         assetManager.load(Constants.FLEVORIO_BOTON_CONFIGURACION_PNG, Texture.class);

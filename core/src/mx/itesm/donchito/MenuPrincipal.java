@@ -25,6 +25,8 @@ public class MenuPrincipal implements Screen {
 
     private SpriteBatch batch;
 
+    private State estado = State.MENU;
+
     private Music musicaFondo;
 
     private SimpleAsset btnCargarPartida,
@@ -33,7 +35,9 @@ public class MenuPrincipal implements Screen {
                         btnNuevaPartida,
                         btnExtra,
                         btnPala,
-                        btnAjustes;
+                        btnAjustes,
+                        botonSalirMenu,
+                        fondoPausa;
 
 
     //TODO better code pls
@@ -65,7 +69,9 @@ public class MenuPrincipal implements Screen {
         btnExtra = new SimpleAsset(Constants.MENUPRINCIPAL_EXTRA_PNG,800,100);
         btnPala = new SimpleAsset(Constants.MENUPRINCIPAL_PALA_PNG,820,125);
         btnAjustes = new SimpleAsset(Constants.AJUSTES_BOTON_PNG,50,475);
-
+        fondoPausa = new SimpleAsset(Constants.FLEVORIO_MENU_PAUSA_PNG,0,0);
+        botonSalirMenu = new SimpleAsset(Constants.FLEVORIO_BOTON_SALIRMENU_PNG,405,425);
+        estado = State.MENU;
         leerEntrada();
         cargarAudio();
         init();
@@ -80,6 +86,10 @@ public class MenuPrincipal implements Screen {
         assetManager.load(Constants.MENUPRINCIPAL_PALA_PNG,Texture.class);
         assetManager.load(Constants.AJUSTES_BOTON_PNG,Texture.class);
         assetManager.load(Constants.MENU_PRINCIPAL_MP3,Music.class);
+
+        assetManager.load(Constants.FLEVORIO_MENU_PAUSA_PNG, Texture.class);
+        assetManager.load(Constants.FLEVORIO_BOTON_SALIRMENU_PNG, Texture.class);
+
         assetManager.finishLoading();
     }
     private void leerEntrada() {
@@ -91,7 +101,7 @@ public class MenuPrincipal implements Screen {
 
             @Override
             public boolean touchUp (int x, int y, int pointer, int button) {
-                if(!isClick){
+                if(!isClick && estado == State.MENU){
                     if(btnNuevaPartida.isTouched(x,y,camera)){
                         clickOnButton = true;
                         isClick = true;
@@ -102,13 +112,25 @@ public class MenuPrincipal implements Screen {
                         //TODO Load screen for extras
                         clickOnButton = true;
                         isClick = true;
-                        pantallaSiguiente = 'A';
+                        pantallaSiguiente = 'E';
                         return true;
                     }
                     if(btnDonChito.isTouched(x,y,camera)){
                         clickOnButton = true;
                         isClick = true;
                         pantallaSiguiente = 'D';
+                        return true;
+                    }
+                    if(btnAjustes.isTouched(x,y,camera)){
+                        clickOnButton = true;
+                        isClick = true;
+                        pantallaSiguiente = 'A';
+                        return true;
+                    }
+                }
+                if(!isClick && estado == State.PAUSA) {
+                    if(botonSalirMenu.isTouched(x,y,camera)) {
+                        estado = State.MENU;
                         return true;
                     }
                 }
@@ -142,18 +164,22 @@ public class MenuPrincipal implements Screen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        if(clickOnButton){
+        fondo.render(batch);
+        if(clickOnButton && estado == State.MENU){
             if(movimientosActual == MAX_MOVIMIENTO_ANIMACION){
                 if(pantallaSiguiente == 'D'){
                     init();
-                }else{
+                }else if(pantallaSiguiente == 'A'){
+                    init();
+                    estado = State.PAUSA;
+                }
+                else{
                     if(musicaFondo.isPlaying()){
                         musicaFondo.stop();
                     }
                     switch (pantallaSiguiente){
-                        //case 'G': dispose();game.setScreen(new RomanStruggle(game));break;
                         case 'G': dispose();game.setScreen(new FlevorioSays(game));break;
-                        case 'A':  dispose();game.setScreen(new AcercaDe(game));break;
+                        case 'E':  dispose();game.setScreen(new AcercaDe(game));break;
                         default:break;
                     }
                 }
@@ -164,7 +190,8 @@ public class MenuPrincipal implements Screen {
                 }
                 switch (pantallaSiguiente){
                     case 'G': btnNuevaPartida.setRotation(tiempoRecorrido);break;
-                    case 'A':  btnPala.setRotation(tiempoRecorrido);break;
+                    case 'E':  btnPala.setRotation(tiempoRecorrido);break;
+                    case 'A':  btnAjustes.setRotation(tiempoRecorrido);break;
                     case 'D': btnDonChito.setRotation(tiempoRecorrido);break;
                     default:break;
                 }
@@ -174,14 +201,19 @@ public class MenuPrincipal implements Screen {
                     tiempoRecorrido += delta* MULTIPLICADOR_TIEMPO;
                 }
             }
+        }else if(clickOnButton && estado == State.PAUSA){
+            //init();
         }
-        fondo.render(batch);
         btnCargarPartida.render(batch);
         btnDonChito.render(batch);
         btnNuevaPartida.render(batch);
         btnExtra.render(batch);
         btnPala.render(batch);
         btnAjustes.render(batch);
+        if(estado == State.PAUSA){
+            fondoPausa.render(batch);
+            botonSalirMenu.render(batch);
+        }
         batch.end();
     }
 
@@ -208,5 +240,11 @@ public class MenuPrincipal implements Screen {
     @Override
     public void dispose() {
         DonChito.getAssetManager().clear();
+    }
+
+    public enum State
+    {
+        PAUSA,
+        MENU,
     }
 }

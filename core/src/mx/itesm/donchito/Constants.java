@@ -72,4 +72,16 @@ public class Constants {
     public static final String TEXTO_MUSICA_OPCIONES = "¿Habilitar música?";
     public static final String TEXTO_SONIDO_OPCIONES = "¿Habilitar sonido?";
 
+
+    //Livermorio Escape
+    public static final String PLATFORM = "Imagenes/Livermorio Scape/carreta1.png";
+    public static final String LIVERMORIO_FONDO_PNG = "Imagenes/Livermorio Scape/fondo.jpg";
+    public static final String PLAYER_TEXTURE = "Imagenes/marioSprite.png" ;
+    /*
+    public static final String PLAYER_STAND_RIGHT = ;
+
+    public static final String PLAYER_JUMP_LEFT = ;
+    public static final String PLAYER_STAND_LEFT = ;
+    public static final String PLAYER_JUMP_RIGHT = ;
+    */
 }
