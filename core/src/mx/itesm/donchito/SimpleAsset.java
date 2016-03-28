@@ -34,6 +34,9 @@ public class SimpleAsset {
     public void setPosition(float x, float y){
         this.sprite.setPosition(x,y);
     }
+    public void setAlpha(float a){
+        this.sprite.setAlpha(a);
+    }
 
     public void setRotation(float degree){
         this.sprite.setRotation(degree);

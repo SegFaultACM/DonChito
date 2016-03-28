@@ -158,6 +158,8 @@ public class RomanStruggle implements Screen {
             botonConfiguracion = new SimpleAsset(Constants.FLEVORIO_BOTON_CONFIGURACION_PNG,405,175);
             botonSalirMenu = new SimpleAsset(Constants.FLEVORIO_BOTON_SALIRMENU_PNG,405,425);
 
+            botonPlay.setAlpha(0.5f);
+
             fondoPausa.render(batch);
             botonPlay.render(batch);
             botonConfiguracion.render(batch);
@@ -165,6 +167,7 @@ public class RomanStruggle implements Screen {
         }
         else{
             botonPausa = new SimpleAsset(Constants.FLEVORIO_BOTON_PAUSA_PNG,1050,10);
+            botonPausa.setAlpha(0.5f);
             botonPausa.render(batch);
             for(RomanRock roca: rocas){
                 roca.updateRock();

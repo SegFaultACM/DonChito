@@ -29,6 +29,7 @@ public class FlevorioSays implements Screen{
     private boolean rocasCreadas = false;
     private boolean brillando = true;
     private boolean perdio = false;
+    private boolean salirMenu = false;
 
     private SimpleAsset botonPausa;
     private SimpleAsset botonPlay;
@@ -231,6 +232,21 @@ public class FlevorioSays implements Screen{
             botonPlay.render(batch);
             botonConfiguracion.render(batch);
             botonSalirMenu.render(batch);
+            if(salirMenu) {
+                /* falta hacer animacion de salir aqui
+                for (int i = 0; i < 100; i++) {
+                    esperar(1f);
+                    botonSalirMenu.setRotation(i * 10);
+                    botonSalirMenu.render(batch);
+                }
+                for (int i = 100; i > 0; i--) {
+                    esperar(1f);
+                    botonSalirMenu.setRotation(-i * 10);
+                    botonSalirMenu.render(batch);
+                }
+                */
+                game.setScreen(new MenuPrincipal(game));
+            }
         }
         else{
             botonPausa = new SimpleAsset(Constants.FLEVORIO_BOTON_PAUSA_PNG,1050,10);
@@ -343,7 +359,7 @@ public class FlevorioSays implements Screen{
                         if(musicaFondo.isPlaying()) {
                             musicaFondo.stop();
                         }
-                        game.setScreen(new MenuPrincipal(game));
+                        salirMenu = true;
                     }
                 }
                 return true; // return true to indicate the event was handled
