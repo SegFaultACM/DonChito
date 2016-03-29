@@ -85,8 +85,7 @@ public class RomanStruggle implements Screen {
         rocas = new DelayedRemovalArray<RomanRock>();
         //TODO Refactor next code into an Asset Manager
         batch = new SpriteBatch();
-        rocaP = new RomanRock(Constants.ROMAN_PERSONAJE_DONCHITO,550,700,1,1,1,0);
-        rocas.add(rocaP);
+        createFirstRocks(nivel);
 
         fondoPantalla = new SimpleAsset(Constants.ROMAN_FONDO,0,0);
         botonIzquierda = new SimpleAsset(Constants.ROMAN_BOTON_IZQUIERDA,20,10);
@@ -95,6 +94,13 @@ public class RomanStruggle implements Screen {
 
         //FALTA HACER A DON CHITO COMO UN PERSONAJE
         donChito = new SimpleAsset(Constants.ROMAN_PERSONAJE_DONCHITO,550,10);
+    }
+
+    private void createFirstRocks(int nivel) {
+        for(int i=0;i<nivel;i++) {
+            rocaP = new RomanRock(Constants.ROMAN_PERSONAJE_DONCHITO, (float)(Math.random()*700), 700, (int)(Math.random()*2), 1, 1, 0);
+            rocas.add(rocaP);
+        }
     }
 
     /* inicializar niveles, vidas, etc.
@@ -108,7 +114,7 @@ public class RomanStruggle implements Screen {
         AssetManager assetManager = DonChito.getAssetManager();
 
         assetManager.load(Constants.ROMAN_BOTON_IZQUIERDA,Texture.class);
-        assetManager.load(Constants.ROMAN_BOTON_DERECHA,Texture.class);
+        assetManager.load(Constants.ROMAN_BOTON_DERECHA, Texture.class);
         assetManager.load(Constants.ROMAN_BOTON_DISPARA, Texture.class);
         assetManager.load(Constants.ROMAN_PERSONAJE_DONCHITO, Texture.class);
         assetManager.load(Constants.ROMAN_FONDO, Texture.class);
@@ -141,6 +147,12 @@ public class RomanStruggle implements Screen {
     public void render(float delta) {
         camera.update();
         batch.begin();
+        if(rocas.size == 0){
+            Gdx.app.log("SUBIR LVL","ALGO ASI");
+            //HACER UN ESTILO DE SLEEP
+            nivel++;
+            createFirstRocks(nivel);
+        }
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         fondoPantalla.render(batch);
 
