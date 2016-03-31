@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.TimeUtils;
  */
 public class DonChitoLivermorio {
 
+    public static final double GRAVITY = 10.8;
     Vector2 position;
 
     Vector2 lastFramePosition;
@@ -32,7 +33,8 @@ public class DonChitoLivermorio {
 
 
     //player
-    public static final float PLAYER_RELATIVE = 0f;
+    public static final float PLATFORM_RELATIVE_Y = 15f;
+    public static final float PLATFORM_RELATIVE_X = 65f;
 
     public static final float PLAYER_STANCE_WIDTH = 21.0f;
     public static final float PLAYER_MOVE_SPEED = 250;
@@ -53,9 +55,9 @@ public class DonChitoLivermorio {
         walkState = WalkState.STANDING;
 
         TextureRegion texturaCompleta = new TextureRegion(new Texture(Constants.PLAYER_TEXTURE));
-        TextureRegion[][] texturaPersonaje = texturaCompleta.split(16,32);
-        animacion = new Animation(0.25f,texturaPersonaje[0][3],
-                texturaPersonaje[0][2], texturaPersonaje[0][1] );
+        TextureRegion[][] texturaPersonaje = texturaCompleta.split(96,134);
+        animacion = new Animation(.15f,texturaPersonaje[0][0],
+                texturaPersonaje[0][1], texturaPersonaje[0][2]);
         // Animación infinita
         animacion.setPlayMode(Animation.PlayMode.LOOP);
     }
@@ -63,15 +65,15 @@ public class DonChitoLivermorio {
     public void update(float delta, Array<SimpleAsset> platforms) {
         lastFramePosition.set(position);
 
-        velocity.y -= 10.8;
+        velocity.y -= GRAVITY;
         position.mulAdd(velocity, delta);
 
         if (jumpState != JumpState.JUMPING) {
             jumpState = JumpState.FALLING;
 
-            if (position.y - PLAYER_RELATIVE < 0) {
+            if (position.y <= 0) {
                 jumpState = JumpState.GROUND;
-                position.y = PLAYER_RELATIVE;
+                position.y = -5;
                 velocity.y = 0;
             }
 
@@ -79,7 +81,7 @@ public class DonChitoLivermorio {
                 if (landedOnPlatform(platform)) {
                     jumpState = JumpState.GROUND;
                     velocity.y = 0;
-                    position.y = platform.getSprite().getY() + platform.getSprite().getHeight() + PLAYER_RELATIVE;
+                    position.y = platform.getSprite().getY() + platform.getSprite().getHeight() - PLATFORM_RELATIVE_Y;
                 }
             }
         }
@@ -112,14 +114,14 @@ public class DonChitoLivermorio {
         boolean straddle = false;
 
 
-        if (lastFramePosition.y - PLAYER_RELATIVE >= platform.getSprite().getY() + platform.getSprite().getHeight() &&
-                position.y - PLAYER_RELATIVE < platform.getSprite().getY() + platform.getSprite().getHeight()) {
+        if (lastFramePosition.y >= platform.getSprite().getY() + platform.getSprite().getHeight() - PLATFORM_RELATIVE_Y &&
+                position.y < platform.getSprite().getY() + platform.getSprite().getHeight()- PLATFORM_RELATIVE_Y) {
 
             float leftFoot = position.x - PLAYER_STANCE_WIDTH / 2;
             float rightFoot = position.x + PLAYER_STANCE_WIDTH / 2;
 
-            leftFootIn = (platform.getSprite().getX() < leftFoot && platform.getSprite().getX() + platform.getSprite().getWidth() > leftFoot);
-            rightFootIn = (platform.getSprite().getX() < rightFoot && platform.getSprite().getX() + platform.getSprite().getWidth() > rightFoot);
+            leftFootIn = (platform.getSprite().getX()< leftFoot && platform.getSprite().getX() + platform.getSprite().getWidth()- PLATFORM_RELATIVE_X > leftFoot);
+            rightFootIn = (platform.getSprite().getX()< rightFoot && platform.getSprite().getX() + platform.getSprite().getWidth()- PLATFORM_RELATIVE_X > rightFoot);
 
             straddle = (platform.getSprite().getX() > leftFoot && platform.getSprite().getX() + platform.getSprite().getWidth() < rightFoot);
         }
@@ -176,6 +178,10 @@ public class DonChitoLivermorio {
 
         if (facing == Facing.RIGHT && jumpState != JumpState.GROUND) {
             //region = DonChito.getAssetManager().get(Constants.PLAYER_JUMP_RIGHT);
+            region = animacion.getKeyFrame(0);
+            if (region.isFlipX()) {
+                region.flip(true,false);
+            }
         } else if (facing == Facing.RIGHT && walkState == WalkState.STANDING) {
             //region = DonChito.getAssetManager().get(Constants.PLAYER_STAND_RIGHT);
             region = animacion.getKeyFrame(0);
@@ -190,6 +196,10 @@ public class DonChitoLivermorio {
             }
         } else if (facing == Facing.LEFT && jumpState != JumpState.GROUND) {
             //region = DonChito.getAssetManager().get(Constants.PLAYER_JUMP_LEFT);
+            region =  animacion.getKeyFrame(0);
+            if (!region.isFlipX()) {
+                region.flip(true,false);
+            }
         } else if (facing == Facing.LEFT && walkState == WalkState.STANDING) {
             //region = DonChito.getAssetManager().get(Constants.PLAYER_STAND_LEFT);
             region =  animacion.getKeyFrame(0);

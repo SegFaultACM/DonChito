@@ -73,7 +73,7 @@ public class Constants {
 
 
     //Livermorio Escape
-    public static final String PLATFORM = "Imagenes/Livermorio/carreta1.png";
+    public static final String PLATFORM = "Imagenes/Livermorio/Entintados/carreta1.1.png";
     public static final String LIVERMORIO_FONDO_PNG = "Imagenes/Livermorio/Piedrasyfondo/fondo.jpg";
     public static final String PLAYER_TEXTURE = "Imagenes/Livermorio/Sprites/spriteDonChito.png";
 
