@@ -12,7 +12,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
 /**
- * Created by Joel Lara on 3/27/2016.
+ * Created  on 3/27/2016.
+ * @author Joel Lara
  */
 public class DonChitoLivermorio {
 
@@ -30,8 +31,8 @@ public class DonChitoLivermorio {
     long jumpStartTime;
 
 
-    //Player
-    public static final float PLAYER_RELATIVE = 0.5f;
+    //player
+    public static final float PLAYER_RELATIVE = 0f;
 
     public static final float PLAYER_STANCE_WIDTH = 21.0f;
     public static final float PLAYER_MOVE_SPEED = 250;
@@ -39,7 +40,6 @@ public class DonChitoLivermorio {
     public static final float JUMP_SPEED = 1.5f * 300;
     public static final float MAX_JUMP_DURATION = .1f;
 
-    public static final Vector2 PLAYER_EYE_POSITION = new Vector2(16, 24);
     private Animation animacion;
 
     public DonChitoLivermorio() {
@@ -77,12 +77,8 @@ public class DonChitoLivermorio {
 
             for (SimpleAsset platform : platforms) {
                 if (landedOnPlatform(platform)) {
-
                     jumpState = JumpState.GROUND;
-
-
                     velocity.y = 0;
-
                     position.y = platform.getSprite().getY() + platform.getSprite().getHeight() + PLAYER_RELATIVE;
                 }
             }
@@ -95,8 +91,7 @@ public class DonChitoLivermorio {
         } else {
             walkState = WalkState.STANDING;
         }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.Z)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             switch (jumpState) {
                 case GROUND:
                     startJump();
@@ -181,12 +176,12 @@ public class DonChitoLivermorio {
 
         if (facing == Facing.RIGHT && jumpState != JumpState.GROUND) {
             //region = DonChito.getAssetManager().get(Constants.PLAYER_JUMP_RIGHT);
+        } else if (facing == Facing.RIGHT && walkState == WalkState.STANDING) {
+            //region = DonChito.getAssetManager().get(Constants.PLAYER_STAND_RIGHT);
             region = animacion.getKeyFrame(0);
             if (region.isFlipX()) {
                 region.flip(true,false);
             }
-        } else if (facing == Facing.RIGHT && walkState == WalkState.STANDING) {
-            //region = DonChito.getAssetManager().get(Constants.PLAYER_STAND_RIGHT);
         } else if (facing == Facing.RIGHT && walkState == WalkState.WALKING) {
             float walkTimeSeconds = MathUtils.nanoToSec * (TimeUtils.nanoTime() - walkStartTime);
             region = animacion.getKeyFrame(walkTimeSeconds);
@@ -211,6 +206,12 @@ public class DonChitoLivermorio {
         batch.draw(region, position.x, position.y);
     }
 
+    public float getX(){
+        return this.position.x;
+    }
+    public float getY(){
+        return this.position.y;
+    }
     enum JumpState {
         JUMPING,
         FALLING,
