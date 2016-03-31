@@ -6,7 +6,6 @@ public class Constants {
     public static final String MENUPRINCIPAL_CARGARPARTIDA_PNG = "Imagenes/Menuprincipal/cargarpartida.png";
     public static final String MENUPRINCIPAL_FONDO_JPG = "Imagenes/Menuprincipal/menuprincipal.jpg";
     public static final String MENUPRINCIPAL_CARTELDONCHITO_PNG = "Imagenes/Menuprincipal/carteldonchito.png";
-    public static final String MENUPRINCIPAL_NUEVAPARTIDAFONDO_PNG = "Imagenes/Menuprincipal/nuevapartidaluz.png";
     public static final String MENUPRINCIPAL_NUEVAPARTIDA_PNG = "Imagenes/Menuprincipal/nuevapartida.png";
     public static final String MENUPRINCIPAL_PALA_PNG = "Imagenes/Menuprincipal/pala.png";
     public static final String MENUPRINCIPAL_EXTRA_PNG = "Imagenes/Menuprincipal/Extra.png";
@@ -74,9 +73,11 @@ public class Constants {
 
 
     //Livermorio Escape
-    public static final String PLATFORM = "Imagenes/Livermorio Scape/carreta1.png";
-    public static final String LIVERMORIO_FONDO_PNG = "Imagenes/Livermorio Scape/fondo.jpg";
-    public static final String PLAYER_TEXTURE = "Imagenes/marioSprite.png" ;
+    public static final String PLATFORM = "Imagenes/Livermorio/carreta1.png";
+    public static final String LIVERMORIO_FONDO_PNG = "Imagenes/Livermorio/Piedrasyfondo/fondo.jpg";
+    public static final String PLAYER_TEXTURE = "Imagenes/Livermorio/Sprites/spriteDonChito.png";
+
+
     /*
     public static final String PLAYER_STAND_RIGHT = ;
 
