@@ -1,24 +1,17 @@
 package mx.itesm.donchito;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import java.awt.Rectangle;
-import java.util.ArrayList;
 
 public class Cueva implements Screen{
     private OrthographicCamera camera;
@@ -177,9 +170,9 @@ public class Cueva implements Screen{
         if(estadoBoton == State.PRESIONADO){
             int x = Gdx.app.getInput().getX();
             int y = Gdx.app.getInput().getY();
-            Gdx.app.log(""+x,""+y);
-            Gdx.app.log("CamX ",Float.toString(CamX));
-            Gdx.app.log("CamY ",Float.toString(CamY));
+            //Gdx.app.log(""+x,""+y);
+            //Gdx.app.log("CamX ",Float.toString(CamX));
+            //Gdx.app.log("CamY ",Float.toString(CamY));
             if(x>0 && x<100 && y>427 && y<525) {
                 botonPresionado = 1;
             }
@@ -196,7 +189,7 @@ public class Cueva implements Screen{
             else {
                 botonPresionado = 0;
             }
-            Gdx.app.log(Float.toString(donchito.getSprite().getX()),Float.toString(donchito.getSprite().getY()));
+            //Gdx.app.log(Float.toString(donchito.getSprite().getX()),Float.toString(donchito.getSprite().getY()));
             if(donchito.getSprite().getY() > 1050)
                 game.setScreen(new FlevorioSays(game));
             if(donchito.getSprite().getX() < 50)

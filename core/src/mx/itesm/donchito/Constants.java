@@ -73,10 +73,19 @@ public class Constants {
 
 
     //Livermorio Escape
-    public static final String PLATFORM = "Imagenes/Livermorio/Entintados/carreta1.1.png";
+    public static final String[] PLATFORMS = {"Imagenes/Livermorio/Entintados/carreta1.1.png",
+                                                "Imagenes/Livermorio/Entintados/carreta1.png",
+                                                "Imagenes/Livermorio/Entintados/carreta3.1.png",
+                                                "Imagenes/Livermorio/Entintados/carreta3.png",
+                                                "Imagenes/Livermorio/Entintados/pico.png",
+                                                "Imagenes/Livermorio/Entintados/tabla1.png",
+                                                "Imagenes/Livermorio/Entintados/tabla2.png",
+                                                "Imagenes/Livermorio/Entintados/tabla3.png",
+                                                "Imagenes/Livermorio/Entintados/tabla4.png"};
     public static final String LIVERMORIO_FONDO_PNG = "Imagenes/Livermorio/Piedrasyfondo/fondo.jpg";
     public static final String PLAYER_TEXTURE = "Imagenes/Livermorio/Sprites/spriteDonChito.png";
     public static final String DEATHBYROBOT = "Imagenes/Livermorio/Sprites/Deslave.png";
+    public static final String CTHULHU = "Imagenes/Livermorio/deathscreen.png";
 
 
     /*

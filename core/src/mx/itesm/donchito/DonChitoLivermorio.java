@@ -36,7 +36,7 @@ public class DonChitoLivermorio {
     public static final float PLAYER_MOVE_SPEED = 250;
 
     public static final float JUMP_SPEED = 1.5f * 300;
-    public static final float MAX_JUMP_DURATION = .1f;
+    public static final float MAX_JUMP_DURATION = .15f;
 
     private Animation animacion;
 
