@@ -58,48 +58,50 @@ public class DonChitoLivermorio {
         animacion.setPlayMode(Animation.PlayMode.LOOP);
     }
 
-    public void update(float delta, Array<SimpleAsset> platforms) {
-        lastFramePosition.set(position);
+    public void update(float delta, Array<SimpleAsset> platforms,LivermorioEscape.GameState gameState) {
+        if(gameState == LivermorioEscape.GameState.PLAY){
+            lastFramePosition.set(position);
+            velocity.y -= GRAVITY;
+            position.mulAdd(velocity, delta);
 
-        velocity.y -= GRAVITY;
-        position.mulAdd(velocity, delta);
+            if (jumpState != JumpState.JUMPING) {
+                jumpState = JumpState.FALLING;
 
-        if (jumpState != JumpState.JUMPING) {
-            jumpState = JumpState.FALLING;
-
-            if (position.y <= 0) {
-                jumpState = JumpState.GROUND;
-                position.y = -5;
-                velocity.y = 0;
-            }
-
-            for (SimpleAsset platform : platforms) {
-                if (landedOnPlatform(platform)) {
+                if (position.y <= 0) {
                     jumpState = JumpState.GROUND;
+                    position.y = -5;
                     velocity.y = 0;
-                    position.y = platform.getSprite().getY() + platform.getSprite().getHeight();
+                }
+
+                for (SimpleAsset platform : platforms) {
+                    if (landedOnPlatform(platform)) {
+                        jumpState = JumpState.GROUND;
+                        velocity.y = 0;
+                        position.y = platform.getSprite().getY() + platform.getSprite().getHeight();
+                    }
                 }
             }
+
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                moveLeft(delta);
+            } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                moveRight(delta);
+            } else {
+                walkState = WalkState.STANDING;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+                switch (jumpState) {
+                    case GROUND:
+                        startJump();
+                        break;
+                    case JUMPING:
+                        continueJump();
+                }
+            } else {
+                endJump();
+            }
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            moveLeft(delta);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            moveRight(delta);
-        } else {
-            walkState = WalkState.STANDING;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            switch (jumpState) {
-                case GROUND:
-                    startJump();
-                    break;
-                case JUMPING:
-                    continueJump();
-            }
-        } else {
-            endJump();
-        }
     }
 
 

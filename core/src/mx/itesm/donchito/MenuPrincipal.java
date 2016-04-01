@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -69,8 +68,8 @@ public class MenuPrincipal implements Screen {
         btnExtra = new SimpleAsset(Constants.MENUPRINCIPAL_EXTRA_PNG,800,100);
         btnPala = new SimpleAsset(Constants.MENUPRINCIPAL_PALA_PNG,820,125);
         btnAjustes = new SimpleAsset(Constants.AJUSTES_BOTON_PNG,50,475);
-        fondoPausa = new SimpleAsset(Constants.FLEVORIO_MENU_PAUSA_PNG,0,0);
-        botonSalirMenu = new SimpleAsset(Constants.FLEVORIO_BOTON_SALIRMENU_PNG,405,425);
+        fondoPausa = new SimpleAsset(Constants.GLOBAL_MENU_PAUSA_PNG,0,0);
+        botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,405,425);
         estado = State.MENU;
         leerEntrada();
         cargarAudio();
@@ -87,8 +86,8 @@ public class MenuPrincipal implements Screen {
         assetManager.load(Constants.AJUSTES_BOTON_PNG,Texture.class);
         assetManager.load(Constants.MENU_PRINCIPAL_MP3,Music.class);
 
-        assetManager.load(Constants.FLEVORIO_MENU_PAUSA_PNG, Texture.class);
-        assetManager.load(Constants.FLEVORIO_BOTON_SALIRMENU_PNG, Texture.class);
+        assetManager.load(Constants.GLOBAL_MENU_PAUSA_PNG, Texture.class);
+        assetManager.load(Constants.GLOBAL_BOTON_SALIRMENU_PNG, Texture.class);
 
         assetManager.finishLoading();
     }

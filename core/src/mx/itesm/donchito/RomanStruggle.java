@@ -119,11 +119,11 @@ public class RomanStruggle implements Screen {
         assetManager.load(Constants.ROMAN_PERSONAJE_DONCHITO, Texture.class);
         assetManager.load(Constants.ROMAN_FONDO, Texture.class);
 
-        assetManager.load(Constants.FLEVORIO_MENU_PAUSA_PNG, Texture.class);
-        assetManager.load(Constants.FLEVORIO_BOTON_PAUSA_PNG, Texture.class);
-        assetManager.load(Constants.FLEVORIO_BOTON_PLAY_PNG, Texture.class);
-        assetManager.load(Constants.FLEVORIO_BOTON_CONFIGURACION_PNG, Texture.class);
-        assetManager.load(Constants.FLEVORIO_BOTON_SALIRMENU_PNG, Texture.class);
+        assetManager.load(Constants.GLOBAL_MENU_PAUSA_PNG, Texture.class);
+        assetManager.load(Constants.GLOBAL_BOTON_PAUSA_PNG, Texture.class);
+        assetManager.load(Constants.GLOBAL_BOTON_PLAY_PNG, Texture.class);
+        assetManager.load(Constants.GLOBAL_BOTON_CONFIGURACION_PNG, Texture.class);
+        assetManager.load(Constants.GLOBAL_BOTON_SALIRMENU_PNG, Texture.class);
 
         /*
         assetManager.load(Constants.FLEVORIO_SONIDOBOTON_WAV, Music.class);
@@ -165,10 +165,10 @@ public class RomanStruggle implements Screen {
         view.apply();
 
         if(estado == State.PAUSA){
-            fondoPausa = new SimpleAsset(Constants.FLEVORIO_MENU_PAUSA_PNG,0,0);
-            botonPlay = new SimpleAsset(Constants.FLEVORIO_BOTON_PLAY_PNG,1050,10);
-            botonConfiguracion = new SimpleAsset(Constants.FLEVORIO_BOTON_CONFIGURACION_PNG,405,175);
-            botonSalirMenu = new SimpleAsset(Constants.FLEVORIO_BOTON_SALIRMENU_PNG,405,425);
+            fondoPausa = new SimpleAsset(Constants.GLOBAL_MENU_PAUSA_PNG,0,0);
+            botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1050,10);
+            botonConfiguracion = new SimpleAsset(Constants.GLOBAL_BOTON_CONFIGURACION_PNG,405,175);
+            botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,405,425);
 
             botonPlay.setAlpha(0.5f);
 
@@ -178,7 +178,7 @@ public class RomanStruggle implements Screen {
             botonSalirMenu.render(batch);
         }
         else{
-            botonPausa = new SimpleAsset(Constants.FLEVORIO_BOTON_PAUSA_PNG,1050,10);
+            botonPausa = new SimpleAsset(Constants.GLOBAL_BOTON_PAUSA_PNG,1050,10);
             botonPausa.setAlpha(0.5f);
             botonPausa.render(batch);
             for(RomanRock roca: rocas){

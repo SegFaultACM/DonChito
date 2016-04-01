@@ -4,15 +4,12 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -104,11 +101,11 @@ public class FlevorioSays implements Screen{
         assetManager.load(Constants.FLEVORIO_BOTON2_PNG, Texture.class);
         assetManager.load(Constants.FLEVORIO_BOTON3_PNG, Texture.class);
 
-        assetManager.load(Constants.FLEVORIO_MENU_PAUSA_PNG, Texture.class);
-        assetManager.load(Constants.FLEVORIO_BOTON_PAUSA_PNG, Texture.class);
-        assetManager.load(Constants.FLEVORIO_BOTON_PLAY_PNG, Texture.class);
-        assetManager.load(Constants.FLEVORIO_BOTON_CONFIGURACION_PNG, Texture.class);
-        assetManager.load(Constants.FLEVORIO_BOTON_SALIRMENU_PNG, Texture.class);
+        assetManager.load(Constants.GLOBAL_MENU_PAUSA_PNG, Texture.class);
+        assetManager.load(Constants.GLOBAL_BOTON_PAUSA_PNG, Texture.class);
+        assetManager.load(Constants.GLOBAL_BOTON_PLAY_PNG, Texture.class);
+        assetManager.load(Constants.GLOBAL_BOTON_CONFIGURACION_PNG, Texture.class);
+        assetManager.load(Constants.GLOBAL_BOTON_SALIRMENU_PNG, Texture.class);
 
         assetManager.load(Constants.FLEVORIO_SONIDOBOTON_WAV, Music.class);
         assetManager.load(Constants.FLEVORIO_SONIDOFAIL_WAV,Music.class);
@@ -223,10 +220,10 @@ public class FlevorioSays implements Screen{
             }
         }
         if(estado == State.PAUSA){
-            fondoPausa = new SimpleAsset(Constants.FLEVORIO_MENU_PAUSA_PNG,0,0);
-            botonPlay = new SimpleAsset(Constants.FLEVORIO_BOTON_PLAY_PNG,1050,10);
-            botonConfiguracion = new SimpleAsset(Constants.FLEVORIO_BOTON_CONFIGURACION_PNG,405,175);
-            botonSalirMenu = new SimpleAsset(Constants.FLEVORIO_BOTON_SALIRMENU_PNG,405,425);
+            fondoPausa = new SimpleAsset(Constants.GLOBAL_MENU_PAUSA_PNG,0,0);
+            botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1050,10);
+            botonConfiguracion = new SimpleAsset(Constants.GLOBAL_BOTON_CONFIGURACION_PNG,405,175);
+            botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,405,425);
 
             fondoPausa.render(batch);
             botonPlay.render(batch);
@@ -249,7 +246,7 @@ public class FlevorioSays implements Screen{
             }
         }
         else{
-            botonPausa = new SimpleAsset(Constants.FLEVORIO_BOTON_PAUSA_PNG,1050,10);
+            botonPausa = new SimpleAsset(Constants.GLOBAL_BOTON_PAUSA_PNG,1050,10);
             botonPausa.render(batch);
         }
         batch.end();

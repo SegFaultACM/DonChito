@@ -26,11 +26,11 @@ public class Constants {
     public static final String FLEVORIO_BOTON3_PNG = "Imagenes/Simon/nivel3.png";
 
 
-    public static final String FLEVORIO_BOTON_PAUSA_PNG = "Imagenes/Pausa/stop_boton.png";
-    public static final String FLEVORIO_BOTON_PLAY_PNG = "Imagenes/Pausa/play_boton.png";
-    public static final String FLEVORIO_BOTON_CONFIGURACION_PNG = "Imagenes/Pausa/pausa_herramientas.png";
-    public static final String FLEVORIO_BOTON_SALIRMENU_PNG = "Imagenes/Pausa/pausa_regresarAlMenuPrincipal.png";
-    public static final String FLEVORIO_MENU_PAUSA_PNG = "Imagenes/Pausa/marco_fondo.png";
+    public static final String GLOBAL_BOTON_PAUSA_PNG = "Imagenes/Pausa/stop_boton.png";
+    public static final String GLOBAL_BOTON_PLAY_PNG = "Imagenes/Pausa/play_boton.png";
+    public static final String GLOBAL_BOTON_CONFIGURACION_PNG = "Imagenes/Pausa/pausa_herramientas.png";
+    public static final String GLOBAL_BOTON_SALIRMENU_PNG = "Imagenes/Pausa/pausa_regresarAlMenuPrincipal.png";
+    public static final String GLOBAL_MENU_PAUSA_PNG = "Imagenes/Pausa/marco_fondo.png";
 
     public static final String FLEVORIO_SONIDOBOTON_WAV = "Musica/efectoBoton.wav";
     public static final String FLEVORIO_SONIDOFAIL_WAV = "Musica/fail.wav";
