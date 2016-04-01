@@ -32,10 +32,6 @@ public class DonChitoLivermorio {
     long jumpStartTime;
 
 
-    //player
-    public static final float PLATFORM_RELATIVE_Y = 15f;
-    public static final float PLATFORM_RELATIVE_X = 65f;
-
     public static final float PLAYER_STANCE_WIDTH = 21.0f;
     public static final float PLAYER_MOVE_SPEED = 250;
 
@@ -81,7 +77,7 @@ public class DonChitoLivermorio {
                 if (landedOnPlatform(platform)) {
                     jumpState = JumpState.GROUND;
                     velocity.y = 0;
-                    position.y = platform.getSprite().getY() + platform.getSprite().getHeight() - PLATFORM_RELATIVE_Y;
+                    position.y = platform.getSprite().getY() + platform.getSprite().getHeight();
                 }
             }
         }
@@ -114,14 +110,14 @@ public class DonChitoLivermorio {
         boolean straddle = false;
 
 
-        if (lastFramePosition.y >= platform.getSprite().getY() + platform.getSprite().getHeight() - PLATFORM_RELATIVE_Y &&
-                position.y < platform.getSprite().getY() + platform.getSprite().getHeight()- PLATFORM_RELATIVE_Y) {
+        if (lastFramePosition.y >= platform.getSprite().getY() + platform.getSprite().getHeight()  &&
+                position.y < platform.getSprite().getY() + platform.getSprite().getHeight()) {
 
             float leftFoot = position.x - PLAYER_STANCE_WIDTH / 2;
             float rightFoot = position.x + PLAYER_STANCE_WIDTH / 2;
 
-            leftFootIn = (platform.getSprite().getX()< leftFoot && platform.getSprite().getX() + platform.getSprite().getWidth()- PLATFORM_RELATIVE_X > leftFoot);
-            rightFootIn = (platform.getSprite().getX()< rightFoot && platform.getSprite().getX() + platform.getSprite().getWidth()- PLATFORM_RELATIVE_X > rightFoot);
+            leftFootIn = (platform.getSprite().getX()< leftFoot && platform.getSprite().getX() + platform.getSprite().getWidth() > leftFoot);
+            rightFootIn = (platform.getSprite().getX()< rightFoot && platform.getSprite().getX() + platform.getSprite().getWidth() > rightFoot);
 
             straddle = (platform.getSprite().getX() > leftFoot && platform.getSprite().getX() + platform.getSprite().getWidth() < rightFoot);
         }

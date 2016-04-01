@@ -76,6 +76,7 @@ public class Constants {
     public static final String PLATFORM = "Imagenes/Livermorio/Entintados/carreta1.1.png";
     public static final String LIVERMORIO_FONDO_PNG = "Imagenes/Livermorio/Piedrasyfondo/fondo.jpg";
     public static final String PLAYER_TEXTURE = "Imagenes/Livermorio/Sprites/spriteDonChito.png";
+    public static final String DEATHBYROBOT = "Imagenes/Livermorio/Sprites/Deslave.png";
 
 
     /*
