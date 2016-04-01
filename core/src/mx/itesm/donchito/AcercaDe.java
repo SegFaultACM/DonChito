@@ -40,7 +40,7 @@ public class AcercaDe implements Screen {
         cargarRecursos();
         // Assets and text declaration
 
-        background = new SimpleAsset(Constants.EXTRAS_FONDO_JPG,new Vector2(0,0));
+        background = new SimpleAsset(Constants.EXTRAS_FONDO_JPG,0,0);
         leerEntrada();
     }
 

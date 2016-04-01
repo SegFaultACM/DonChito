@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -72,11 +73,9 @@ public class LivermorioEscape implements Screen {
         crearElementos();
 }
     private void crearElementos(){
-        platforms.add(new SimpleAsset(Constants.PLATFORM, 200, 20));
-        platforms.add(new SimpleAsset(Constants.PLATFORM, 900, 100));
-        platforms.add(new SimpleAsset(Constants.PLATFORM, 780, 800));
-        platforms.add(new SimpleAsset(Constants.PLATFORM, 100, 70));
-        platforms.add(new SimpleAsset(Constants.PLATFORM, 300, 200));
+        platforms.add(new SimpleAsset(Constants.PLATFORM, 0, 0));
+        platforms.add(new SimpleAsset(Constants.PLATFORM, 400, 195));
+        platforms.add(new SimpleAsset(Constants.PLATFORM, 1000, 300));
         fondoPausa = new SimpleAsset(Constants.GLOBAL_MENU_PAUSA_PNG,0,0);
         botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1050,10);
         botonConfiguracion = new SimpleAsset(Constants.GLOBAL_BOTON_CONFIGURACION_PNG,405,175);
@@ -115,7 +114,7 @@ public class LivermorioEscape implements Screen {
         Gdx.input.setInputProcessor(new InputAdapter() {
             public boolean touchUp(int x, int y, int pointer, int button) {
 
-                return true; // return true to indicate the event was handled
+                return true;
             }
 
             public boolean touchDown(int x, int y, int pointexr, int button) {
@@ -131,7 +130,7 @@ public class LivermorioEscape implements Screen {
                         gameState = GameState.PAUSE;
                     }
                 }
-                return true; // return true to indicate the event was handled
+                return true;
             }
         });
     }
@@ -143,7 +142,6 @@ public class LivermorioEscape implements Screen {
     @Override
     public void render(float delta) {
 
-        //Limpiar pantalla
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -156,8 +154,6 @@ public class LivermorioEscape implements Screen {
                 update(delta);
             }
             renderHUD();
-        }else{
-
         }
     }
     public void renderCamera(){
@@ -218,9 +214,9 @@ public class LivermorioEscape implements Screen {
     }
     private void actualizarCamara() {
         float posX = player.getX();
-        if (posX>=game.ANCHO_MUNDO/2) {
+        if (posX>=DonChito.ANCHO_MUNDO/2) {
             camera.position.set((int) posX, camera.position.y, 0);
-        } else if (posX<1280-game.ANCHO_MUNDO/2) {
+        } else if (posX<1280-DonChito.ANCHO_MUNDO/2) {
             camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         }
         camera.update();

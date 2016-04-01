@@ -193,7 +193,7 @@ public class RomanStruggle implements Screen {
                     disparado = false;
                 }
                 else{
-                    proyectil.setPosition(new Vector2(proyectil.getSprite().getX(),proyectil.getSprite().getY()+velocidadBala));
+                    proyectil.setPosition(proyectil.getSprite().getX(),proyectil.getSprite().getY()+velocidadBala);
                     proyectil.render(batch);
                 }
             }
@@ -214,7 +214,7 @@ public class RomanStruggle implements Screen {
         //revisar con bala
         if(disparado) {
             if (rocaX> proyectil.getSprite().getX() - 40 &&rocaX< proyectil.getSprite().getX() + 40 &&rocaY<proyectil.getSprite().getY()+20) {
-                proyectil.setPosition(new Vector2(1000,1000));
+                proyectil.setPosition(1000,1000);
                 disparado = false;
                 if(roca.getEscala()/2 >= 0.25) {
                     RomanRock nuevo = new RomanRock(Constants.ROMAN_PERSONAJE_DONCHITO,roca.getSprite().getX(), roca.getSprite().getY(), 1, roca.getDireccionV(), roca.getEscala()/2,roca.getVelocidad());

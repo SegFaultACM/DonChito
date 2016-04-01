@@ -101,12 +101,12 @@ public class RomanRock extends SimpleAsset{
             }
         }
         //optimizar
-        this.setPosition(new Vector2(this.getSprite().getX()+movimientoX,this.getSprite().getY()+movimientoY));
+        this.setPosition(this.getSprite().getX()+movimientoX,this.getSprite().getY()+movimientoY);
     }
 
     @Override
-    public void setPosition(Vector2 vec) {
-        super.setPosition(vec);
+    public void setPosition(float x,float y) {
+        super.setPosition(x,y);
     }
 
     @Override

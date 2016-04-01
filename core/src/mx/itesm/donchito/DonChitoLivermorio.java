@@ -32,7 +32,7 @@ public class DonChitoLivermorio {
     long jumpStartTime;
 
 
-    public static final float PLAYER_STANCE_WIDTH = 21.0f;
+    public static final float PLAYER_STANCE_WIDTH = 85.0f;
     public static final float PLAYER_MOVE_SPEED = 250;
 
     public static final float JUMP_SPEED = 1.5f * 300;
@@ -41,7 +41,7 @@ public class DonChitoLivermorio {
     private Animation animacion;
 
     public DonChitoLivermorio() {
-        position = new Vector2(400, 400);
+        position = new Vector2(0, 0);
 
         lastFramePosition = new Vector2(position);
 
@@ -51,7 +51,7 @@ public class DonChitoLivermorio {
         walkState = WalkState.STANDING;
 
         TextureRegion texturaCompleta = new TextureRegion(new Texture(Constants.PLAYER_TEXTURE));
-        TextureRegion[][] texturaPersonaje = texturaCompleta.split(96,134);
+        TextureRegion[][] texturaPersonaje = texturaCompleta.split(85,131);
         animacion = new Animation(.15f,texturaPersonaje[0][0],
                 texturaPersonaje[0][1], texturaPersonaje[0][2]);
         // Animación infinita
@@ -69,7 +69,7 @@ public class DonChitoLivermorio {
 
                 if (position.y <= 0) {
                     jumpState = JumpState.GROUND;
-                    position.y = -5;
+                    position.y = 0;
                     velocity.y = 0;
                 }
 
@@ -83,7 +83,7 @@ public class DonChitoLivermorio {
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                moveLeft(delta);
+                if(position.x > 0)moveLeft(delta);
             } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 moveRight(delta);
             } else {
@@ -109,22 +109,20 @@ public class DonChitoLivermorio {
     boolean landedOnPlatform(SimpleAsset platform) {
         boolean leftFootIn = false;
         boolean rightFootIn = false;
-        boolean straddle = false;
+        boolean inBetween = false;
 
 
         if (lastFramePosition.y >= platform.getSprite().getY() + platform.getSprite().getHeight()  &&
                 position.y < platform.getSprite().getY() + platform.getSprite().getHeight()) {
 
-            float leftFoot = position.x - PLAYER_STANCE_WIDTH / 2;
-            float rightFoot = position.x + PLAYER_STANCE_WIDTH / 2;
-
-            leftFootIn = (platform.getSprite().getX()< leftFoot && platform.getSprite().getX() + platform.getSprite().getWidth() > leftFoot);
-            rightFootIn = (platform.getSprite().getX()< rightFoot && platform.getSprite().getX() + platform.getSprite().getWidth() > rightFoot);
-
-            straddle = (platform.getSprite().getX() > leftFoot && platform.getSprite().getX() + platform.getSprite().getWidth() < rightFoot);
+            float leftFoot = position.x;
+            float rightFoot = position.x +  PLAYER_STANCE_WIDTH;
+            leftFootIn = (platform.getSprite().getX() < leftFoot && platform.getSprite().getX() + platform.getSprite().getWidth() > leftFoot);
+            rightFootIn = (platform.getSprite().getX() < rightFoot && platform.getSprite().getX() + platform.getSprite().getWidth() > rightFoot);
+            inBetween = (platform.getSprite().getX() > leftFoot && platform.getSprite().getX() + platform.getSprite().getWidth() < rightFoot);
         }
 
-        return leftFootIn || rightFootIn || straddle;
+        return leftFootIn || rightFootIn || inBetween;
     }
 
 
@@ -219,6 +217,12 @@ public class DonChitoLivermorio {
     }
     public float getY(){
         return this.position.y;
+    }
+    public float getWidth(){
+        return animacion.getKeyFrame(0).getRegionWidth();
+    }
+    public float getHeight(){
+        return animacion.getKeyFrame(0).getRegionHeight();
     }
     enum JumpState {
         JUMPING,
