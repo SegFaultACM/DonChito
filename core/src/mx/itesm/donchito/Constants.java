@@ -11,7 +11,7 @@ public class Constants {
     public static final String MENUPRINCIPAL_EXTRA_PNG = "Imagenes/Menuprincipal/Extra.png";
 
     //Cueva
-    public static final String CUEVA_FONDO_JPG = "Imagenes/Cueva/fondoCueva.jpg";
+    public static final String CUEVA_FONDO_JPG = "Imagenes/Cueva/Imagen_Cueva_fin.jpg";
     public static final String CUEVA_DON_CHITO_PNG = "Imagenes/Cueva/donChito.png";
     public static final String CUEVA_ARROW_UP = "Imagenes/Cueva/ArrowUp.png";
     public static final String CUEVA_ARROW_DOWN = "Imagenes/Cueva/ArrowDown.png";
