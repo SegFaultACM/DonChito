@@ -4,7 +4,7 @@ package mx.itesm.donchito;
 public class Constants {
     public static final String MENU_PRINCIPAL_MP3 = "Musica/menuPrincipal.mp3";
     public static final String MENUPRINCIPAL_CARGARPARTIDA_PNG = "Imagenes/Menuprincipal/cargarpartida.png";
-    public static final String MENUPRINCIPAL_FONDO_JPG = "Imagenes/Menuprincipal/menuprincipal.jpg";
+    public static final String MENUPRINCIPAL_FONDO_JPG = "Imagenes/Menuprincipal/MenuPrincipal.jpg";
     public static final String MENUPRINCIPAL_CARTELDONCHITO_PNG = "Imagenes/Menuprincipal/carteldonchito.png";
     public static final String MENUPRINCIPAL_NUEVAPARTIDA_PNG = "Imagenes/Menuprincipal/nuevapartida.png";
     public static final String MENUPRINCIPAL_PALA_PNG = "Imagenes/Menuprincipal/pala.png";
@@ -12,7 +12,7 @@ public class Constants {
 
     //Cueva
     public static final String CUEVA_FONDO_JPG = "Imagenes/Cueva/Imagen_Cueva_fin.jpg";
-    public static final String CUEVA_DON_CHITO_PNG = "Imagenes/Cueva/donChito.png";
+    public static final String CUEVA_DON_CHITO_PNG = "Imagenes/Cueva/DonChito.png";
     public static final String CUEVA_ARROW_UP = "Imagenes/Cueva/ArrowUp.png";
     public static final String CUEVA_ARROW_DOWN = "Imagenes/Cueva/ArrowDown.png";
     public static final String CUEVA_ARROW_LEFT = "Imagenes/Cueva/ArrowLeft.png";

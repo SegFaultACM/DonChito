@@ -185,10 +185,13 @@ public class LivermorioEscape implements Screen {
             moveState = MoveState.LEFT;
         }else if(btnState == StateBtn.PRESSED && arrowRight.isTouched(x,y,cameraHUD)){
             moveState = MoveState.RIGHT;
-        }else if (btnState == StateBtn.PRESSED && arrowUp.isTouched(x,y,cameraHUD)){
-            jumpState = true;
         }else{
             moveState = MoveState.NONE;
+        }
+        if (btnState == StateBtn.PRESSED && arrowUp.isTouched(x,y,cameraHUD)){
+            jumpState = true;
+        }else{
+            jumpState = false;
         }
     }
 
