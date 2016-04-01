@@ -147,15 +147,29 @@ public class LivermorioEscape implements Screen {
 
         view.apply();
         renderCamera();
-
+        checkCollisions();
         if(playerState == PlayerState.NOTDEAD){
             if(gameState == GameState.PLAY){
                 actualizarCamara();
                 update(delta);
             }
             renderHUD();
+        }else{
+            renderDeath();
         }
     }
+    public void checkCollisions(){
+
+    }
+
+    public void renderDeath(){
+        batch.setProjectionMatrix(cameraHUD.combined);
+        batch.begin();
+
+        batch.end();
+
+    }
+
     public void renderCamera(){
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
@@ -216,7 +230,7 @@ public class LivermorioEscape implements Screen {
         float posX = player.getX();
         if (posX>=DonChito.ANCHO_MUNDO/2) {
             camera.position.set((int) posX, camera.position.y, 0);
-        } else if (posX<1280-DonChito.ANCHO_MUNDO/2) {
+        } else if (posX<DonChito.ANCHO_MUNDO-DonChito.ANCHO_MUNDO/2) {
             camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         }
         camera.update();
