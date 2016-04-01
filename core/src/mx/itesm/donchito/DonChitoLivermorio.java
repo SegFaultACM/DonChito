@@ -33,7 +33,7 @@ public class DonChitoLivermorio {
 
 
     public static final float PLAYER_STANCE_WIDTH = 85.0f;
-    public static final float PLAYER_MOVE_SPEED = 250;
+    public static final float PLAYER_MOVE_SPEED = 2500;
 
     public static final float JUMP_FORCE = 600f;
     public static final float MAX_JUMP_DURATION = .15f;
@@ -82,31 +82,18 @@ public class DonChitoLivermorio {
                 }
             }
 
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                if(position.x > 0)moveLeft(delta);
-            } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                moveRight(delta);
-            } else {
-                walkState = WalkState.STANDING;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-                switch (jumpState) {
-                    case GROUND:
-                        startJump();
-                        break;
-                    case JUMPING:
-                        continueJump();
-                }
-            } else {
-                endJump();
-            }
         }
 
+    }
+
+    public JumpState getJumpState(){
+        return jumpState;
     }
 
     public void stand(){
         walkState = WalkState.STANDING;
     }
+
     boolean landedOnPlatform(SimpleAsset platform) {
         boolean leftFootIn = false;
         boolean rightFootIn = false;

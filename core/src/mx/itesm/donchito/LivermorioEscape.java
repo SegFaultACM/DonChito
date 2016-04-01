@@ -1,6 +1,7 @@
 package mx.itesm.donchito;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
@@ -50,14 +51,13 @@ public class LivermorioEscape implements Screen {
     private Vector2 DeathPosition;
     private Animation animationDeath;
     private float deathStartTime,gameStartTime;
-    private int nFondos = 2,posFondos = 10240;
+    private int nFondos = 2,posFondos = 7024;
     private TextureRegion regionDeath;
 
     private PlayerState playerState = PlayerState.NOTDEAD;
     private GameState gameState = GameState.PLAY;
 
     private StateBtn btnState = StateBtn.NOTPRESSED;
-    private boolean jumpState = false;
     private MoveState moveState = MoveState.NONE;
 
 
@@ -156,9 +156,6 @@ public class LivermorioEscape implements Screen {
                     DonChito.getAssetManager().clear();
                     game.setScreen(new MenuPrincipal(game));
                 }
-                if(jumpState && arrowUp.isTouched(x,y,cameraHUD)){
-                    jumpState = false;
-                }
                 if(btnState == StateBtn.PRESSED && (arrowLeft.isTouched(x,y,cameraHUD) || arrowRight.isTouched(x,y,cameraHUD))){
                     btnState = StateBtn.NOTPRESSED;
                 }
@@ -193,23 +190,46 @@ public class LivermorioEscape implements Screen {
             }else{
                 player.stand();
             }
-            if (arrowUp.isTouched(x,y,cameraHUD) && !jumpState){
-                player.startJump();
-            }else if(arrowUp.isTouched(x,y,cameraHUD) && jumpState){
-                player.continueJump();
-            }else{
+            if (arrowUp.isTouched(x,y,cameraHUD)) {
+                switch (player.getJumpState()) {
+                    case GROUND:
+                        player.startJump();
+                        break;
+                    case JUMPING:
+                        player.continueJump();
+                }
+            } else {
                 player.endJump();
             }
         }
     }
     private void realInput(){
+        float delta = Gdx.graphics.getDeltaTime();
         if(gameState == GameState.PLAY){
             if(btnState == StateBtn.PRESSED && moveState == MoveState.LEFT){
-                player.moveLeft(Gdx.graphics.getDeltaTime());
+                player.moveLeft(delta);
             }else if(btnState == StateBtn.PRESSED && moveState == MoveState.RIGHT){
-                player.moveRight(Gdx.graphics.getDeltaTime());
+                player.moveRight(delta);
             }else{
                 moveState = MoveState.NONE;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                if(player.getX() > 0)player.moveLeft(delta);
+            } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                player.moveRight(delta);
+            } else {
+                player.stand();
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+                switch (player.getJumpState()) {
+                    case GROUND:
+                        player.startJump();
+                        break;
+                    case JUMPING:
+                        player.continueJump();
+                }
+            }else {
+                player.endJump();
             }
         }
     }
@@ -242,7 +262,7 @@ public class LivermorioEscape implements Screen {
                            break;
                    }
                     nFondos++;
-                    posFondos += 5120;
+                    posFondos += 3512;
                 }
             }
             renderHUD();
