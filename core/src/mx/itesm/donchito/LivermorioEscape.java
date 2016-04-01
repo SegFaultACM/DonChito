@@ -33,7 +33,10 @@ public class LivermorioEscape implements Screen {
                         botonPausa,
                         botonPlay,
                         botonSalirMenu,
-                        botonConfiguracion;
+                        botonConfiguracion,
+                        arrowLeft,
+                        arrowRight,
+                        arrowUp;
     private SpriteBatch batch;
     private Music musicaFondo;
 
@@ -51,6 +54,12 @@ public class LivermorioEscape implements Screen {
 
     private PlayerState playerState = PlayerState.NOTDEAD;
     private GameState gameState = GameState.PLAY;
+    private MoveState moveState = MoveState.NONE;
+
+    private StateBtn btnState = StateBtn.NOTPRESSED;
+    private boolean jumpState = false;
+
+
     public LivermorioEscape(DonChito game) {
         this.game = game;
     }
@@ -87,6 +96,10 @@ public class LivermorioEscape implements Screen {
         fondo = new SimpleAsset(Constants.LIVERMORIO_FONDO_PNG,0,0);
         fondo2 = new SimpleAsset(Constants.LIVERMORIO_FONDO_PNG,posFondos/2,0);
 
+        arrowUp = new SimpleAsset(Constants.CUEVA_ARROW_UP, 1080,225);
+        arrowRight = new SimpleAsset(Constants.CUEVA_ARROW_RIGHT, 200,30);
+        arrowLeft = new SimpleAsset(Constants.CUEVA_ARROW_LEFT, 0,30);
+
     }
     private void cargarRecursos() {
 
@@ -98,6 +111,11 @@ public class LivermorioEscape implements Screen {
         assetManager.load(Constants.LIVERMORIO_FONDO_PNG, Texture.class);
         assetManager.load(Constants.DEATHBYROBOT,Texture.class);
         assetManager.load(Constants.CTHULHU,Texture.class);
+
+
+        assetManager.load(Constants.CUEVA_ARROW_UP,Texture.class);
+        assetManager.load(Constants.CUEVA_ARROW_LEFT,Texture.class);
+        assetManager.load(Constants.CUEVA_ARROW_RIGHT,Texture.class);
 
         assetManager.load(Constants.GLOBAL_MENU_PAUSA_PNG, Texture.class);
         assetManager.load(Constants.GLOBAL_BOTON_PAUSA_PNG, Texture.class);
@@ -137,11 +155,22 @@ public class LivermorioEscape implements Screen {
                     DonChito.getAssetManager().clear();
                     game.setScreen(new MenuPrincipal(game));
                 }
+                btnState = StateBtn.NOTPRESSED;
+                moveState = MoveState.NONE;
+                jumpState = false;
                 return true;
             }
 
             public boolean touchDown(int x, int y, int pointexr, int button) {
+                btnState = StateBtn.PRESSED;
+                readInputs(x, y);
+                return true;
+            }
 
+            @Override
+            public boolean touchDragged(int screenX, int screenY, int pointer) {
+                btnState = StateBtn.PRESSED;
+                readInputs(screenX, screenY);
                 return true;
             }
         });
@@ -150,6 +179,18 @@ public class LivermorioEscape implements Screen {
 
     }
 
+
+    private void readInputs(float x,float y){
+        if(btnState == StateBtn.PRESSED && arrowLeft.isTouched(x,y,cameraHUD)){
+            moveState = MoveState.LEFT;
+        }else if(btnState == StateBtn.PRESSED && arrowRight.isTouched(x,y,cameraHUD)){
+            moveState = MoveState.RIGHT;
+        }else if (btnState == StateBtn.PRESSED && arrowUp.isTouched(x,y,cameraHUD)){
+            jumpState = true;
+        }else{
+            moveState = MoveState.NONE;
+        }
+    }
 
     @Override
     public void render(float delta) {
@@ -224,12 +265,15 @@ public class LivermorioEscape implements Screen {
             botonSalirMenu.render(batch);
         }else{
             botonPausa.render(batch);
+            arrowRight.render(batch);
+            arrowLeft.render(batch);
+            arrowUp.render(batch);
         }
         batch.end();
     }
 
     public void update(float delta){
-        player.update(delta, platforms,gameState);
+        player.update(delta, platforms,gameState,moveState,jumpState);
         regionDeath = animationDeath.getKeyFrame(MathUtils.nanoToSec * (TimeUtils.nanoTime() - deathStartTime));
         deathVelocity += delta*.01;
         DeathPosition.x += delta * DEATH_MOVE_SPEED * deathVelocity;
@@ -274,5 +318,14 @@ public class LivermorioEscape implements Screen {
     enum GameState{
         PLAY,
         PAUSE
+    }
+    enum MoveState{
+        LEFT,
+        RIGHT,
+        NONE
+    }
+    enum StateBtn{
+        PRESSED,
+        NOTPRESSED
     }
 }

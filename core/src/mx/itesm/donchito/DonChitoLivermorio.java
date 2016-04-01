@@ -35,7 +35,7 @@ public class DonChitoLivermorio {
     public static final float PLAYER_STANCE_WIDTH = 85.0f;
     public static final float PLAYER_MOVE_SPEED = 250;
 
-    public static final float JUMP_SPEED = 1.5f * 300;
+    public static final float JUMP_FORCE = 600f;
     public static final float MAX_JUMP_DURATION = .15f;
 
     private Animation animacion;
@@ -58,7 +58,7 @@ public class DonChitoLivermorio {
         animacion.setPlayMode(Animation.PlayMode.LOOP);
     }
 
-    public void update(float delta, Array<SimpleAsset> platforms,LivermorioEscape.GameState gameState) {
+    public void update(float delta, Array<SimpleAsset> platforms,LivermorioEscape.GameState gameState,LivermorioEscape.MoveState moveState,boolean jump) {
         if(gameState == LivermorioEscape.GameState.PLAY){
             lastFramePosition.set(position);
             velocity.y -= GRAVITY;
@@ -82,14 +82,14 @@ public class DonChitoLivermorio {
                 }
             }
 
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || moveState == LivermorioEscape.MoveState.LEFT) {
                 if(position.x > 0)moveLeft(delta);
-            } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || moveState == LivermorioEscape.MoveState.RIGHT) {
                 moveRight(delta);
             } else {
                 walkState = WalkState.STANDING;
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            if (Gdx.input.isKeyPressed(Input.Keys.SPACE) || jump) {
                 switch (jumpState) {
                     case GROUND:
                         startJump();
@@ -156,7 +156,7 @@ public class DonChitoLivermorio {
         if (jumpState == JumpState.JUMPING) {
             float jumpDuration = MathUtils.nanoToSec * (TimeUtils.nanoTime() - jumpStartTime);
             if (jumpDuration < MAX_JUMP_DURATION) {
-                velocity.y =JUMP_SPEED;
+                velocity.y = JUMP_FORCE;
             } else {
                 endJump();
             }
