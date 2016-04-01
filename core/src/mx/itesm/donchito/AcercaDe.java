@@ -19,7 +19,12 @@ public class AcercaDe implements Screen {
     private Viewport view;
 
     private SpriteBatch batch;
-    private SimpleAsset background;
+    private SimpleAsset background,
+                        imgJoel,
+                        imgSteve,
+                        imgLicho,
+                        imgKarla,
+                        imgSada;
 
     public AcercaDe(DonChito game) {
         this.game = game;
@@ -34,9 +39,18 @@ public class AcercaDe implements Screen {
         batch = new SpriteBatch();
         cargarRecursos();
         // Assets and text declaration
+        crearElementos();
 
-        background = new SimpleAsset(Constants.EXTRAS_FONDO_JPG,0,0);
         leerEntrada();
+    }
+
+    private void crearElementos(){
+        background = new SimpleAsset(Constants.ACERCA_FONDO_JPG,0,0);
+        imgJoel = new SimpleAsset(Constants.ACERCA_JOEL_PNG,805,275);
+        imgKarla = new SimpleAsset(Constants.ACERCA_KARLA_PNG,230,275);
+        imgLicho = new SimpleAsset(Constants.ACERCA_LICHO_PNG,0,275);
+        imgSada = new SimpleAsset(Constants.ACERCA_LICHO_PNG,1035,275);
+        imgSteve = new SimpleAsset(Constants.ACERCA_KARLA_PNG,575,275);
     }
 
     private void cargarAudio() {
@@ -44,8 +58,12 @@ public class AcercaDe implements Screen {
     }
     private void cargarRecursos() {
         AssetManager assetManager = DonChito.getAssetManager();
-        assetManager.load(Constants.EXTRAS_FONDO_JPG,Texture.class);
-
+        assetManager.load(Constants.ACERCA_FONDO_JPG,Texture.class);
+        assetManager.load(Constants.ACERCA_JOEL_PNG,Texture.class);
+        assetManager.load(Constants.ACERCA_KARLA_PNG,Texture.class);
+        assetManager.load(Constants.ACERCA_LICHO_PNG,Texture.class);
+        assetManager.load(Constants.ACERCA_SADA_PNG,Texture.class);
+        assetManager.load(Constants.ACERCA_STEVE_PNG,Texture.class);
         assetManager.finishLoading();
     }
     private void leerEntrada() {
@@ -77,7 +95,11 @@ public class AcercaDe implements Screen {
         batch.begin();
 
         background.render(batch);
-
+        imgJoel.render(batch);
+        imgSteve.render(batch);
+        imgSada.render(batch);
+        imgLicho.render(batch);
+        imgKarla.render(batch);
         batch.end();
 
     }

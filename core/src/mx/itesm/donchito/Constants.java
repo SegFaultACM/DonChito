@@ -48,7 +48,12 @@ public class Constants {
     //Ajustes
     public static final String AJUSTES_BOTON_PNG = "Imagenes/Pausa/pausa_herramientas.png";
     //Extras
-    public static final String EXTRAS_FONDO_JPG = "Imagenes/Extras/plataformaExtras.jpg";
+    public static final String ACERCA_FONDO_JPG = "Imagenes/Extras/plataformaExtras.jpg";
+    public static final String ACERCA_JOEL_PNG = "Imagenes/Extras/small_img_creators/Joel.png";
+    public static final String ACERCA_KARLA_PNG = "Imagenes/Extras/small_img_creators/Karla.png";
+    public static final String ACERCA_LICHO_PNG = "Imagenes/Extras/small_img_creators/Licho.png";
+    public static final String ACERCA_SADA_PNG = "Imagenes/Extras/small_img_creators/Sada.png";
+    public static final String ACERCA_STEVE_PNG = "Imagenes/Extras/small_img_creators/Steve.png";
 
     //Configuracion
     public static final String PANTALLA_CONFIG_PNG = "Imagenes/PantallasConfig/Config.png";
@@ -82,6 +87,7 @@ public class Constants {
                                                 "Imagenes/Livermorio/Entintados/tabla2.png",
                                                 "Imagenes/Livermorio/Entintados/tabla3.png",
                                                 "Imagenes/Livermorio/Entintados/tabla4.png"};
+
     public static final String LIVERMORIO_FONDO_PNG = "Imagenes/Livermorio/Piedrasyfondo/fondo.jpg";
     public static final String PLAYER_TEXTURE = "Imagenes/Livermorio/Sprites/spriteDonChito.png";
     public static final String DEATHBYROBOT = "Imagenes/Livermorio/Sprites/Deslave.png";
