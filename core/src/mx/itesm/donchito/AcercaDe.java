@@ -49,8 +49,8 @@ public class AcercaDe implements Screen {
         imgJoel = new SimpleAsset(Constants.ACERCA_JOEL_PNG,805,275);
         imgKarla = new SimpleAsset(Constants.ACERCA_KARLA_PNG,230,275);
         imgLicho = new SimpleAsset(Constants.ACERCA_LICHO_PNG,0,275);
-        imgSada = new SimpleAsset(Constants.ACERCA_LICHO_PNG,1035,275);
-        imgSteve = new SimpleAsset(Constants.ACERCA_KARLA_PNG,575,275);
+        imgSada = new SimpleAsset(Constants.ACERCA_SADA_PNG,1035,275);
+        imgSteve = new SimpleAsset(Constants.ACERCA_STEVE_PNG,575,275);
     }
 
     private void cargarAudio() {

@@ -33,7 +33,7 @@ public class DonChitoLivermorio {
 
 
     public static final float PLAYER_STANCE_WIDTH = 85.0f;
-    public static final float PLAYER_MOVE_SPEED = 2500;
+    public static final float PLAYER_MOVE_SPEED = 250;
 
     public static final float JUMP_FORCE = 600f;
     public static final float MAX_JUMP_DURATION = .15f;
@@ -212,6 +212,7 @@ public class DonChitoLivermorio {
     public float getHeight(){
         return animacion.getKeyFrame(0).getRegionHeight();
     }
+
     enum JumpState {
         JUMPING,
         FALLING,
