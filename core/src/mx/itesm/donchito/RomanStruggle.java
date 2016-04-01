@@ -37,6 +37,8 @@ public class RomanStruggle implements Screen {
     private SimpleAsset botonConfiguracion;
     private SimpleAsset proyectil;
 
+    private SimpleAsset fondoDeath;
+
     //FALTA HACERLO PERSONAJE
     private SimpleAsset donChito;
 
@@ -89,7 +91,18 @@ public class RomanStruggle implements Screen {
         fondoPantalla = new SimpleAsset(Constants.ROMAN_FONDO,0,0);
         botonIzquierda = new SimpleAsset(Constants.ROMAN_BOTON_IZQUIERDA,20,10);
         botonDerecha = new SimpleAsset(Constants.ROMAN_BOTON_DERECHA,170,10);
-        botonDisparo = new SimpleAsset(Constants.ROMAN_BOTON_DISPARA,320,10);
+        botonDisparo = new SimpleAsset(Constants.ROMAN_BOTON_DISPARA,900,10);
+
+        fondoPausa = new SimpleAsset(Constants.GLOBAL_MENU_PAUSA_PNG,0,0);
+        botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1050,10);
+        botonConfiguracion = new SimpleAsset(Constants.GLOBAL_BOTON_CONFIGURACION_PNG,405,175);
+        botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,405,425);
+        botonPlay.setAlpha(0.5f);
+
+        botonPausa = new SimpleAsset(Constants.GLOBAL_BOTON_PAUSA_PNG,1050,10);
+        botonPausa.setAlpha(0.5f);
+
+        fondoDeath = new SimpleAsset(Constants.CTHULHU,0,0);
 
         //FALTA HACER A DON CHITO COMO UN PERSONAJE
         donChito = new SimpleAsset(Constants.ROMAN_PERSONAJE_DONCHITO,550,10);
@@ -124,6 +137,9 @@ public class RomanStruggle implements Screen {
         assetManager.load(Constants.GLOBAL_BOTON_CONFIGURACION_PNG, Texture.class);
         assetManager.load(Constants.GLOBAL_BOTON_SALIRMENU_PNG, Texture.class);
 
+        assetManager.load(Constants.CTHULHU, Texture.class);
+
+
         /*
         assetManager.load(Constants.FLEVORIO_SONIDOBOTON_WAV, Music.class);
         assetManager.load(Constants.FLEVORIO_SONIDOFAIL_WAV,Music.class);
@@ -147,7 +163,7 @@ public class RomanStruggle implements Screen {
         camera.update();
         batch.begin();
         if(rocas.size == 0){
-            Gdx.app.log("SUBIR LVL","ALGO ASI");
+            //Gdx.app.log("SUBIR LVL","ALGO ASI");
             //HACER UN ESTILO DE SLEEP
             nivel++;
             createFirstRocks(nivel);
@@ -164,21 +180,15 @@ public class RomanStruggle implements Screen {
         view.apply();
 
         if(estado == State.PAUSA){
-            fondoPausa = new SimpleAsset(Constants.GLOBAL_MENU_PAUSA_PNG,0,0);
-            botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1050,10);
-            botonConfiguracion = new SimpleAsset(Constants.GLOBAL_BOTON_CONFIGURACION_PNG,405,175);
-            botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,405,425);
-
-            botonPlay.setAlpha(0.5f);
-
             fondoPausa.render(batch);
             botonPlay.render(batch);
             botonConfiguracion.render(batch);
             botonSalirMenu.render(batch);
         }
+        else if(estado == State.DEATH) {
+            fondoDeath.render(batch);
+        }
         else{
-            botonPausa = new SimpleAsset(Constants.GLOBAL_BOTON_PAUSA_PNG,1050,10);
-            botonPausa.setAlpha(0.5f);
             botonPausa.render(batch);
             for(RomanRock roca: rocas){
                 roca.updateRock();
@@ -207,12 +217,15 @@ public class RomanStruggle implements Screen {
         //revisar con personaje
         if(roca.getSprite().getY() <60){
             if(rocaX>donChito.getSprite().getX()-100 && rocaX<donChito.getSprite().getX()+100){
-                //Gdx.app.log("CHOCO CON PERSONAJE"," LOL TONTO PERDISTEEEE");
+            //if(donChito.isTouched(rocaX,rocaY,camera)){
+                estado = State.DEATH;
+                estadoBoton = State.NOPRESIONADO;
             }
         }
         //revisar con bala
         if(disparado) {
             if (rocaX> proyectil.getSprite().getX() - 40 &&rocaX< proyectil.getSprite().getX() + 40 &&rocaY<proyectil.getSprite().getY()+20) {
+            //if (proyectil.isTouched(rocaX,rocaY,camera)){
                 proyectil.setPosition(1000,1000);
                 disparado = false;
                 if(roca.getEscala()/2 >= 0.25) {
@@ -223,7 +236,7 @@ public class RomanStruggle implements Screen {
                 }
                 rocas.removeIndex(indiceRocas);
                 puntos += roca.getEscala()*10;
-                Gdx.app.log("Puntos", ""+puntos);
+                //Gdx.app.log("Puntos", ""+puntos);
             }
         }
     }
@@ -260,10 +273,8 @@ public class RomanStruggle implements Screen {
             }
             public boolean touchDown(int x, int y, int pointexr, int button) {
                 estadoBoton = State.PRESIONADO;
-                // x  15
-                // x  1250
                 if (estado == State.PAUSA) {
-                    if (x < 828 && x > 414 && y < 284 && y > 213) {
+                    if (botonSalirMenu.isTouched(x,y,camera)) {
                         //init();
                         //musicaFondo.setLooping(false);
                         //if (musicaFondo.isPlaying()) {
@@ -272,7 +283,7 @@ public class RomanStruggle implements Screen {
                         game.setScreen(new MenuPrincipal(game));
                     }
                 }
-                if(x>1050 && y >540){
+                if(botonPlay.isTouched(x,y,camera) || botonPausa.isTouched(x,y,camera)){
                     if(estado == State.PLAY){
                         estado = State.PAUSA;
                     }
@@ -289,20 +300,25 @@ public class RomanStruggle implements Screen {
         PAUSA,
         PLAY,
         PRESIONADO,
-        NOPRESIONADO
+        NOPRESIONADO,
+        DEATH
     }
     private void ejecutarInputs(){
         if(estadoBoton == State.PRESIONADO){
+            if(estado == State.DEATH){
+                game.setScreen(new MenuPrincipal(game));
+                return;
+            }
             int x = Gdx.app.getInput().getX();
             int y = Gdx.app.getInput().getY();
-            if(x>20 && x<125 && y>610 && y<710) {
+            if(botonIzquierda.isTouched(x,y,camera)){
                 botonPresionado = 1;
             }
-            else if(x>170 && x<265 && y>610 && y<710){
+            else if(botonDerecha.isTouched(x,y,camera)){
                 botonPresionado = 2;
 
             }
-            else if(x>325 && x<425 && y>610 && y<710){
+            else if(botonDisparo.isTouched(x,y,camera)){
                 botonPresionado = 3;
             }
             else {

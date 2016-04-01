@@ -86,6 +86,13 @@ public class FlevorioSays implements Screen{
         fondo = new SimpleAsset(Constants.FLEVORIO_FONDO_PNG,0,0);
         fondo.getSprite().scale(1);
         fondo.getSprite().setScale(0.1f);
+
+        fondoPausa = new SimpleAsset(Constants.GLOBAL_MENU_PAUSA_PNG,0,0);
+        botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1050,10);
+        botonConfiguracion = new SimpleAsset(Constants.GLOBAL_BOTON_CONFIGURACION_PNG,405,175);
+        botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,405,425);
+
+        botonPausa = new SimpleAsset(Constants.GLOBAL_BOTON_PAUSA_PNG,1050,10);
     }
     private void init() {
         nivel = 0;
@@ -147,6 +154,23 @@ public class FlevorioSays implements Screen{
         nuevo.getSprite().setScale(0.98f);
         rocas.add(nuevo);
     }
+    public void stopMusic(){
+        if(musicaFondo.isPlaying()){
+            musicaFondo.stop();
+        }
+        if(musicaIntro.isPlaying()){
+            musicaIntro.stop();
+        }
+        if(efectoBoton.isPlaying()){
+            efectoBoton.stop();
+        }
+        if(efectoGanar.isPlaying()){
+            efectoGanar.stop();
+        }
+        if(efectoPerder.isPlaying()){
+            efectoPerder.stop();
+        }
+    }
 
     @Override
     public void render(float delta) {
@@ -157,10 +181,7 @@ public class FlevorioSays implements Screen{
             //correr animacion de SUCCEES!! NEXT LVL...
             nivel++;
             if(nivel == 4){
-                musicaFondo.setLooping(false);
-                if(musicaFondo.isPlaying()) {
-                    musicaFondo.stop();
-                }
+                stopMusic();
                 game.setScreen(new MenuPrincipal(game));
             }
             crearCombinacion(nivel);
@@ -179,7 +200,6 @@ public class FlevorioSays implements Screen{
                 if (!rocasCreadas) {
                     // Sonido que se reproduce al abrir el proyector
                     efectoBoton.play();
-
                     crearRoca();
                 } else {
                     if (!musicaIntro.isPlaying()) {
@@ -220,11 +240,6 @@ public class FlevorioSays implements Screen{
             }
         }
         if(estado == State.PAUSA){
-            fondoPausa = new SimpleAsset(Constants.GLOBAL_MENU_PAUSA_PNG,0,0);
-            botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1050,10);
-            botonConfiguracion = new SimpleAsset(Constants.GLOBAL_BOTON_CONFIGURACION_PNG,405,175);
-            botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,405,425);
-
             fondoPausa.render(batch);
             botonPlay.render(batch);
             botonConfiguracion.render(batch);
@@ -242,11 +257,11 @@ public class FlevorioSays implements Screen{
                     botonSalirMenu.render(batch);
                 }
                 */
+                stopMusic();
                 game.setScreen(new MenuPrincipal(game));
             }
         }
         else{
-            botonPausa = new SimpleAsset(Constants.GLOBAL_BOTON_PAUSA_PNG,1050,10);
             botonPausa.render(batch);
         }
         batch.end();
@@ -338,7 +353,7 @@ public class FlevorioSays implements Screen{
                         }
                     }
                     else{
-                        if(x>1050 && y >540){
+                        if(botonPausa.isTouched(x,y,camera)||botonPlay.isTouched(x,y,camera)){
                             if(estado == State.PLAY){
                                 estado = State.PAUSA;
                             }
@@ -350,7 +365,7 @@ public class FlevorioSays implements Screen{
                 }
                 if(estado == State.PAUSA){
                     //detectar los botones en el menu de pausa.
-                    if(x<828 && x>414 && y<284 && y>213){
+                    if(botonSalirMenu.isTouched(x,y,camera)){
                         init();
                         musicaFondo.setLooping(false);
                         if(musicaFondo.isPlaying()) {
