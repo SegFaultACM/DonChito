@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.sql.Time;
 import java.util.Random;
 
 
@@ -54,10 +55,10 @@ public class LivermorioEscape implements Screen {
 
     private PlayerState playerState = PlayerState.NOTDEAD;
     private GameState gameState = GameState.PLAY;
-    private MoveState moveState = MoveState.NONE;
 
     private StateBtn btnState = StateBtn.NOTPRESSED;
     private boolean jumpState = false;
+    private MoveState moveState = MoveState.NONE;
 
 
     public LivermorioEscape(DonChito game) {
@@ -155,9 +156,12 @@ public class LivermorioEscape implements Screen {
                     DonChito.getAssetManager().clear();
                     game.setScreen(new MenuPrincipal(game));
                 }
-                btnState = StateBtn.NOTPRESSED;
-                moveState = MoveState.NONE;
-                jumpState = false;
+                if(jumpState && arrowUp.isTouched(x,y,cameraHUD)){
+                    jumpState = false;
+                }
+                if(btnState == StateBtn.PRESSED && (arrowLeft.isTouched(x,y,cameraHUD) || arrowRight.isTouched(x,y,cameraHUD))){
+                    btnState = StateBtn.NOTPRESSED;
+                }
                 return true;
             }
 
@@ -169,8 +173,6 @@ public class LivermorioEscape implements Screen {
 
             @Override
             public boolean touchDragged(int screenX, int screenY, int pointer) {
-                btnState = StateBtn.PRESSED;
-                readInputs(screenX, screenY);
                 return true;
             }
         });
@@ -181,20 +183,36 @@ public class LivermorioEscape implements Screen {
 
 
     private void readInputs(float x,float y){
-        if(btnState == StateBtn.PRESSED && arrowLeft.isTouched(x,y,cameraHUD)){
-            moveState = MoveState.LEFT;
-        }else if(btnState == StateBtn.PRESSED && arrowRight.isTouched(x,y,cameraHUD)){
-            moveState = MoveState.RIGHT;
-        }else{
-            moveState = MoveState.NONE;
-        }
-        if (btnState == StateBtn.PRESSED && arrowUp.isTouched(x,y,cameraHUD)){
-            jumpState = true;
-        }else{
-            jumpState = false;
+        if(gameState == GameState.PLAY){
+            if(btnState == StateBtn.PRESSED && arrowLeft.isTouched(x,y,cameraHUD)){
+                player.moveLeft(Gdx.graphics.getDeltaTime());
+                moveState = MoveState.LEFT;
+            }else if(btnState == StateBtn.PRESSED && arrowRight.isTouched(x,y,cameraHUD)){
+                player.moveRight(Gdx.graphics.getDeltaTime());
+                moveState = MoveState.RIGHT;
+            }else{
+                player.stand();
+            }
+            if (arrowUp.isTouched(x,y,cameraHUD) && !jumpState){
+                player.startJump();
+            }else if(arrowUp.isTouched(x,y,cameraHUD) && jumpState){
+                player.continueJump();
+            }else{
+                player.endJump();
+            }
         }
     }
-
+    private void realInput(){
+        if(gameState == GameState.PLAY){
+            if(btnState == StateBtn.PRESSED && moveState == MoveState.LEFT){
+                player.moveLeft(Gdx.graphics.getDeltaTime());
+            }else if(btnState == StateBtn.PRESSED && moveState == MoveState.RIGHT){
+                player.moveRight(Gdx.graphics.getDeltaTime());
+            }else{
+                moveState = MoveState.NONE;
+            }
+        }
+    }
     @Override
     public void render(float delta) {
 
@@ -202,12 +220,14 @@ public class LivermorioEscape implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         view.apply();
+        actualizarCamara();
         renderCamera();
         checkCollisions();
         if(playerState == PlayerState.NOTDEAD){
             if(gameState == GameState.PLAY){
                 actualizarCamara();
                 update(delta);
+                realInput();
                 if(MathUtils.nanoToSec * (TimeUtils.nanoTime() - gameStartTime) >=2){
                     gameStartTime = TimeUtils.nanoTime();
                     platforms.add(new SimpleAsset(Constants.PLATFORMS[(new Random()).nextInt(Constants.PLATFORMS.length)],player.getX()+100,0 + (int)(Math.random() * ((500 - 50) + 1))));
@@ -276,7 +296,7 @@ public class LivermorioEscape implements Screen {
     }
 
     public void update(float delta){
-        player.update(delta, platforms,gameState,moveState,jumpState);
+        player.update(delta, platforms,gameState);
         regionDeath = animationDeath.getKeyFrame(MathUtils.nanoToSec * (TimeUtils.nanoTime() - deathStartTime));
         deathVelocity += delta*.01;
         DeathPosition.x += delta * DEATH_MOVE_SPEED * deathVelocity;

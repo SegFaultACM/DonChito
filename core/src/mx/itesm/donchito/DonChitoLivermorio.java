@@ -58,7 +58,7 @@ public class DonChitoLivermorio {
         animacion.setPlayMode(Animation.PlayMode.LOOP);
     }
 
-    public void update(float delta, Array<SimpleAsset> platforms,LivermorioEscape.GameState gameState,LivermorioEscape.MoveState moveState,boolean jump) {
+    public void update(float delta, Array<SimpleAsset> platforms,LivermorioEscape.GameState gameState) {
         if(gameState == LivermorioEscape.GameState.PLAY){
             lastFramePosition.set(position);
             velocity.y -= GRAVITY;
@@ -82,14 +82,14 @@ public class DonChitoLivermorio {
                 }
             }
 
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || moveState == LivermorioEscape.MoveState.LEFT) {
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
                 if(position.x > 0)moveLeft(delta);
-            } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || moveState == LivermorioEscape.MoveState.RIGHT) {
+            } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 moveRight(delta);
             } else {
                 walkState = WalkState.STANDING;
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.SPACE) || jump) {
+            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
                 switch (jumpState) {
                     case GROUND:
                         startJump();
@@ -104,8 +104,9 @@ public class DonChitoLivermorio {
 
     }
 
-
-
+    public void stand(){
+        walkState = WalkState.STANDING;
+    }
     boolean landedOnPlatform(SimpleAsset platform) {
         boolean leftFootIn = false;
         boolean rightFootIn = false;
@@ -126,7 +127,7 @@ public class DonChitoLivermorio {
     }
 
 
-    private void moveLeft(float delta) {
+    public void moveLeft(float delta) {
         if (jumpState == JumpState.GROUND && walkState != WalkState.WALKING) {
             walkStartTime = TimeUtils.nanoTime();
         }
@@ -136,7 +137,7 @@ public class DonChitoLivermorio {
     }
 
 
-    private void moveRight(float delta) {
+    public void moveRight(float delta) {
         if (jumpState == JumpState.GROUND && walkState != WalkState.WALKING) {
             walkStartTime = TimeUtils.nanoTime();
         }
@@ -146,13 +147,13 @@ public class DonChitoLivermorio {
     }
 
 
-    private void startJump() {
+    public void startJump() {
         jumpState = JumpState.JUMPING;
         jumpStartTime = TimeUtils.nanoTime();
         continueJump();
     }
 
-    private void continueJump() {
+    public void continueJump() {
         if (jumpState == JumpState.JUMPING) {
             float jumpDuration = MathUtils.nanoToSec * (TimeUtils.nanoTime() - jumpStartTime);
             if (jumpDuration < MAX_JUMP_DURATION) {
@@ -163,7 +164,7 @@ public class DonChitoLivermorio {
         }
     }
 
-    private void endJump() {
+    public void endJump() {
         if (jumpState == JumpState.JUMPING) {
             jumpState = JumpState.FALLING;
         }
