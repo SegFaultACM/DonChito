@@ -53,7 +53,7 @@ public class DonChitoLivermorio {
 
         TextureRegion texturaCompleta = new TextureRegion(new Texture(Constants.PLAYER_TEXTURE));
         TextureRegion[][] texturaPersonaje = texturaCompleta.split(85,131);
-        animacion = new Animation(.15f,texturaPersonaje[0][0],
+        animacion = new Animation(.10f,texturaPersonaje[0][0],
                 texturaPersonaje[0][1], texturaPersonaje[0][2]);
         // Animación infinita
         animacion.setPlayMode(Animation.PlayMode.LOOP);

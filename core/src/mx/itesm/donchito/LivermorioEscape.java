@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -18,6 +17,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
+import org.omg.CORBA.TypeCodePackage.BadKind;
 
 import java.util.Random;
 
@@ -46,11 +47,12 @@ public class LivermorioEscape implements Screen {
     DonChitoLivermorio player;
 
     private static final float DEATH_MOVE_SPEED = 200;
+    private static final int BACKGROUND_SIZE = 3512;
     private float deathVelocity = 1;
     private Vector2 DeathPosition;
     private Animation animationDeath;
     private float deathStartTime,gameStartTime;
-    private int nFondos = 2,posFondos = 7024;
+    private int nFondos = 2,posFondos = BACKGROUND_SIZE * 2;
     private TextureRegion regionDeath;
 
     private PlayerState playerState = PlayerState.NOTDEAD;
@@ -87,10 +89,10 @@ public class LivermorioEscape implements Screen {
 }
     private void crearElementos(){
         fondoPausa = new SimpleAsset(Constants.GLOBAL_MENU_PAUSA_PNG,0,0);
-        botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1050,10);
+        botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1110,0);
         botonConfiguracion = new SimpleAsset(Constants.GLOBAL_BOTON_CONFIGURACION_PNG,405,175);
         botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,405,425);
-        botonPausa = new SimpleAsset(Constants.GLOBAL_BOTON_PAUSA_PNG,1050,10);
+        botonPausa = new SimpleAsset(Constants.GLOBAL_BOTON_PAUSA_PNG,1110,0);
         botonPausa.setAlpha(0.5f);
         botonPlay.setAlpha(0.5f);
         fondo = new SimpleAsset(Constants.LIVERMORIO_FONDO_PNG,0,0);
@@ -98,7 +100,7 @@ public class LivermorioEscape implements Screen {
 
         platforms.add(new SimpleAsset(Constants.PLATFORMS[0], 200, 100));
 
-
+        //Change locations,when asset is available
         arrowUp = new SimpleAsset(Constants.CUEVA_ARROW_UP, 1080,225);
         arrowRight = new SimpleAsset(Constants.CUEVA_ARROW_RIGHT, 200,30);
         arrowLeft = new SimpleAsset(Constants.CUEVA_ARROW_LEFT, 0,30);
