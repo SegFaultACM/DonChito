@@ -49,12 +49,15 @@ public class LoadingScreen implements Screen {
     public void loadResources(){
         switch (screenSel){
             case CUEVA:
+
                 assetManager.load(Constants.CUEVA_FONDO_JPG,Texture.class);
                 assetManager.load(Constants.CUEVA_DON_CHITO_PNG,Texture.class);
                 assetManager.load(Constants.CUEVA_ARROW_UP,Texture.class);
                 assetManager.load(Constants.CUEVA_ARROW_DOWN,Texture.class);
                 assetManager.load(Constants.CUEVA_ARROW_LEFT,Texture.class);
                 assetManager.load(Constants.CUEVA_ARROW_RIGHT,Texture.class);
+                //assetManager.load(Constants.CUEVA_TILES, Texture.class);
+
                 break;
             case ACERCA:
                 assetManager.load(Constants.ACERCA_FONDO_JPG,Texture.class);
