@@ -100,7 +100,7 @@ public class FlevorioSays implements Screen{
     }
 
     private void cargarRecursos() {
-        AssetManager assetManager = DonChito.getAssetManager();
+        AssetManager assetManager = DonChito.assetManager;
         efectoBoton = assetManager.get(Constants.FLEVORIO_SONIDOBOTON_WAV);
         efectoGanar = assetManager.get(Constants.FLEVORIO_SONIDOVICTORY_WAV);
         efectoPerder = assetManager.get(Constants.FLEVORIO_SONIDOFAIL_WAV);
@@ -288,7 +288,7 @@ public class FlevorioSays implements Screen{
 
     @Override
     public void dispose() {
-        DonChito.getAssetManager().clear();
+        DonChito.assetManager.clear();
     }
     private void leerEntrada() {
         Gdx.input.setInputProcessor(new InputAdapter() {

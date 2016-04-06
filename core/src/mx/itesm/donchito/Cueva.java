@@ -137,7 +137,7 @@ public class Cueva implements Screen{
 
     @Override
     public void dispose() {
-        DonChito.getAssetManager().clear();
+        DonChito.assetManager.clear();
     }
     private void leerEntrada() {
         Gdx.input.setInputProcessor(new InputAdapter() {

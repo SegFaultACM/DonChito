@@ -137,7 +137,7 @@ public class LivermorioEscape implements Screen {
                             }
                         }
                     } else {
-                        DonChito.getAssetManager().clear();
+                        DonChito.assetManager.clear();
                         game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
                     }
                     if(btnState == StateBtn.PRESSED && (arrowLeft.isTouched(x,y,cameraHUD) || arrowRight.isTouched(x,y,cameraHUD)) ){

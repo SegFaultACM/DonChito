@@ -115,6 +115,6 @@ public class AcercaDe implements Screen {
 
     @Override
     public void dispose() {
-        DonChito.getAssetManager().clear();
+        DonChito.assetManager.clear();
     }
 }

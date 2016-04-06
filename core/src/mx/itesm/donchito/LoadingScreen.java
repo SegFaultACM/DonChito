@@ -32,7 +32,7 @@ public class LoadingScreen implements Screen {
     public LoadingScreen(ScreenSel screenSel,DonChito game) {
         this.game = game;
         this.screenSel = screenSel;
-        this.assetManager = DonChito.getAssetManager();
+        this.assetManager = DonChito.assetManager;
 
     }
     @Override

@@ -15,7 +15,7 @@ public class SimpleAsset {
     private AssetManager assetManager;
 
     public SimpleAsset(String strtexture,float x, float y){
-        assetManager = DonChito.getAssetManager();
+        this.assetManager = DonChito.assetManager;
         this.texture = assetManager.get(strtexture);
         this.sprite = new Sprite(texture);
         this.setPosition(x,y);

@@ -121,7 +121,7 @@ public class MenuPrincipal implements Screen {
     }
 
     private void cargarAudio() {
-        musicaFondo = DonChito.getAssetManager().get(Constants.MENU_PRINCIPAL_MP3);
+        musicaFondo = DonChito.assetManager.get(Constants.MENU_PRINCIPAL_MP3);
         musicaFondo.setLooping(true);
         musicaFondo.play();
     }
@@ -231,7 +231,7 @@ public class MenuPrincipal implements Screen {
 
     @Override
     public void dispose() {
-        DonChito.getAssetManager().clear();
+        DonChito.assetManager.clear();
     }
 
     enum State

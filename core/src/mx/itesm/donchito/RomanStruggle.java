@@ -3,11 +3,9 @@ package mx.itesm.donchito;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -226,7 +224,7 @@ public class RomanStruggle implements Screen {
 
     @Override
     public void dispose() {
-        DonChito.getAssetManager().clear();
+        DonChito.assetManager.clear();
     }
     private void leerEntrada() {
         Gdx.input.setInputProcessor(new InputAdapter() {
