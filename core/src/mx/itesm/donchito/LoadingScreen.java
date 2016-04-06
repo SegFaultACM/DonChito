@@ -65,7 +65,6 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.ACERCA_STEVE_PNG,Texture.class);
                 break;
             case FLEVORIO:
-
                 assetManager.load(Constants.FLEVORIO_FONDOPANTALLA_PNG,Texture.class);
                 assetManager.load(Constants.FLEVORIO_FONDO_PNG,Texture.class);
                 assetManager.load(Constants.FLEVORIO_BOTONCENTRAL_PNG, Texture.class);
@@ -162,6 +161,9 @@ public class LoadingScreen implements Screen {
                     break;
                 case CUEVA:
                     game.setScreen(new Cueva(game));
+                    break;
+                case FLEVORIO:
+                    game.setScreen(new FlevorioSays(game));
                     break;
                 default:
                     game.setScreen(new MenuPrincipal(game));
