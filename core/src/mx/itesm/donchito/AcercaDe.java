@@ -37,7 +37,6 @@ public class AcercaDe implements Screen {
         camera.update();
         view = new FitViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,camera);
         batch = new SpriteBatch();
-        cargarRecursos();
         // Assets and text declaration
         crearElementos();
 
@@ -56,16 +55,6 @@ public class AcercaDe implements Screen {
     private void cargarAudio() {
 
     }
-    private void cargarRecursos() {
-        AssetManager assetManager = DonChito.getAssetManager();
-        assetManager.load(Constants.ACERCA_FONDO_JPG,Texture.class);
-        assetManager.load(Constants.ACERCA_JOEL_PNG,Texture.class);
-        assetManager.load(Constants.ACERCA_KARLA_PNG,Texture.class);
-        assetManager.load(Constants.ACERCA_LICHO_PNG,Texture.class);
-        assetManager.load(Constants.ACERCA_SADA_PNG,Texture.class);
-        assetManager.load(Constants.ACERCA_STEVE_PNG,Texture.class);
-        assetManager.finishLoading();
-    }
     private void leerEntrada() {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
@@ -77,7 +66,7 @@ public class AcercaDe implements Screen {
             public boolean touchUp (int x, int y, int pointer, int button) {
                 // your touch up code here
                 if(background.isTouched(x,y,camera)){
-                    game.setScreen(new MenuPrincipal(game));
+                    game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
                     return true;
                 }
                 return false;

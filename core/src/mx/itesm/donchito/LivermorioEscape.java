@@ -19,7 +19,6 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import java.sql.Time;
 import java.util.Random;
 
 
@@ -97,6 +96,9 @@ public class LivermorioEscape implements Screen {
         fondo = new SimpleAsset(Constants.LIVERMORIO_FONDO_PNG,0,0);
         fondo2 = new SimpleAsset(Constants.LIVERMORIO_FONDO_PNG,posFondos/2,0);
 
+        platforms.add(new SimpleAsset(Constants.PLATFORMS[0], 200, 100));
+
+
         arrowUp = new SimpleAsset(Constants.CUEVA_ARROW_UP, 1080,225);
         arrowRight = new SimpleAsset(Constants.CUEVA_ARROW_RIGHT, 200,30);
         arrowLeft = new SimpleAsset(Constants.CUEVA_ARROW_LEFT, 0,30);
@@ -104,26 +106,6 @@ public class LivermorioEscape implements Screen {
     }
     private void cargarRecursos() {
 
-        AssetManager assetManager = DonChito.getAssetManager();
-        for (String platform:Constants.PLATFORMS
-             ) {
-            assetManager.load(platform,Texture.class);
-        }
-        assetManager.load(Constants.LIVERMORIO_FONDO_PNG, Texture.class);
-        assetManager.load(Constants.DEATHBYROBOT,Texture.class);
-        assetManager.load(Constants.CTHULHU,Texture.class);
-
-
-        assetManager.load(Constants.CUEVA_ARROW_UP,Texture.class);
-        assetManager.load(Constants.CUEVA_ARROW_LEFT,Texture.class);
-        assetManager.load(Constants.CUEVA_ARROW_RIGHT,Texture.class);
-
-        assetManager.load(Constants.GLOBAL_MENU_PAUSA_PNG, Texture.class);
-        assetManager.load(Constants.GLOBAL_BOTON_PAUSA_PNG, Texture.class);
-        assetManager.load(Constants.GLOBAL_BOTON_PLAY_PNG, Texture.class);
-        assetManager.load(Constants.GLOBAL_BOTON_CONFIGURACION_PNG, Texture.class);
-        assetManager.load(Constants.GLOBAL_BOTON_SALIRMENU_PNG, Texture.class);
-        assetManager.finishLoading();
         //Death by Sandd
         TextureRegion texturaCompleta = new TextureRegion(new Texture(Constants.DEATHBYROBOT));
         TextureRegion[][] texturaDeath = texturaCompleta.split(1280,720);
@@ -138,38 +120,92 @@ public class LivermorioEscape implements Screen {
     private void leerEntrada() {
         Gdx.input.setInputProcessor(new InputAdapter() {
             public boolean touchUp(int x, int y, int pointer, int button) {
-                if(playerState == PlayerState.NOTDEAD){
-                    if (gameState == GameState.PAUSE) {
-                        if (botonSalirMenu.isTouched(x, y, cameraHUD)) {
-                            game.setScreen(new MenuPrincipal(game));
-                        }
-                        if (botonPlay.isTouched(x, y, cameraHUD)) {
-                            gameStartTime = TimeUtils.nanoTime();
-                            gameState = GameState.PLAY;
+                    if (playerState == PlayerState.NOTDEAD) {
+                        if (gameState == GameState.PAUSE) {
+                            if (botonSalirMenu.isTouched(x, y, cameraHUD)) {
+                                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
+                            }
+                            if (botonPlay.isTouched(x, y, cameraHUD)) {
+                                gameStartTime = TimeUtils.nanoTime();
+                                gameState = GameState.PLAY;
+                            }
+                        } else {
+                            if (botonPausa.isTouched(x, y, cameraHUD)) {
+                                gameState = GameState.PAUSE;
+                            }
                         }
                     } else {
-                        if (botonPausa.isTouched(x, y, cameraHUD)) {
-                            gameState = GameState.PAUSE;
-                        }
+                        DonChito.getAssetManager().clear();
+                        game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
                     }
-                }else{
-                    DonChito.getAssetManager().clear();
-                    game.setScreen(new MenuPrincipal(game));
-                }
-                if(btnState == StateBtn.PRESSED && (arrowLeft.isTouched(x,y,cameraHUD) || arrowRight.isTouched(x,y,cameraHUD))){
-                    btnState = StateBtn.NOTPRESSED;
-                }
+                    if(btnState == StateBtn.PRESSED && (arrowLeft.isTouched(x,y,cameraHUD) || arrowRight.isTouched(x,y,cameraHUD)) ){
+                        btnState = StateBtn.NOTPRESSED;
+                    }
+                    if (arrowUp.isTouched(x,y,cameraHUD)) {
+                        switch (player.getJumpState()) {
+                            case GROUND:
+                                player.startJump();
+                                break;
+                            case JUMPING:
+                                player.continueJump();
+                        }
+                    }else {
+                        player.endJump();
+                    }
                 return true;
             }
 
             public boolean touchDown(int x, int y, int pointexr, int button) {
-                btnState = StateBtn.PRESSED;
-                readInputs(x, y);
+                if(gameState == GameState.PLAY){
+                    if(arrowLeft.isTouched(x,y,cameraHUD)){
+                        moveState = MoveState.LEFT;
+                        btnState = StateBtn.PRESSED;
+                    }else if(arrowRight.isTouched(x,y,cameraHUD)){
+                        moveState = MoveState.RIGHT;
+                        btnState = StateBtn.PRESSED;
+                    }else{
+                        moveState = MoveState.NONE;
+                        btnState = StateBtn.NOTPRESSED;
+                    }
+                    if (arrowUp.isTouched(x,y,cameraHUD)) {
+                        switch (player.getJumpState()) {
+                            case GROUND:
+                                player.startJump();
+                                break;
+                            case JUMPING:
+                                player.continueJump();
+                        }
+                    }else {
+                        player.endJump();
+                    }
+                }
                 return true;
             }
 
             @Override
-            public boolean touchDragged(int screenX, int screenY, int pointer) {
+            public boolean touchDragged(int x, int y, int pointer) {
+                if(btnState == StateBtn.PRESSED && !(arrowLeft.isTouched(x,y,cameraHUD) || arrowRight.isTouched(x,y,cameraHUD)) ){
+                    btnState = StateBtn.NOTPRESSED;
+                }
+                if(arrowLeft.isTouched(x,y,cameraHUD)){
+                    btnState = StateBtn.PRESSED;
+                    moveState = MoveState.LEFT;
+                }
+                if(arrowRight.isTouched(x,y,cameraHUD)){
+                    btnState = StateBtn.PRESSED;
+                    moveState = MoveState.RIGHT;
+                }
+                if (arrowUp.isTouched(x,y,cameraHUD)) {
+                    switch (player.getJumpState()) {
+                        case GROUND:
+                            player.startJump();
+                            break;
+                        case JUMPING:
+                            player.continueJump();
+                    }
+                }else {
+                    player.endJump();
+                }
                 return true;
             }
         });
@@ -179,59 +215,39 @@ public class LivermorioEscape implements Screen {
     }
 
 
-    private void readInputs(float x,float y){
-        if(gameState == GameState.PLAY){
-            if(btnState == StateBtn.PRESSED && arrowLeft.isTouched(x,y,cameraHUD)){
-                player.moveLeft(Gdx.graphics.getDeltaTime());
-                moveState = MoveState.LEFT;
-            }else if(btnState == StateBtn.PRESSED && arrowRight.isTouched(x,y,cameraHUD)){
-                player.moveRight(Gdx.graphics.getDeltaTime());
-                moveState = MoveState.RIGHT;
-            }else{
-                player.stand();
-            }
-            if (arrowUp.isTouched(x,y,cameraHUD)) {
-                switch (player.getJumpState()) {
-                    case GROUND:
-                        player.startJump();
-                        break;
-                    case JUMPING:
-                        player.continueJump();
-                }
-            } else {
-                player.endJump();
-            }
-        }
-    }
     private void realInput(){
         float delta = Gdx.graphics.getDeltaTime();
+
         if(gameState == GameState.PLAY){
             if(btnState == StateBtn.PRESSED && moveState == MoveState.LEFT){
                 player.moveLeft(delta);
             }else if(btnState == StateBtn.PRESSED && moveState == MoveState.RIGHT){
                 player.moveRight(delta);
             }else{
-                moveState = MoveState.NONE;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                if(player.getX() > 0)player.moveLeft(delta);
-            } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                player.moveRight(delta);
-            } else {
                 player.stand();
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-                switch (player.getJumpState()) {
-                    case GROUND:
-                        player.startJump();
-                        break;
-                    case JUMPING:
-                        player.continueJump();
-                }
-            }else {
-                player.endJump();
-            }
         }
+        /*
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            player.moveLeft(delta);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            player.moveRight(delta);
+        } else {
+            player.stand();
+        }
+        */
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            switch (player.getJumpState()) {
+                case GROUND:
+                    player.startJump();
+                    break;
+                case JUMPING:
+                    player.continueJump();
+            }
+        } else {
+            player.endJump();
+        }
+
     }
     @Override
     public void render(float delta) {

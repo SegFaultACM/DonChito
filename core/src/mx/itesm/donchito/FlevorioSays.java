@@ -101,26 +101,6 @@ public class FlevorioSays implements Screen{
 
     private void cargarRecursos() {
         AssetManager assetManager = DonChito.getAssetManager();
-
-        assetManager.load(Constants.FLEVORIO_FONDOPANTALLA_PNG,Texture.class);
-        assetManager.load(Constants.FLEVORIO_FONDO_PNG,Texture.class);
-        assetManager.load(Constants.FLEVORIO_BOTONCENTRAL_PNG, Texture.class);
-        assetManager.load(Constants.FLEVORIO_BOTON2_PNG, Texture.class);
-        assetManager.load(Constants.FLEVORIO_BOTON3_PNG, Texture.class);
-
-        assetManager.load(Constants.GLOBAL_MENU_PAUSA_PNG, Texture.class);
-        assetManager.load(Constants.GLOBAL_BOTON_PAUSA_PNG, Texture.class);
-        assetManager.load(Constants.GLOBAL_BOTON_PLAY_PNG, Texture.class);
-        assetManager.load(Constants.GLOBAL_BOTON_CONFIGURACION_PNG, Texture.class);
-        assetManager.load(Constants.GLOBAL_BOTON_SALIRMENU_PNG, Texture.class);
-
-        assetManager.load(Constants.FLEVORIO_SONIDOBOTON_WAV, Music.class);
-        assetManager.load(Constants.FLEVORIO_SONIDOFAIL_WAV,Music.class);
-        assetManager.load(Constants.FLEVORIO_SONIDOVICTORY_WAV, Music.class);
-        assetManager.load(Constants.FLEVORIO_MUSICAINTRO_WAV, Music.class);
-        assetManager.load(Constants.FLEVORIO_MUSICAFONDO_WAV,Music.class);
-        assetManager.finishLoading();
-
         efectoBoton = assetManager.get(Constants.FLEVORIO_SONIDOBOTON_WAV);
         efectoGanar = assetManager.get(Constants.FLEVORIO_SONIDOVICTORY_WAV);
         efectoPerder = assetManager.get(Constants.FLEVORIO_SONIDOFAIL_WAV);
@@ -182,7 +162,7 @@ public class FlevorioSays implements Screen{
             nivel++;
             if(nivel == 4){
                 stopMusic();
-                game.setScreen(new MenuPrincipal(game));
+                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
             }
             crearCombinacion(nivel);
             indiceSecuencia = 0;
@@ -258,7 +238,7 @@ public class FlevorioSays implements Screen{
                 }
                 */
                 stopMusic();
-                game.setScreen(new MenuPrincipal(game));
+                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
             }
         }
         else{

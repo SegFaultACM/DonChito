@@ -17,7 +17,6 @@ import com.badlogic.gdx.utils.TimeUtils;
  */
 public class DonChitoLivermorio {
 
-    public static final double GRAVITY = 10.8;
     Vector2 position;
 
     Vector2 lastFramePosition;
@@ -34,18 +33,20 @@ public class DonChitoLivermorio {
 
     public static final float PLAYER_STANCE_WIDTH = 85.0f;
     public static final float PLAYER_MOVE_SPEED = 250;
+    public static final double GRAVITY = 9.8;
 
-    public static final float JUMP_FORCE = 600f;
-    public static final float MAX_JUMP_DURATION = .15f;
+    public static final float JUMP_FORCE = 250;
+    public static final float MAX_JUMP_DURATION = .1f;
 
     private Animation animacion;
 
     public DonChitoLivermorio() {
-        position = new Vector2(0, 0);
+        position = new Vector2(100, 100);
 
         lastFramePosition = new Vector2(position);
 
         velocity = new Vector2();
+
         jumpState = JumpState.FALLING;
         facing = Facing.RIGHT;
         walkState = WalkState.STANDING;
@@ -63,11 +64,10 @@ public class DonChitoLivermorio {
             lastFramePosition.set(position);
             velocity.y -= GRAVITY;
             position.mulAdd(velocity, delta);
-
             if (jumpState != JumpState.JUMPING) {
                 jumpState = JumpState.FALLING;
 
-                if (position.y <= 0) {
+                if (position.y < 0) {
                     jumpState = JumpState.GROUND;
                     position.y = 0;
                     velocity.y = 0;
@@ -81,9 +81,7 @@ public class DonChitoLivermorio {
                     }
                 }
             }
-
         }
-
     }
 
     public JumpState getJumpState(){
@@ -99,10 +97,8 @@ public class DonChitoLivermorio {
         boolean rightFootIn = false;
         boolean inBetween = false;
 
-
         if (lastFramePosition.y >= platform.getSprite().getY() + platform.getSprite().getHeight()  &&
                 position.y < platform.getSprite().getY() + platform.getSprite().getHeight()) {
-
             float leftFoot = position.x;
             float rightFoot = position.x +  PLAYER_STANCE_WIDTH;
             leftFootIn = (platform.getSprite().getX() < leftFoot && platform.getSprite().getX() + platform.getSprite().getWidth() > leftFoot);

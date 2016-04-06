@@ -11,7 +11,7 @@ public class DonChito extends Game {
 	private static final AssetManager assetManager = new AssetManager();
 	@Override
 	public void create() {
-		this.setScreen(new MenuPrincipal(this));
+		this.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,this));
 	}
 
 	@Override

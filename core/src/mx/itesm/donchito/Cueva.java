@@ -66,7 +66,6 @@ public class Cueva implements Screen{
         cameraHUD.update();
 
         view = new FitViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,camera);
-        cargarRecursos();
         cargarElementos();
         leerEntrada();
         cargarAudio();
@@ -82,16 +81,6 @@ public class Cueva implements Screen{
         //musicaFondo.play();
     }
 
-    private void cargarRecursos(){
-        AssetManager assetManager = DonChito.getAssetManager();
-        assetManager.load(Constants.CUEVA_FONDO_JPG,Texture.class);
-        assetManager.load(Constants.CUEVA_DON_CHITO_PNG,Texture.class);
-        assetManager.load(Constants.CUEVA_ARROW_UP,Texture.class);
-        assetManager.load(Constants.CUEVA_ARROW_DOWN,Texture.class);
-        assetManager.load(Constants.CUEVA_ARROW_LEFT,Texture.class);
-        assetManager.load(Constants.CUEVA_ARROW_RIGHT,Texture.class);
-        assetManager.finishLoading();
-    }
 
     private void cargarElementos(){
         fondoPantalla = new SimpleAsset(Constants.CUEVA_FONDO_JPG,0,0);
@@ -191,11 +180,11 @@ public class Cueva implements Screen{
             }
             //Gdx.app.log(Float.toString(donchito.getSprite().getX()),Float.toString(donchito.getSprite().getY()));
             if(donchito.getSprite().getY() > 1050)
-                game.setScreen(new FlevorioSays(game));
+                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.FLEVORIO,game));
             if(donchito.getSprite().getX() < 50)
-                game.setScreen(new LivermorioEscape(game));
+                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.LIVERMORIO,game));
             if(donchito.getSprite().getX() > 1850)
-                game.setScreen(new RomanStruggle(game));
+                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.ROMANSTRUGGLE,game));
             switch(botonPresionado){
                 case 1:
                     donchito.setPosition(donchito.getSprite().getX() - velocidad,donchito.getSprite().getY());

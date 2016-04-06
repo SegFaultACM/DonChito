@@ -79,7 +79,6 @@ public class RomanStruggle implements Screen {
         view = new FitViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,camera);
 
         leerEntrada();
-        cargarRecursos();
 
         //musicaFondo.setLooping(true);
         //musicaIntro.play();
@@ -121,42 +120,6 @@ public class RomanStruggle implements Screen {
         indiceSecuencia = 0;
     }
     */
-
-    private void cargarRecursos() {
-        AssetManager assetManager = DonChito.getAssetManager();
-
-        assetManager.load(Constants.ROMAN_BOTON_IZQUIERDA,Texture.class);
-        assetManager.load(Constants.ROMAN_BOTON_DERECHA, Texture.class);
-        assetManager.load(Constants.ROMAN_BOTON_DISPARA, Texture.class);
-        assetManager.load(Constants.ROMAN_PERSONAJE_DONCHITO, Texture.class);
-        assetManager.load(Constants.ROMAN_FONDO, Texture.class);
-
-        assetManager.load(Constants.GLOBAL_MENU_PAUSA_PNG, Texture.class);
-        assetManager.load(Constants.GLOBAL_BOTON_PAUSA_PNG, Texture.class);
-        assetManager.load(Constants.GLOBAL_BOTON_PLAY_PNG, Texture.class);
-        assetManager.load(Constants.GLOBAL_BOTON_CONFIGURACION_PNG, Texture.class);
-        assetManager.load(Constants.GLOBAL_BOTON_SALIRMENU_PNG, Texture.class);
-
-        assetManager.load(Constants.CTHULHU, Texture.class);
-
-
-        /*
-        assetManager.load(Constants.FLEVORIO_SONIDOBOTON_WAV, Music.class);
-        assetManager.load(Constants.FLEVORIO_SONIDOFAIL_WAV,Music.class);
-        assetManager.load(Constants.FLEVORIO_SONIDOVICTORY_WAV, Music.class);
-        assetManager.load(Constants.FLEVORIO_MUSICAINTRO_WAV, Music.class);
-        assetManager.load(Constants.FLEVORIO_MUSICAFONDO_WAV,Music.class);
-        */
-        assetManager.finishLoading();
-        /*
-        efectoBoton = assetManager.get(Constants.FLEVORIO_SONIDOBOTON_WAV);
-        efectoGanar = assetManager.get(Constants.FLEVORIO_SONIDOVICTORY_WAV);
-        efectoPerder = assetManager.get(Constants.FLEVORIO_SONIDOFAIL_WAV);
-
-        musicaFondo = assetManager.get(Constants.FLEVORIO_MUSICAFONDO_WAV);
-        musicaIntro = assetManager.get(Constants.FLEVORIO_MUSICAINTRO_WAV);
-        */
-    }
 
     @Override
     public void render(float delta) {
@@ -280,7 +243,7 @@ public class RomanStruggle implements Screen {
                         //if (musicaFondo.isPlaying()) {
                         //    musicaFondo.stop();
                         //}
-                        game.setScreen(new MenuPrincipal(game));
+                        game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
                     }
                 }
                 if(botonPlay.isTouched(x,y,camera) || botonPausa.isTouched(x,y,camera)){
@@ -306,7 +269,7 @@ public class RomanStruggle implements Screen {
     private void ejecutarInputs(){
         if(estadoBoton == State.PRESIONADO){
             if(estado == State.DEATH){
-                game.setScreen(new MenuPrincipal(game));
+                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
                 return;
             }
             int x = Gdx.app.getInput().getX();
