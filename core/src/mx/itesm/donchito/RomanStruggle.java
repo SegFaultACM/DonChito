@@ -40,7 +40,8 @@ public class RomanStruggle implements Screen {
     //FALTA HACERLO PERSONAJE
     private SimpleAsset donChito;
 
-
+    private gameText levelTxt;
+    private gameText pointsTxt;
 
 
     private SimpleAsset fondoPantalla;
@@ -99,6 +100,9 @@ public class RomanStruggle implements Screen {
         botonPausa = new SimpleAsset(Constants.GLOBAL_BOTON_PAUSA_PNG,1050,10);
         botonPausa.setAlpha(0.5f);
 
+        levelTxt = new gameText(150,700);
+        pointsTxt = new gameText(1000,700);
+
         fondoDeath = new SimpleAsset(Constants.CTHULHU,0,0);
 
         //FALTA HACER A DON CHITO COMO UN PERSONAJE
@@ -107,7 +111,7 @@ public class RomanStruggle implements Screen {
 
     private void createFirstRocks(int nivel) {
         for(int i=0;i<nivel;i++) {
-            rocaP = new RomanRock(Constants.ROMAN_PERSONAJE_DONCHITO, (float)(Math.random()*700), 700, (int)(Math.random()*2), 1, 1, 0);
+            rocaP = new RomanRock(Constants.ROMAN_PIEDRA, (float)(Math.random()*700), 700, (int)(Math.random()*2), 1, 1, 0);
             rocas.add(rocaP);
         }
     }
@@ -127,11 +131,15 @@ public class RomanStruggle implements Screen {
             //Gdx.app.log("SUBIR LVL","ALGO ASI");
             //HACER UN ESTILO DE SLEEP
             nivel++;
+            if(nivel == 4){
+                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game));
+            }
             createFirstRocks(nivel);
         }
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         fondoPantalla.render(batch);
-
+        levelTxt.showMessage(batch, "Level: " + nivel);
+        pointsTxt.showMessage(batch,"Points: "+puntos);
         ejecutarInputs();
 
         donChito.render(batch);
@@ -190,9 +198,9 @@ public class RomanStruggle implements Screen {
                 proyectil.setPosition(1000,1000);
                 disparado = false;
                 if(roca.getEscala()/2 >= 0.25) {
-                    RomanRock nuevo = new RomanRock(Constants.ROMAN_PERSONAJE_DONCHITO,roca.getSprite().getX(), roca.getSprite().getY(), 1, roca.getDireccionV(), roca.getEscala()/2,roca.getVelocidad());
+                    RomanRock nuevo = new RomanRock(Constants.ROMAN_PIEDRA,roca.getSprite().getX(), roca.getSprite().getY(), 1, roca.getDireccionV(), roca.getEscala()/2,roca.getVelocidad());
                     rocas.add(nuevo);
-                    nuevo = new RomanRock(Constants.ROMAN_PERSONAJE_DONCHITO, roca.getSprite().getX(), roca.getSprite().getY(), 0, roca.getDireccionV(), roca.getEscala()/2,roca.getVelocidad());
+                    nuevo = new RomanRock(Constants.ROMAN_PIEDRA, roca.getSprite().getX(), roca.getSprite().getY(), 0, roca.getDireccionV(), roca.getEscala()/2,roca.getVelocidad());
                     rocas.add(nuevo);
                 }
                 rocas.removeIndex(indiceRocas);
@@ -226,6 +234,7 @@ public class RomanStruggle implements Screen {
     public void dispose() {
         DonChito.assetManager.clear();
     }
+
     private void leerEntrada() {
         Gdx.input.setInputProcessor(new InputAdapter() {
             public boolean touchUp(int x, int y, int pointer, int button) {

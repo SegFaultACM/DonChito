@@ -41,11 +41,12 @@ public class Constants {
     public static final String FLEVORIO_MUSICAFONDO_WAV = "Musica/flevorioFondo.mp3";
 
     //RomanStruggle
+    public static final String ROMAN_PIEDRA = "Imagenes/Romans_Struggle/piedra_grande.png";
     public static final String ROMAN_BOTON_IZQUIERDA = "Imagenes/Cueva/ArrowLeft.png";
     public static final String ROMAN_BOTON_DERECHA= "Imagenes/Cueva/ArrowRight.png";
     public static final String ROMAN_BOTON_DISPARA = "Imagenes/Cueva/ArrowUp.png";
     public static final String ROMAN_PERSONAJE_DONCHITO = "Imagenes/Cueva/DonChito.png";
-    public static final String ROMAN_FONDO = "Imagenes/Cueva/fondoCueva.jpg";
+    public static final String ROMAN_FONDO = "Imagenes/Romans_Struggle/Roman_escenario.jpg";
 
     //Ajustes
     public static final String AJUSTES_BOTON_PNG = "Imagenes/Pausa/pausa_herramientas.png";

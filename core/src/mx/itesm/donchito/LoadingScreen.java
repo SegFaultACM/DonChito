@@ -33,7 +33,6 @@ public class LoadingScreen implements Screen {
         this.game = game;
         this.screenSel = screenSel;
         this.assetManager = DonChito.assetManager;
-
     }
     @Override
     public void show() {
@@ -113,6 +112,7 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.ROMAN_BOTON_DISPARA, Texture.class);
                 assetManager.load(Constants.ROMAN_PERSONAJE_DONCHITO, Texture.class);
                 assetManager.load(Constants.ROMAN_FONDO, Texture.class);
+                assetManager.load(Constants.ROMAN_PIEDRA, Texture.class);
 
                 assetManager.load(Constants.GLOBAL_MENU_PAUSA_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_PAUSA_PNG, Texture.class);
