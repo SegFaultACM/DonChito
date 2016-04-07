@@ -28,6 +28,9 @@ public class FlevorioSays implements Screen{
     private boolean perdio = false;
     private boolean salirMenu = false;
 
+    private gameText instructionsTxt;
+    private gameText levelTxt;
+
     private SimpleAsset botonPausa;
     private SimpleAsset botonPlay;
     private SimpleAsset botonSalirMenu;
@@ -40,7 +43,10 @@ public class FlevorioSays implements Screen{
     private State estado = State.PLAY;
 
     private float tiempoEsperar = 1f;
+    private boolean reseted = false;
+    private int shadowedAndUp = 0;
 
+    private int lastRockPressed = 0;
     private int nivel = 0;
     private int indiceSecuencia = 0;
 
@@ -91,6 +97,9 @@ public class FlevorioSays implements Screen{
         botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1050,10);
         botonConfiguracion = new SimpleAsset(Constants.GLOBAL_BOTON_CONFIGURACION_PNG,405,175);
         botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,405,425);
+
+        instructionsTxt = new gameText(150,700);
+        levelTxt = new gameText(1000,700);
 
         botonPausa = new SimpleAsset(Constants.GLOBAL_BOTON_PAUSA_PNG,1050,10);
     }
@@ -159,6 +168,8 @@ public class FlevorioSays implements Screen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if(indiceSecuencia == nivel*2){
             //correr animacion de SUCCEES!! NEXT LVL...
+            lastRockPressed = 0;
+            reseted = false;
             nivel++;
             if(nivel == 4){
                 stopMusic();
@@ -183,6 +194,7 @@ public class FlevorioSays implements Screen{
                     crearRoca();
                 } else {
                     if (!musicaIntro.isPlaying()) {
+                        levelTxt.showMessage(batch,"Nivel : "+nivel);
                         if (!musicaFondo.isPlaying()) {
                             musicaFondo.play();
                         }
@@ -190,7 +202,15 @@ public class FlevorioSays implements Screen{
                             roca.render(batch);
                         }
                         if (!efectoGanar.isPlaying() && !efectoPerder.isPlaying()) {
+                            if(!reseted) {
+                                for (SimpleAsset roca : rocas) {
+                                    roca.getSprite().setColor(Color.WHITE);
+                                    roca.render(batch);
+                                }
+                                reseted = true;
+                            }
                             for (int i = 0; i < nivel * 2; i++) {
+                                if(brillando){instructionsTxt.showMessage(batch,"PENSANDO");}
                                 if (!combinacionesPR[i]) {
                                     if (!efectoBoton.isPlaying()) {
                                         efectoBoton.play();
@@ -204,6 +224,9 @@ public class FlevorioSays implements Screen{
                                     break;
                                 }
                             }
+                            if(!brillando){
+                                instructionsTxt.showMessage(batch,"JUEGA");
+                            }
                             brillando = false;
                             for (int i = 0; i < nivel * 2; i++) {
                                 if (!combinacionesPR[i]) {
@@ -212,6 +235,9 @@ public class FlevorioSays implements Screen{
                                 }
                             }
                         }
+                    }
+                    else {
+                        instructionsTxt.showMessage(batch,"ESPERA");
                     }
                 }
 
@@ -225,23 +251,11 @@ public class FlevorioSays implements Screen{
             botonConfiguracion.render(batch);
             botonSalirMenu.render(batch);
             if(salirMenu) {
-                /* falta hacer animacion de salir aqui
-                for (int i = 0; i < 100; i++) {
-                    esperar(1f);
-                    botonSalirMenu.setRotation(i * 10);
-                    botonSalirMenu.render(batch);
-                }
-                for (int i = 100; i > 0; i--) {
-                    esperar(1f);
-                    botonSalirMenu.setRotation(-i * 10);
-                    botonSalirMenu.render(batch);
-                }
-                */
                 stopMusic();
                 game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
             }
         }
-        else{
+        else {
             botonPausa.render(batch);
         }
         batch.end();
@@ -317,19 +331,72 @@ public class FlevorioSays implements Screen{
                         }
                     }
                     if(roca !=0 && estado == State.PLAY){
+                        rocas.get(roca-1).getSprite().setColor(Color.GRAY);
+                    }
+                    shadowedAndUp = roca;
+                }
+                if(estado == State.PAUSA){
+                    //detectar los botones en el menu de pausa.
+                    if(botonSalirMenu.isTouched(x,y,camera)){
+                        init();
+                        musicaFondo.setLooping(false);
+                        if(musicaFondo.isPlaying()) {
+                            musicaFondo.stop();
+                        }
+                        salirMenu = true;
+                    }
+                }
+                return true; // return true to indicate the event was handled
+            }
+
+            @Override
+            public boolean touchUp (int x, int y, int pointer, int button) {
+                if(!brillando){
+                    for (SimpleAsset roca : rocas) {
+                        roca.getSprite().setColor(Color.WHITE);
+                    }
+                    int roca = 0;
+                    float distancia = (float) Math.sqrt(Math.pow(625-x,2)+Math.pow(348-y,2));
+                    if(distancia>=0 && distancia<= 164){
+                        roca = 1;
+                    }
+                    if(distancia>=165 && distancia<= 269){
+                        if(y<358){
+                            roca = 2;
+                        }
+                        else{
+                            roca = 3;
+                        }
+                    }
+                    if(distancia>=270 && distancia<= 396){
+                        if(y<358){
+                            roca = 4;
+                        }
+                        else{
+                            roca = 5;
+                        }
+                    }
+                    if(roca !=0 && estado == State.PLAY && shadowedAndUp == roca){
                         efectoBoton.stop();
                         efectoBoton.play();
                         if(roca == combinaciones[indiceSecuencia]){
+                            if(lastRockPressed != 0){
+                                rocas.get(lastRockPressed-1).getSprite().setColor(Color.WHITE);
+                            }
+                            rocas.get(roca-1).getSprite().setColor(103, 128, 150, 1);
                             indiceSecuencia++;
                             perdio = false;
+                            lastRockPressed = roca;
                         }
                         else{
+                            rocas.get(roca-1).getSprite().setColor(Color.RED);
                             nivel --;
                             perdio = true;
                             indiceSecuencia = nivel*2;
                             brillando = true;
                             efectoBoton.stop();
                             efectoPerder.play();
+                            reseted = false;
                         }
                     }
                     else{
@@ -354,12 +421,6 @@ public class FlevorioSays implements Screen{
                         salirMenu = true;
                     }
                 }
-                return true; // return true to indicate the event was handled
-            }
-
-            @Override
-            public boolean touchUp (int x, int y, int pointer, int button) {
-                // your touch up code here
                 return true; // return true to indicate the event was handled
             }
         });
