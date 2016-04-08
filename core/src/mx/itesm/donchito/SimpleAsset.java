@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 
 public class SimpleAsset {
@@ -21,7 +22,7 @@ public class SimpleAsset {
         this.setPosition(x,y);
     }
     public void setPosition(float x, float y){
-        this.sprite.setPosition(x,y);
+        this.sprite.setPosition(x, y);
     }
     public void setAlpha(float a){
         this.sprite.setAlpha(a);
@@ -40,6 +41,10 @@ public class SimpleAsset {
 
     public boolean isTouched(float x,float y,Camera camera){
         Vector3 temp = camera.unproject(new Vector3(x, y, 0));
+        return this.getSprite().getBoundingRectangle().contains(temp.x,temp.y);
+    }
+    public boolean isTouched(float x,float y,Camera camera,Viewport view){
+        Vector3 temp = camera.unproject(new Vector3(x, y, 0),view.getScreenX(),view.getScreenY(),view.getScreenWidth(),view.getScreenHeight());
         return this.getSprite().getBoundingRectangle().contains(temp.x,temp.y);
     }
 }

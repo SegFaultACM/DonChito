@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -122,54 +123,53 @@ public class LivermorioEscape implements Screen {
     private void leerEntrada() {
         Gdx.input.setInputProcessor(new InputAdapter() {
             public boolean touchUp(int x, int y, int pointer, int button) {
-                    if (playerState == PlayerState.NOTDEAD) {
-                        if (gameState == GameState.PAUSE) {
-                            if (botonSalirMenu.isTouched(x, y, cameraHUD)) {
-                                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
-                            }
-                            if (botonPlay.isTouched(x, y, cameraHUD)) {
-                                gameStartTime = TimeUtils.nanoTime();
-                                gameState = GameState.PLAY;
-                            }
-                        } else {
-                            if (botonPausa.isTouched(x, y, cameraHUD)) {
-                                gameState = GameState.PAUSE;
-                            }
+                if (playerState == PlayerState.NOTDEAD) {
+                    if (gameState == GameState.PAUSE) {
+                        if (botonSalirMenu.isTouched(x, y, cameraHUD,view)) {
+                            game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
+                        }
+                        if (botonPlay.isTouched(x, y, cameraHUD,view)) {
+                            gameStartTime = TimeUtils.nanoTime();
+                            gameState = GameState.PLAY;
                         }
                     } else {
-                        DonChito.assetManager.clear();
-                        game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
-                    }
-                    if(btnState == StateBtn.PRESSED && (arrowLeft.isTouched(x,y,cameraHUD) || arrowRight.isTouched(x,y,cameraHUD)) ){
-                        btnState = StateBtn.NOTPRESSED;
-                    }
-                    if (arrowUp.isTouched(x,y,cameraHUD)) {
-                        switch (player.getJumpState()) {
-                            case GROUND:
-                                player.startJump();
-                                break;
-                            case JUMPING:
-                                player.continueJump();
+                        if (botonPausa.isTouched(x, y, cameraHUD,view)) {
+                            gameState = GameState.PAUSE;
                         }
-                    }else {
-                        player.endJump();
                     }
+                } else {
+                    DonChito.assetManager.clear();
+                    game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
+                }
+                if(btnState == StateBtn.PRESSED && (arrowLeft.isTouched(x,y,cameraHUD,view) || arrowRight.isTouched(x,y,cameraHUD,view)) ){
+                    btnState = StateBtn.NOTPRESSED;
+                }
+                if (arrowUp.isTouched(x,y,cameraHUD,view)) {
+                    switch (player.getJumpState()) {
+                        case GROUND:
+                            player.startJump();
+                            break;
+                        case JUMPING:
+                            player.continueJump();
+                    }
+                }else {
+                    player.endJump();
+                }
                 return true;
             }
-
             public boolean touchDown(int x, int y, int pointexr, int button) {
                 if(gameState == GameState.PLAY){
-                    if(arrowLeft.isTouched(x,y,cameraHUD)){
+                    if(arrowLeft.isTouched(x,y,cameraHUD,view)){
                         moveState = MoveState.LEFT;
                         btnState = StateBtn.PRESSED;
-                    }else if(arrowRight.isTouched(x,y,cameraHUD)){
+                    }else if(arrowRight.isTouched(x,y,cameraHUD,view)){
                         moveState = MoveState.RIGHT;
                         btnState = StateBtn.PRESSED;
                     }else{
                         moveState = MoveState.NONE;
                         btnState = StateBtn.NOTPRESSED;
                     }
-                    if (arrowUp.isTouched(x,y,cameraHUD)) {
+                    if (arrowUp.isTouched(x,y,cameraHUD,view)) {
                         switch (player.getJumpState()) {
                             case GROUND:
                                 player.startJump();
@@ -180,24 +180,26 @@ public class LivermorioEscape implements Screen {
                     }else {
                         player.endJump();
                     }
+                }else{
+
                 }
                 return true;
             }
 
             @Override
             public boolean touchDragged(int x, int y, int pointer) {
-                if(btnState == StateBtn.PRESSED && !(arrowLeft.isTouched(x,y,cameraHUD) || arrowRight.isTouched(x,y,cameraHUD)) ){
+                if(btnState == StateBtn.PRESSED && !(arrowLeft.isTouched(x,y,cameraHUD,view) || arrowRight.isTouched(x,y,cameraHUD,view)) ){
                     btnState = StateBtn.NOTPRESSED;
                 }
-                if(arrowLeft.isTouched(x,y,cameraHUD)){
+                if(arrowLeft.isTouched(x,y,cameraHUD,view)){
                     btnState = StateBtn.PRESSED;
                     moveState = MoveState.LEFT;
                 }
-                if(arrowRight.isTouched(x,y,cameraHUD)){
+                if(arrowRight.isTouched(x,y,cameraHUD,view)){
                     btnState = StateBtn.PRESSED;
                     moveState = MoveState.RIGHT;
                 }
-                if (arrowUp.isTouched(x,y,cameraHUD)) {
+                if (arrowUp.isTouched(x,y,cameraHUD,view)) {
                     switch (player.getJumpState()) {
                         case GROUND:
                             player.startJump();
@@ -337,7 +339,7 @@ public class LivermorioEscape implements Screen {
         player.update(delta, platforms,gameState);
         regionDeath = animationDeath.getKeyFrame(MathUtils.nanoToSec * (TimeUtils.nanoTime() - deathStartTime));
         deathVelocity += delta*.01;
-        DeathPosition.x += delta * DEATH_MOVE_SPEED * deathVelocity;
+        //DeathPosition.x += delta * DEATH_MOVE_SPEED * deathVelocity;
     }
     @Override
     public void resize(int width, int height) {
