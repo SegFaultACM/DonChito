@@ -10,8 +10,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
@@ -78,7 +80,8 @@ public class FlevorioSays implements Screen{
         camera = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
         camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         camera.update();
-        view = new FitViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,camera);
+
+        view = new StretchViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,camera);
 
         leerEntrada();
         cargarRecursos();
@@ -88,6 +91,7 @@ public class FlevorioSays implements Screen{
 
         //TODO Refactor next code into an Asset Manager
         batch = new SpriteBatch();
+        batch.setProjectionMatrix(camera.combined);
         fondoPantalla = new SimpleAsset(Constants.FLEVORIO_FONDOPANTALLA_PNG,0,0);
         fondo = new SimpleAsset(Constants.FLEVORIO_FONDO_PNG,0,0);
         fondo.getSprite().scale(1);
@@ -164,6 +168,7 @@ public class FlevorioSays implements Screen{
     @Override
     public void render(float delta) {
         camera.update();
+        view.apply();
         batch.begin();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if(indiceSecuencia == nivel*2){
@@ -183,7 +188,6 @@ public class FlevorioSays implements Screen{
                 perdio = false;
             }
         }
-        view.apply();
         fondoPantalla.render(batch);
         fondo.render(batch);
         if(nivel != 4) {
@@ -308,6 +312,11 @@ public class FlevorioSays implements Screen{
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean touchDown (int x, int y, int pointexr, int button) {
+                Vector3 coord = camera.unproject(new Vector3(x,y,0));
+                Gdx.app.log("coord: ",coord.toString());
+                Gdx.app.log("screen:",Gdx.graphics.getWidth() + " " + Gdx.graphics.getHeight());
+                Gdx.app.log("screen:",x + " " + y);
+                //Basarlo todo en coord
                 if(!brillando){
                     int roca = 0;
                     float distancia = (float) Math.sqrt(Math.pow(625-x,2)+Math.pow(348-y,2));
