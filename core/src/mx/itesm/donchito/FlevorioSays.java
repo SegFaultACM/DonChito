@@ -79,7 +79,7 @@ public class FlevorioSays implements Screen{
         camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         camera.update();
 
-        view = new StretchViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,camera);
+        view = new FitViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,camera);
 
         leerEntrada();
         cargarRecursos();
@@ -310,31 +310,31 @@ public class FlevorioSays implements Screen{
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean touchDown (int x, int y, int pointexr, int button) {
-                Vector3 coord = camera.unproject(new Vector3(x,y,0));
-                Gdx.app.log("coord: ",coord.toString());
-                Gdx.app.log("screen:",Gdx.graphics.getWidth() + " " + Gdx.graphics.getHeight());
-                Gdx.app.log("screen:",x + " " + y);
+                Vector3 temp = camera.unproject(new Vector3(x, y, 0),view.getScreenX(),view.getScreenY(),view.getScreenWidth(),view.getScreenHeight());
+                int xt =(int) temp.x;
+                int yt = (int) temp.y;
+                Gdx.app.log("Coordenadas x,y","x: "+xt+"  y: "+yt);
                 //Basarlo todo en coord
                 if(!brillando){
                     int roca = 0;
-                    float distancia = (float) Math.sqrt(Math.pow(625-x,2)+Math.pow(348-y,2));
+                    float distancia = (float) Math.sqrt(Math.pow(625-xt,2)+Math.pow(348-yt,2));
                     if(distancia>=0 && distancia<= 164){
                         roca = 1;
                     }
                     if(distancia>=165 && distancia<= 269){
-                        if(y<358){
-                            roca = 2;
+                        if(yt<358){
+                            roca = 3;
                         }
                         else{
-                            roca = 3;
+                            roca = 2;
                         }
                     }
                     if(distancia>=270 && distancia<= 396){
-                        if(y<358){
-                            roca = 4;
+                        if(yt<358){
+                            roca = 5;
                         }
                         else{
-                            roca = 5;
+                            roca = 4;
                         }
                     }
                     if(roca !=0 && estado == State.PLAY){
@@ -344,7 +344,7 @@ public class FlevorioSays implements Screen{
                 }
                 if(estado == State.PAUSA){
                     //detectar los botones en el menu de pausa.
-                    if(botonSalirMenu.isTouched(x,y,camera)){
+                    if(botonSalirMenu.isTouched(x,y,camera,view)){
                         init();
                         musicaFondo.setLooping(false);
                         if(musicaFondo.isPlaying()) {
@@ -358,29 +358,32 @@ public class FlevorioSays implements Screen{
 
             @Override
             public boolean touchUp (int x, int y, int pointer, int button) {
+                Vector3 temp = camera.unproject(new Vector3(x, y, 0),view.getScreenX(),view.getScreenY(),view.getScreenWidth(),view.getScreenHeight());
+                int xt =(int) temp.x;
+                int yt = (int) temp.y;
                 if(!brillando){
                     for (SimpleAsset roca : rocas) {
                         roca.getSprite().setColor(Color.WHITE);
                     }
                     int roca = 0;
-                    float distancia = (float) Math.sqrt(Math.pow(625-x,2)+Math.pow(348-y,2));
+                    float distancia = (float) Math.sqrt(Math.pow(625-xt,2)+Math.pow(348-yt,2));
                     if(distancia>=0 && distancia<= 164){
                         roca = 1;
                     }
                     if(distancia>=165 && distancia<= 269){
-                        if(y<358){
-                            roca = 2;
+                        if(yt<358){
+                            roca = 3;
                         }
                         else{
-                            roca = 3;
+                            roca = 2;
                         }
                     }
                     if(distancia>=270 && distancia<= 396){
-                        if(y<358){
-                            roca = 4;
+                        if(yt<358){
+                            roca = 5;
                         }
                         else{
-                            roca = 5;
+                            roca = 4;
                         }
                     }
                     if(roca !=0 && estado == State.PLAY && shadowedAndUp == roca){
@@ -407,7 +410,7 @@ public class FlevorioSays implements Screen{
                         }
                     }
                     else{
-                        if(botonPausa.isTouched(x,y,camera)||botonPlay.isTouched(x,y,camera)){
+                        if(botonPausa.isTouched(x,y,camera,view)||botonPlay.isTouched(x,y,camera,view)){
                             if(estado == State.PLAY){
                                 estado = State.PAUSA;
                             }
@@ -419,7 +422,7 @@ public class FlevorioSays implements Screen{
                 }
                 if(estado == State.PAUSA){
                     //detectar los botones en el menu de pausa.
-                    if(botonSalirMenu.isTouched(x,y,camera)){
+                    if(botonSalirMenu.isTouched(x,y,camera,view)){
                         init();
                         musicaFondo.setLooping(false);
                         if(musicaFondo.isPlaying()) {
