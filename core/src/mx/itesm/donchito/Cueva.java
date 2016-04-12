@@ -6,9 +6,17 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
+import com.badlogic.gdx.scenes.scene2d.Stage;
+
 
 
 public class Cueva implements Screen{
@@ -16,6 +24,17 @@ public class Cueva implements Screen{
     private OrthographicCamera cameraHUD;
     private final DonChito game;
     private Viewport view;
+
+    // Touchpad
+    private Stage stage;
+    private Touchpad touchpad;
+    private Touchpad.TouchpadStyle touchpadStyle;
+    private Skin touchpadSkin;
+    private Drawable touchBackground;
+    private Drawable touchKnob;
+    private Texture blockTexture;
+    private Sprite blockSprite;
+    private float blockSpeed;
 
     private SpriteBatch batch;
     private Music musicaFondo;
@@ -29,7 +48,7 @@ public class Cueva implements Screen{
     private SimpleAsset flechaDer;
     private SimpleAsset flechaIzq;
 
-    private static final float velocidad = 4.20f; // Blaze it
+    private static final float velocidad = 6.20f; // Blaze it
 
 
     private State estado = State.PLAY;
@@ -57,17 +76,41 @@ public class Cueva implements Screen{
         // Camara y viewport
         camera = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
         camera.position.set(0, 0, 0);
+        camera.zoom = 1f;
         camera.update();
 
         cameraHUD = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
         cameraHUD.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         cameraHUD.update();
 
-        view = new FitViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,camera);
+        view = new FitViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,cameraHUD);
         cargarElementos();
         leerEntrada();
         cargarAudio();
         batch = new SpriteBatch();
+        //Create a touchpad skin
+        touchpadSkin = new Skin();
+        //Set background image
+        touchpadSkin.add("touchBackground", new Texture("Imagenes/Cueva/touchBackground.png"));
+        //Set knob image
+        touchpadSkin.add("touchKnob", new Texture("Imagenes/Cueva/touchKnob.png"));
+        //Create TouchPad Style
+        touchpadStyle = new Touchpad.TouchpadStyle();
+        //Create Drawable's from TouchPad skin
+        touchBackground = touchpadSkin.getDrawable("touchBackground");
+        touchKnob = touchpadSkin.getDrawable("touchKnob");
+        //Apply the Drawables to the TouchPad Style
+        touchpadStyle.background = touchBackground;
+        touchpadStyle.knob = touchKnob;
+        //Create new TouchPad with the created style
+        touchpad = new Touchpad(10, touchpadStyle);
+        //setBounds(x,y,width,height)
+        touchpad.setBounds(15, 15, 200, 200);
+        //Create a Stage and add TouchPad
+        stage = new Stage(view);
+        stage.addActor(touchpad);
+        Gdx.input.setInputProcessor(stage);
+
 
 
     }
@@ -103,16 +146,25 @@ public class Cueva implements Screen{
         camera.update();
         ejecutarInputs();
         batch.end();
-        renderHUD();
-    }
-    public void renderHUD(){
         batch.setProjectionMatrix(cameraHUD.combined);
         batch.begin();
-        flechaAbajo.render(batch);
+        /*flechaAbajo.render(batch);
         flechaArriba.render(batch);
         flechaDer.render(batch);
-        flechaIzq.render(batch);
+        flechaIzq.render(batch);*/
+
+        donchito.getSprite().setX(donchito.getSprite().getX() + touchpad.getKnobPercentX() * velocidad);
+        donchito.getSprite().setY(donchito.getSprite().getY() + touchpad.getKnobPercentY() * velocidad);
+        if(donchito.getSprite().getY() > 1050)
+            game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.FLEVORIO,game));
+        if(donchito.getSprite().getX() < 300)
+            game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.LIVERMORIO,game));
+        if(donchito.getSprite().getX() > 1850)
+            game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.ROMANSTRUGGLE,game));
+
         batch.end();
+        stage.act();
+        stage.draw();
     }
 
     @Override
@@ -187,7 +239,8 @@ public class Cueva implements Screen{
                 case 1:
                     donchito.setPosition(donchito.getSprite().getX() - velocidad,donchito.getSprite().getY());
                     if(CamX > 653)
-                        CamX -= CamSpeed;
+                        //CamX -= CamSpeed;
+                        CamX = donchito.getSprite().getX();
                     /*camera.position.set(new Vector2(camera.position.x-100,camera.position.y),0);
                     camera.update();
                     batch.setProjectionMatrix(camera.combined);*/
@@ -195,17 +248,20 @@ public class Cueva implements Screen{
                 case 2:
                     donchito.setPosition(donchito.getSprite().getX() + velocidad, donchito.getSprite().getY());
                     if(CamX < 1361)
-                        CamX += CamSpeed;
+                        //CamX += CamSpeed;
+                        CamX = donchito.getSprite().getX();
                     break;
                 case 3:
                     donchito.setPosition(donchito.getSprite().getX(), donchito.getSprite().getY() - velocidad);
                     if(CamY > 376)
-                        CamY -= CamSpeed;
+                        //CamY -= CamSpeed;s
+                        CamY = donchito.getSprite().getY();
                     break;
                 case 4:
                     donchito.setPosition(donchito.getSprite().getX(), donchito.getSprite().getY() + velocidad);
                     if(CamY < 845.0)
-                        CamY += CamSpeed;
+                        //CamY += CamSpeed;
+                        CamY = donchito.getSprite().getY();
                     break;
                 default:
                     break;
