@@ -17,7 +17,7 @@ public class DonChito extends Game {
 	public void create() {
 		DonChito.assetManager.setLoader(TiledMap.class,
                 new TmxMapLoader(new InternalFileHandleResolver()));
-		this.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA, this));
+		this.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU, this));
 	}
 
 	@Override

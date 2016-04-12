@@ -169,7 +169,7 @@ public class Cueva implements Screen{
 
     @Override
     public void resize(int width, int height) {
-
+        view.update(width,height);
     }
 
     @Override

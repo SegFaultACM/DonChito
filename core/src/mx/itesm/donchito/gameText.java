@@ -33,6 +33,9 @@ public class GameText
         this.xcoord = x;
         this.ycoord = y;
     }
+    public void setColor (float r, float g, float b, float a) {
+        font.setColor(r, g, b, a);
+    }
 
     public float getX(){return this.xcoord;}
     public float getY(){return this.ycoord;}

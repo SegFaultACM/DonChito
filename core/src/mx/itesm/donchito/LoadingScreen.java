@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
@@ -24,10 +24,13 @@ public class LoadingScreen implements Screen {
 
     private final DonChito game;
     private ScreenSel screenSel;
+    private SimpleAsset loading;
     private AssetManager assetManager;
     private Camera camera;
     private Viewport viewport;
-    private Batch batch;
+    private GameText loadingTxt;
+    private SpriteBatch batch;
+    private static final int LOADING_SIZE = 195;
 
     public LoadingScreen(ScreenSel screenSel,DonChito game) {
         this.game = game;
@@ -39,7 +42,12 @@ public class LoadingScreen implements Screen {
         camera = new OrthographicCamera(DonChito.ANCHO_MUNDO, DonChito.ALTO_MUNDO);
         camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         camera.update();
-        viewport = new StretchViewport(DonChito.ANCHO_MUNDO, DonChito.ALTO_MUNDO, camera);
+        assetManager.load(Constants.ROMAN_PIEDRA, Texture.class);
+        assetManager.finishLoading();
+        loading = new SimpleAsset(Constants.ROMAN_PIEDRA,DonChito.ANCHO_MUNDO / 2 - LOADING_SIZE /2,DonChito.ALTO_MUNDO/2-LOADING_SIZE/2);
+        viewport = new FitViewport(DonChito.ANCHO_MUNDO, DonChito.ALTO_MUNDO, camera);
+        loadingTxt = new GameText(DonChito.ANCHO_MUNDO / 2 - LOADING_SIZE /2+50,DonChito.ALTO_MUNDO/2-LOADING_SIZE/2 - 75);
+        loadingTxt.setColor(1,0,0,1);
         batch = new SpriteBatch();
 
         loadResources();
@@ -174,10 +182,17 @@ public class LoadingScreen implements Screen {
             }
         }
         else {
-            // Aún no termina la carga de assets, leer el avance
             float avance = assetManager.getProgress()*100;
-            Gdx.app.log("Cargando",avance+" %");
+            Gdx.app.log("Loading",avance+" %");
         }
+        loading.setRotation(loading.getSprite().getRotation() + 5);
+
+        batch.setProjectionMatrix(camera.combined);
+
+        batch.begin();
+        loading.render(batch);
+        loadingTxt.showMessage(batch,"Loading...");
+        batch.end();
     }
 
     public void updateScreen(){

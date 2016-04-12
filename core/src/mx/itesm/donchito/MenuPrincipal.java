@@ -83,25 +83,25 @@ public class MenuPrincipal implements Screen {
             @Override
             public boolean touchUp (int x, int y, int pointer, int button) {
                 if(!isClick && estado == State.MENU){
-                    if(btnNuevaPartida.isTouched(x,y,camera)){
+                    if(btnNuevaPartida.isTouched(x,y,camera,view)){
                         clickOnButton = true;
                         isClick = true;
                         pantallaSiguiente = Screen.CUEVA;
                         return true;
                     }
-                    if(btnExtra.isTouched(x,y,camera)){
+                    if(btnExtra.isTouched(x,y,camera,view)){
                         clickOnButton = true;
                         isClick = true;
                         pantallaSiguiente = Screen.ACERCA;
                         return true;
                     }
-                    if(btnDonChito.isTouched(x,y,camera)){
+                    if(btnDonChito.isTouched(x,y,camera,view)){
                         clickOnButton = true;
                         isClick = true;
                         pantallaSiguiente = Screen.DONCHITO;
                         return true;
                     }
-                    if(btnAjustes.isTouched(x,y,camera)){
+                    if(btnAjustes.isTouched(x,y,camera,view)){
                         clickOnButton = true;
                         isClick = true;
                         pantallaSiguiente = Screen.SETTINGS;
@@ -109,7 +109,7 @@ public class MenuPrincipal implements Screen {
                     }
                 }
                 if(!isClick && estado == State.PAUSA) {
-                    if(botonSalirMenu.isTouched(x,y,camera)) {
+                    if(botonSalirMenu.isTouched(x,y,camera,view)) {
                         estado = State.MENU;
                         return true;
                     }
