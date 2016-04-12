@@ -33,8 +33,11 @@ public class RomanRock extends SimpleAsset{
     private float escala;
     private static float ACELERACION = 0.08f;
     private static float MOVIMIENTOH = 2f;
-    private static float VELOCIDADLIMITE = 10f;
-    private static float ALTURAMAXIMA = 550f; // para que no se salga de la pantalla.
+    private float velocidadLimite;
+    private float alturaMaxima;
+
+    private float rockHeight;
+    private float rockWidth;
 
 
     public RomanRock(String strtexture, float x, float y, int direccionH, int direccionV, float escala, float velocidad) {
@@ -43,6 +46,10 @@ public class RomanRock extends SimpleAsset{
         this.direccionV = direccionV;
         this.velocidad = velocidad;
         this.escala = escala;
+        this.alturaMaxima = 550f;
+        this.velocidadLimite = 10F;
+        this.rockHeight = this.getSprite().getHeight()*this.escala;
+        this.rockWidth = this.getSprite().getWidth()*this.escala;
         this.getSprite().setScale(this.escala);
 
     }
@@ -51,8 +58,8 @@ public class RomanRock extends SimpleAsset{
         float movimientoX = 0;
         float movimientoY = 0;
         if(this.direccionV == 1){ //si se esta moviendo hacia abajo
-            if(this.velocidad >= VELOCIDADLIMITE){
-                this.velocidad = VELOCIDADLIMITE;
+            if(this.velocidad >= this.velocidadLimite){
+                this.velocidad = this.velocidadLimite;
             }
             else{
                 this.velocidad+= ACELERACION;
@@ -61,6 +68,8 @@ public class RomanRock extends SimpleAsset{
             if(this.getSprite().getY()<=20){
                 movimientoY = this.velocidad;
                 this.direccionV = 0;
+                this.velocidadLimite-=0.5f;
+                this.alturaMaxima-=50f;
             }
             else {
                 movimientoY = -this.velocidad;
@@ -69,8 +78,10 @@ public class RomanRock extends SimpleAsset{
         else{
             if(this.velocidad <0){
                 this.velocidad = 1;
-                if(this.getSprite().getY()>ALTURAMAXIMA){
+                if(this.getSprite().getY()>this.alturaMaxima){
                     this.direccionV = 1;
+                    this.alturaMaxima-=50f;
+                    this.velocidadLimite-=0.5f;
                 }
             }
             else{
@@ -105,24 +116,28 @@ public class RomanRock extends SimpleAsset{
     public void setPosition(float x,float y) {
         super.setPosition(x,y);
     }
-
     @Override
     public void setRotation(float degree) {
         super.setRotation(degree);
     }
-
     @Override
     public void render(SpriteBatch batch) {
         super.render(batch);
     }
-
     @Override
     public Sprite getSprite() {
         return super.getSprite();
     }
-
     @Override
     public boolean isTouched(float x, float y, Camera camera) {
         return super.isTouched(x, y, camera);
     }
+
+    public float getRockWidth(){
+        return this.rockWidth;
+    }
+    public float getRockHeight(){
+        return this.rockHeight;
+    }
+
 }

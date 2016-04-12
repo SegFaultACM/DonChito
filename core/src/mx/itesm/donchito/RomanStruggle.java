@@ -71,18 +71,17 @@ public class RomanStruggle implements Screen {
 
     @Override
     public void show() {
-        //init();
         camera = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
         camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         camera.update();
         view = new FitViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,camera);
 
+        view.apply();
         leerEntrada();
 
         //musicaFondo.setLooping(true);
         //musicaIntro.play();
         rocas = new DelayedRemovalArray<RomanRock>();
-        //TODO Refactor next code into an Asset Manager
         batch = new SpriteBatch();
         createFirstRocks(nivel);
 
@@ -116,16 +115,11 @@ public class RomanStruggle implements Screen {
         }
     }
 
-    /* inicializar niveles, vidas, etc.
-    private void init() {
-        nivel = 0;
-        indiceSecuencia = 0;
-    }
-    */
-
     @Override
     public void render(float delta) {
         camera.update();
+        view.apply();
+        batch.setProjectionMatrix(camera.combined);
         batch.begin();
         if(rocas.size == 0){
             //Gdx.app.log("SUBIR LVL","ALGO ASI");
@@ -167,7 +161,7 @@ public class RomanStruggle implements Screen {
             }
             indiceRocas = 0;
             if(disparado){
-                if(proyectil.getSprite().getY() >600){
+                if(proyectil.getSprite().getY()>600){
                     disparado = false;
                 }
                 else{
@@ -184,28 +178,27 @@ public class RomanStruggle implements Screen {
         float rocaY = roca.getSprite().getY();
 
         //revisar con personaje
-        if(roca.getSprite().getY() <60){
-            if(rocaX>donChito.getSprite().getX()-100 && rocaX<donChito.getSprite().getX()+100){
-            //if(donChito.isTouched(rocaX,rocaY,camera)){
-                estado = State.DEATH;
-                estadoBoton = State.NOPRESIONADO;
+        if(roca.getSprite().getY() <100){
+            if(rocaX+roca.getRockWidth()>donChito.getSprite().getX()&& rocaX-roca.getRockWidth()<donChito.getSprite().getX()){
+                if(rocaY<=donChito.getSprite().getY()+donChito.getSprite().getHeight()) {
+                    estado = State.DEATH;
+                    estadoBoton = State.NOPRESIONADO;
+                }
             }
         }
         //revisar con bala
         if(disparado) {
-            if (rocaX> proyectil.getSprite().getX() - 40 &&rocaX< proyectil.getSprite().getX() + 40 &&rocaY<proyectil.getSprite().getY()+20) {
-            //if (proyectil.isTouched(rocaX,rocaY,camera)){
+            if (rocaX> proyectil.getSprite().getX()-proyectil.getSprite().getWidth()&&rocaX< proyectil.getSprite().getX()+proyectil.getSprite().getWidth()&&rocaY<proyectil.getSprite().getY()+proyectil.getSprite().getHeight()){
                 proyectil.setPosition(1000,1000);
                 disparado = false;
                 if(roca.getEscala()/2 >= 0.25) {
-                    RomanRock nuevo = new RomanRock(Constants.ROMAN_PIEDRA,roca.getSprite().getX(), roca.getSprite().getY(), 1, roca.getDireccionV(), roca.getEscala()/2,roca.getVelocidad());
+                    RomanRock nuevo = new RomanRock(Constants.ROMAN_PIEDRA,roca.getSprite().getX(), roca.getSprite().getY(), 1, 0, roca.getEscala()/2,roca.getVelocidad());
                     rocas.add(nuevo);
-                    nuevo = new RomanRock(Constants.ROMAN_PIEDRA, roca.getSprite().getX(), roca.getSprite().getY(), 0, roca.getDireccionV(), roca.getEscala()/2,roca.getVelocidad());
+                    nuevo = new RomanRock(Constants.ROMAN_PIEDRA, roca.getSprite().getX(), roca.getSprite().getY(), 0, 0, roca.getEscala()/2,roca.getVelocidad());
                     rocas.add(nuevo);
                 }
                 rocas.removeIndex(indiceRocas);
-                puntos += roca.getEscala()*10;
-                //Gdx.app.log("Puntos", ""+puntos);
+                puntos += 10/roca.getEscala();
             }
         }
     }
@@ -244,7 +237,7 @@ public class RomanStruggle implements Screen {
             public boolean touchDown(int x, int y, int pointexr, int button) {
                 estadoBoton = State.PRESIONADO;
                 if (estado == State.PAUSA) {
-                    if (botonSalirMenu.isTouched(x,y,camera)) {
+                    if (botonSalirMenu.isTouched(x,y,camera,view)) {
                         //init();
                         //musicaFondo.setLooping(false);
                         //if (musicaFondo.isPlaying()) {
@@ -253,7 +246,7 @@ public class RomanStruggle implements Screen {
                         game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
                     }
                 }
-                if(botonPlay.isTouched(x,y,camera) || botonPausa.isTouched(x,y,camera)){
+                if(botonPlay.isTouched(x,y,camera,view) || botonPausa.isTouched(x,y,camera,view)){
                     if(estado == State.PLAY){
                         estado = State.PAUSA;
                     }
@@ -281,14 +274,13 @@ public class RomanStruggle implements Screen {
             }
             int x = Gdx.app.getInput().getX();
             int y = Gdx.app.getInput().getY();
-            if(botonIzquierda.isTouched(x,y,camera)){
+            if(botonIzquierda.isTouched(x,y,camera,view)){
                 botonPresionado = 1;
             }
-            else if(botonDerecha.isTouched(x,y,camera)){
+            else if(botonDerecha.isTouched(x,y,camera,view)){
                 botonPresionado = 2;
-
             }
-            else if(botonDisparo.isTouched(x,y,camera)){
+            else if(botonDisparo.isTouched(x,y,camera,view)){
                 botonPresionado = 3;
             }
             else {
