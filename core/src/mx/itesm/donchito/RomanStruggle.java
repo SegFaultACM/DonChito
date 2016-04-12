@@ -40,8 +40,8 @@ public class RomanStruggle implements Screen {
     //FALTA HACERLO PERSONAJE
     private SimpleAsset donChito;
 
-    private gameText levelTxt;
-    private gameText pointsTxt;
+    private GameText levelTxt;
+    private GameText pointsTxt;
 
 
     private SimpleAsset fondoPantalla;
@@ -100,8 +100,8 @@ public class RomanStruggle implements Screen {
         botonPausa = new SimpleAsset(Constants.GLOBAL_BOTON_PAUSA_PNG,1050,10);
         botonPausa.setAlpha(0.5f);
 
-        levelTxt = new gameText(150,700);
-        pointsTxt = new gameText(1000,700);
+        levelTxt = new GameText(150,700);
+        pointsTxt = new GameText(1000,700);
 
         fondoDeath = new SimpleAsset(Constants.CTHULHU,0,0);
 

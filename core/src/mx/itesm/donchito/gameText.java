@@ -9,13 +9,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * Created by Esteban on 4/7/2016.
  */
 
-public class gameText
+public class GameText
 {
     private BitmapFont font;
     private float xcoord,ycoord;
 
 
-    public gameText(float posicionx, float posiciony) {
+    public GameText(float posicionx, float posiciony) {
         font = new BitmapFont(Gdx.files.internal("font/font.fnt"), Gdx.files.internal("font/font.png"), false);
         font.setColor(Color.CORAL);
         font.getData().scale(0.001f);

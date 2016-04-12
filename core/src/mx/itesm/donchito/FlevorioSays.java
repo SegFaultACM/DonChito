@@ -7,12 +7,10 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -30,8 +28,8 @@ public class FlevorioSays implements Screen{
     private boolean perdio = false;
     private boolean salirMenu = false;
 
-    private gameText instructionsTxt;
-    private gameText levelTxt;
+    private GameText instructionsTxt;
+    private GameText levelTxt;
 
     private SimpleAsset botonPausa;
     private SimpleAsset botonPlay;
@@ -102,8 +100,8 @@ public class FlevorioSays implements Screen{
         botonConfiguracion = new SimpleAsset(Constants.GLOBAL_BOTON_CONFIGURACION_PNG,405,175);
         botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,405,425);
 
-        instructionsTxt = new gameText(150,700);
-        levelTxt = new gameText(1000,700);
+        instructionsTxt = new GameText(150,700);
+        levelTxt = new GameText(1000,700);
 
         botonPausa = new SimpleAsset(Constants.GLOBAL_BOTON_PAUSA_PNG,1050,10);
     }
