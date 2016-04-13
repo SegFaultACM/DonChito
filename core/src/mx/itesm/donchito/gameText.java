@@ -17,7 +17,7 @@ public class GameText
 
     public GameText(float posicionx, float posiciony) {
         font = new BitmapFont(Gdx.files.internal("font/font.fnt"), Gdx.files.internal("font/font.png"), false);
-        font.setColor(Color.CORAL);
+        font.setColor(57,123,140,1);
         font.getData().scale(0.001f);
         this.xcoord = posicionx;
         this.ycoord = posiciony;

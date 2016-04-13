@@ -47,7 +47,7 @@ public class LoadingScreen implements Screen {
         loading = new SimpleAsset(Constants.ROMAN_PIEDRA,DonChito.ANCHO_MUNDO / 2 - LOADING_SIZE /2,DonChito.ALTO_MUNDO/2-LOADING_SIZE/2);
         viewport = new FitViewport(DonChito.ANCHO_MUNDO, DonChito.ALTO_MUNDO, camera);
         loadingTxt = new GameText(DonChito.ANCHO_MUNDO / 2 - LOADING_SIZE /2+50,DonChito.ALTO_MUNDO/2-LOADING_SIZE/2 - 75);
-        loadingTxt.setColor(1,0,0,1);
+        loadingTxt.setColor(.323f,.4823f,.649f,1);
         batch = new SpriteBatch();
 
         loadResources();
