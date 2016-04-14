@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -27,6 +28,7 @@ public class FlevorioSays implements Screen{
     private boolean brillando = true;
     private boolean perdio = false;
     private boolean salirMenu = false;
+    private boolean instruccionesLeidas = false;
 
     private GameText instructionsTxt;
     private GameText levelTxt;
@@ -44,8 +46,9 @@ public class FlevorioSays implements Screen{
 
     private float tiempoEsperar = 1f;
     private boolean reseted = false;
-    private int shadowedAndUp = 0;
 
+    private int indiceInstruccion = 0;
+    private int shadowedAndUp = 0;
     private int lastRockPressed = 0;
     private int nivel = 0;
     private int indiceSecuencia = 0;
@@ -60,6 +63,7 @@ public class FlevorioSays implements Screen{
 
     private int[] combinaciones = new int[]{0,0,0,0,0,0,0,0,0,0};
     private boolean[] combinacionesPR = new boolean[]{false,false,false,false,false,false,false,false,false,false};
+    private SimpleAsset[] instrucciones = new SimpleAsset[15];
 
     private Music efectoBoton;
     private Music efectoGanar;
@@ -84,10 +88,10 @@ public class FlevorioSays implements Screen{
         leerEntrada();
         cargarRecursos();
 
+
         musicaFondo.setLooping(true);
         musicaIntro.play();
 
-        //TODO Refactor next code into an Asset Manager
         batch = new SpriteBatch();
         batch.setProjectionMatrix(camera.combined);
         fondoPantalla = new SimpleAsset(Constants.FLEVORIO_FONDOPANTALLA_PNG,0,0);
@@ -104,6 +108,23 @@ public class FlevorioSays implements Screen{
         levelTxt = new GameText(1000,700);
 
         botonPausa = new SimpleAsset(Constants.GLOBAL_BOTON_PAUSA_PNG,1050,10);
+
+        instrucciones[0] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION1,0,0);
+        instrucciones[1] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION2,0,0);
+        instrucciones[2] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION3,0,0);
+        instrucciones[3] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION4,0,0);
+        instrucciones[4] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION5,0,0);
+        instrucciones[5] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION6,0,0);
+        instrucciones[6] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION7,0,0);
+        instrucciones[7] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION8,0,0);
+        instrucciones[8] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION9,0,0);
+        instrucciones[9] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION10,0,0);
+        instrucciones[10] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION11,0,0);
+        instrucciones[11] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION12,0,0);
+        instrucciones[12] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION13,0,0);
+        instrucciones[13] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION14,0,0);
+        instrucciones[14] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION15,0,0);
+
     }
     private void init() {
         nivel = 0;
@@ -188,7 +209,10 @@ public class FlevorioSays implements Screen{
         }
         fondoPantalla.render(batch);
         fondo.render(batch);
-        if(nivel != 4) {
+        if(!instruccionesLeidas){
+            leerInstrucciones(delta);
+        }
+        if(nivel != 4 && instruccionesLeidas) {
             if (fondo.getSprite().getScaleX() >= 1f) {
                 if (!rocasCreadas) {
                     // Sonido que se reproduce al abrir el proyector
@@ -261,6 +285,17 @@ public class FlevorioSays implements Screen{
             botonPausa.render(batch);
         }
         batch.end();
+    }
+
+    private void leerInstrucciones(float delta) {
+        if(indiceInstruccion >=15){
+            instruccionesLeidas = true;
+            return;
+        }
+        instrucciones[indiceInstruccion].render(batch);
+        if(esperar(delta)){
+            indiceInstruccion++;
+        }
     }
 
     private boolean esperar(float delta){

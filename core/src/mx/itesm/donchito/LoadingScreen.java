@@ -81,6 +81,22 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.FLEVORIO_BOTON2_PNG, Texture.class);
                 assetManager.load(Constants.FLEVORIO_BOTON3_PNG, Texture.class);
 
+                assetManager.load(Constants.FLEVORIO_INSTRUCCION1, Texture.class);
+                assetManager.load(Constants.FLEVORIO_INSTRUCCION2, Texture.class);
+                assetManager.load(Constants.FLEVORIO_INSTRUCCION3, Texture.class);
+                assetManager.load(Constants.FLEVORIO_INSTRUCCION4, Texture.class);
+                assetManager.load(Constants.FLEVORIO_INSTRUCCION5, Texture.class);
+                assetManager.load(Constants.FLEVORIO_INSTRUCCION6, Texture.class);
+                assetManager.load(Constants.FLEVORIO_INSTRUCCION7, Texture.class);
+                assetManager.load(Constants.FLEVORIO_INSTRUCCION8, Texture.class);
+                assetManager.load(Constants.FLEVORIO_INSTRUCCION9, Texture.class);
+                assetManager.load(Constants.FLEVORIO_INSTRUCCION10, Texture.class);
+                assetManager.load(Constants.FLEVORIO_INSTRUCCION11, Texture.class);
+                assetManager.load(Constants.FLEVORIO_INSTRUCCION12, Texture.class);
+                assetManager.load(Constants.FLEVORIO_INSTRUCCION13, Texture.class);
+                assetManager.load(Constants.FLEVORIO_INSTRUCCION14, Texture.class);
+                assetManager.load(Constants.FLEVORIO_INSTRUCCION15, Texture.class);
+
                 assetManager.load(Constants.GLOBAL_MENU_PAUSA_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_PAUSA_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_PLAY_PNG, Texture.class);

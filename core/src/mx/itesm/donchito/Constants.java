@@ -27,6 +27,22 @@ public class Constants {
     public static final String FLEVORIO_BOTON2_PNG = "Imagenes/Simon/nivel2.png";
     public static final String FLEVORIO_BOTON3_PNG = "Imagenes/Simon/nivel3.png";
 
+    public static final String FLEVORIO_INSTRUCCION1 = "Imagenes/Simon/instrucciones/imag1.png";
+    public static final String FLEVORIO_INSTRUCCION2 = "Imagenes/Simon/instrucciones/imag2.png";
+    public static final String FLEVORIO_INSTRUCCION3 = "Imagenes/Simon/instrucciones/imag3.png";
+    public static final String FLEVORIO_INSTRUCCION4 = "Imagenes/Simon/instrucciones/imag4.png";
+    public static final String FLEVORIO_INSTRUCCION5 = "Imagenes/Simon/instrucciones/imag5.png";
+    public static final String FLEVORIO_INSTRUCCION6 = "Imagenes/Simon/instrucciones/imag6.png";
+    public static final String FLEVORIO_INSTRUCCION7 = "Imagenes/Simon/instrucciones/imag7.png";
+    public static final String FLEVORIO_INSTRUCCION8 = "Imagenes/Simon/instrucciones/imag8.png";
+    public static final String FLEVORIO_INSTRUCCION9 = "Imagenes/Simon/instrucciones/imag9.png";
+    public static final String FLEVORIO_INSTRUCCION10 = "Imagenes/Simon/instrucciones/imag10.png";
+    public static final String FLEVORIO_INSTRUCCION11 = "Imagenes/Simon/instrucciones/imag11.png";
+    public static final String FLEVORIO_INSTRUCCION12 = "Imagenes/Simon/instrucciones/imag12.png";
+    public static final String FLEVORIO_INSTRUCCION13 = "Imagenes/Simon/instrucciones/imag13.png";
+    public static final String FLEVORIO_INSTRUCCION14 = "Imagenes/Simon/instrucciones/imag14.png";
+    public static final String FLEVORIO_INSTRUCCION15 = "Imagenes/Simon/instrucciones/imag15.png";
+
 
     public static final String GLOBAL_BOTON_PAUSA_PNG = "Imagenes/Pausa/stop_boton.png";
     public static final String GLOBAL_BOTON_PLAY_PNG = "Imagenes/Pausa/play_boton.png";
