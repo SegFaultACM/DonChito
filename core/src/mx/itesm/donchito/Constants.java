@@ -64,6 +64,8 @@ public class Constants {
     public static final String ROMAN_PERSONAJE_DONCHITO = "Imagenes/Cueva/DonChito.png";
     public static final String ROMAN_FONDO = "Imagenes/Romans_Struggle/Roman_escenario.jpg";
 
+    public static final String ROMAN_SPRITES_DONCHITO = "Imagenes/donchitosprites.png";
+
     //Ajustes
     public static final String AJUSTES_BOTON_PNG = "Imagenes/Pausa/pausa_herramientas.png";
     //Extras

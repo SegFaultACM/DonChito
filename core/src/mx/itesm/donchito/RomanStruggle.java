@@ -25,6 +25,7 @@ public class RomanStruggle implements Screen {
 
     private float velocidad = 5f;
     private float velocidadBala = 5f;
+    private float tiempoEsperar = 5f;
 
     private SimpleAsset botonIzquierda;
     private SimpleAsset botonDerecha;
@@ -51,6 +52,7 @@ public class RomanStruggle implements Screen {
     RomanRock rocaP;
 
     private boolean disparado = false;
+    private boolean pasarNivel = true;
 
 
     private State estado = State.PLAY;
@@ -124,6 +126,7 @@ public class RomanStruggle implements Screen {
         if(rocas.size == 0){
             //Gdx.app.log("SUBIR LVL","ALGO ASI");
             //HACER UN ESTILO DE SLEEP
+            tiempoEsperar = 5f;
             nivel++;
             if(nivel == 4){
                 game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game));
@@ -153,24 +156,33 @@ public class RomanStruggle implements Screen {
         }
         else{
             botonPausa.render(batch);
-            for(RomanRock roca: rocas){
-                roca.updateRock();
-                roca.render(batch);
-                revisarColisiones(roca);
-                indiceRocas++;
+            if(esperar(delta)) {
+                for (RomanRock roca : rocas) {
+                    roca.updateRock();
+                    roca.render(batch);
+                    revisarColisiones(roca);
+                    indiceRocas++;
+                }
             }
             indiceRocas = 0;
-            if(disparado){
-                if(proyectil.getSprite().getY()>600){
+            if (disparado) {
+                if (proyectil.getSprite().getY() > 600) {
                     disparado = false;
-                }
-                else{
-                    proyectil.setPosition(proyectil.getSprite().getX(),proyectil.getSprite().getY()+velocidadBala);
+                } else {
+                    proyectil.setPosition(proyectil.getSprite().getX(), proyectil.getSprite().getY() + velocidadBala);
                     proyectil.render(batch);
                 }
             }
+
         }
         batch.end();
+    }
+    private boolean esperar(float delta){
+        if(tiempoEsperar <=0){
+            return true;
+        }
+        tiempoEsperar -= delta;
+        return false;
     }
 
     private void revisarColisiones(RomanRock roca) {

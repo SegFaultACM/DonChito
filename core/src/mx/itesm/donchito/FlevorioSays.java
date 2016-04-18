@@ -282,7 +282,9 @@ public class FlevorioSays implements Screen{
             }
         }
         else {
-            botonPausa.render(batch);
+            if(instruccionesLeidas) {
+                botonPausa.render(batch);
+            }
         }
         batch.end();
     }
