@@ -116,6 +116,7 @@ public class MenuPrincipal implements Screen {
                         }else{
                             DonChito.preferences.putBoolean(Constants.MENUPRINCIPAL_SOUND_PREF,true);
                         }
+                        DonChito.preferences.flush();
                         cargarAudio();
                     }
                 }
@@ -136,7 +137,6 @@ public class MenuPrincipal implements Screen {
                 musicaFondo.stop();
             }
         }
-        DonChito.preferences.flush();
     }
 
 
