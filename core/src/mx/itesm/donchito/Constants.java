@@ -76,6 +76,11 @@ public class Constants {
     public static final String ACERCA_SADA_PNG = "Imagenes/Extras/small_img_creators/Sada.png";
     public static final String ACERCA_STEVE_PNG = "Imagenes/Extras/small_img_creators/Steve.png";
 
+    public static final String ACERCA_DESC_JOEL_PNG = "Imagenes/Extras/big_img_creators/Joel.png";
+    public static final String ACERCA_DESC_KARLA_PNG = "Imagenes/Extras/big_img_creators/Karla.png";
+    public static final String ACERCA_DESC_LICHO_PNG = "Imagenes/Extras/big_img_creators/Licho.png";
+    public static final String ACERCA_DESC_SADA_PNG = "Imagenes/Extras/big_img_creators/Sada.png";
+    public static final String ACERCA_DESC_STEVE_PNG = "Imagenes/Extras/big_img_creators/Steve.png";
     //Configuracion
     public static final String PANTALLA_CONFIG_PNG = "Imagenes/PantallasConfig/Config.png";
 

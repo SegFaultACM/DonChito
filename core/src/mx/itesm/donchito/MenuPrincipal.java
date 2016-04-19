@@ -187,7 +187,9 @@ public class MenuPrincipal implements Screen {
                     case DONCHITO:
                         btnDonChito.setRotation(tiempoRecorrido);
                         break;
-                    default:break;
+                    default:
+
+                        break;
                 }
                 if(direccion <0){
                     tiempoRecorrido -= delta* MULTIPLICADOR_TIEMPO;

@@ -24,8 +24,13 @@ public class AcercaDe implements Screen {
                         imgSteve,
                         imgLicho,
                         imgKarla,
-                        imgSada;
-
+                        imgSada,
+                        descJoel,
+                        descKarla,
+                        descLicho,
+                        descSada,
+                        descSteve;
+    private State screenState = State.INIT;
     public AcercaDe(DonChito game) {
         this.game = game;
     }
@@ -50,6 +55,11 @@ public class AcercaDe implements Screen {
         imgLicho = new SimpleAsset(Constants.ACERCA_LICHO_PNG,0,275);
         imgSada = new SimpleAsset(Constants.ACERCA_SADA_PNG,1035,275);
         imgSteve = new SimpleAsset(Constants.ACERCA_STEVE_PNG,575,275);
+        descJoel = new SimpleAsset(Constants.ACERCA_DESC_JOEL_PNG,0,0);
+        descKarla = new SimpleAsset(Constants.ACERCA_DESC_KARLA_PNG,0,0);
+        descLicho = new SimpleAsset(Constants.ACERCA_DESC_LICHO_PNG,0,0);
+        descSada = new SimpleAsset(Constants.ACERCA_DESC_SADA_PNG,0,0);
+        descSteve = new SimpleAsset(Constants.ACERCA_DESC_STEVE_PNG,0,0);
     }
 
     private void cargarAudio() {
@@ -64,10 +74,26 @@ public class AcercaDe implements Screen {
 
             @Override
             public boolean touchUp (int x, int y, int pointer, int button) {
-                // your touch up code here
-                if(background.isTouched(x,y,camera)){
-                    game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
+                if(screenState == State.INIT) {
+                    if(imgJoel.isTouched(x,y,camera)){
+                        screenState = State.JOEL;
+                    }else if(imgKarla.isTouched(x,y,camera)){
+                        screenState = State.KARLA;
+                    }else if(imgLicho.isTouched(x,y,camera)){
+                        screenState = State.LICHO;
+                    }else if(imgSada.isTouched(x,y,camera)){
+                        screenState = State.SADA;
+                    }else if(imgSteve.isTouched(x,y,camera)){
+                        screenState = State.STEVE;
+                    }else{
+                        game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
+                    }
                     return true;
+                }else {
+                    if(background.isTouched(x,y,camera)){
+                        screenState = State.INIT;
+                        return true;
+                    }
                 }
                 return false;
             }
@@ -76,7 +102,7 @@ public class AcercaDe implements Screen {
     }
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0,0,0,0);
+        Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         view.apply();
         camera.update();
@@ -84,11 +110,31 @@ public class AcercaDe implements Screen {
         batch.begin();
 
         background.render(batch);
-        imgJoel.render(batch);
-        imgSteve.render(batch);
-        imgSada.render(batch);
-        imgLicho.render(batch);
-        imgKarla.render(batch);
+        switch (screenState){
+            case SADA:
+                descSada.render(batch);
+                break;
+            case STEVE:
+                descSteve.render(batch);
+                break;
+            case KARLA:
+                descKarla.render(batch);
+                break;
+            case LICHO:
+                descLicho.render(batch);
+                break;
+            case JOEL:
+                descJoel.render(batch);
+                break;
+            case INIT:
+                imgJoel.render(batch);
+                imgSteve.render(batch);
+                imgSada.render(batch);
+                imgLicho.render(batch);
+                imgKarla.render(batch);
+                break;
+        }
+
         batch.end();
 
     }
@@ -116,5 +162,13 @@ public class AcercaDe implements Screen {
     @Override
     public void dispose() {
         DonChito.assetManager.clear();
+    }
+    enum State{
+        INIT,
+        SADA,
+        STEVE,
+        KARLA,
+        LICHO,
+        JOEL
     }
 }
