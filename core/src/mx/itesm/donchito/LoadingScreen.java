@@ -13,6 +13,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import javax.xml.soap.Text;
+
 /**
  * Created on 06-Apr-16.
  *
@@ -165,6 +167,8 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.MENU_PRINCIPAL_MP3,Music.class);
                 assetManager.load(Constants.PANTALLA_CONFIG_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_SALIRMENU_PNG, Texture.class);
+                assetManager.load(Constants.MENUPRINCIPAL_SOUND_ON, Texture.class);
+                assetManager.load(Constants.MENUPRINCIPAL_SOUND_OFF, Texture.class);
                 break;
         }
     }

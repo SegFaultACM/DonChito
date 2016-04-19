@@ -14,14 +14,17 @@ public class Constants {
     public static final String MENUPRINCIPAL_NUEVAPARTIDA_PNG = "Imagenes/Menuprincipal/nuevapartida.png";
     public static final String MENUPRINCIPAL_PALA_PNG = "Imagenes/Menuprincipal/pala.png";
     public static final String MENUPRINCIPAL_EXTRA_PNG = "Imagenes/Menuprincipal/Extra.png";
+    public static final String MENUPRINCIPAL_SOUND_PREF = "audioMenuPrincipal";
+    public static final String MENUPRINCIPAL_SOUND_ON = "Imagenes/Extras/herramientas/sound1.png";
+    public static final String MENUPRINCIPAL_SOUND_OFF = "Imagenes/Extras/herramientas/mute1.png";
 
     //Cueva
     public static final String CUEVA_FONDO_JPG = "Imagenes/Cueva/Imagen_Cueva_fin.jpg";
     public static final String CUEVA_DON_CHITO_PNG = "Imagenes/Cueva/DonChito.png";
     public static final String CUEVA_ARROW_UP = "Imagenes/Cueva/ArrowUp.png";
     public static final String CUEVA_ARROW_DOWN = "Imagenes/Cueva/ArrowDown.png";
-    public static final String CUEVA_ARROW_LEFT = "Imagenes/Cueva/ArrowLeft.png";
-    public static final String CUEVA_ARROW_RIGHT = "Imagenes/Cueva/ArrowRight.png";
+    public static final String CUEVA_ARROW_LEFT = "Imagenes/Controles/controlizquierda.png";
+    public static final String CUEVA_ARROW_RIGHT = "Imagenes/Controles/controlderecha.png";
     public static final String CUEVA_TILES = "Imagenes/Cueva/CuevaTiles.tmx";
 
 

@@ -3,15 +3,12 @@ package mx.itesm.donchito;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
 
 public class MenuPrincipal implements Screen {
     public static final int MULTIPLICADOR_TIEMPO = 100;
@@ -36,7 +33,8 @@ public class MenuPrincipal implements Screen {
                         btnPala,
                         btnAjustes,
                         botonSalirMenu,
-                        fondoPausa;
+                        fondoPausa,
+                        btnMusica;
 
 
     //TODO better code pls
@@ -113,17 +111,32 @@ public class MenuPrincipal implements Screen {
                         estado = State.MENU;
                         return true;
                     }
+                    if(btnMusica.isTouched(x,y,camera,view)){
+                        if(DonChito.preferences.getBoolean(Constants.MENUPRINCIPAL_SOUND_PREF,true)){
+                            DonChito.preferences.putBoolean(Constants.MENUPRINCIPAL_SOUND_PREF,false);
+                        }else{
+                            DonChito.preferences.putBoolean(Constants.MENUPRINCIPAL_SOUND_PREF,true);
+                        }
+                        cargarAudio();
+                    }
                 }
                 return false;
             }
         });
-
     }
 
     private void cargarAudio() {
-        musicaFondo = DonChito.assetManager.get(Constants.MENU_PRINCIPAL_MP3);
-        musicaFondo.setLooping(true);
-        musicaFondo.play();
+        if(DonChito.preferences.getBoolean(Constants.MENUPRINCIPAL_SOUND_PREF,true)){
+            btnMusica = new SimpleAsset(Constants.MENUPRINCIPAL_SOUND_ON,570,220);
+            musicaFondo = DonChito.assetManager.get(Constants.MENU_PRINCIPAL_MP3);
+            musicaFondo.setLooping(true);
+            musicaFondo.play();
+        }else{
+            btnMusica = new SimpleAsset(Constants.MENUPRINCIPAL_SOUND_OFF,570,220);
+            if(musicaFondo != null && musicaFondo.isPlaying()){
+                musicaFondo.stop();
+            }
+        }
     }
 
 
@@ -154,7 +167,7 @@ public class MenuPrincipal implements Screen {
                     estado = State.PAUSA;
                 }
                 else{
-                    if(musicaFondo.isPlaying()){
+                    if(musicaFondo != null && musicaFondo.isPlaying()){
                         musicaFondo.stop();
                     }
                     switch (pantallaSiguiente){
@@ -197,6 +210,9 @@ public class MenuPrincipal implements Screen {
                     tiempoRecorrido += delta* MULTIPLICADOR_TIEMPO;
                 }
             }
+        }else if(estado ==  State.MENU){
+            btnDonChito.setRotation(0);
+            btnAjustes.setRotation(0);
         }
         btnCargarPartida.render(batch);
         btnDonChito.render(batch);
@@ -207,6 +223,7 @@ public class MenuPrincipal implements Screen {
         if(estado == State.PAUSA){
             fondoPausa.render(batch);
             botonSalirMenu.render(batch);
+            btnMusica.render(batch);
         }
         batch.end();
     }

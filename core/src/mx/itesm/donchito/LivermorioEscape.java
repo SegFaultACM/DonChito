@@ -104,7 +104,7 @@ public class LivermorioEscape implements Screen {
         //Change locations,when asset is available
         arrowUp = new SimpleAsset(Constants.CUEVA_ARROW_UP, 1080,225);
         arrowRight = new SimpleAsset(Constants.CUEVA_ARROW_RIGHT, 200,30);
-        arrowLeft = new SimpleAsset(Constants.CUEVA_ARROW_LEFT, 0,30);
+        arrowLeft = new SimpleAsset(Constants.CUEVA_ARROW_LEFT, 10,30);
 
     }
     private void cargarRecursos() {
@@ -339,7 +339,7 @@ public class LivermorioEscape implements Screen {
         player.update(delta, platforms,gameState);
         regionDeath = animationDeath.getKeyFrame(MathUtils.nanoToSec * (TimeUtils.nanoTime() - deathStartTime));
         deathVelocity += delta*.01;
-        //DeathPosition.x += delta * DEATH_MOVE_SPEED * deathVelocity;
+        DeathPosition.x += delta * DEATH_MOVE_SPEED * deathVelocity;
     }
     @Override
     public void resize(int width, int height) {
