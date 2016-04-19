@@ -29,7 +29,8 @@ public class AcercaDe implements Screen {
                         descKarla,
                         descLicho,
                         descSada,
-                        descSteve;
+                        descSteve,
+                        regresarMenu;
     private State screenState = State.INIT;
     public AcercaDe(DonChito game) {
         this.game = game;
@@ -60,6 +61,7 @@ public class AcercaDe implements Screen {
         descLicho = new SimpleAsset(Constants.ACERCA_DESC_LICHO_PNG,0,0);
         descSada = new SimpleAsset(Constants.ACERCA_DESC_SADA_PNG,0,0);
         descSteve = new SimpleAsset(Constants.ACERCA_DESC_STEVE_PNG,0,0);
+        regresarMenu = new SimpleAsset(Constants.ACERCA_REGRESAR,1000,10);
     }
 
     private void cargarAudio() {
@@ -85,7 +87,7 @@ public class AcercaDe implements Screen {
                         screenState = State.SADA;
                     }else if(imgSteve.isTouched(x,y,camera)){
                         screenState = State.STEVE;
-                    }else{
+                    }else if(regresarMenu.isTouched(x,y,camera)){
                         game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
                     }
                     return true;
@@ -132,6 +134,7 @@ public class AcercaDe implements Screen {
                 imgSada.render(batch);
                 imgLicho.render(batch);
                 imgKarla.render(batch);
+                regresarMenu.render(batch);
                 break;
         }
 

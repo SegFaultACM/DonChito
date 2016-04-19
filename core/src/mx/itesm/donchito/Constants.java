@@ -89,6 +89,7 @@ public class Constants {
     public static final String ACERCA_DESC_LICHO_PNG = "Imagenes/Extras/big_img_creators/Licho.png";
     public static final String ACERCA_DESC_SADA_PNG = "Imagenes/Extras/big_img_creators/Sada.png";
     public static final String ACERCA_DESC_STEVE_PNG = "Imagenes/Extras/big_img_creators/Steve.png";
+    public static final String ACERCA_REGRESAR = "Imagenes/Extras/regresar.png";
     //Configuracion
     public static final String PANTALLA_CONFIG_PNG = "Imagenes/PantallasConfig/Configuracion.png";
 

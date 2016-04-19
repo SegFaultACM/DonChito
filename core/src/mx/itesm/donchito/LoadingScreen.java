@@ -80,6 +80,7 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.ACERCA_DESC_LICHO_PNG,Texture.class);
                 assetManager.load(Constants.ACERCA_DESC_SADA_PNG,Texture.class);
                 assetManager.load(Constants.ACERCA_DESC_STEVE_PNG,Texture.class);
+                assetManager.load(Constants.ACERCA_REGRESAR,Texture.class);
                 break;
             case FLEVORIO:
                 assetManager.load(Constants.FLEVORIO_FONDOPANTALLA_PNG,Texture.class);
