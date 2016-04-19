@@ -66,8 +66,8 @@ public class MenuPrincipal implements Screen {
         btnExtra = new SimpleAsset(Constants.MENUPRINCIPAL_EXTRA_PNG,800,100);
         btnPala = new SimpleAsset(Constants.MENUPRINCIPAL_PALA_PNG,820,125);
         btnAjustes = new SimpleAsset(Constants.AJUSTES_BOTON_PNG,50,475);
-        fondoPausa = new SimpleAsset(Constants.GLOBAL_MENU_PAUSA_PNG,0,0);
-        botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,405,425);
+        fondoPausa = new SimpleAsset(Constants.PANTALLA_CONFIG_PNG,0,0);
+        botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,405,400);
         estado = State.MENU;
         leerEntrada();
         cargarAudio();

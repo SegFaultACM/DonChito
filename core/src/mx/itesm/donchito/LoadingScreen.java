@@ -163,7 +163,7 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.MENUPRINCIPAL_PALA_PNG,Texture.class);
                 assetManager.load(Constants.AJUSTES_BOTON_PNG,Texture.class);
                 assetManager.load(Constants.MENU_PRINCIPAL_MP3,Music.class);
-                assetManager.load(Constants.GLOBAL_MENU_PAUSA_PNG, Texture.class);
+                assetManager.load(Constants.PANTALLA_CONFIG_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_SALIRMENU_PNG, Texture.class);
                 break;
         }

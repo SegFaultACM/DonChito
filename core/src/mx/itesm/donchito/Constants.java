@@ -2,6 +2,11 @@ package mx.itesm.donchito;
 
 
 public class Constants {
+
+
+    public static final String GLOBAL_PREFERENCES = "savedInstance";
+
+
     public static final String MENU_PRINCIPAL_MP3 = "Musica/menuPrincipal.mp3";
     public static final String MENUPRINCIPAL_CARGARPARTIDA_PNG = "Imagenes/Menuprincipal/cargarpartida.png";
     public static final String MENUPRINCIPAL_FONDO_JPG = "Imagenes/Menuprincipal/MenuPrincipal.jpg";
@@ -82,7 +87,7 @@ public class Constants {
     public static final String ACERCA_DESC_SADA_PNG = "Imagenes/Extras/big_img_creators/Sada.png";
     public static final String ACERCA_DESC_STEVE_PNG = "Imagenes/Extras/big_img_creators/Steve.png";
     //Configuracion
-    public static final String PANTALLA_CONFIG_PNG = "Imagenes/PantallasConfig/Config.png";
+    public static final String PANTALLA_CONFIG_PNG = "Imagenes/PantallasConfig/Configuracion.png";
 
 
     // Texts
