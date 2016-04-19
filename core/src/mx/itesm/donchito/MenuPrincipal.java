@@ -24,7 +24,6 @@ public class MenuPrincipal implements Screen {
     private State estado = State.MENU;
 
     private Music musicaFondo;
-
     private SimpleAsset btnCargarPartida,
                         btnDonChito,
                         fondo,
@@ -137,6 +136,7 @@ public class MenuPrincipal implements Screen {
                 musicaFondo.stop();
             }
         }
+        DonChito.preferences.flush();
     }
 
 
