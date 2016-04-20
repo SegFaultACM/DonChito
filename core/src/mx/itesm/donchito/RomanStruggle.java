@@ -1,13 +1,16 @@
 package mx.itesm.donchito;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
+import com.badlogic.gdx.utils.IntFloatMap;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -70,13 +73,26 @@ public class RomanStruggle implements Screen {
     public RomanStruggle(DonChito game) {
         this.game = game;
     }
+    private void cargarRecursos() {
+        AssetManager assetManager = DonChito.assetManager;
 
+        efectoGanar = assetManager.get(Constants.FLEVORIO_SONIDOVICTORY_WAV);
+        efectoPerder = assetManager.get(Constants.FLEVORIO_SONIDOFAIL_WAV);
+
+    }
     @Override
     public void show() {
+        if(!(DonChito.preferences.getBoolean("RomanStruggle",false))){
+            DonChito.preferences.putBoolean("RomanStruggle",false);
+            DonChito.preferences.flush();
+        }
+        cargarRecursos();
         camera = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
         camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         camera.update();
         view = new FitViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,camera);
+
+
 
         view.apply();
         leerEntrada();
@@ -107,7 +123,7 @@ public class RomanStruggle implements Screen {
         fondoDeath = new SimpleAsset(Constants.CTHULHU,0,0);
 
         //FALTA HACER A DON CHITO COMO UN PERSONAJE
-        donChito = new SimpleAsset(Constants.ROMAN_PERSONAJE_DONCHITO,550,10);
+        donChito = new SimpleAsset(Constants.ROMAN_PERSONAJE_DONCHITO,550,70);
     }
 
     private void createFirstRocks(int nivel) {
@@ -124,11 +140,14 @@ public class RomanStruggle implements Screen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         if(rocas.size == 0){
-            //Gdx.app.log("SUBIR LVL","ALGO ASI");
-            //HACER UN ESTILO DE SLEEP
+            if(nivel!= 0){
+                efectoGanar.play();
+            }
             tiempoEsperar = 5f;
             nivel++;
             if(nivel == 4){
+                DonChito.preferences.putBoolean("RomanStruggle",true);
+                DonChito.preferences.flush();
                 game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game));
             }
             createFirstRocks(nivel);
@@ -153,6 +172,7 @@ public class RomanStruggle implements Screen {
         }
         else if(estado == State.DEATH) {
             fondoDeath.render(batch);
+            efectoPerder.play();
         }
         else{
             botonPausa.render(batch);
@@ -189,7 +209,7 @@ public class RomanStruggle implements Screen {
         float rocaX = roca.getSprite().getX();
         float rocaY = roca.getSprite().getY();
 
-        //revisar con personaje
+        //if(roca.verificarColision(donChito)){
         if(roca.getSprite().getY() <100){
             if(rocaX+roca.getRockWidth()>donChito.getSprite().getX()&& rocaX-roca.getRockWidth()<donChito.getSprite().getX()){
                 if(rocaY<=donChito.getSprite().getY()+donChito.getSprite().getHeight()) {
@@ -200,7 +220,8 @@ public class RomanStruggle implements Screen {
         }
         //revisar con bala
         if(disparado) {
-            if (rocaX> proyectil.getSprite().getX()-proyectil.getSprite().getWidth()&&rocaX< proyectil.getSprite().getX()+proyectil.getSprite().getWidth()&&rocaY<proyectil.getSprite().getY()+proyectil.getSprite().getHeight()){
+            //if(roca.verificarColision(proyectil)){
+            if (rocaX+roca.getRockWidth()>proyectil.getSprite().getX()&& rocaX-roca.getRockWidth()<proyectil.getSprite().getX()&&rocaY+roca.getRockHeight()<proyectil.getSprite().getY()+proyectil.getSprite().getHeight()){
                 proyectil.setPosition(1000,1000);
                 disparado = false;
                 if(roca.getEscala()/2 >= 0.25) {
@@ -279,6 +300,7 @@ public class RomanStruggle implements Screen {
         DEATH
     }
     private void ejecutarInputs(){
+        botonPresionado = 0;
         if(estadoBoton == State.PRESIONADO){
             if(estado == State.DEATH){
                 game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
@@ -287,38 +309,22 @@ public class RomanStruggle implements Screen {
             int x = Gdx.app.getInput().getX();
             int y = Gdx.app.getInput().getY();
             if(botonIzquierda.isTouched(x,y,camera,view)){
-                botonPresionado = 1;
+                if(donChito.getSprite().getX()>20){
+                    donChito.setPosition(donChito.getSprite().getX() - velocidad,donChito.getSprite().getY());
+                }
             }
             else if(botonDerecha.isTouched(x,y,camera,view)){
-                botonPresionado = 2;
+                if(donChito.getSprite().getX()<1100){
+                    donChito.setPosition(donChito.getSprite().getX() + velocidad, donChito.getSprite().getY());
+                }
             }
-            else if(botonDisparo.isTouched(x,y,camera,view)){
-                botonPresionado = 3;
-            }
-            else {
-                botonPresionado = 0;
-            }
-            switch(botonPresionado){
-                case 1:
-                    if(donChito.getSprite().getX()>20){
-                        donChito.setPosition(donChito.getSprite().getX() - velocidad,donChito.getSprite().getY());
-                    }
-                    break;
-                case 2:
-                    if(donChito.getSprite().getX()<1100){
-                        donChito.setPosition(donChito.getSprite().getX() + velocidad, donChito.getSprite().getY());
-                    }
-                    break;
-                case 3:
-                    if(!disparado){
-                        proyectil = new SimpleAsset(Constants.ROMAN_PERSONAJE_DONCHITO,donChito.getSprite().getX(),donChito.getSprite().getY()+30);
-                        proyectil.getSprite().setScale(0.5f);
-                        proyectil.render(batch);
-                        disparado = true;
-                    }
-                    break;
-                default:
-                    break;
+            if(botonDisparo.isTouched(x,y,camera,view)){
+                if(!disparado){
+                    proyectil = new SimpleAsset(Constants.ROMAN_PERSONAJE_DONCHITO,donChito.getSprite().getX(),donChito.getSprite().getY()+30);
+                    proyectil.getSprite().setScale(0.5f);
+                    proyectil.render(batch);
+                    disparado = true;
+                }
             }
         }
     }

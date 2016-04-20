@@ -150,6 +150,9 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.GLOBAL_BOTON_PLAY_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_CONFIGURACION_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_SALIRMENU_PNG, Texture.class);
+
+                assetManager.load(Constants.FLEVORIO_SONIDOFAIL_WAV,Music.class);
+                assetManager.load(Constants.FLEVORIO_SONIDOVICTORY_WAV, Music.class);
                 //ROMAN_SPRITES_DONCHITO
                 assetManager.load(Constants.CTHULHU, Texture.class);
 
