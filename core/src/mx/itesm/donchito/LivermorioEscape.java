@@ -17,12 +17,22 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
 import java.util.Random;
 
 
 public class LivermorioEscape implements Screen {
-    public static final int PLATFORM_OFFSET = 500;
-    public static final int RANDOMNESS_INT = 70;
+    private static final float DEATH_MOVE_SPEED = 200;
+    public static final int PLATFORM_WIDTH = 3512;
+    private static final int BACKGROUND_SIZE = PLATFORM_WIDTH;
+    public static int positionPlatforms = 0;
+    private final int[] CARRETAS_X = new int[]{114,600,1460,1952,2837,3024,3429,3994,4706,5107,5800,5952,7018,7016,7412,8560,8960,9336,8861,9528,9685,10036,10394};
+    private final int[] CARRETAS_Y = new int[]{283,90,254,12,18,419,17,173,293,294,10,486,3,2,2,6,18,17,474,478,172,314,452};
+
+    private final int[] MADERAS_X = new int[]{810,1217,1965,2206,3600,4029,4460,5064,6414,6339,6643,7119,7613,7963,8219,11001,10922,11404};
+    private final int[] MADERAS_Y = new int[]{431,42,569,281,523,520,20,129,555,192,402,412,598,172,479,516,54,71};
+    private boolean createdPlat[] = new boolean[4];
+
     private OrthographicCamera camera,cameraHUD;
     private final DonChito game;
     private Viewport view;
@@ -45,10 +55,8 @@ public class LivermorioEscape implements Screen {
     Array<SimpleAsset> platforms;
 
     DonChitoLivermorio player;
-    private int leftPointer,rightPointer;
-    private static final float DEATH_MOVE_SPEED = 200;
-    public static final int PLATFORM_WIDTH = 3512;
-    private static final int BACKGROUND_SIZE = PLATFORM_WIDTH;
+    private int leftPointer;
+
     private float deathVelocity = 1;
     private Vector2 DeathPosition;
     private Animation animationDeath;
@@ -58,11 +66,7 @@ public class LivermorioEscape implements Screen {
 
 
     //pantalla->Plataformas->Coordenada
-    private int[] carretasX = new int[]{114,600,1460,1952,2837,3024,3429,3994,4706,5107,5800,5952,7018,7016,7412,8560,8960,9336,8861,9528,9685,10036,10394};
-    private int[] carretasY = new int[]{283,90,254,12,18,419,17,173,293,294,10,486,3,2,2,6,18,17,474,478,172,314,452};
 
-    private int[] maderasX = new int[]{810,1217,1965,2206,3600,4029,4460,5064,6414,6339,6643,7119,7613,7963,8219,11001,10922,11404};
-    private int[] maderasY = new int[]{431,42,569,281,523,520,20,129,555,192,402,412,598,172,479,516,54,71};
 
     //sumar 12,000 a todas las x para ciclar
 
@@ -98,12 +102,19 @@ public class LivermorioEscape implements Screen {
         cargarRecursos();
         leerEntrada();
         crearElementos();
+        createPlatforms(positionPlatforms);
     }
     public void render(float delta) {
 
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+        if(player.getX()>3000 && !createdPlat[1]){
+            createdPlat[1] = true;
+            createPlatforms(1);
+        }if(player.getX()>6000 && !createdPlat[2]){
+            createdPlat[2] = true;
+            createPlatforms(2);
+        }
         view.apply();
         actualizarCamara();
         renderCamera();
@@ -113,19 +124,6 @@ public class LivermorioEscape implements Screen {
                 actualizarCamara();
                 update(delta);
                 realInput();
-                if(MathUtils.nanoToSec * (TimeUtils.nanoTime() - gameStartTime) >=3){
-                    gameStartTime = TimeUtils.nanoTime();
-                    //int randomAs = (new Random()).nextInt(Constants.PLATFORMS.length);
-                    /*
-                    int randomChoice = (new Random()).nextInt(posPlatforms.length);
-                    int yPlat = posPlatforms[randomChoice];
-                    SimpleAsset temp = new SimpleAsset(Constants.PLATFORMS[randomAs],player.getX()+800,yPlat);
-                    if(!powerUp &&  RANDOMNESS_INT < (int)(Math.random() * ((100-1) + 1) ) && !powerUp){
-                        powerUpAs.setPosition(player.getX()+ PLATFORM_OFFSET,yPlat+temp.getSprite().getHeight());
-                    }
-                    platforms.add(temp);
-                    */
-                }
                 if((posFondos-1280) < player.getX() ){
                     switch ((nFondos+1)%2){
                         case 1:
@@ -144,6 +142,7 @@ public class LivermorioEscape implements Screen {
             renderDeath();
         }
     }
+
     private void crearElementos(){
         fondoPausa = new SimpleAsset(Constants.GLOBAL_MENU_PAUSA_PNG,0,0);
         botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1110,0);
@@ -165,6 +164,60 @@ public class LivermorioEscape implements Screen {
     }
     private void cargaPosiciones(){
 
+    }
+    private void createPlatforms(int position){
+        batch.setProjectionMatrix(camera.projection);
+        batch.begin();
+        SimpleAsset tempCarretas,tempMadera;
+        int randomAs;
+
+        if(0 == position){
+            platforms.clear();
+            for (int i = 0; i < CARRETAS_X.length /4; i++) {
+                randomAs = (new Random()).nextInt(Constants.PLATFORMS_CARRETAS.length);
+                tempCarretas = new SimpleAsset(Constants.PLATFORMS_CARRETAS[randomAs],CARRETAS_X[i],CARRETAS_Y[i]);
+                platforms.add(tempCarretas);
+            }
+            for (int i = 0; i < MADERAS_X.length /4; i++) {
+                randomAs = (new Random()).nextInt(Constants.PLATFORMS_MADERA.length);
+                tempMadera = new SimpleAsset(Constants.PLATFORMS_MADERA[randomAs],MADERAS_X[i],MADERAS_Y[i]);
+                platforms.add(tempMadera);
+            }
+        }else if(1 == position){
+            for (int i = CARRETAS_X.length /4; i < CARRETAS_X.length/4 *2; i++) {
+                randomAs = (new Random()).nextInt(Constants.PLATFORMS_CARRETAS.length);
+                tempCarretas = new SimpleAsset(Constants.PLATFORMS_CARRETAS[randomAs],CARRETAS_X[i],CARRETAS_Y[i]);
+                platforms.add(tempCarretas);
+            }
+            for (int i = MADERAS_X.length /4; i < MADERAS_X.length/4 *2; i++) {
+                randomAs = (new Random()).nextInt(Constants.PLATFORMS_MADERA.length);
+                tempMadera = new SimpleAsset(Constants.PLATFORMS_MADERA[randomAs],MADERAS_X[i],MADERAS_Y[i]);
+                platforms.add(tempMadera);
+            }
+        }else if(2 == position){
+            for (int i = (CARRETAS_X.length/4)*2; i < CARRETAS_X.length/4 *3; i++) {
+                randomAs = (new Random()).nextInt(Constants.PLATFORMS_CARRETAS.length);
+                tempCarretas = new SimpleAsset(Constants.PLATFORMS_CARRETAS[randomAs],CARRETAS_X[i],CARRETAS_Y[i]);
+                platforms.add(tempCarretas);
+            }
+            for (int i = (MADERAS_X.length/4)*2; i < MADERAS_X.length/4 *3; i++) {
+                randomAs = (new Random()).nextInt(Constants.PLATFORMS_MADERA.length);
+                tempMadera = new SimpleAsset(Constants.PLATFORMS_MADERA[randomAs],MADERAS_X[i],MADERAS_Y[i]);
+                platforms.add(tempMadera);
+            }
+        }else if(3==position){
+            for (int i = CARRETAS_X.length/4 *3; i < CARRETAS_X.length; i++) {
+                randomAs = (new Random()).nextInt(Constants.PLATFORMS_CARRETAS.length);
+                tempCarretas = new SimpleAsset(Constants.PLATFORMS_CARRETAS[randomAs],CARRETAS_X[i],CARRETAS_Y[i]);
+                platforms.add(tempCarretas);
+            }
+            for (int i = MADERAS_X.length/4 *3; i < MADERAS_X.length; i++) {
+                randomAs = (new Random()).nextInt(Constants.PLATFORMS_MADERA.length);
+                tempMadera = new SimpleAsset(Constants.PLATFORMS_MADERA[randomAs],MADERAS_X[i],MADERAS_Y[i]);
+                platforms.add(tempMadera);
+            }
+        }
+        batch.end();
     }
     private void cargarRecursos() {
 
@@ -197,7 +250,6 @@ public class LivermorioEscape implements Screen {
                             moveState = MoveState.NONE;
                             player.stand();
                             leftPointer = -1;
-                            rightPointer = -1;
                         }
                         if(leftPointer == pointer){
                             moveState = MoveState.NONE;
@@ -229,7 +281,6 @@ public class LivermorioEscape implements Screen {
                         leftPointer = pointer;
                     }
                     if (arrowUp.isTouched(x,y,cameraHUD,view)) {
-                        rightPointer = pointer;
                         switch (player.getJumpState()) {
                             case GROUND:
                                 player.startJump();
@@ -310,7 +361,6 @@ public class LivermorioEscape implements Screen {
 
     public void checkCollisions(){
         if(DeathPosition.x + regionDeath.getRegionWidth() -200> player.getX()){
-            Gdx.app.log("Death",player.getX()+"");
             playerState = PlayerState.DEAD;
         }
         float pX = player.getX();

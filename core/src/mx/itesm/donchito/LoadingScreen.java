@@ -116,7 +116,11 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.FLEVORIO_MUSICAFONDO_WAV,Music.class);
                 break;
             case LIVERMORIO:
-                for (String platform:Constants.PLATFORMS
+                for (String platform:Constants.PLATFORMS_CARRETAS
+                        ) {
+                    assetManager.load(platform,Texture.class);
+                }
+                for (String platform:Constants.PLATFORMS_MADERA
                         ) {
                     assetManager.load(platform,Texture.class);
                 }

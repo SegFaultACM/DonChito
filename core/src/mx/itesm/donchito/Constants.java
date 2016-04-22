@@ -113,10 +113,11 @@ public class Constants {
 
 
     //Livermorio Escape
-    public static final String[] PLATFORMS = {"Imagenes/Livermorio/Entintados/carreta1.1.png",
+    public static final String[] PLATFORMS_CARRETAS = {"Imagenes/Livermorio/Entintados/carreta1.1.png",
                                                 "Imagenes/Livermorio/Entintados/carreta1.png",
                                                 "Imagenes/Livermorio/Entintados/carreta3.1.png",
-                                                "Imagenes/Livermorio/Entintados/carreta3.png",
+                                                "Imagenes/Livermorio/Entintados/carreta3.png"};
+    public static final String[] PLATFORMS_MADERA = {
                                                 "Imagenes/Livermorio/Entintados/tabla1.png",
                                                 "Imagenes/Livermorio/Entintados/tabla2.png",
                                                 "Imagenes/Livermorio/Entintados/tabla3.png",
