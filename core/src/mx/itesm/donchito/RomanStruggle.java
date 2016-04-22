@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.IntFloatMap;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -41,9 +42,10 @@ public class RomanStruggle implements Screen {
 
     private SimpleAsset fondoDeath;
 
-    //FALTA HACERLO PERSONAJE
-    private SimpleAsset donChito;
-
+    //TODO FALTA HACERLO PERSONAJE
+    private DonChitoLivermorio player;
+    private MoveState moveState;
+    private int leftPointer;
     private GameText levelTxt;
     private GameText pointsTxt;
 
@@ -86,6 +88,8 @@ public class RomanStruggle implements Screen {
             DonChito.preferences.putBoolean("RomanStruggle",false);
             DonChito.preferences.flush();
         }
+        player = new DonChitoLivermorio(640f,10f);
+        moveState = MoveState.NONE;
         cargarRecursos();
         camera = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
         camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
@@ -122,8 +126,8 @@ public class RomanStruggle implements Screen {
 
         fondoDeath = new SimpleAsset(Constants.CTHULHU,0,0);
 
+
         //FALTA HACER A DON CHITO COMO UN PERSONAJE
-        donChito = new SimpleAsset(Constants.ROMAN_PERSONAJE_DONCHITO,550,70);
     }
 
     private void createFirstRocks(int nivel) {
@@ -158,7 +162,7 @@ public class RomanStruggle implements Screen {
         pointsTxt.showMessage(batch,"Points: "+puntos);
         ejecutarInputs();
 
-        donChito.render(batch);
+        player.render(batch);
         botonDerecha.render(batch);
         botonIzquierda.render(batch);
         botonDisparo.render(batch);
@@ -211,8 +215,8 @@ public class RomanStruggle implements Screen {
 
         //if(roca.verificarColision(donChito)){
         if(roca.getSprite().getY() <100){
-            if(rocaX+roca.getRockWidth()>donChito.getSprite().getX()&& rocaX-roca.getRockWidth()<donChito.getSprite().getX()){
-                if(rocaY<=donChito.getSprite().getY()+donChito.getSprite().getHeight()) {
+            if(rocaX+roca.getRockWidth()>player.getX()&& rocaX-roca.getRockWidth()<player.getX()){
+                if(rocaY<=player.getY()+player.getHeight()) {
                     estado = State.DEATH;
                     estadoBoton = State.NOPRESIONADO;
                 }
@@ -265,28 +269,75 @@ public class RomanStruggle implements Screen {
         Gdx.input.setInputProcessor(new InputAdapter() {
             public boolean touchUp(int x, int y, int pointer, int button) {
                 estadoBoton = State.NOPRESIONADO;
-                return true; // return true to indicate the event was handled
-            }
-            public boolean touchDown(int x, int y, int pointexr, int button) {
-                estadoBoton = State.PRESIONADO;
-                if (estado == State.PAUSA) {
-                    if (botonSalirMenu.isTouched(x,y,camera,view)) {
-                        //init();
-                        //musicaFondo.setLooping(false);
-                        //if (musicaFondo.isPlaying()) {
-                        //    musicaFondo.stop();
-                        //}
-                        game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
+                if (estado == State.PLAY) {
+                    if(leftPointer == pointer){
+                        moveState = MoveState.NONE;
                     }
+                }else{
+
                 }
                 if(botonPlay.isTouched(x,y,camera,view) || botonPausa.isTouched(x,y,camera,view)){
                     if(estado == State.PLAY){
                         estado = State.PAUSA;
+                        player.stand();
+                        leftPointer = -1;
                     }
                     else{
                         estado = State.PLAY;
                     }
                 }
+                if (botonSalirMenu.isTouched(x,y,camera,view) && estado == State.PAUSA) {
+                    //init();
+                    //musicaFondo.setLooping(false);
+                    //if (musicaFondo.isPlaying()) {
+                    //    musicaFondo.stop();
+                    //}
+                    game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
+                }
+                return true; // return true to indicate the event was handled
+            }
+
+            @Override
+            public boolean touchDragged(int x, int y, int pointer) {
+                if(leftPointer == pointer){
+                    if(player.getMoveState() == DonChitoLivermorio.WalkState.WALKING){
+                        if (!botonIzquierda.isTouched(x, y,camera,view) && !botonDerecha.isTouched(x, y,camera,view) ) {
+                            moveState = MoveState.NONE;
+                        }
+                    }
+                    if(player.getMoveState() == DonChitoLivermorio.WalkState.STANDING){
+                        if(botonIzquierda.isTouched(x,y,camera,view)){
+                            moveState = MoveState.LEFT;
+                            leftPointer = pointer;
+                        }else if(botonDerecha.isTouched(x,y,camera,view)){
+                            moveState = MoveState.RIGHT;
+                            leftPointer = pointer;
+                        }
+                    }
+                }
+            return true;
+            }
+
+            public boolean touchDown(int x, int y, int pointer, int button) {
+                estadoBoton = State.PRESIONADO;
+                if (estado == State.PAUSA) {
+                    if(botonIzquierda.isTouched(x,y,camera,view)){
+                        moveState = MoveState.LEFT;
+                        leftPointer = pointer;
+                    }else if(botonDerecha.isTouched(x,y,camera,view)){
+                        moveState = MoveState.RIGHT;
+                        leftPointer = pointer;
+                    }
+                    if(botonDisparo.isTouched(x,y,camera,view)){
+                        if(!disparado){
+                            proyectil.setPosition(player.getX(),player.getY()+30);
+                            proyectil.getSprite().setScale(0.5f);
+                            proyectil.render(batch);
+                            disparado = true;
+                        }
+                    }
+                }
+
                 return true; // return true to indicate the event was handled
             }
         });
@@ -299,33 +350,15 @@ public class RomanStruggle implements Screen {
         NOPRESIONADO,
         DEATH
     }
+    public enum MoveState {
+        LEFT,
+        RIGHT,
+        NONE
+    }
     private void ejecutarInputs(){
-        botonPresionado = 0;
-        if(estadoBoton == State.PRESIONADO){
-            if(estado == State.DEATH){
-                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
-                return;
-            }
-            int x = Gdx.app.getInput().getX();
-            int y = Gdx.app.getInput().getY();
-            if(botonIzquierda.isTouched(x,y,camera,view)){
-                if(donChito.getSprite().getX()>20){
-                    donChito.setPosition(donChito.getSprite().getX() - velocidad,donChito.getSprite().getY());
-                }
-            }
-            else if(botonDerecha.isTouched(x,y,camera,view)){
-                if(donChito.getSprite().getX()<1100){
-                    donChito.setPosition(donChito.getSprite().getX() + velocidad, donChito.getSprite().getY());
-                }
-            }
-            if(botonDisparo.isTouched(x,y,camera,view)){
-                if(!disparado){
-                    proyectil = new SimpleAsset(Constants.ROMAN_PERSONAJE_DONCHITO,donChito.getSprite().getX(),donChito.getSprite().getY()+30);
-                    proyectil.getSprite().setScale(0.5f);
-                    proyectil.render(batch);
-                    disparado = true;
-                }
-            }
+        if(estado == State.DEATH){
+            dispose();
+            game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
         }
     }
 }

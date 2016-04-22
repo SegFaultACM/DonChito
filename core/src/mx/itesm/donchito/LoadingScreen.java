@@ -165,6 +165,12 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.FINAL_BOSS_RESORTERA,Texture.class);
                 assetManager.load(Constants.FINAL_BOSS_HEALTHBAR,Texture.class);
                 assetManager.load(Constants.FINAL_BOSS_HEALTHBARB,Texture.class);
+                assetManager.load(Constants.GLOBAL_MENU_PAUSA_PNG, Texture.class);
+                assetManager.load(Constants.GLOBAL_BOTON_PAUSA_PNG, Texture.class);
+                assetManager.load(Constants.GLOBAL_BOTON_PLAY_PNG, Texture.class);
+                assetManager.load(Constants.GLOBAL_BOTON_CONFIGURACION_PNG, Texture.class);
+                assetManager.load(Constants.GLOBAL_BOTON_SALIRMENU_PNG, Texture.class);
+                
                 assetManager.load(Constants.FINAL_BOSS_MUSICA, Music.class);
                 break;
             case MENU:
