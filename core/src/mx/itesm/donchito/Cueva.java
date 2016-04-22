@@ -73,6 +73,9 @@ public class Cueva implements Screen{
     @Override
     public void show() {
 
+        Gdx.app.log("Roman completado ",""+DonChito.preferences.getBoolean("RomanStruggle",false));
+        Gdx.app.log("Livermorio completado",""+DonChito.preferences.getBoolean("Livermorio",false));
+
         // Camara y viewport
         camera = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
         camera.position.set(0, 0, 0);

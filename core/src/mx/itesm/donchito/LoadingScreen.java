@@ -157,7 +157,17 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.CTHULHU, Texture.class);
 
                 break;
-            case RADCLIFF:
+            case FINALBOSS:
+                assetManager.load(Constants.FINAL_BOSS_FONDO,Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_DONCHITO,Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_FLEVORIO,Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_BOTAS,Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_PIEDRA,Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_PICO,Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_RESORTERA,Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_HEALTHBAR,Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_HEALTHBARB,Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_MUSICA, Music.class);
                 break;
             case MENU: default:
                 assetManager.load(Constants.MENUPRINCIPAL_FONDO_JPG,Texture.class);
@@ -203,6 +213,9 @@ public class LoadingScreen implements Screen {
                     break;
                 case FLEVORIO:
                     game.setScreen(new FlevorioSays(game));
+                    break;
+                case FINALBOSS:
+                    game.setScreen(new FinalBoss(game));
                     break;
                 default:
                     game.setScreen(new MenuPrincipal(game));
@@ -257,6 +270,7 @@ public class LoadingScreen implements Screen {
         ROMANSTRUGGLE,
         RADCLIFF,
         CUEVA,
+        FINALBOSS,
         ACERCA
     }
 }
