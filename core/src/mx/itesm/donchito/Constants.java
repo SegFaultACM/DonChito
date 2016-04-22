@@ -126,6 +126,7 @@ public class Constants {
     public static final String PLAYER_TEXTURE = "Imagenes/Livermorio/Sprites/spriteDonChito.png";
     public static final String DEATHBYROBOT = "Imagenes/Livermorio/Sprites/Deslave.png";
     public static final String CTHULHU = "Imagenes/Livermorio/deathscreen.png";
+    public static final String LOGO_TEC = "Imagenes/logo_tec.png";
 
 
     /*

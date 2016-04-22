@@ -57,8 +57,10 @@ public class LoadingScreen implements Screen {
 
     public void loadResources(){
         switch (screenSel){
+            case SPLASH:
+                assetManager.load(Constants.LOGO_TEC,Texture.class);
+                break;
             case CUEVA:
-
                 assetManager.load(Constants.CUEVA_FONDO_JPG,Texture.class);
                 assetManager.load(Constants.CUEVA_DON_CHITO_PNG,Texture.class);
                 assetManager.load(Constants.CUEVA_ARROW_UP,Texture.class);
@@ -153,7 +155,6 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.GLOBAL_BOTON_SALIRMENU_PNG, Texture.class);
                 //ROMAN_SPRITES_DONCHITO
                 assetManager.load(Constants.CTHULHU, Texture.class);
-
                 break;
             case RADCLIFF:
                 break;
@@ -201,6 +202,9 @@ public class LoadingScreen implements Screen {
                     break;
                 case FLEVORIO:
                     game.setScreen(new FlevorioSays(game));
+                    break;
+                case SPLASH:
+                    game.setScreen(new SplashScreen(game));
                     break;
                 default:
                     game.setScreen(new MenuPrincipal(game));
@@ -255,6 +259,6 @@ public class LoadingScreen implements Screen {
         ROMANSTRUGGLE,
         RADCLIFF,
         CUEVA,
-        ACERCA
+        SPLASH, ACERCA
     }
 }
