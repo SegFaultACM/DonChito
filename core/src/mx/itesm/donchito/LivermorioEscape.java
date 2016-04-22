@@ -13,15 +13,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
-import org.omg.CORBA.TypeCodePackage.BadKind;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -49,9 +44,7 @@ public class LivermorioEscape implements Screen {
     Array<SimpleAsset> platforms;
 
     DonChitoLivermorio player;
-
-    //private final ArrayList<Vector2> posPlatforms = new ArrayList<Vector2>();
-
+    private int leftPointer,rightPointer;
     private static final float DEATH_MOVE_SPEED = 200;
     private static final int BACKGROUND_SIZE = 3512;
     private float deathVelocity = 1;
@@ -200,19 +193,8 @@ public class LivermorioEscape implements Screen {
                         if (botonPausa.isTouched(x, y, cameraHUD,view)) {
                             gameState = GameState.PAUSE;
                         }
-                        if(arrowLeft.isTouched(x,y,camera,view) || arrowRight.isTouched(x,y,camera,view)){
+                        if(leftPointer == pointer){
                             moveState = MoveState.NONE;
-                        }
-                        if (arrowUp.isTouched(x,y,cameraHUD,view)) {
-                            switch (player.getJumpState()) {
-                                case GROUND:
-                                    player.startJump();
-                                    break;
-                                case JUMPING:
-                                    player.continueJump();
-                            }
-                        }else {
-                            player.endJump();
                         }
                     }
                 } else {
@@ -221,14 +203,17 @@ public class LivermorioEscape implements Screen {
                 }
                 return true;
             }
-            public boolean touchDown(int x, int y, int pointexr, int button) {
+            public boolean touchDown(int x, int y, int pointer, int button) {
                 if(gameState == GameState.PLAY){
                     if(arrowLeft.isTouched(x,y,cameraHUD,view)){
                         moveState = MoveState.LEFT;
+                        leftPointer = pointer;
                     }else if(arrowRight.isTouched(x,y,cameraHUD,view)){
                         moveState = MoveState.RIGHT;
+                        leftPointer = pointer;
                     }
                     if (arrowUp.isTouched(x,y,cameraHUD,view)) {
+                        rightPointer = pointer;
                         switch (player.getJumpState()) {
                             case GROUND:
                                 player.startJump();
@@ -245,16 +230,20 @@ public class LivermorioEscape implements Screen {
 
             @Override
             public boolean touchDragged(int x, int y, int pointer) {
-                if(player.getMoveState() != DonChitoLivermorio.WalkState.STANDING){
-                    if (!arrowLeft.isTouched(x, y,cameraHUD,view) && !arrowRight.isTouched(x, y,cameraHUD,view) ) {
-                        moveState = MoveState.NONE;
+                if(leftPointer == pointer){
+                    if(player.getMoveState() == DonChitoLivermorio.WalkState.WALKING){
+                        if (!arrowLeft.isTouched(x, y,cameraHUD,view) && !arrowRight.isTouched(x, y,cameraHUD,view) ) {
+                            moveState = MoveState.NONE;
+                        }
                     }
-                }
-                if(player.getMoveState() == DonChitoLivermorio.WalkState.STANDING){
-                    if(arrowLeft.isTouched(x,y,cameraHUD,view)){
-                        moveState = MoveState.LEFT;
-                    }else if(arrowRight.isTouched(x,y,cameraHUD,view)){
-                        moveState = MoveState.RIGHT;
+                    if(player.getMoveState() == DonChitoLivermorio.WalkState.STANDING){
+                        if(arrowLeft.isTouched(x,y,cameraHUD,view)){
+                            moveState = MoveState.LEFT;
+                            leftPointer = pointer;
+                        }else if(arrowRight.isTouched(x,y,cameraHUD,view)){
+                            moveState = MoveState.RIGHT;
+                            leftPointer = pointer;
+                        }
                     }
                 }
                 return true;
