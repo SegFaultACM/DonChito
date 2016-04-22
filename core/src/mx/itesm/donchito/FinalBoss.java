@@ -14,8 +14,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import java.util.Random;
 
-import sun.java2d.pipe.SpanShapeRenderer;
-
 public class FinalBoss implements Screen {
     private OrthographicCamera camera;
     private final DonChito game;

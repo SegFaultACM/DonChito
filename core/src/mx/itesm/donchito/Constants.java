@@ -140,6 +140,7 @@ public class Constants {
     public static final String FINAL_BOSS_HEALTHBARB = "Imagenes/peleafinal/healthbarB.png";
 
     public static final String FINAL_BOSS_MUSICA = "Musica/finalBoss.mp3";
+    public static final String LIVERMORIO_ITEM = "Imagenes/Livermorio/botaitem.png";
 
     /*
     public static final String PLAYER_STAND_RIGHT = ;

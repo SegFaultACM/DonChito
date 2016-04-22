@@ -59,12 +59,12 @@ public class LivermorioEscape implements Screen {
 
     //pantalla->Plataformas->Coordenada
     private int[] carretasX = new int[]{114,600,1460,1952,2837,3024,3429,3994,4706,5107,5800,5952,7018,7016,7412,8560,8960,9336,8861,9528,9685,10036,10394};
-    private int[] carretasY = new int[]{437,630,475,708,702,301,703,547,427,426,710,234,717,718,718,714,702,703,246,242,548,406,268};
-
-    //coordenada en y = 720 - carretasY[i]...
+    private int[] carretasY = new int[]{283,90,254,12,18,419,17,173,293,294,10,486,3,2,2,6,18,17,474,478,172,314,452};
 
     private int[] maderasX = new int[]{810,1217,1965,2206,3600,4029,4460,5064,6414,6339,6643,7119,7613,7963,8219,11001,10922,11404};
-    private int[] maderasY = new int[]{0,0,0,0,0,0,0,0,0,0};
+    private int[] maderasY = new int[]{431,42,569,281,523,520,20,129,555,192,402,412,598,172,479,516,54,71};
+
+    //sumar 12,000 a todas las x para ciclar
 
     private boolean powerUp = false;
 
@@ -115,7 +115,7 @@ public class LivermorioEscape implements Screen {
                 realInput();
                 if(MathUtils.nanoToSec * (TimeUtils.nanoTime() - gameStartTime) >=3){
                     gameStartTime = TimeUtils.nanoTime();
-                    int randomAs = (new Random()).nextInt(Constants.PLATFORMS.length);
+                    //int randomAs = (new Random()).nextInt(Constants.PLATFORMS.length);
                     /*
                     int randomChoice = (new Random()).nextInt(posPlatforms.length);
                     int yPlat = posPlatforms[randomChoice];
@@ -154,7 +154,7 @@ public class LivermorioEscape implements Screen {
         botonPlay.setAlpha(0.5f);
         fondo = new SimpleAsset(Constants.LIVERMORIO_FONDO_PNG,0,0);
         fondo2 = new SimpleAsset(Constants.LIVERMORIO_FONDO_PNG,posFondos/2,0);
-        powerUpAs = new SimpleAsset(Constants.ROMAN_PIEDRA,-1233,23);
+        powerUpAs = new SimpleAsset(Constants.LIVERMORIO_ITEM,-1233,23);
         powerUpAs.getSprite().setScale(.25f);
 
         //Change locations,when asset is available
