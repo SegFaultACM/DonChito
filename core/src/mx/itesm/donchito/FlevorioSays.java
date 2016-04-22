@@ -29,6 +29,7 @@ public class FlevorioSays implements Screen{
     private boolean perdio = false;
     private boolean salirMenu = false;
     private boolean instruccionesLeidas = false;
+    private boolean jugando = true;
 
     private GameText instructionsTxt;
     private GameText levelTxt;
@@ -201,11 +202,12 @@ public class FlevorioSays implements Screen{
             lastRockPressed = 0;
             reseted = false;
             nivel++;
-            if(nivel == 4){
+            if(nivel == 1){ //cambiar a 4
                 DonChito.preferences.putBoolean("FlevorioSays",true);
                 DonChito.preferences.flush();
                 stopMusic();
-                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game));
+                jugando = false;
+                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.FINALBOSS,game));
             }
             crearCombinacion(nivel);
             indiceSecuencia = 0;
@@ -220,7 +222,7 @@ public class FlevorioSays implements Screen{
         if(!instruccionesLeidas){
             leerInstrucciones(delta);
         }
-        if(nivel != 4 && instruccionesLeidas) {
+        if(nivel != 4 && instruccionesLeidas && jugando) {
             if (fondo.getSprite().getScaleX() >= 1f) {
                 if (!rocasCreadas) {
                     // Sonido que se reproduce al abrir el proyector
