@@ -13,14 +13,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
-import org.omg.CORBA.TypeCodePackage.BadKind;
-
+import java.util.Arrays;
 import java.util.Random;
 
 
@@ -39,14 +36,15 @@ public class LivermorioEscape implements Screen {
                         botonConfiguracion,
                         arrowLeft,
                         arrowRight,
-                        arrowUp;
+                        arrowUp,
+                        powerUpAs;
     private SpriteBatch batch;
     private Music musicaFondo;
 
     Array<SimpleAsset> platforms;
 
     DonChitoLivermorio player;
-
+    private int leftPointer,rightPointer;
     private static final float DEATH_MOVE_SPEED = 200;
     private static final int BACKGROUND_SIZE = 3512;
     private float deathVelocity = 1;
@@ -56,10 +54,12 @@ public class LivermorioEscape implements Screen {
     private int nFondos = 2,posFondos = BACKGROUND_SIZE * 2;
     private TextureRegion regionDeath;
 
+    private final int secPlatforms = 3;
+    private boolean[] posPlatforms= new boolean[secPlatforms];
+    private boolean powerUp = false;
+
     private PlayerState playerState = PlayerState.NOTDEAD;
     private GameState gameState = GameState.PLAY;
-
-    private StateBtn btnState = StateBtn.NOTPRESSED;
     private MoveState moveState = MoveState.NONE;
 
 
@@ -69,7 +69,7 @@ public class LivermorioEscape implements Screen {
 
     @Override
     public void show() {
-
+        Gdx.input.setCatchBackKey(true);
         camera = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
         camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         camera.update();
@@ -83,11 +83,64 @@ public class LivermorioEscape implements Screen {
         platforms = new Array<SimpleAsset>();
         player = new DonChitoLivermorio();
         gameStartTime = TimeUtils.nanoTime();
+        cargaPosiciones();
         cargarAudio();
         cargarRecursos();
         leerEntrada();
         crearElementos();
-}
+    }
+    public void render(float delta) {
+
+        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        view.apply();
+        actualizarCamara();
+        renderCamera();
+        checkCollisions();
+        if(playerState == PlayerState.NOTDEAD){
+            if(gameState == GameState.PLAY){
+                actualizarCamara();
+                update(delta);
+                realInput();
+                if(MathUtils.nanoToSec * (TimeUtils.nanoTime() - gameStartTime) >=3){
+                    gameStartTime = TimeUtils.nanoTime();
+                    boolean taken = false;
+                    float yPlat = 0, divSecciones = DonChito.ALTO_MUNDO /secPlatforms;
+                    while(!taken){
+                        yPlat =(int)(Math.random() * ((500 - 50) + 1));
+                        for (int i = 1; i <= secPlatforms ; i++) {
+                            if(yPlat<=divSecciones*i && !posPlatforms[i-1] ){
+                                taken = true;
+                                Arrays.fill(posPlatforms,false);
+                                posPlatforms[i-1] = true;
+                                break;
+                            }
+                        }
+                    }
+                    if(70 < (int)(Math.random() * ((100-1) + 1) ) && !powerUp){
+                        powerUpAs.setPosition(player.getX()+1100,yPlat+60);
+                    }
+                    platforms.add(new SimpleAsset(Constants.PLATFORMS[(new Random()).nextInt(Constants.PLATFORMS.length)],player.getX()+800,yPlat));
+                }
+                if((posFondos-1280) < player.getX() ){
+                    switch ((nFondos+1)%2){
+                        case 1:
+                            fondo.setPosition(fondo2.getSprite().getX()+fondo2.getSprite().getWidth(),0);
+                            break;
+                        case 0:
+                            fondo2.setPosition(fondo.getSprite().getX()+fondo.getSprite().getWidth(),0);
+                            break;
+                    }
+                    nFondos++;
+                    posFondos += 3512;
+                }
+            }
+            renderHUD();
+        }else{
+            renderDeath();
+        }
+    }
     private void crearElementos(){
         fondoPausa = new SimpleAsset(Constants.GLOBAL_MENU_PAUSA_PNG,0,0);
         botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1110,0);
@@ -98,6 +151,7 @@ public class LivermorioEscape implements Screen {
         botonPlay.setAlpha(0.5f);
         fondo = new SimpleAsset(Constants.LIVERMORIO_FONDO_PNG,0,0);
         fondo2 = new SimpleAsset(Constants.LIVERMORIO_FONDO_PNG,posFondos/2,0);
+        powerUpAs = new SimpleAsset(Constants.ROMAN_PIEDRA,-1233,23);
 
         platforms.add(new SimpleAsset(Constants.PLATFORMS[0], 200, 100));
 
@@ -105,6 +159,9 @@ public class LivermorioEscape implements Screen {
         arrowUp = new SimpleAsset(Constants.CUEVA_ARROW_UP, 1080,225);
         arrowRight = new SimpleAsset(Constants.CUEVA_ARROW_RIGHT, 200,30);
         arrowLeft = new SimpleAsset(Constants.CUEVA_ARROW_LEFT, 10,30);
+
+    }
+    private void cargaPosiciones(){
 
     }
     private void cargarRecursos() {
@@ -135,41 +192,42 @@ public class LivermorioEscape implements Screen {
                     } else {
                         if (botonPausa.isTouched(x, y, cameraHUD,view)) {
                             gameState = GameState.PAUSE;
+                            moveState = MoveState.NONE;
+                            player.stand();
+                            leftPointer = -1;
+                            rightPointer = -1;
+                        }
+                        if(leftPointer == pointer){
+                            moveState = MoveState.NONE;
                         }
                     }
                 } else {
                     DonChito.assetManager.clear();
                     game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
                 }
-                if(btnState == StateBtn.PRESSED && (arrowLeft.isTouched(x,y,cameraHUD,view) || arrowRight.isTouched(x,y,cameraHUD,view)) ){
-                    btnState = StateBtn.NOTPRESSED;
-                }
-                if (arrowUp.isTouched(x,y,cameraHUD,view)) {
-                    switch (player.getJumpState()) {
-                        case GROUND:
-                            player.startJump();
-                            break;
-                        case JUMPING:
-                            player.continueJump();
-                    }
-                }else {
-                    player.endJump();
-                }
                 return true;
             }
-            public boolean touchDown(int x, int y, int pointexr, int button) {
+
+            @Override
+            public boolean keyUp(int keycode) {
+                    if(keycode == Input.Keys.BACK){
+                        dispose();
+                        game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA, game));
+                    }
+                return super.keyUp(keycode);
+            }
+
+            public boolean touchDown(int x, int y, int pointer, int button) {
                 if(gameState == GameState.PLAY){
                     if(arrowLeft.isTouched(x,y,cameraHUD,view)){
                         moveState = MoveState.LEFT;
-                        btnState = StateBtn.PRESSED;
+                        leftPointer = pointer;
                     }else if(arrowRight.isTouched(x,y,cameraHUD,view)){
                         moveState = MoveState.RIGHT;
-                        btnState = StateBtn.PRESSED;
-                    }else{
-                        moveState = MoveState.NONE;
-                        btnState = StateBtn.NOTPRESSED;
+                        leftPointer = pointer;
                     }
                     if (arrowUp.isTouched(x,y,cameraHUD,view)) {
+                        rightPointer = pointer;
                         switch (player.getJumpState()) {
                             case GROUND:
                                 player.startJump();
@@ -180,38 +238,31 @@ public class LivermorioEscape implements Screen {
                     }else {
                         player.endJump();
                     }
-                }else{
-
                 }
                 return true;
             }
 
             @Override
             public boolean touchDragged(int x, int y, int pointer) {
-                if(btnState == StateBtn.PRESSED && !(arrowLeft.isTouched(x,y,cameraHUD,view) || arrowRight.isTouched(x,y,cameraHUD,view)) ){
-                    btnState = StateBtn.NOTPRESSED;
-                }
-                if(arrowLeft.isTouched(x,y,cameraHUD,view)){
-                    btnState = StateBtn.PRESSED;
-                    moveState = MoveState.LEFT;
-                }
-                if(arrowRight.isTouched(x,y,cameraHUD,view)){
-                    btnState = StateBtn.PRESSED;
-                    moveState = MoveState.RIGHT;
-                }
-                if (arrowUp.isTouched(x,y,cameraHUD,view)) {
-                    switch (player.getJumpState()) {
-                        case GROUND:
-                            player.startJump();
-                            break;
-                        case JUMPING:
-                            player.continueJump();
+                if(leftPointer == pointer){
+                    if(player.getMoveState() == DonChitoLivermorio.WalkState.WALKING){
+                        if (!arrowLeft.isTouched(x, y,cameraHUD,view) && !arrowRight.isTouched(x, y,cameraHUD,view) ) {
+                            moveState = MoveState.NONE;
+                        }
                     }
-                }else {
-                    player.endJump();
+                    if(player.getMoveState() == DonChitoLivermorio.WalkState.STANDING){
+                        if(arrowLeft.isTouched(x,y,cameraHUD,view)){
+                            moveState = MoveState.LEFT;
+                            leftPointer = pointer;
+                        }else if(arrowRight.isTouched(x,y,cameraHUD,view)){
+                            moveState = MoveState.RIGHT;
+                            leftPointer = pointer;
+                        }
+                    }
                 }
                 return true;
             }
+
         });
     }
     private void cargarAudio() {
@@ -223,9 +274,9 @@ public class LivermorioEscape implements Screen {
         float delta = Gdx.graphics.getDeltaTime();
 
         if(gameState == GameState.PLAY){
-            if(btnState == StateBtn.PRESSED && moveState == MoveState.LEFT){
+            if(moveState == MoveState.LEFT){
                 player.moveLeft(delta);
-            }else if(btnState == StateBtn.PRESSED && moveState == MoveState.RIGHT){
+            }else if(moveState == MoveState.RIGHT){
                 player.moveRight(delta);
             }else{
                 player.stand();
@@ -253,46 +304,23 @@ public class LivermorioEscape implements Screen {
         }
 
     }
-    @Override
-    public void render(float delta) {
 
-        Gdx.gl.glClearColor(0, 0, 0, 0);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        view.apply();
-        actualizarCamara();
-        renderCamera();
-        checkCollisions();
-        if(playerState == PlayerState.NOTDEAD){
-            if(gameState == GameState.PLAY){
-                actualizarCamara();
-                update(delta);
-                realInput();
-                if(MathUtils.nanoToSec * (TimeUtils.nanoTime() - gameStartTime) >=2){
-                    gameStartTime = TimeUtils.nanoTime();
-                    platforms.add(new SimpleAsset(Constants.PLATFORMS[(new Random()).nextInt(Constants.PLATFORMS.length)],player.getX()+100,0 + (int)(Math.random() * ((500 - 50) + 1))));
-                }
-                if((posFondos-1280) < player.getX() ){
-                   switch ((nFondos+1)%2){
-                       case 1:
-                           fondo.setPosition(fondo2.getSprite().getX()+fondo2.getSprite().getWidth(),0);
-                           break;
-                       case 0:
-                           fondo2.setPosition(fondo.getSprite().getX()+fondo.getSprite().getWidth(),0);
-                           break;
-                   }
-                    nFondos++;
-                    posFondos += 3512;
-                }
-            }
-            renderHUD();
-        }else{
-            renderDeath();
-        }
-    }
     public void checkCollisions(){
         if(DeathPosition.x + regionDeath.getRegionWidth() -200> player.getX()){
             playerState = PlayerState.DEAD;
+        }
+        float pX = player.getX();
+        float pXW = pX + player.getWidth();
+        float py = player.getY();
+        float pyH = py + player.getHeight();
+
+        if(powerUpAs.getSprite().getBoundingRectangle().contains(pX,py) ||
+                powerUpAs.getSprite().getBoundingRectangle().contains(pXW,py) ||
+                powerUpAs.getSprite().getBoundingRectangle().contains(pX,pyH)||
+                powerUpAs.getSprite().getBoundingRectangle().contains(pXW,pyH)){
+            powerUp = true;
+            DonChito.preferences.putBoolean("Livermorio",true);
         }
     }
 
@@ -313,6 +341,7 @@ public class LivermorioEscape implements Screen {
         for (SimpleAsset platform : platforms) {
             platform.render(batch);
         }
+        powerUpAs.render(batch);
         player.render(batch);
         batch.draw(regionDeath, DeathPosition.x, DeathPosition.y);
         batch.end();
@@ -386,9 +415,5 @@ public class LivermorioEscape implements Screen {
         LEFT,
         RIGHT,
         NONE
-    }
-    enum StateBtn{
-        PRESSED,
-        NOTPRESSED
     }
 }

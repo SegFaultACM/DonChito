@@ -1,6 +1,7 @@
 package mx.itesm.donchito;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
@@ -29,14 +30,15 @@ public class AcercaDe implements Screen {
                         descKarla,
                         descLicho,
                         descSada,
-                        descSteve;
+                        descSteve,
+                        regresarMenu;
     private State screenState = State.INIT;
     public AcercaDe(DonChito game) {
         this.game = game;
     }
     @Override
     public void show() {
-
+        Gdx.input.setCatchBackKey(true);
         camera = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
         camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         camera.update();
@@ -60,6 +62,7 @@ public class AcercaDe implements Screen {
         descLicho = new SimpleAsset(Constants.ACERCA_DESC_LICHO_PNG,0,0);
         descSada = new SimpleAsset(Constants.ACERCA_DESC_SADA_PNG,0,0);
         descSteve = new SimpleAsset(Constants.ACERCA_DESC_STEVE_PNG,0,0);
+        regresarMenu = new SimpleAsset(Constants.ACERCA_REGRESAR,1000,10);
     }
 
     private void cargarAudio() {
@@ -85,7 +88,7 @@ public class AcercaDe implements Screen {
                         screenState = State.SADA;
                     }else if(imgSteve.isTouched(x,y,camera)){
                         screenState = State.STEVE;
-                    }else{
+                    }else if(regresarMenu.isTouched(x,y,camera)){
                         game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
                     }
                     return true;
@@ -108,7 +111,10 @@ public class AcercaDe implements Screen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-
+        if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
+            dispose();
+            game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU, game));
+        }
         background.render(batch);
         switch (screenState){
             case SADA:
@@ -132,6 +138,7 @@ public class AcercaDe implements Screen {
                 imgSada.render(batch);
                 imgLicho.render(batch);
                 imgKarla.render(batch);
+                regresarMenu.render(batch);
                 break;
         }
 

@@ -24,7 +24,6 @@ public class MenuPrincipal implements Screen {
     private State estado = State.MENU;
 
     private Music musicaFondo;
-
     private SimpleAsset btnCargarPartida,
                         btnDonChito,
                         fondo,
@@ -81,10 +80,16 @@ public class MenuPrincipal implements Screen {
             @Override
             public boolean touchUp (int x, int y, int pointer, int button) {
                 if(!isClick && estado == State.MENU){
-                    if(btnNuevaPartida.isTouched(x,y,camera,view)){
+                    if(btnCargarPartida.isTouched(x,y,camera,view)){
                         clickOnButton = true;
                         isClick = true;
                         pantallaSiguiente = Screen.CUEVA;
+                        return true;
+                    }
+                    if(btnNuevaPartida.isTouched(x,y,camera,view)){
+                        clickOnButton = true;
+                        isClick = true;
+                        pantallaSiguiente = Screen.NUEVAPARTIDA;
                         return true;
                     }
                     if(btnExtra.isTouched(x,y,camera,view)){
@@ -117,6 +122,7 @@ public class MenuPrincipal implements Screen {
                         }else{
                             DonChito.preferences.putBoolean(Constants.MENUPRINCIPAL_SOUND_PREF,true);
                         }
+                        DonChito.preferences.flush();
                         cargarAudio();
                     }
                 }
@@ -175,8 +181,14 @@ public class MenuPrincipal implements Screen {
                             dispose();
                             game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game));
                             break;
-                        case ACERCA:  dispose();
+                        case ACERCA:
+                            dispose();
                             game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.ACERCA,game));
+                            break;
+                        case NUEVAPARTIDA:
+                            dispose();
+                            game.initPref();
+                            game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game));
                             break;
                         default:
                             break;
@@ -188,8 +200,11 @@ public class MenuPrincipal implements Screen {
                     movimientosActual++;
                 }
                 switch (pantallaSiguiente){
-                    case CUEVA:
+                    case NUEVAPARTIDA:
                         btnNuevaPartida.setRotation(tiempoRecorrido);
+                        break;
+                    case CUEVA:
+                        btnCargarPartida.setRotation(tiempoRecorrido);
                         break;
                     case ACERCA:
                         btnPala.setRotation(tiempoRecorrido);
@@ -265,6 +280,7 @@ public class MenuPrincipal implements Screen {
         LIVERMORIO,
         ROMANSTRUGGLE,
         RADCLIFF,
+        NUEVAPARTIDA,
         CUEVA,
         ACERCA,
         SETTINGS
