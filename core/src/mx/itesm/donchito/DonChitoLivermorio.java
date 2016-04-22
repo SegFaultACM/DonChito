@@ -87,7 +87,9 @@ public class DonChitoLivermorio {
     public JumpState getJumpState(){
         return jumpState;
     }
-
+    public void setJumpState(){
+        this.jumpState = JumpState.GROUND;
+    }
     public void stand(){
         walkState = WalkState.STANDING;
     }

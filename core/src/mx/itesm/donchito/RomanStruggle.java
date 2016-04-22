@@ -89,6 +89,7 @@ public class RomanStruggle implements Screen {
             DonChito.preferences.flush();
         }
         player = new DonChitoLivermorio(640f,10f);
+        player.setJumpState();
         moveState = MoveState.NONE;
         cargarRecursos();
         camera = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
@@ -126,7 +127,7 @@ public class RomanStruggle implements Screen {
 
         fondoDeath = new SimpleAsset(Constants.CTHULHU,0,0);
 
-
+        proyectil = new SimpleAsset(Constants.ROMAN_PIEDRA,-1000f,-0912384f);
         //FALTA HACER A DON CHITO COMO UN PERSONAJE
     }
 
@@ -320,7 +321,7 @@ public class RomanStruggle implements Screen {
 
             public boolean touchDown(int x, int y, int pointer, int button) {
                 estadoBoton = State.PRESIONADO;
-                if (estado == State.PAUSA) {
+                if (estado != State.PAUSA) {
                     if(botonIzquierda.isTouched(x,y,camera,view)){
                         moveState = MoveState.LEFT;
                         leftPointer = pointer;
@@ -330,10 +331,12 @@ public class RomanStruggle implements Screen {
                     }
                     if(botonDisparo.isTouched(x,y,camera,view)){
                         if(!disparado){
+                            batch.begin();
                             proyectil.setPosition(player.getX(),player.getY()+30);
                             proyectil.getSprite().setScale(0.5f);
                             proyectil.render(batch);
                             disparado = true;
+                            batch.end();
                         }
                     }
                 }
@@ -359,6 +362,16 @@ public class RomanStruggle implements Screen {
         if(estado == State.DEATH){
             dispose();
             game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
+            return;
         }
+        float delta = Gdx.graphics.getDeltaTime();
+        if(moveState == MoveState.LEFT){
+            player.moveLeft(delta);
+        }else if(moveState == MoveState.RIGHT){
+            player.moveRight(delta);
+        }else{
+            player.stand();
+        }
+
     }
 }

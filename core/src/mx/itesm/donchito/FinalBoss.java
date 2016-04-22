@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
 import java.util.Random;
 
 import sun.java2d.pipe.SpanShapeRenderer;
@@ -38,6 +37,7 @@ public class FinalBoss implements Screen {
     private boolean accionFlevorioDefinida = false;
     private boolean curacionFlevorio = false;
     private boolean flevorioAturdido = false;
+    private boolean todosLosItems = true;
 
     private String modoAtaque = "";
 
@@ -72,15 +72,13 @@ public class FinalBoss implements Screen {
     private float healthHeight;
     private float healthWidth;
 
-
     private int vidaDonChito = 700;
     private int vidaFlevorio = 700;
     private int damage = 0;
-    private int extra = 0;
+    private int turnoBloqueoBota = 0;
     Random randomIntGenerator = new Random();
 
     private Music musicaFondo;
-
 
     public FinalBoss(DonChito game) {
         this.game = game;
@@ -143,6 +141,7 @@ public class FinalBoss implements Screen {
         botonResortera.getSprite().setScale(0.5f);
         if(!DonChito.preferences.getBoolean("RomanStruggle", false)){
             botonResortera.getSprite().setColor(Color.BLACK);
+            todosLosItems = false;
         }
         botonTribalera = new SimpleAsset(Constants.FINAL_BOSS_BOTAS, 210, -50);
         botonTribalera.getSprite().setScale(0.5f);
@@ -151,6 +150,7 @@ public class FinalBoss implements Screen {
         //
         if(!DonChito.preferences.getBoolean("Livermorio", false)){
             botonTribalera.getSprite().setColor(Color.BLACK);
+            todosLosItems = false;
         }
         botonCurar = new SimpleAsset(Constants.FINAL_BOSS_PIEDRA, -100, 70);
         botonCurar.getSprite().setScale(0.5f);
@@ -272,6 +272,7 @@ public class FinalBoss implements Screen {
                 accionText.showMessage(batch, "Curandose con la piedra magica");
                 if (!danioInflinjido) {
                     damage = randomIntGenerator.nextInt(100);
+                    damage += 50;
                     vidaDonChito += damage;
                     if(vidaDonChito>=700){
                         vidaDonChito = 700;
@@ -281,6 +282,7 @@ public class FinalBoss implements Screen {
                 if(esperar(delta)){
                     estado = State.TURNOFLEVORIO;
                     estadoAtaque = AtackState.FLEVORIOFORWARD;
+                    botonTribalera.getSprite().setColor(Color.WHITE);
                     damage = 0;
                     danioInflinjido = false;
                 }
@@ -312,7 +314,12 @@ public class FinalBoss implements Screen {
                         if (!danioInflinjido) {
                             vidaFlevorio -= damage;
                             if (vidaFlevorio <= 0) {
-                                vidaFlevorio = 0;
+                                if(todosLosItems){
+                                    vidaFlevorio = 0;
+                                }
+                                else {
+                                    vidaFlevorio = 1;
+                                }
                             }
                             danioInflinjido = true;
                         }
@@ -340,7 +347,7 @@ public class FinalBoss implements Screen {
             }
             else {
                 donchitoDam.setColor(1f, .1f, .1f, 1);
-                if (flevorioAtaca()) {
+                if (flevorioAtaca()){
                     ataqueHecho = AtackMade.FLEVORIO;
                     if (flevorioAturdido) {
                         accionText.showMessage(batch, "¡Aturdiste a Flevorio con la resortera, \nno puede curarse");
@@ -372,6 +379,9 @@ public class FinalBoss implements Screen {
                         damage = randomIntGenerator.nextInt(200);
                         if (vidaFlevorio <= 200) {
                             damage += 50;
+                        }
+                        if(vidaFlevorio == 1){
+                            damage += 300;
                         }
                         vidaFlevorio += damage;
                         if (vidaFlevorio >= 700) {
@@ -527,7 +537,9 @@ public class FinalBoss implements Screen {
                         estado = State.ACCION;
                         damage = randomIntGenerator.nextInt(100);
                         modoAtaque = "Pico";
-                        extra = 0;
+                        if(turnoBloqueoBota<3 || turnoBloqueoBota!=0){
+                            turnoBloqueoBota++;
+                        }
                         ataqueHecho = AtackMade.DONCHITOPICO;
                         if(flevorioAturdido){
                             flevorioAturdido = false;
@@ -538,28 +550,37 @@ public class FinalBoss implements Screen {
                         ataqueHecho = AtackMade.DONCHITOCURAR;
                         estado = State.ACCION;
                         modoAtaque = "curar";
-                        extra = 0;
+                        if(turnoBloqueoBota<3 || turnoBloqueoBota!=0){
+                            turnoBloqueoBota++;
+                        }
                         if(flevorioAturdido){
                             flevorioAturdido = false;
                             botonResortera.getSprite().setColor(Color.WHITE);
                         }
 
                     } else if (botonTribalera.isTouched(x, y, camera, view) && DonChito.preferences.getBoolean("Livermorio", false)) {
-                        estadoAtaque = AtackState.DONCHITOFORWARD;
-                        estado = State.ACCION;
-                        modoAtaque = "Botas Tribaleras";
-                        ataqueHecho = AtackMade.DONCHITOBOTAS;
-                        extra = 0;
-                        if(flevorioAturdido){
-                            flevorioAturdido = false;
-                            extra = 70;
-                            botonResortera.getSprite().setColor(Color.WHITE);
+                        if(turnoBloqueoBota == 0 || turnoBloqueoBota == 3) {
+                            turnoBloqueoBota = 1;
+                            estadoAtaque = AtackState.DONCHITOFORWARD;
+                            estado = State.ACCION;
+                            modoAtaque = "Botas Tribaleras";
+                            ataqueHecho = AtackMade.DONCHITOBOTAS;
+                            damage = randomIntGenerator.nextInt(100);
+                            if (flevorioAturdido) {
+                                flevorioAturdido = false;
+                                damage += 150;
+                                botonResortera.getSprite().setColor(Color.WHITE);
+                            }
+                            botonTribalera.getSprite().setColor(Color.GRAY);
                         }
 
                     } else if (botonResortera.isTouched(x, y, camera, view) && DonChito.preferences.getBoolean("RomanStruggle", false)) {
                         if(!flevorioAturdido) {
                             estadoAtaque = AtackState.DONCHITOFORWARD;
                             estado = State.ACCION;
+                            if(turnoBloqueoBota<3 || turnoBloqueoBota!=0){
+                                turnoBloqueoBota++;
+                            }
                             modoAtaque = "Resortera";
                             damage = randomIntGenerator.nextInt(100);
                             ataqueHecho = AtackMade.DONCHITORESORTERA;
@@ -567,7 +588,6 @@ public class FinalBoss implements Screen {
                             curacionFlevorio = true;
                             accionFlevorioDefinida = true;
                             botonResortera.getSprite().setColor(Color.GRAY);
-                            extra = 0;
                         }
                     }
                     else if (botonPausa.isTouched(x,y,camera,view) || botonPlay.isTouched(x,y,camera,view)){
