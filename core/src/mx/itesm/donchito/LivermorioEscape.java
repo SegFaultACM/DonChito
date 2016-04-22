@@ -159,8 +159,8 @@ public class LivermorioEscape implements Screen {
 
         //Change locations,when asset is available
         arrowUp = new SimpleAsset(Constants.CUEVA_ARROW_UP, 1080,225);
-        arrowRight = new SimpleAsset(Constants.CUEVA_ARROW_RIGHT, 200,30);
-        arrowLeft = new SimpleAsset(Constants.CUEVA_ARROW_LEFT, 10,30);
+        arrowRight = new SimpleAsset(Constants.CUEVA_ARROW_RIGHT, 200,50);
+        arrowLeft = new SimpleAsset(Constants.CUEVA_ARROW_LEFT, 10,50);
 
     }
     private void cargaPosiciones(){
