@@ -66,10 +66,10 @@ public class LivermorioEscape implements Screen {
     public LivermorioEscape(DonChito game) {
         this.game = game;
     }
-        Gdx.input.setCatchBackKey(true);
+
     @Override
     public void show() {
-
+        Gdx.input.setCatchBackKey(true);
         camera = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
         camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         camera.update();
@@ -212,6 +212,7 @@ public class LivermorioEscape implements Screen {
             public boolean keyUp(int keycode) {
                     if(keycode == Input.Keys.BACK){
                         dispose();
+                        game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA, game));
                     }
                 return super.keyUp(keycode);
             }
