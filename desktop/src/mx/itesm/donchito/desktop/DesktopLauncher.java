@@ -11,7 +11,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "Don Chito";
-		cfg.addIcon("Imagenes/ic_launcher.png", Files.FileType.Internal);
+		cfg.addIcon("Imagenes/iconos/ic_launcher.png", Files.FileType.Internal);
 		cfg.width = SCREEN_WIDTH;
 		cfg.height = SCREEN_HEIGHT;
 		new LwjglApplication(new DonChito(), cfg);
