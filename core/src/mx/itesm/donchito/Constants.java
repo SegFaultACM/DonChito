@@ -128,6 +128,18 @@ public class Constants {
     public static final String CTHULHU = "Imagenes/Livermorio/deathscreen.png";
     public static final String LOGO_TEC = "Imagenes/logo_tec.png";
 
+    //Final Boss
+    public static final String FINAL_BOSS_FONDO = "Imagenes/peleafinal/pelea.jpg";
+    public static final String FINAL_BOSS_FLEVORIO = "Imagenes/peleafinal/flevrio.png";
+    public static final String FINAL_BOSS_DONCHITO = "Imagenes/Cueva/DonChito.png";
+    public static final String FINAL_BOSS_BOTAS = "Imagenes/peleaFinal/botas.png";
+    public static final String FINAL_BOSS_PICO = "Imagenes/peleaFinal/pico.png";
+    public static final String FINAL_BOSS_PIEDRA = "Imagenes/peleaFinal/piedraCurativa.png";
+    public static final String FINAL_BOSS_RESORTERA = "Imagenes/peleaFinal/resortera.png";
+    public static final String FINAL_BOSS_HEALTHBAR = "Imagenes/peleaFinal/healthbar.png";
+    public static final String FINAL_BOSS_HEALTHBARB = "Imagenes/peleaFinal/healthbarB.png";
+
+    public static final String FINAL_BOSS_MUSICA = "Musica/finalBoss.mp3";
 
     /*
     public static final String PLAYER_STAND_RIGHT = ;

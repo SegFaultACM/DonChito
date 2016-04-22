@@ -8,12 +8,9 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
-import javax.xml.soap.Text;
 
 /**
  * Created on 06-Apr-16.
@@ -68,7 +65,6 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.CUEVA_ARROW_LEFT,Texture.class);
                 assetManager.load(Constants.CUEVA_ARROW_RIGHT,Texture.class);
                 //assetManager.load(Constants.CUEVA_TILES, Texture.class);
-
                 break;
             case ACERCA:
                 assetManager.load(Constants.ACERCA_FONDO_JPG,Texture.class);
@@ -153,12 +149,26 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.GLOBAL_BOTON_PLAY_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_CONFIGURACION_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_SALIRMENU_PNG, Texture.class);
+
+                assetManager.load(Constants.FLEVORIO_SONIDOFAIL_WAV,Music.class);
+                assetManager.load(Constants.FLEVORIO_SONIDOVICTORY_WAV, Music.class);
                 //ROMAN_SPRITES_DONCHITO
                 assetManager.load(Constants.CTHULHU, Texture.class);
                 break;
-            case RADCLIFF:
+            case FINALBOSS:
+                assetManager.load(Constants.FINAL_BOSS_FONDO,Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_DONCHITO,Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_FLEVORIO,Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_BOTAS,Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_PIEDRA,Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_PICO,Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_RESORTERA,Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_HEALTHBAR,Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_HEALTHBARB,Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_MUSICA, Music.class);
                 break;
-            case MENU: default:
+            case MENU:
+            default:
                 assetManager.load(Constants.MENUPRINCIPAL_FONDO_JPG,Texture.class);
                 assetManager.load(Constants.MENUPRINCIPAL_CARGARPARTIDA_PNG,Texture.class);
                 assetManager.load(Constants.MENUPRINCIPAL_NUEVAPARTIDA_PNG,Texture.class);
@@ -191,9 +201,6 @@ public class LoadingScreen implements Screen {
                 case LIVERMORIO:
                     game.setScreen(new LivermorioEscape(game));
                     break;
-                case RADCLIFF:
-                    game.setScreen(new RaddcliffFight(game));
-                    break;
                 case ROMANSTRUGGLE:
                     game.setScreen(new RomanStruggle(game));
                     break;
@@ -205,6 +212,9 @@ public class LoadingScreen implements Screen {
                     break;
                 case SPLASH:
                     game.setScreen(new SplashScreen(game));
+                    break;
+                case FINALBOSS:
+                    game.setScreen(new FinalBoss(game));
                     break;
                 default:
                     game.setScreen(new MenuPrincipal(game));
@@ -257,8 +267,9 @@ public class LoadingScreen implements Screen {
         FLEVORIO,
         LIVERMORIO,
         ROMANSTRUGGLE,
-        RADCLIFF,
         CUEVA,
-        SPLASH, ACERCA
+        SPLASH,
+        FINALBOSS,
+        ACERCA
     }
 }

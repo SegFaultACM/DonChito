@@ -74,6 +74,7 @@ public class Cueva implements Screen{
     @Override
     public void show() {
         Gdx.input.setCatchBackKey(true);
+
         // Camara y viewport
         camera = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
         camera.position.set(0, 0, 0);
