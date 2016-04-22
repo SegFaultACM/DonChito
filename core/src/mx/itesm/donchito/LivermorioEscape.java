@@ -115,7 +115,7 @@ public class LivermorioEscape implements Screen {
                 realInput();
                 if(MathUtils.nanoToSec * (TimeUtils.nanoTime() - gameStartTime) >=3){
                     gameStartTime = TimeUtils.nanoTime();
-                    int randomAs = (new Random()).nextInt(Constants.PLATFORMS.length);
+                    //int randomAs = (new Random()).nextInt(Constants.PLATFORMS.length);
                     /*
                     int randomChoice = (new Random()).nextInt(posPlatforms.length);
                     int yPlat = posPlatforms[randomChoice];
@@ -154,7 +154,7 @@ public class LivermorioEscape implements Screen {
         botonPlay.setAlpha(0.5f);
         fondo = new SimpleAsset(Constants.LIVERMORIO_FONDO_PNG,0,0);
         fondo2 = new SimpleAsset(Constants.LIVERMORIO_FONDO_PNG,posFondos/2,0);
-        powerUpAs = new SimpleAsset(Constants.ROMAN_PIEDRA,-1233,23);
+        powerUpAs = new SimpleAsset(Constants.LIVERMORIO_ITEM,-1233,23);
         powerUpAs.getSprite().setScale(.25f);
 
         //Change locations,when asset is available
