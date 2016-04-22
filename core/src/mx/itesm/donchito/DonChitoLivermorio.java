@@ -40,8 +40,8 @@ public class DonChitoLivermorio {
 
     private Animation animacion;
 
-    public DonChitoLivermorio() {
-        position = new Vector2(100, 100);
+    public DonChitoLivermorio(float x, float y) {
+        position = new Vector2(x, y);
 
         lastFramePosition = new Vector2(position);
 

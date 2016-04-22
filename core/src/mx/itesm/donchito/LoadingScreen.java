@@ -227,10 +227,6 @@ public class LoadingScreen implements Screen {
                     break;
             }
         }
-        else {
-            float avance = assetManager.getProgress()*100;
-            Gdx.app.log("Loading",avance+" %");
-        }
         loading.setRotation(loading.getSprite().getRotation() + 5);
 
         batch.setProjectionMatrix(camera.combined);

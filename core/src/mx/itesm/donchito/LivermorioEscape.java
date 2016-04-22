@@ -17,11 +17,12 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import java.util.Arrays;
 import java.util.Random;
 
 
 public class LivermorioEscape implements Screen {
+    public static final int PLATFORM_OFFSET = 500;
+    public static final int RANDOMNESS_INT = 70;
     private OrthographicCamera camera,cameraHUD;
     private final DonChito game;
     private Viewport view;
@@ -46,7 +47,8 @@ public class LivermorioEscape implements Screen {
     DonChitoLivermorio player;
     private int leftPointer,rightPointer;
     private static final float DEATH_MOVE_SPEED = 200;
-    private static final int BACKGROUND_SIZE = 3512;
+    public static final int PLATFORM_WIDTH = 3512;
+    private static final int BACKGROUND_SIZE = PLATFORM_WIDTH;
     private float deathVelocity = 1;
     private Vector2 DeathPosition;
     private Animation animationDeath;
@@ -54,8 +56,16 @@ public class LivermorioEscape implements Screen {
     private int nFondos = 2,posFondos = BACKGROUND_SIZE * 2;
     private TextureRegion regionDeath;
 
-    private final int secPlatforms = 3;
-    private boolean[] posPlatforms= new boolean[secPlatforms];
+
+    //pantalla->Plataformas->Coordenada
+    private int[] carretasX = new int[]{114,600,1460,1952,2837,3024,3429,3994,4706,5107,5800,5952,7018,7016,7412,8560,8960,9336,8861,9528,9685,10036,10394};
+    private int[] carretasY = new int[]{437,630,475,708,702,301,703,547,427,426,710,234,717,718,718,714,702,703,246,242,548,406,268};
+
+    //coordenada en y = 720 - carretasY[i]...
+
+    private int[] maderasX = new int[]{810,1217,1965,2206,3600,4029,4460,5064,6414,6339,6643,7119,7613,7963,8219,11001,10922,11404};
+    private int[] maderasY = new int[]{0,0,0,0,0,0,0,0,0,0};
+
     private boolean powerUp = false;
 
     private PlayerState playerState = PlayerState.NOTDEAD;
@@ -81,7 +91,7 @@ public class LivermorioEscape implements Screen {
         view = new FitViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,camera);
         batch = new SpriteBatch();
         platforms = new Array<SimpleAsset>();
-        player = new DonChitoLivermorio();
+        player = new DonChitoLivermorio(400,100);
         gameStartTime = TimeUtils.nanoTime();
         cargaPosiciones();
         cargarAudio();
@@ -105,23 +115,16 @@ public class LivermorioEscape implements Screen {
                 realInput();
                 if(MathUtils.nanoToSec * (TimeUtils.nanoTime() - gameStartTime) >=3){
                     gameStartTime = TimeUtils.nanoTime();
-                    boolean taken = false;
-                    float yPlat = 0, divSecciones = DonChito.ALTO_MUNDO /secPlatforms;
-                    while(!taken){
-                        yPlat =(int)(Math.random() * ((500 - 50) + 1));
-                        for (int i = 1; i <= secPlatforms ; i++) {
-                            if(yPlat<=divSecciones*i && !posPlatforms[i-1] ){
-                                taken = true;
-                                Arrays.fill(posPlatforms,false);
-                                posPlatforms[i-1] = true;
-                                break;
-                            }
-                        }
+                    int randomAs = (new Random()).nextInt(Constants.PLATFORMS.length);
+                    /*
+                    int randomChoice = (new Random()).nextInt(posPlatforms.length);
+                    int yPlat = posPlatforms[randomChoice];
+                    SimpleAsset temp = new SimpleAsset(Constants.PLATFORMS[randomAs],player.getX()+800,yPlat);
+                    if(!powerUp &&  RANDOMNESS_INT < (int)(Math.random() * ((100-1) + 1) ) && !powerUp){
+                        powerUpAs.setPosition(player.getX()+ PLATFORM_OFFSET,yPlat+temp.getSprite().getHeight());
                     }
-                    if(70 < (int)(Math.random() * ((100-1) + 1) ) && !powerUp){
-                        powerUpAs.setPosition(player.getX()+1100,yPlat+60);
-                    }
-                    platforms.add(new SimpleAsset(Constants.PLATFORMS[(new Random()).nextInt(Constants.PLATFORMS.length)],player.getX()+800,yPlat));
+                    platforms.add(temp);
+                    */
                 }
                 if((posFondos-1280) < player.getX() ){
                     switch ((nFondos+1)%2){
@@ -133,7 +136,7 @@ public class LivermorioEscape implements Screen {
                             break;
                     }
                     nFondos++;
-                    posFondos += 3512;
+                    posFondos += PLATFORM_WIDTH;
                 }
             }
             renderHUD();
@@ -152,8 +155,7 @@ public class LivermorioEscape implements Screen {
         fondo = new SimpleAsset(Constants.LIVERMORIO_FONDO_PNG,0,0);
         fondo2 = new SimpleAsset(Constants.LIVERMORIO_FONDO_PNG,posFondos/2,0);
         powerUpAs = new SimpleAsset(Constants.ROMAN_PIEDRA,-1233,23);
-
-        platforms.add(new SimpleAsset(Constants.PLATFORMS[0], 200, 100));
+        powerUpAs.getSprite().setScale(.25f);
 
         //Change locations,when asset is available
         arrowUp = new SimpleAsset(Constants.CUEVA_ARROW_UP, 1080,225);
@@ -308,6 +310,7 @@ public class LivermorioEscape implements Screen {
 
     public void checkCollisions(){
         if(DeathPosition.x + regionDeath.getRegionWidth() -200> player.getX()){
+            Gdx.app.log("Death",player.getX()+"");
             playerState = PlayerState.DEAD;
         }
         float pX = player.getX();
@@ -315,7 +318,7 @@ public class LivermorioEscape implements Screen {
         float py = player.getY();
         float pyH = py + player.getHeight();
 
-        if(powerUpAs.getSprite().getBoundingRectangle().contains(pX,py) ||
+        if(!powerUp && powerUpAs.getSprite().getBoundingRectangle().contains(pX,py) ||
                 powerUpAs.getSprite().getBoundingRectangle().contains(pXW,py) ||
                 powerUpAs.getSprite().getBoundingRectangle().contains(pX,pyH)||
                 powerUpAs.getSprite().getBoundingRectangle().contains(pXW,pyH)){
@@ -341,7 +344,7 @@ public class LivermorioEscape implements Screen {
         for (SimpleAsset platform : platforms) {
             platform.render(batch);
         }
-        powerUpAs.render(batch);
+        if(!powerUp)powerUpAs.render(batch);
         player.render(batch);
         batch.draw(regionDeath, DeathPosition.x, DeathPosition.y);
         batch.end();

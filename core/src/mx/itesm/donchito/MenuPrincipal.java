@@ -1,6 +1,7 @@
 package mx.itesm.donchito;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -50,6 +51,7 @@ public class MenuPrincipal implements Screen {
 
     @Override
     public void show() {
+        Gdx.input.setCatchBackKey(true);
         camera = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
         camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         camera.update();
@@ -228,6 +230,10 @@ public class MenuPrincipal implements Screen {
         }else if(estado ==  State.MENU){
             btnDonChito.setRotation(0);
             btnAjustes.setRotation(0);
+        }else if(estado == State.PAUSA){
+            if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
+                estado = State.MENU;
+            }
         }
         btnCargarPartida.render(batch);
         btnDonChito.render(batch);
