@@ -1,6 +1,7 @@
 package mx.itesm.donchito;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -72,7 +73,7 @@ public class Cueva implements Screen{
 
     @Override
     public void show() {
-
+        Gdx.input.setCatchBackKey(true);
         // Camara y viewport
         camera = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
         camera.position.set(0, 0, 0);
@@ -134,6 +135,10 @@ public class Cueva implements Screen{
 
     @Override
     public void render(float delta) {
+        if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
+            dispose();
+            game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU, game));
+        }
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camera.combined);

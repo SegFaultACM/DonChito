@@ -1,6 +1,7 @@
 package mx.itesm.donchito;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
@@ -37,7 +38,7 @@ public class AcercaDe implements Screen {
     }
     @Override
     public void show() {
-
+        Gdx.input.setCatchBackKey(true);
         camera = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
         camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         camera.update();
@@ -110,7 +111,10 @@ public class AcercaDe implements Screen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-
+        if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
+            dispose();
+            game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU, game));
+        }
         background.render(batch);
         switch (screenState){
             case SADA:
