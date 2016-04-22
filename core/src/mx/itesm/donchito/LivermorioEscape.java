@@ -192,6 +192,10 @@ public class LivermorioEscape implements Screen {
                     } else {
                         if (botonPausa.isTouched(x, y, cameraHUD,view)) {
                             gameState = GameState.PAUSE;
+                            moveState = MoveState.NONE;
+                            player.stand();
+                            leftPointer = -1;
+                            rightPointer = -1;
                         }
                         if(leftPointer == pointer){
                             moveState = MoveState.NONE;
