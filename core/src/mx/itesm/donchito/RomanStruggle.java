@@ -152,6 +152,7 @@ public class RomanStruggle implements Screen {
             if(nivel == 2){
                 DonChito.preferences.putBoolean("RomanStruggle",true);
                 DonChito.preferences.flush();
+                dispose();
                 game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game));
             }
             createFirstRocks(nivel);
@@ -292,6 +293,7 @@ public class RomanStruggle implements Screen {
                     //if (musicaFondo.isPlaying()) {
                     //    musicaFondo.stop();
                     //}
+                    dispose();
                     game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
                 }
                 return true; // return true to indicate the event was handled

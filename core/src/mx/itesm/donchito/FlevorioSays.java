@@ -207,6 +207,7 @@ public class FlevorioSays implements Screen{
                 DonChito.preferences.flush();
                 stopMusic();
                 jugando = false;
+                dispose();
                 game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.FINALBOSS,game));
             }
             crearCombinacion(nivel);
@@ -288,6 +289,7 @@ public class FlevorioSays implements Screen{
             botonSalirMenu.render(batch);
             if(salirMenu) {
                 stopMusic();
+                dispose();
                 game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
             }
         }

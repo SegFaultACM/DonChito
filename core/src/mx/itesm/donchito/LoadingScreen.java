@@ -123,7 +123,7 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.LIVERMORIO_FONDO_PNG, Texture.class);
                 assetManager.load(Constants.DEATHBYROBOT,Texture.class);
                 assetManager.load(Constants.CTHULHU,Texture.class);
-
+                assetManager.load(Constants.LIVERMORIO_ITEM,Texture.class);
 
                 assetManager.load(Constants.CUEVA_ARROW_UP,Texture.class);
                 assetManager.load(Constants.CUEVA_ARROW_LEFT,Texture.class);
