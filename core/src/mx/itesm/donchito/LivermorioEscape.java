@@ -95,7 +95,7 @@ public class LivermorioEscape implements Screen {
         view = new FitViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,camera);
         batch = new SpriteBatch();
         platforms = new Array<SimpleAsset>();
-        player = new DonChitoLivermorio(400,100);
+        player = new DonChitoLivermorio(300,600);
         gameStartTime = TimeUtils.nanoTime();
         cargaPosiciones();
         cargarAudio();
@@ -108,12 +108,17 @@ public class LivermorioEscape implements Screen {
 
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        if(player.getX()>3000 && !createdPlat[1]){
+        if(player.getX()>2500 && !createdPlat[1]){
             createdPlat[1] = true;
             createPlatforms(1);
-        }if(player.getX()>6000 && !createdPlat[2]){
+        }
+        if(player.getX()>5000 && !createdPlat[2]){
             createdPlat[2] = true;
             createPlatforms(2);
+        }
+        if(player.getX()>7500 && !createdPlat[3]){
+            createdPlat[3] = true;
+            createPlatforms(3);
         }
         view.apply();
         actualizarCamara();
@@ -172,7 +177,6 @@ public class LivermorioEscape implements Screen {
         int randomAs;
 
         if(0 == position){
-            platforms.clear();
             for (int i = 0; i < CARRETAS_X.length /4; i++) {
                 randomAs = (new Random()).nextInt(Constants.PLATFORMS_CARRETAS.length);
                 tempCarretas = new SimpleAsset(Constants.PLATFORMS_CARRETAS[randomAs],CARRETAS_X[i],CARRETAS_Y[i]);
