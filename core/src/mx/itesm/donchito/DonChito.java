@@ -11,8 +11,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 public class DonChito extends Game {
+    public static final float ANCHO_MUNDO = 1280;
 	public static final float ALTO_MUNDO = 720;
-	public static final float ANCHO_MUNDO = 1280;
+
     public  static final AssetManager assetManager = new AssetManager();
 	public static Preferences preferences;
 	@Override
@@ -32,4 +33,9 @@ public class DonChito extends Game {
         super.dispose();
         DonChito.assetManager.clear();
     }
+	public void initPref(){
+		DonChito.preferences.putBoolean("RomanStruggle",false);
+		DonChito.preferences.putBoolean("Livermorio",false);
+
+	}
 }

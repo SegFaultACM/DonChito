@@ -21,6 +21,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import org.omg.CORBA.TypeCodePackage.BadKind;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 
@@ -47,6 +49,8 @@ public class LivermorioEscape implements Screen {
 
     DonChitoLivermorio player;
 
+    //private final ArrayList<Vector2> posPlatforms = new ArrayList<Vector2>();
+
     private static final float DEATH_MOVE_SPEED = 200;
     private static final int BACKGROUND_SIZE = 3512;
     private float deathVelocity = 1;
@@ -55,6 +59,9 @@ public class LivermorioEscape implements Screen {
     private float deathStartTime,gameStartTime;
     private int nFondos = 2,posFondos = BACKGROUND_SIZE * 2;
     private TextureRegion regionDeath;
+
+    private final int secPlatforms = 3;
+    private boolean[] posPlatforms= new boolean[secPlatforms];
 
     private PlayerState playerState = PlayerState.NOTDEAD;
     private GameState gameState = GameState.PLAY;
@@ -83,11 +90,64 @@ public class LivermorioEscape implements Screen {
         platforms = new Array<SimpleAsset>();
         player = new DonChitoLivermorio();
         gameStartTime = TimeUtils.nanoTime();
+        cargaPosiciones();
         cargarAudio();
         cargarRecursos();
         leerEntrada();
         crearElementos();
-}
+    }
+    public void render(float delta) {
+
+        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        view.apply();
+        actualizarCamara();
+        renderCamera();
+        checkCollisions();
+        if(playerState == PlayerState.NOTDEAD){
+            if(gameState == GameState.PLAY){
+                actualizarCamara();
+                update(delta);
+                realInput();
+                if(MathUtils.nanoToSec * (TimeUtils.nanoTime() - gameStartTime) >=2){
+                    gameStartTime = TimeUtils.nanoTime();
+                    boolean taken = false;
+                    float yPlat = 0, divSecciones = DonChito.ALTO_MUNDO /secPlatforms;
+                    while(!taken){
+                        yPlat =(int)(Math.random() * ((600 - 50) + 1));
+                        for (int i = 1; i <= secPlatforms ; i++) {
+                            if(yPlat<=divSecciones*i && !posPlatforms[i-1] ){
+                                taken = true;
+                                Arrays.fill(posPlatforms,false);
+                                posPlatforms[i-1] = true;
+                                break;
+                            }
+                        }
+                    }
+                    if(66 == (int)(Math.random() * ((100-1) + 1) )){
+                        Gdx.app.log("Power up","yis!!");
+                    }
+                    platforms.add(new SimpleAsset(Constants.PLATFORMS[(new Random()).nextInt(Constants.PLATFORMS.length)],player.getX()+1000,yPlat));
+                }
+                if((posFondos-1280) < player.getX() ){
+                    switch ((nFondos+1)%2){
+                        case 1:
+                            fondo.setPosition(fondo2.getSprite().getX()+fondo2.getSprite().getWidth(),0);
+                            break;
+                        case 0:
+                            fondo2.setPosition(fondo.getSprite().getX()+fondo.getSprite().getWidth(),0);
+                            break;
+                    }
+                    nFondos++;
+                    posFondos += 3512;
+                }
+            }
+            renderHUD();
+        }else{
+            renderDeath();
+        }
+    }
     private void crearElementos(){
         fondoPausa = new SimpleAsset(Constants.GLOBAL_MENU_PAUSA_PNG,0,0);
         botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1110,0);
@@ -105,6 +165,9 @@ public class LivermorioEscape implements Screen {
         arrowUp = new SimpleAsset(Constants.CUEVA_ARROW_UP, 1080,225);
         arrowRight = new SimpleAsset(Constants.CUEVA_ARROW_RIGHT, 200,30);
         arrowLeft = new SimpleAsset(Constants.CUEVA_ARROW_LEFT, 10,30);
+
+    }
+    private void cargaPosiciones(){
 
     }
     private void cargarRecursos() {
@@ -253,43 +316,8 @@ public class LivermorioEscape implements Screen {
         }
 
     }
-    @Override
-    public void render(float delta) {
 
-        Gdx.gl.glClearColor(0, 0, 0, 0);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        view.apply();
-        actualizarCamara();
-        renderCamera();
-        checkCollisions();
-        if(playerState == PlayerState.NOTDEAD){
-            if(gameState == GameState.PLAY){
-                actualizarCamara();
-                update(delta);
-                realInput();
-                if(MathUtils.nanoToSec * (TimeUtils.nanoTime() - gameStartTime) >=2){
-                    gameStartTime = TimeUtils.nanoTime();
-                    platforms.add(new SimpleAsset(Constants.PLATFORMS[(new Random()).nextInt(Constants.PLATFORMS.length)],player.getX()+100,0 + (int)(Math.random() * ((500 - 50) + 1))));
-                }
-                if((posFondos-1280) < player.getX() ){
-                   switch ((nFondos+1)%2){
-                       case 1:
-                           fondo.setPosition(fondo2.getSprite().getX()+fondo2.getSprite().getWidth(),0);
-                           break;
-                       case 0:
-                           fondo2.setPosition(fondo.getSprite().getX()+fondo.getSprite().getWidth(),0);
-                           break;
-                   }
-                    nFondos++;
-                    posFondos += 3512;
-                }
-            }
-            renderHUD();
-        }else{
-            renderDeath();
-        }
-    }
     public void checkCollisions(){
         if(DeathPosition.x + regionDeath.getRegionWidth() -200> player.getX()){
             playerState = PlayerState.DEAD;

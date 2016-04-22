@@ -117,7 +117,6 @@ public class Constants {
                                                 "Imagenes/Livermorio/Entintados/carreta1.png",
                                                 "Imagenes/Livermorio/Entintados/carreta3.1.png",
                                                 "Imagenes/Livermorio/Entintados/carreta3.png",
-                                                "Imagenes/Livermorio/Entintados/pico.png",
                                                 "Imagenes/Livermorio/Entintados/tabla1.png",
                                                 "Imagenes/Livermorio/Entintados/tabla2.png",
                                                 "Imagenes/Livermorio/Entintados/tabla3.png",
