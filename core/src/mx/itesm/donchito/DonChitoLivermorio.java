@@ -195,7 +195,9 @@ public class DonChitoLivermorio {
         }
         batch.draw(region, position.x, position.y);
     }
-
+    public WalkState getMoveState(){
+        return this.walkState;
+    }
     public float getX(){
         return this.position.x;
     }
