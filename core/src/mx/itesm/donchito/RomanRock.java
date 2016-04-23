@@ -69,18 +69,18 @@ public class RomanRock extends SimpleAsset{
                 movimientoY = this.velocidad;
                 this.direccionV = 0;
                 this.velocidadLimite-=0.5f;
-                this.alturaMaxima-=20f;
+                this.alturaMaxima-=50f;
             }
             else {
                 movimientoY = -this.velocidad;
             }
         }
-        else{
+        else{ //si se mueve hacia arriba
             if(this.velocidad <0){
                 this.velocidad = 1;
                 if(this.getSprite().getY()>this.alturaMaxima){
                     this.direccionV = 1;
-                    this.alturaMaxima-=20f;
+                    this.alturaMaxima-=50f;
                     this.velocidadLimite-=0.5f;
                 }
             }

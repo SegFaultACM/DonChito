@@ -42,7 +42,6 @@ public class RomanStruggle implements Screen {
 
     private SimpleAsset fondoDeath;
 
-    //TODO FALTA HACERLO PERSONAJE
     private DonChitoLivermorio player;
     private MoveState moveState;
     private int leftPointer;
@@ -61,7 +60,6 @@ public class RomanStruggle implements Screen {
 
 
     private State estado = State.PLAY;
-    private State estadoBoton = State.NOPRESIONADO;
 
     private SpriteBatch batch;
 
@@ -88,7 +86,7 @@ public class RomanStruggle implements Screen {
             DonChito.preferences.putBoolean("RomanStruggle",false);
             DonChito.preferences.flush();
         }
-        player = new DonChitoLivermorio(640f,10f);
+        player = new DonChitoLivermorio(640f,70f);
         player.setJumpState();
         moveState = MoveState.NONE;
         cargarRecursos();
@@ -109,21 +107,27 @@ public class RomanStruggle implements Screen {
         createFirstRocks(nivel);
 
         fondoPantalla = new SimpleAsset(Constants.ROMAN_FONDO,0,0);
-        botonIzquierda = new SimpleAsset(Constants.ROMAN_BOTON_IZQUIERDA,20,10);
-        botonDerecha = new SimpleAsset(Constants.ROMAN_BOTON_DERECHA,170,10);
-        botonDisparo = new SimpleAsset(Constants.ROMAN_BOTON_DISPARA,900,10);
+        botonIzquierda = new SimpleAsset(Constants.ROMAN_BOTON_IZQUIERDA,20,50);
+        botonDerecha = new SimpleAsset(Constants.ROMAN_BOTON_DERECHA,270,50);
+        botonDisparo = new SimpleAsset(Constants.ROMAN_BOTON_DISPARA,1100,50);
+        botonIzquierda.setAlpha(0.5f);
+        botonDerecha.setAlpha(0.5f);
+        botonDisparo.setAlpha(0.5f);
+        //botonIzquierda.getSprite().setScale(1.2f);
+        //botonDerecha.getSprite().setScale(1.2f);
+        //botonDisparo.getSprite().setScale(1.2f);
 
         fondoPausa = new SimpleAsset(Constants.GLOBAL_MENU_PAUSA_PNG,0,0);
-        botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1050,10);
+        botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1050,500);
         botonConfiguracion = new SimpleAsset(Constants.GLOBAL_BOTON_CONFIGURACION_PNG,405,175);
         botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,405,425);
         botonPlay.setAlpha(0.5f);
 
-        botonPausa = new SimpleAsset(Constants.GLOBAL_BOTON_PAUSA_PNG,1050,10);
+        botonPausa = new SimpleAsset(Constants.GLOBAL_BOTON_PAUSA_PNG,1050,500);
         botonPausa.setAlpha(0.5f);
 
         levelTxt = new GameText(150,700);
-        pointsTxt = new GameText(1000,700);
+        pointsTxt = new GameText(900,700);
 
         fondoDeath = new SimpleAsset(Constants.CTHULHU,0,0);
 
@@ -220,7 +224,6 @@ public class RomanStruggle implements Screen {
             if(rocaX+roca.getRockWidth()>player.getX()&& rocaX-roca.getRockWidth()<player.getX()){
                 if(rocaY<=player.getY()+player.getHeight()) {
                     estado = State.DEATH;
-                    estadoBoton = State.NOPRESIONADO;
                 }
             }
         }
@@ -270,7 +273,6 @@ public class RomanStruggle implements Screen {
     private void leerEntrada() {
         Gdx.input.setInputProcessor(new InputAdapter() {
             public boolean touchUp(int x, int y, int pointer, int button) {
-                estadoBoton = State.NOPRESIONADO;
                 if (estado == State.PLAY) {
                     if(leftPointer == pointer){
                         moveState = MoveState.NONE;
@@ -322,7 +324,6 @@ public class RomanStruggle implements Screen {
             }
 
             public boolean touchDown(int x, int y, int pointer, int button) {
-                estadoBoton = State.PRESIONADO;
                 if (estado != State.PAUSA) {
                     if(botonIzquierda.isTouched(x,y,camera,view)){
                         moveState = MoveState.LEFT;
@@ -351,8 +352,6 @@ public class RomanStruggle implements Screen {
     {
         PAUSA,
         PLAY,
-        PRESIONADO,
-        NOPRESIONADO,
         DEATH
     }
     public enum MoveState {
