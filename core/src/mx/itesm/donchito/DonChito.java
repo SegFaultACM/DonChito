@@ -18,8 +18,7 @@ public class DonChito extends Game {
 	public static Preferences preferences;
 	@Override
 	public void create() {
-		DonChito.assetManager.setLoader(TiledMap.class,
-				new TmxMapLoader(new InternalFileHandleResolver()));
+		DonChito.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
 		preferences = Gdx.app.getPreferences(Constants.GLOBAL_PREFERENCES);
 		this.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.LIVERMORIO, this));
 }

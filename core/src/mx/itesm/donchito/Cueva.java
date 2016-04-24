@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -15,6 +16,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Timer;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
@@ -23,8 +29,16 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 public class Cueva implements Screen{
     private OrthographicCamera camera;
     private OrthographicCamera cameraHUD;
+    private OrthogonalTiledMapRenderer rendererMapa;
     private final DonChito game;
     private Viewport view;
+
+    private TiledMap mapa;
+
+
+    public static final float ANCHO_MAPA = 1280;   // Ancho del mapa en pixeles
+    public static final int TAM_CELDA = 16;
+
 
     // Touchpad
     private Stage stage;
@@ -81,6 +95,8 @@ public class Cueva implements Screen{
         camera.zoom = 1f;
         camera.update();
 
+        // Cargar frames
+
         cameraHUD = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
         cameraHUD.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         cameraHUD.update();
@@ -90,6 +106,11 @@ public class Cueva implements Screen{
         leerEntrada();
         cargarAudio();
         batch = new SpriteBatch();
+
+        rendererMapa = new OrthogonalTiledMapRenderer(mapa,batch);
+        rendererMapa.setView(camera);
+
+
         //Create a touchpad skin
         touchpadSkin = new Skin();
         //Set background image
@@ -126,6 +147,11 @@ public class Cueva implements Screen{
 
 
     private void cargarElementos(){
+
+
+        AssetManager assetManager = DonChito.assetManager;   // Referencia al assetManager
+        // Carga el mapa en memoria
+        mapa = assetManager.get(Constants.CUEVA_TILES);
         fondoPantalla = new SimpleAsset(Constants.CUEVA_FONDO_JPG,0,0);
         donchito = new SimpleAsset(Constants.CUEVA_DON_CHITO_PNG,DonChito.ANCHO_MUNDO-270,DonChito.ALTO_MUNDO-150);
         flechaArriba = new SimpleAsset(Constants.CUEVA_ARROW_UP, 100,300);
@@ -143,13 +169,15 @@ public class Cueva implements Screen{
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camera.combined);
+        rendererMapa.setView(camera);
+        rendererMapa.render();
         batch.begin();
-
-
-        fondoPantalla.render(batch);
+        //fondoPantalla.render(batch);
         donchito.render(batch);
         camera.position.set(CamX, CamY, 0);
         camera.update();
+
+
         ejecutarInputs();
         batch.end();
         batch.setProjectionMatrix(cameraHUD.combined);
@@ -159,8 +187,61 @@ public class Cueva implements Screen{
         flechaDer.render(batch);
         flechaIzq.render(batch);*/
 
-        donchito.getSprite().setX(donchito.getSprite().getX() + touchpad.getKnobPercentX() * velocidad);
-        donchito.getSprite().setY(donchito.getSprite().getY() + touchpad.getKnobPercentY() * velocidad);
+        float x = donchito.getSprite().getX();
+        float y = donchito.getSprite().getY();
+        int CellX = xtoCell(x);
+        int CellY = ytoCell(y);
+        TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get(1);
+        TiledMapTileLayer.Cell curr = capa.getCell(CellX, CellY);
+        //Gdx.app.log("CellX,Y", CellX + " " + CellY);
+        if (curr != null) {
+            //Gdx.app.log("Tile: ", curr.getTile().toString());
+
+
+        }
+        boolean positivoX= true, positivoY =true;
+        if (curr == null) {
+            Gdx.app.log("pos ", positivoX + " " + positivoY);
+            //Gdx.app.log("KNOB ", touchpad.getKnobPercentX() + " " + touchpad.getKnobPercentY());
+            donchito.getSprite().setX(donchito.getSprite().getX() + touchpad.getKnobPercentX() * velocidad);
+            donchito.getSprite().setY(donchito.getSprite().getY() + touchpad.getKnobPercentY() * velocidad);
+            if(touchpad.getKnobPercentX() > 0) {
+                positivoX = true;
+            }else {
+                positivoX = false;
+            }
+
+            if(touchpad.getKnobPercentY() > 0) {
+                positivoY = true;
+            }else {
+                positivoY = false;
+            }
+        } else {
+            Gdx.app.log("pos ", positivoX + " " + positivoY);
+            // dentro
+            if(positivoX)
+                donchito.getSprite().setX(donchito.getSprite().getX() + ((-1*Math.abs(touchpad.getKnobPercentX())) * velocidad));
+            else
+                donchito.getSprite().setX(donchito.getSprite().getX() + ((Math.abs(touchpad.getKnobPercentX())) * velocidad));
+
+            if(!positivoY)
+                donchito.getSprite().setY(donchito.getSprite().getY() + ((-1*Math.abs(touchpad.getKnobPercentY())) * velocidad));
+            else
+                donchito.getSprite().setY(donchito.getSprite().getY() + ((1*Math.abs(touchpad.getKnobPercentY())) * velocidad));
+
+           /* if(touchpad.getKnobX() > 0){
+                 else {
+                donchito.getSprite().setX(donchito.getSprite().getX() + (touchpad.getKnobPercentX() * velocidad));
+            }
+            if(touchpad.getKnobY() > 0){
+                donchito.getSprite().setY(donchito.getSprite().getY() - (touchpad.getKnobPercentY() * velocidad));
+
+            } else {
+                donchito.getSprite().setY(donchito.getSprite().getY() + (touchpad.getKnobPercentY() * velocidad));
+            }*/
+            //donchito.getSprite().setX(donchito.getSprite().getX() - (touchpad.getKnobPercentX() * velocidad));
+            //donchito.getSprite().setY(donchito.getSprite().getY() - (touchpad.getKnobPercentY() * velocidad));
+        }
         if(donchito.getSprite().getY() > 1050)
             game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.FLEVORIO,game));
         if(donchito.getSprite().getX() < 300)
@@ -215,6 +296,11 @@ public class Cueva implements Screen{
         if(estadoBoton == State.PRESIONADO){
             int x = Gdx.app.getInput().getX();
             int y = Gdx.app.getInput().getY();
+            int CellX = xtoCell(x);
+            int CellY = ytoCell(74-y);
+            TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get(1);
+            TiledMapTileLayer.Cell curr = capa.getCell(CellX, CellY);
+            Gdx.app.log("Tile: ", curr.getTile().toString());
             //Gdx.app.log(""+x,""+y);
             //Gdx.app.log("CamX ",Float.toString(CamX));
             //Gdx.app.log("CamY ",Float.toString(CamY));
@@ -274,4 +360,20 @@ public class Cueva implements Screen{
             }
         }
     }
+
+    private int xtoCell(float x){
+        return Math.round(x/16);
+    }
+    private int ytoCell(float y){
+        return Math.round(y/16);
+    }
+
+    private int Celltox(int x){
+        return x*16;
+    }
+    private int Celltoy(int y){
+        return y*16;
+    }
+
+
 }

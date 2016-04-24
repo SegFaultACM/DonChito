@@ -25,7 +25,7 @@ public class Constants {
     public static final String CUEVA_ARROW_DOWN = "Imagenes/Cueva/ArrowDown.png";
     public static final String CUEVA_ARROW_LEFT = "Imagenes/Controles/controlizquierda.png";
     public static final String CUEVA_ARROW_RIGHT = "Imagenes/Controles/controlderecha.png";
-    public static final String CUEVA_TILES = "Imagenes/Cueva/CuevaTiles.tmx";
+    public static final String CUEVA_TILES = "Imagenes/Cueva/CuevaTiled.tmx";
 
 
     //FlevorioSays
