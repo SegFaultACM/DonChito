@@ -51,6 +51,9 @@ public class Cueva implements Screen{
     private Sprite blockSprite;
     private float blockSpeed;
 
+    private boolean positivoX=true;
+    private boolean positivoY=true;
+
     private SpriteBatch batch;
     private Music musicaFondo;
 
@@ -199,32 +202,34 @@ public class Cueva implements Screen{
 
 
         }
-        boolean positivoX= true, positivoY =true;
+
         if (curr == null) {
-            Gdx.app.log("pos ", positivoX + " " + positivoY);
-            //Gdx.app.log("KNOB ", touchpad.getKnobPercentX() + " " + touchpad.getKnobPercentY());
+            //Gdx.app.log("pos ", positivoX + " " + positivoY);
+            //Gdx.app.log("knob ", touchpad.getKnobPercentX() + " " + touchpad.getKnobPercentY());
+                     //Gdx.app.log("KNOB ", touchpad.getKnobPercentX() + " " + touchpad.getKnobPercentY());
             donchito.getSprite().setX(donchito.getSprite().getX() + touchpad.getKnobPercentX() * velocidad);
             donchito.getSprite().setY(donchito.getSprite().getY() + touchpad.getKnobPercentY() * velocidad);
-            if(touchpad.getKnobPercentX() > 0) {
+            float kPx = touchpad.getKnobPercentX();
+            float kPy = touchpad.getKnobPercentY();
+            if (kPx > 0) {
                 positivoX = true;
             }else {
                 positivoX = false;
             }
 
-            if(touchpad.getKnobPercentY() > 0) {
+            if(kPy > 0) {
                 positivoY = true;
             }else {
                 positivoY = false;
             }
         } else {
-            Gdx.app.log("pos ", positivoX + " " + positivoY);
             // dentro
             if(positivoX)
                 donchito.getSprite().setX(donchito.getSprite().getX() + ((-1*Math.abs(touchpad.getKnobPercentX())) * velocidad));
             else
                 donchito.getSprite().setX(donchito.getSprite().getX() + ((Math.abs(touchpad.getKnobPercentX())) * velocidad));
 
-            if(!positivoY)
+            if(positivoY)
                 donchito.getSprite().setY(donchito.getSprite().getY() + ((-1*Math.abs(touchpad.getKnobPercentY())) * velocidad));
             else
                 donchito.getSprite().setY(donchito.getSprite().getY() + ((1*Math.abs(touchpad.getKnobPercentY())) * velocidad));
