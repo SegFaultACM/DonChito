@@ -21,8 +21,6 @@ public class Constants {
     //Cueva
     public static final String CUEVA_FONDO_JPG = "Imagenes/Cueva/Imagen_Cueva_fin.jpg";
     public static final String CUEVA_DON_CHITO_PNG = "Imagenes/Cueva/DonChito.png";
-    public static final String CUEVA_ARROW_UP = "Imagenes/Cueva/ArrowUp.png";
-    public static final String CUEVA_ARROW_DOWN = "Imagenes/Cueva/ArrowDown.png";
     public static final String CUEVA_ARROW_LEFT = "Imagenes/Controles/controlizquierda.png";
     public static final String CUEVA_ARROW_RIGHT = "Imagenes/Controles/controlderecha.png";
     public static final String CUEVA_TILES = "Imagenes/Cueva/CuevaTiled.tmx";
@@ -146,4 +144,5 @@ public class Constants {
 
     //secuencia
     public static final String SECUENCIAS_HISTORIETA = "Imagenes/historieta/historieta.jpg";
+    public static final String PREF_SECUENCIA = "Secuencia";
 }

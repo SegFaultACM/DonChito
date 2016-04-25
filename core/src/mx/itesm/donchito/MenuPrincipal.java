@@ -190,7 +190,12 @@ public class MenuPrincipal implements Screen {
                         case NUEVAPARTIDA:
                             dispose();
                             game.initPref();
-                            game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.SECUENCIA,game));
+                            if(!DonChito.preferences.getBoolean(Constants.PREF_SECUENCIA,false)){
+                                DonChito.preferences.putBoolean(Constants.PREF_SECUENCIA,true);
+                                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.SECUENCIA,game));
+                            }else{
+                                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game));
+                            }
                             break;
                         default:
                             break;

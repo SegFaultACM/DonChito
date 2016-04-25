@@ -159,10 +159,6 @@ public class Cueva implements Screen{
         mapa = assetManager.get(Constants.CUEVA_TILES);
         fondoPantalla = new SimpleAsset(Constants.CUEVA_FONDO_JPG,0,0);
         donchito = new SimpleAsset(Constants.CUEVA_DON_CHITO_PNG,DonChito.ANCHO_MUNDO-270,DonChito.ALTO_MUNDO-150);
-        flechaArriba = new SimpleAsset(Constants.CUEVA_ARROW_UP, 100,300);
-        flechaAbajo = new SimpleAsset(Constants.CUEVA_ARROW_DOWN, 100,100);
-        flechaDer = new SimpleAsset(Constants.CUEVA_ARROW_RIGHT, 200,200);
-        flechaIzq = new SimpleAsset(Constants.CUEVA_ARROW_LEFT, 0,200);
     }
 
     @Override

@@ -71,10 +71,6 @@ public class LoadingScreen implements Screen {
             case CUEVA:
                 assetManager.load(Constants.CUEVA_FONDO_JPG,Texture.class);
                 assetManager.load(Constants.CUEVA_DON_CHITO_PNG,Texture.class);
-                assetManager.load(Constants.CUEVA_ARROW_UP,Texture.class);
-                assetManager.load(Constants.CUEVA_ARROW_DOWN,Texture.class);
-                assetManager.load(Constants.CUEVA_ARROW_LEFT,Texture.class);
-                assetManager.load(Constants.CUEVA_ARROW_RIGHT,Texture.class);
                 assetManager.load(Constants.CUEVA_TILES, TiledMap.class);
                 break;
             case ACERCA:
@@ -139,8 +135,6 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.DEATHBYROBOT,Texture.class);
                 assetManager.load(Constants.CTHULHU,Texture.class);
                 assetManager.load(Constants.LIVERMORIO_ITEM,Texture.class);
-
-                assetManager.load(Constants.CUEVA_ARROW_UP,Texture.class);
                 assetManager.load(Constants.CUEVA_ARROW_LEFT,Texture.class);
                 assetManager.load(Constants.CUEVA_ARROW_RIGHT,Texture.class);
 
