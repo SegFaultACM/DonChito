@@ -95,7 +95,7 @@ public class Cueva implements Screen{
         // Camara y viewport
         camera = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
         camera.position.set(0, 0, 0);
-        camera.zoom = 1f;
+        camera.zoom = 1.2f;
         camera.update();
 
         // Cargar frames
@@ -249,7 +249,7 @@ public class Cueva implements Screen{
         }
         if(donchito.getSprite().getY() > 1050)
             game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.FLEVORIO,game));
-        if(donchito.getSprite().getX() < 300)
+        if(donchito.getSprite().getX() < 400 || donchito.getSprite().getY() < 340)
             game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.LIVERMORIO,game));
         if(donchito.getSprite().getX() > 1850)
             game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.ROMANSTRUGGLE,game));
