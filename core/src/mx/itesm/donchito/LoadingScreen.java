@@ -3,18 +3,13 @@ package mx.itesm.donchito;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.TideMapLoader;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
  * Created on 06-Apr-16.
@@ -25,12 +20,12 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  */
 public class LoadingScreen implements Screen {
 
-    private final DonChito game;
-    private ScreenSel screenSel;
+    private DonChito game;
+    private ScreenSel screenSel,comingFrom;
+    private boolean winStat; //winOrNot
     private SimpleAsset loading;
     private AssetManager assetManager;
     private Camera camera;
-    private Viewport viewport;
     private GameText loadingTxt;
     private SpriteBatch batch;
     private static final int LOADING_SIZE = 195;
@@ -39,16 +34,28 @@ public class LoadingScreen implements Screen {
         this.game = game;
         this.screenSel = screenSel;
         this.assetManager = DonChito.assetManager;
+        this.comingFrom = ScreenSel.NONE;
     }
+    public LoadingScreen(ScreenSel screenSel,DonChito game,boolean victory, ScreenSel comingFrom) {
+        this.game = game;
+        this.screenSel = screenSel;
+        this.assetManager = DonChito.assetManager;
+        this.winStat = victory;
+        this.comingFrom = comingFrom;
+    }
+
     @Override
     public void show() {
+        if(comingFrom != ScreenSel.NONE){
+            dispose();
+            game.setScreen(new PostGameStatusScreen(screenSel, game, winStat, comingFrom));
+        }
         camera = new OrthographicCamera(DonChito.ANCHO_MUNDO, DonChito.ALTO_MUNDO);
         camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         camera.update();
         assetManager.load(Constants.ROMAN_PIEDRA, Texture.class);
         assetManager.finishLoading();
         loading = new SimpleAsset(Constants.ROMAN_PIEDRA,DonChito.ANCHO_MUNDO / 2 - LOADING_SIZE /2,DonChito.ALTO_MUNDO/2-LOADING_SIZE/2);
-        viewport = new FitViewport(DonChito.ANCHO_MUNDO, DonChito.ALTO_MUNDO, camera);
         loadingTxt = new GameText(DonChito.ANCHO_MUNDO / 2 - LOADING_SIZE /2+50,DonChito.ALTO_MUNDO/2-LOADING_SIZE/2 - 75);
         loadingTxt.setColor(.323f,.4823f,.649f,1);
         batch = new SpriteBatch();
@@ -206,12 +213,12 @@ public class LoadingScreen implements Screen {
     }
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 0);    // r, g, b, alpha  //color NEGRO
+        Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         updateScreen();
-        if (assetManager.update()) {// Terminó la carga, cambiar de pantalla
-            switch(this.screenSel){//dependiendo que se cargo, cambiamos la pantalla...
+        if (assetManager.update()) {
+            switch(this.screenSel){
                 case MENU:
                     game.setScreen(new MenuPrincipal(game));
                     break;
@@ -290,6 +297,7 @@ public class LoadingScreen implements Screen {
         SPLASH,
         FINALBOSS,
         SECUENCIA,
-        ACERCA
+        ACERCA,
+        NONE
     }
 }

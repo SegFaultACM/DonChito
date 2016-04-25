@@ -20,7 +20,7 @@ public class DonChito extends Game {
 	public void create() {
 		DonChito.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
 		preferences = Gdx.app.getPreferences(Constants.GLOBAL_PREFERENCES);
-		this.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU, this));
+		this.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.SPLASH, this));
 }
 
 	@Override
