@@ -34,7 +34,7 @@ public class SplashScreen implements Screen {
     @Override
     public void render(float delta) {
         batch.begin();
-        if(((TimeUtils.millis()-startTime)/1000)>5){
+        if(((TimeUtils.millis()-startTime)/1000)>3){
             game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU, game));
         }else{
             batch.draw(logoTec,0,0);

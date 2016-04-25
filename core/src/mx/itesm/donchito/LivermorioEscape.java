@@ -160,7 +160,7 @@ public class LivermorioEscape implements Screen {
 
         //Change locations,when asset is available
         arrowUp = new SimpleAsset(Constants.CUEVA_ARROW_LEFT, 1080,225);
-        arrowUp.setRotation(90);
+        arrowUp.setRotation(-90);
         arrowRight = new SimpleAsset(Constants.CUEVA_ARROW_RIGHT, 200,50);
         arrowLeft = new SimpleAsset(Constants.CUEVA_ARROW_LEFT, 10,50);
 
@@ -178,19 +178,11 @@ public class LivermorioEscape implements Screen {
             for (int i = 0; i < CARRETAS_X.length /4; i++) {
                 randomAs = (new Random()).nextInt(Constants.PLATFORMS_CARRETAS.length);
                 tempCarretas = new SimpleAsset(Constants.PLATFORMS_CARRETAS[randomAs],CARRETAS_X[i],CARRETAS_Y[i]);
-                if(!isActive && Math.round(Math.random()*8)+1 == 8){
-                    powerUpAs.setPosition(CARRETAS_X[i]+(tempCarretas.getSprite().getWidth()/2),CARRETAS_Y[i]+tempCarretas.getSprite().getHeight());
-                    isActive = true;
-                }
                 platforms.add(tempCarretas);
             }
             for (int i = 0; i < MADERAS_X.length /4; i++) {
                 randomAs = (new Random()).nextInt(Constants.PLATFORMS_MADERA.length);
                 tempMadera = new SimpleAsset(Constants.PLATFORMS_MADERA[randomAs],MADERAS_X[i],MADERAS_Y[i]);
-                if(!isActive && Math.round(Math.random()*8)+1 == 8){
-                    powerUpAs.setPosition(MADERAS_X[i]+(tempMadera.getSprite().getWidth()/2),MADERAS_Y[i]+tempMadera.getSprite().getHeight());
-                    isActive = true;
-                }
                 platforms.add(tempMadera);
             }
         }else if(1 == position){
@@ -272,7 +264,7 @@ public class LivermorioEscape implements Screen {
                 if (playerState == PlayerState.NOTDEAD) {
                     if (gameState == GameState.PAUSE) {
                         if (botonSalirMenu.isTouched(x, y, cameraHUD,view)) {
-                            game.setScreen(new LoadingScreen(MENU,game,true, LIVERMORIO));
+                            game.setScreen(new LoadingScreen(MENU,game));
                         }
                         if (botonPlay.isTouched(x, y, cameraHUD,view)) {
                             gameState = GameState.PLAY;
@@ -401,6 +393,10 @@ public class LivermorioEscape implements Screen {
             DonChito.preferences.putBoolean("Livermorio",true);
             dispose();
             game.setScreen(new LoadingScreen(CUEVA,game,true,LIVERMORIO));
+        }
+        if(player.getY()+player.getHeight()/2<0){
+            dispose();
+            game.setScreen(new LoadingScreen(CUEVA,game,false,LIVERMORIO));
         }
     }
 

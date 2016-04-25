@@ -68,12 +68,6 @@ public class DonChitoLivermorio {
                 if (jumpState != JumpState.JUMPING) {
                     jumpState = JumpState.FALLING;
 
-                    if (position.y < 0) {
-                        jumpState = JumpState.GROUND;
-                        position.y = 0;
-                        velocity.y = 0;
-                    }
-
                     for (SimpleAsset platform : platforms) {
                         if (landedOnPlatform(platform)) {
                             jumpState = JumpState.GROUND;

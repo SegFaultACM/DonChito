@@ -146,5 +146,4 @@ public class Constants {
 
     //secuencia
     public static final String SECUENCIAS_HISTORIETA = "Imagenes/historieta/historieta.jpg";
-    public static final String SECUENCIAS_FONDO = "Imagenes/historieta/fondo.jpg";
 }

@@ -170,7 +170,6 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.CTHULHU, Texture.class);
                 break;
             case SECUENCIA:
-                assetManager.load(Constants.SECUENCIAS_FONDO,Texture.class);
                 assetManager.load(Constants.SECUENCIAS_HISTORIETA, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_PLAY_PNG, Texture.class);
                 //assetManager.load(Constants.FLEVORIO_SONIDOFAIL_WAV,Music.class);
