@@ -243,7 +243,7 @@ public class FinalBoss implements Screen {
         else if (estado == State.PLAY || estado == State.PAUSA){
             if(vidaDonChito == 0){
                 //efectoGanar.play();
-                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game));
+                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game,false, LoadingScreen.ScreenSel.FINALBOSS));
             }
             else {
                 botonPausa.render(batch);
@@ -277,7 +277,7 @@ public class FinalBoss implements Screen {
             if(modoAtaque == "curar"){
                 accionText.showMessage(batch, "Curandose con la piedra magica");
                 if (!danioInflinjido) {
-                    damage = randomIntGenerator.nextInt(100);
+                    damage = randomIntGenerator.nextInt(100) + 20;
                     damage += 50;
                     vidaDonChito += damage;
                     if(vidaDonChito>=700){
@@ -358,7 +358,7 @@ public class FinalBoss implements Screen {
         else if (estado == State.TURNOFLEVORIO){
             if(vidaFlevorio == 0){
                 //efectoGanar.play();
-                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game));
+                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game,true, LoadingScreen.ScreenSel.FINALBOSS));
             }
             else {
                 donchitoDam.setColor(1f, .1f, .1f, 1);
@@ -373,7 +373,7 @@ public class FinalBoss implements Screen {
                         if (estadoAtaque == AtackState.FLEVORIOBACKWARD) {
                             donchitoDam.showMessage(batch, "" + damage);
                             if (!danioInflinjido) {
-                                damage = randomIntGenerator.nextInt(100);
+                                damage = randomIntGenerator.nextInt(100) + 10;
                                 vidaDonChito -= damage;
                                 if (vidaDonChito <= 0) {
                                     vidaDonChito = 0;
@@ -390,8 +390,8 @@ public class FinalBoss implements Screen {
                 } else {
                     accionText.showMessage(batch, "Flevorio regenero salud con livermorio");
                     if (!danioInflinjido) {
-                        damage = randomIntGenerator.nextInt(200);
-                        if (vidaFlevorio <= 200) {
+                        damage = randomIntGenerator.nextInt(100)+50;
+                        if (vidaFlevorio <= 100) {
                             damage += 50;
                         }
                         if(vidaFlevorio == 1){
@@ -545,7 +545,7 @@ public class FinalBoss implements Screen {
                     if (botonPico.isTouched(x, y, camera, view)) {
                         estadoAtaque = AtackState.DONCHITOFORWARD;
                         estado = State.ACCION;
-                        damage = randomIntGenerator.nextInt(100);
+                        damage = randomIntGenerator.nextInt(100) + 30;
                         modoAtaque = "Pico";
                         ataqueHecho = AtackMade.DONCHITOPICO;
                         if(turnoBloqueoBota <2){
@@ -581,7 +581,7 @@ public class FinalBoss implements Screen {
                             modoAtaque = "Botas Tribaleras";
                             turnoBloqueoBota = 0;
                             ataqueHecho = AtackMade.DONCHITOBOTAS;
-                            damage = randomIntGenerator.nextInt(100);
+                            damage = randomIntGenerator.nextInt(100)+30;
                             if (flevorioAturdido) {
                                 flevorioAturdido = false;
                                 damage += 150;
@@ -595,7 +595,7 @@ public class FinalBoss implements Screen {
                             estadoAtaque = AtackState.DONCHITOFORWARD;
                             estado = State.ACCION;
                             modoAtaque = "Resortera";
-                            damage = randomIntGenerator.nextInt(100);
+                            damage = randomIntGenerator.nextInt(100)+10;
                             ataqueHecho = AtackMade.DONCHITORESORTERA;
                             flevorioAturdido = true;
                             curacionFlevorio = true;

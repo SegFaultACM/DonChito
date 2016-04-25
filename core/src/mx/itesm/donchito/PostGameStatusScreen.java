@@ -50,22 +50,29 @@ public class PostGameStatusScreen implements Screen {
         DonChito.assetManager.load(Constants.FLEVORIO_BOTONCENTRAL_PNG,Texture.class);
         DonChito.assetManager.finishLoading();
         if(this.winStat){
+            //TODO CAMBIAR FONDO
             fondo = new Texture(Constants.FINAL_BOSS_WIN);
-            switch (this.comingFrom){
-                case LIVERMORIO:
-                    item = new SimpleAsset(Constants.LIVERMORIO_ITEM,0,0);
-                    break;
-                case FLEVORIO:
-                    item = new SimpleAsset(Constants.FLEVORIO_BOTONCENTRAL_PNG,0,0);
-                    break;
-                case ROMANSTRUGGLE:
-                    item = new SimpleAsset(Constants.LIVERMORIO_ITEM,0,0);
-                    break;
-                default:
-                    item = new SimpleAsset(Constants.LIVERMORIO_ITEM,0,0);
-                    break;
+            if(this.comingFrom == ScreenSel.FINALBOSS){
+                fondo = new Texture(Constants.FINAL_BOSS_WIN);
             }
-            item.setPosition(DonChito.ANCHO_MUNDO/2 - item.getSprite().getWidth()/2,DonChito.ALTO_MUNDO/2-item.getSprite().getHeight()/2);
+            else{
+                switch (this.comingFrom){
+                    case LIVERMORIO:
+                        item = new SimpleAsset(Constants.LIVERMORIO_ITEM,0,0);
+                        break;
+                    case FLEVORIO:
+                        item = new SimpleAsset(Constants.FLEVORIO_BOTONCENTRAL_PNG,0,0);
+                        break;
+                    case ROMANSTRUGGLE:
+                        item = new SimpleAsset(Constants.LIVERMORIO_ITEM,0,0);
+                        break;
+                    default:
+                        item = new SimpleAsset(Constants.LIVERMORIO_ITEM,0,0);
+                        break;
+                }
+                item.setPosition(DonChito.ANCHO_MUNDO/2 - item.getSprite().getWidth()/2,DonChito.ALTO_MUNDO/2-item.getSprite().getHeight()/2);
+            }
+
         }else{
             fondo = new Texture(Constants.CTHULHU);
         }
@@ -77,7 +84,7 @@ public class PostGameStatusScreen implements Screen {
         if(((TimeUtils.millis()-startTime)/1000)<3){
             batch.begin();
             batch.draw(fondo,0,0);
-            if(this.winStat){
+            if(this.winStat && this.comingFrom != ScreenSel.FINALBOSS){
                 item.render(batch);
             }
             batch.end();
