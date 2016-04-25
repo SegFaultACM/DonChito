@@ -201,8 +201,6 @@ public class Cueva implements Screen{
         //Gdx.app.log("CellX,Y", CellX + " " + CellY);
         if (curr != null) {
             //Gdx.app.log("Tile: ", curr.getTile().toString());
-
-
         }
 
         if (curr == null) {
