@@ -144,7 +144,6 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.GLOBAL_BOTON_SALIRMENU_PNG, Texture.class);
                 break;
             case ROMANSTRUGGLE:
-
                 assetManager.load(Constants.ROMAN_BOTON_IZQUIERDA,Texture.class);
                 assetManager.load(Constants.ROMAN_BOTON_DERECHA, Texture.class);
                 assetManager.load(Constants.ROMAN_BOTON_DISPARA, Texture.class);
@@ -163,6 +162,13 @@ public class LoadingScreen implements Screen {
                 //ROMAN_SPRITES_DONCHITO
                 assetManager.load(Constants.CTHULHU, Texture.class);
                 break;
+            case SECUENCIA:
+                assetManager.load(Constants.SECUENCIAS_FONDO,Texture.class);
+                assetManager.load(Constants.SECUENCIAS_HISTORIETA, Texture.class);
+                assetManager.load(Constants.GLOBAL_BOTON_PLAY_PNG, Texture.class);
+                //assetManager.load(Constants.FLEVORIO_SONIDOFAIL_WAV,Music.class);
+                break;
+
             case FINALBOSS:
                 assetManager.load(Constants.FINAL_BOSS_FONDO,Texture.class);
                 assetManager.load(Constants.FINAL_BOSS_DONCHITO,Texture.class);
@@ -230,6 +236,9 @@ public class LoadingScreen implements Screen {
                 case FINALBOSS:
                     game.setScreen(new FinalBoss(game));
                     break;
+                case SECUENCIA:
+                    game.setScreen(new Secuencia(game));
+                    break;
                 default:
                     game.setScreen(new MenuPrincipal(game));
                     break;
@@ -280,6 +289,7 @@ public class LoadingScreen implements Screen {
         CUEVA,
         SPLASH,
         FINALBOSS,
+        SECUENCIA,
         ACERCA
     }
 }

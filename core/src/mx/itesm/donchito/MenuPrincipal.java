@@ -190,7 +190,7 @@ public class MenuPrincipal implements Screen {
                         case NUEVAPARTIDA:
                             dispose();
                             game.initPref();
-                            game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game));
+                            game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.SECUENCIA,game));
                             break;
                         default:
                             break;
