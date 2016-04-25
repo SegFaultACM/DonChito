@@ -159,7 +159,8 @@ public class LivermorioEscape implements Screen {
         powerUpAs.getSprite().setScale(.50f);
 
         //Change locations,when asset is available
-        arrowUp = new SimpleAsset(Constants.CUEVA_ARROW_UP, 1080,225);
+        arrowUp = new SimpleAsset(Constants.CUEVA_ARROW_LEFT, 1080,225);
+        arrowUp.setRotation(90);
         arrowRight = new SimpleAsset(Constants.CUEVA_ARROW_RIGHT, 200,50);
         arrowLeft = new SimpleAsset(Constants.CUEVA_ARROW_LEFT, 10,50);
 
