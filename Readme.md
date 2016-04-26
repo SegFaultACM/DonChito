@@ -3,7 +3,7 @@ El juego de ***Don Chito***, el sheriff "majestuoso".
 Proyecto de la materia de desarrollo de videojuegos.
 ##Creadores:
 ---
-###B.S. Computer Science and Technology. (ISC)###
+###B.S. in Computer Systems Engineering. (ISC)###
 #####Programación#####
 
 - Esteban Gil Martínez  
