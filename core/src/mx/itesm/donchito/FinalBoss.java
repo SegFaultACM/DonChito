@@ -143,8 +143,8 @@ public class FinalBoss implements Screen {
         botonResortera.getSprite().setScale(0.5f);
 
         // TODO QUITAR CUANDO SE TERMINE LIVERMORIO
-        DonChito.preferences.putBoolean("Livermorio",true);
-        DonChito.preferences.putBoolean("RomanStruggle",true);
+        //DonChito.preferences.putBoolean("Livermorio",true);
+        //DonChito.preferences.putBoolean("RomanStruggle",true);
         //
 
         if(!DonChito.preferences.getBoolean("RomanStruggle", false)){
@@ -539,7 +539,6 @@ public class FinalBoss implements Screen {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean touchDown (int x, int y, int pointexr, int button) {
-                Gdx.app.log("Turnos esperando usar bota",""+turnoBloqueoBota);
                 Vector3 temp = camera.unproject(new Vector3(x, y, 0),view.getScreenX(),view.getScreenY(),view.getScreenWidth(),view.getScreenHeight());
                 if(estado == State.PLAY) {
                     if (botonPico.isTouched(x, y, camera, view)) {
