@@ -3,7 +3,7 @@ El juego de ***Don Chito***, el sheriff "majestuoso".
 Proyecto de la materia de desarrollo de videojuegos.
 ##Creadores:
 ---
-###Programador###
+###Programación###
 - Esteban Gil Martínez  
 - Daniel Sada Caraveo
 - Joel Lara Quintana  
