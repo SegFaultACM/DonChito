@@ -202,7 +202,7 @@ public class FlevorioSays implements Screen{
             lastRockPressed = 0;
             reseted = false;
             nivel++;
-            if(nivel == 4){ //cambiar a 4
+            if(nivel == 2){ //cambiar a 4
                 DonChito.preferences.putBoolean("FlevorioSays",true);
                 DonChito.preferences.flush();
                 stopMusic();

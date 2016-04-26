@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -68,6 +69,9 @@ public class RomanStruggle implements Screen {
     private Music efectoPerder;
     private Music musicaFondo;
     private Music musicaIntro;
+
+    private float widthProyectil;
+    private float heigthProyectil;
 
 
     public RomanStruggle(DonChito game) {
@@ -132,7 +136,10 @@ public class RomanStruggle implements Screen {
         fondoDeath = new SimpleAsset(Constants.CTHULHU,0,0);
 
         proyectil = new SimpleAsset(Constants.ROMAN_PIEDRA,-1000f,-0912384f);
-        //FALTA HACER A DON CHITO COMO UN PERSONAJE
+        proyectil.getSprite().setColor(Color.BLACK);
+        proyectil.getSprite().setScale(0.3f);
+        heigthProyectil = proyectil.getSprite().getHeight()/0.3f;
+        widthProyectil = proyectil.getSprite().getWidth()/0.3f;
     }
 
     private void createFirstRocks(int nivel) {
@@ -196,7 +203,7 @@ public class RomanStruggle implements Screen {
             }
             indiceRocas = 0;
             if (disparado) {
-                if (proyectil.getSprite().getY() > 600) {
+                if (proyectil.getSprite().getY() > 700) {
                     disparado = false;
                 } else {
                     proyectil.setPosition(proyectil.getSprite().getX(), proyectil.getSprite().getY() + velocidadBala);
@@ -219,17 +226,15 @@ public class RomanStruggle implements Screen {
         float rocaX = roca.getSprite().getX();
         float rocaY = roca.getSprite().getY();
 
-        //if(roca.verificarColision(donChito)){
-        if(roca.getSprite().getY() <100){
-            if(rocaX+roca.getRockWidth()>player.getX()&& rocaX-roca.getRockWidth()<player.getX()){
-                if(rocaY<=player.getY()+player.getHeight()) {
+        //if(roca.getSprite().getY() <100){
+            if(rocaX+roca.getRockWidth()-50>player.getX()&& rocaX-roca.getRockWidth()+50<player.getX()){
+                if(rocaY<=player.getY()) {
                     estado = State.DEATH;
+                    //Gdx.app.log("Colisiono en ","y");
                 }
             }
-        }
-        //revisar con bala
+        //}
         if(disparado) {
-            //if(roca.verificarColision(proyectil)){
             if (rocaX+roca.getRockWidth()>proyectil.getSprite().getX()&& rocaX-roca.getRockWidth()<proyectil.getSprite().getX()&&rocaY+roca.getRockHeight()<proyectil.getSprite().getY()+proyectil.getSprite().getHeight()){
                 proyectil.setPosition(1000,1000);
                 disparado = false;
@@ -336,7 +341,6 @@ public class RomanStruggle implements Screen {
                         if(!disparado){
                             batch.begin();
                             proyectil.setPosition(player.getX(),player.getY()+30);
-                            proyectil.getSprite().setScale(0.5f);
                             proyectil.render(batch);
                             disparado = true;
                             batch.end();

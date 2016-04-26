@@ -185,7 +185,7 @@ public class FinalBoss implements Screen {
                 curacionFlevorio = false;
             }
             else if(vidaFlevorio<=550){
-                if (randomIntGenerator.nextInt(2) == 0) {
+                if (randomIntGenerator.nextInt(3) == 0) {
                     curacionFlevorio =  false;
                 }
                 else{
@@ -549,7 +549,7 @@ public class FinalBoss implements Screen {
                         ataqueHecho = AtackMade.DONCHITOPICO;
                         if(turnoBloqueoBota <2){
                             turnoBloqueoBota++;
-                            if(turnoBloqueoBota == 2){
+                            if(turnoBloqueoBota == 2 && !DonChito.preferences.getBoolean("Livermorio", false)){
                                 botonTribalera.getSprite().setColor(Color.WHITE);
                             }
                         }
@@ -564,11 +564,11 @@ public class FinalBoss implements Screen {
                         modoAtaque = "curar";
                         if(turnoBloqueoBota <2){
                             turnoBloqueoBota++;
-                            if(turnoBloqueoBota == 2){
+                            if(turnoBloqueoBota == 2 && !DonChito.preferences.getBoolean("Livermorio", false)){
                                 botonTribalera.getSprite().setColor(Color.WHITE);
                             }
                         }
-                        if(flevorioAturdido){
+                        if(flevorioAturdido && !DonChito.preferences.getBoolean("RomanStruggle", false)){
                             flevorioAturdido = false;
                             botonResortera.getSprite().setColor(Color.WHITE);
                         }
@@ -581,7 +581,7 @@ public class FinalBoss implements Screen {
                             turnoBloqueoBota = 0;
                             ataqueHecho = AtackMade.DONCHITOBOTAS;
                             damage = randomIntGenerator.nextInt(100)+30;
-                            if (flevorioAturdido) {
+                            if (flevorioAturdido && !DonChito.preferences.getBoolean("RomanStruggle", false)) {
                                 flevorioAturdido = false;
                                 damage += 150;
                                 botonResortera.getSprite().setColor(Color.WHITE);
@@ -590,7 +590,7 @@ public class FinalBoss implements Screen {
                         }
 
                     } else if (botonResortera.isTouched(x, y, camera, view) && DonChito.preferences.getBoolean("RomanStruggle", false)) {
-                        if(!flevorioAturdido) {
+                        if(!flevorioAturdido ) {
                             estadoAtaque = AtackState.DONCHITOFORWARD;
                             estado = State.ACCION;
                             modoAtaque = "Resortera";
@@ -603,7 +603,7 @@ public class FinalBoss implements Screen {
                         }
                         if(turnoBloqueoBota <2){
                             turnoBloqueoBota++;
-                            if(turnoBloqueoBota == 2){
+                            if(turnoBloqueoBota == 2 && !DonChito.preferences.getBoolean("Livermorio", false)){
                                 botonTribalera.getSprite().setColor(Color.WHITE);
                             }
                         }
