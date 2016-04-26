@@ -154,7 +154,7 @@ public class RomanStruggle implements Screen {
             }
             tiempoEsperar = 5f;
             nivel++;
-            if(nivel == 2){
+            if(nivel == 4){
                 DonChito.preferences.putBoolean("RomanStruggle",true);
                 DonChito.preferences.flush();
                 dispose();
