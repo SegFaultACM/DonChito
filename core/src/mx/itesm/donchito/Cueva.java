@@ -92,6 +92,9 @@ public class Cueva implements Screen{
     public void show() {
         Gdx.input.setCatchBackKey(true);
 
+
+
+
         //TODO EASTER EGG AL ATRAVESAR PARED LOL ESTA HERMOSO
 
         // Camara y viewport

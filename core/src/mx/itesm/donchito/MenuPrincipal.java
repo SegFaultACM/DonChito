@@ -192,6 +192,7 @@ public class MenuPrincipal implements Screen {
                             game.initPref();
                             if(!DonChito.preferences.getBoolean(Constants.PREF_SECUENCIA,false)){
                                 DonChito.preferences.putBoolean(Constants.PREF_SECUENCIA,true);
+                                DonChito.preferences.flush();
                                 game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.SECUENCIA,game));
                             }else{
                                 game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game));

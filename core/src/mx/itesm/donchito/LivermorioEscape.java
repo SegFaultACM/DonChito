@@ -391,6 +391,7 @@ public class LivermorioEscape implements Screen {
         if(powerUpAs.getSprite().getBoundingRectangle().overlaps(new Rectangle(player.getX(),player.getY(),player.getWidth(),player.getHeight()))){
             powerUp = true;
             DonChito.preferences.putBoolean("Livermorio",true);
+            DonChito.preferences.flush();
             dispose();
             game.setScreen(new LoadingScreen(CUEVA,game,true,LIVERMORIO));
         }
@@ -401,6 +402,7 @@ public class LivermorioEscape implements Screen {
     }
 
     public void renderDeath(){
+        dispose();
         game.setScreen(new LoadingScreen(CUEVA,game,false,LIVERMORIO));
     }
 

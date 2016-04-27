@@ -35,6 +35,5 @@ public class DonChito extends Game {
 	public void initPref(){
 		DonChito.preferences.putBoolean("RomanStruggle",false);
 		DonChito.preferences.putBoolean("Livermorio",false);
-
 	}
 }

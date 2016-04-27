@@ -1,19 +1,14 @@
 package mx.itesm.donchito;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
-
-import org.omg.CORBA.BAD_TYPECODE;
-
-import java.sql.Time;
 
 import static mx.itesm.donchito.LoadingScreen.*;
 /**
@@ -32,6 +27,7 @@ public class PostGameStatusScreen implements Screen {
     private SpriteBatch batch;
     private Texture fondo;
     private SimpleAsset item;
+    private Viewport view;
     private long startTime;
 
     public PostGameStatusScreen(ScreenSel screenSel,DonChito game,boolean victory, ScreenSel comingFrom){
@@ -45,6 +41,8 @@ public class PostGameStatusScreen implements Screen {
         camera = new OrthographicCamera(DonChito.ANCHO_MUNDO, DonChito.ALTO_MUNDO);
         camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         camera.update();
+        view = new FitViewport(DonChito.ANCHO_MUNDO, DonChito.ALTO_MUNDO, camera);
+        view.apply();
         batch = new SpriteBatch();
         DonChito.assetManager.load(Constants.LIVERMORIO_ITEM,Texture.class);
         DonChito.assetManager.load(Constants.FLEVORIO_BOTONCENTRAL_PNG,Texture.class);
@@ -81,6 +79,8 @@ public class PostGameStatusScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        camera.update();
+        batch.setProjectionMatrix(camera.combined);
         if(((TimeUtils.millis()-startTime)/1000)<3){
             batch.begin();
             batch.draw(fondo,0,0);
@@ -97,7 +97,7 @@ public class PostGameStatusScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        view.update(width,height);
     }
 
     @Override
