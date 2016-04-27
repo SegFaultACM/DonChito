@@ -55,6 +55,7 @@ public class Constants {
     public static final String GLOBAL_BOTON_CONFIGURACION_PNG = "Imagenes/Pausa/pausa_herramientas.png";
     public static final String GLOBAL_BOTON_SALIRMENU_PNG = "Imagenes/Pausa/pausa_regresarAlMenuPrincipal.png";
     public static final String GLOBAL_MENU_PAUSA_PNG = "Imagenes/Pausa/marco_fondo.png";
+    public static final String GLOBAL_BOTON_BACK_CAVE = "Imagenes/Extras/volvercueva.png";
 
     public static final String FLEVORIO_SONIDOBOTON_WAV = "Musica/efectoBoton.wav";
     public static final String FLEVORIO_SONIDOFAIL_WAV = "Musica/fail.wav";

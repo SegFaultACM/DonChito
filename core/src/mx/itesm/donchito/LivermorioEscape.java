@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -17,7 +18,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
 import java.util.Random;
 import static mx.itesm.donchito.LoadingScreen.ScreenSel.*;
 
@@ -49,7 +49,8 @@ public class LivermorioEscape implements Screen {
                         arrowLeft,
                         arrowRight,
                         arrowUp,
-                        powerUpAs;
+                        powerUpAs,
+                        btnBacktoCave;
     private SpriteBatch batch;
     Array<SimpleAsset> platforms;
 
@@ -148,19 +149,21 @@ public class LivermorioEscape implements Screen {
 
     private void crearElementos(){
         fondoPausa = new SimpleAsset(Constants.GLOBAL_MENU_PAUSA_PNG,0,0);
-        botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1110,0);
+        botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1110,530);
         botonConfiguracion = new SimpleAsset(Constants.GLOBAL_BOTON_CONFIGURACION_PNG,405,175);
+        botonConfiguracion.getSprite().setColor(.1f,.1f,.1f,.5f);
         botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,405,425);
-        botonPausa = new SimpleAsset(Constants.GLOBAL_BOTON_PAUSA_PNG,1110,0);
+        botonPausa = new SimpleAsset(Constants.GLOBAL_BOTON_PAUSA_PNG,1110,530);
         botonPausa.setAlpha(0.5f);
         botonPlay.setAlpha(0.5f);
         fondo = new SimpleAsset(Constants.LIVERMORIO_FONDO_PNG,0,0);
         fondo2 = new SimpleAsset(Constants.LIVERMORIO_FONDO_PNG,posFondos/2,0);
         powerUpAs = new SimpleAsset(Constants.LIVERMORIO_ITEM,-1233,23);
         powerUpAs.getSprite().setScale(.50f);
+        btnBacktoCave = new SimpleAsset(Constants.GLOBAL_BOTON_BACK_CAVE,705,195);
 
         //Change locations,when asset is available
-        arrowUp = new SimpleAsset(Constants.CUEVA_ARROW_LEFT, 1080,225);
+        arrowUp = new SimpleAsset(Constants.CUEVA_ARROW_LEFT, 1110,50);
         arrowUp.setRotation(-90);
         arrowRight = new SimpleAsset(Constants.CUEVA_ARROW_RIGHT, 200,50);
         arrowLeft = new SimpleAsset(Constants.CUEVA_ARROW_LEFT, 10,50);
@@ -265,10 +268,15 @@ public class LivermorioEscape implements Screen {
                 if (playerState == PlayerState.NOTDEAD) {
                     if (gameState == GameState.PAUSE) {
                         if (botonSalirMenu.isTouched(x, y, cameraHUD,view)) {
+                            dispose();
                             game.setScreen(new LoadingScreen(MENU,game));
                         }
                         if (botonPlay.isTouched(x, y, cameraHUD,view)) {
                             gameState = GameState.PLAY;
+                        }
+                        if(btnBacktoCave.isTouched(x,y,cameraHUD,view)){
+                            dispose();
+                            game.setScreen(new LoadingScreen(CUEVA,game));
                         }
                     } else {
                         if (botonPausa.isTouched(x, y, cameraHUD,view)) {
@@ -282,7 +290,7 @@ public class LivermorioEscape implements Screen {
                         }
                     }
                 } else {
-                    DonChito.assetManager.clear();
+                    dispose();
                     game.setScreen(new LoadingScreen(MENU,game));
                 }
                 return true;
@@ -429,6 +437,7 @@ public class LivermorioEscape implements Screen {
             botonPlay.render(batch);
             botonConfiguracion.render(batch);
             botonSalirMenu.render(batch);
+            btnBacktoCave.render(batch);
         }else{
             botonPausa.render(batch);
             arrowRight.render(batch);
@@ -466,7 +475,7 @@ public class LivermorioEscape implements Screen {
 
     @Override
     public void dispose() {
-
+        DonChito.assetManager.clear();
     }
     private void actualizarCamara() {
         float posX = player.getX();

@@ -153,6 +153,7 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.GLOBAL_BOTON_PLAY_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_CONFIGURACION_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_SALIRMENU_PNG, Texture.class);
+                assetManager.load(Constants.GLOBAL_BOTON_BACK_CAVE,Texture.class);
                 break;
             case ROMANSTRUGGLE:
                 assetManager.load(Constants.ROMAN_BOTON_IZQUIERDA,Texture.class);
