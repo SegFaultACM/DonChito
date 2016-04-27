@@ -4,13 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 
@@ -31,7 +28,8 @@ public class AcercaDe implements Screen {
                         descLicho,
                         descSada,
                         descSteve,
-                        regresarMenu;
+                        regresarMenu,
+                        btnHistorieta;
     private State screenState = State.INIT;
     public AcercaDe(DonChito game) {
         this.game = game;
@@ -63,6 +61,7 @@ public class AcercaDe implements Screen {
         descSada = new SimpleAsset(Constants.ACERCA_DESC_SADA_PNG,0,0);
         descSteve = new SimpleAsset(Constants.ACERCA_DESC_STEVE_PNG,0,0);
         regresarMenu = new SimpleAsset(Constants.ACERCA_REGRESAR,1000,10);
+        btnHistorieta = new SimpleAsset(Constants.ACERCA_HISTORIETA,30,75);
     }
 
     private void cargarAudio() {
@@ -90,6 +89,8 @@ public class AcercaDe implements Screen {
                         screenState = State.STEVE;
                     }else if(regresarMenu.isTouched(x,y,camera)){
                         game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
+                    }else if(btnHistorieta.isTouched(x,y,camera)){
+                        game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.SECUENCIA,game,false));
                     }
                     return true;
                 }else {
@@ -139,6 +140,7 @@ public class AcercaDe implements Screen {
                 imgLicho.render(batch);
                 imgKarla.render(batch);
                 regresarMenu.render(batch);
+                btnHistorieta.render(batch);
                 break;
         }
 
