@@ -70,6 +70,7 @@ public class Constants {
     public static final String ROMAN_BOTON_DISPARA = "Imagenes/Controles/controlarriba.png";
     public static final String ROMAN_PERSONAJE_DONCHITO = "Imagenes/Cueva/DonChito.png";
     public static final String ROMAN_FONDO = "Imagenes/Romans_Struggle/Roman_escenario.jpg";
+    public static final String ROMAN_HONDA = "Imagenes/Romans_Struggle/honda.png";
 
     public static final String ROMAN_SPRITES_DONCHITO = "Imagenes/donchitosprites.png";
 
@@ -127,6 +128,7 @@ public class Constants {
     public static final String PLAYER_TEXTURE = "Imagenes/Livermorio/Sprites/spriteDonChito.png";
     public static final String DEATHBYROBOT = "Imagenes/Livermorio/Sprites/Deslave.png";
     public static final String CTHULHU = "Imagenes/deathscreen.jpg";
+    public static final String WIN_SCREEN = "Imagenes/ganaste.jpg";
     public static final String LOGO_TEC = "Imagenes/logo_tec.png";
 
     //Final Boss

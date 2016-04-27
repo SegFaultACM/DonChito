@@ -44,28 +44,31 @@ public class PostGameStatusScreen implements Screen {
         view = new FitViewport(DonChito.ANCHO_MUNDO, DonChito.ALTO_MUNDO, camera);
         view.apply();
         batch = new SpriteBatch();
-        DonChito.assetManager.load(Constants.LIVERMORIO_ITEM,Texture.class);
-        DonChito.assetManager.load(Constants.FLEVORIO_BOTONCENTRAL_PNG,Texture.class);
-        DonChito.assetManager.finishLoading();
+
         if(this.winStat){
-            //TODO CAMBIAR FONDO
-            fondo = new Texture(Constants.FINAL_BOSS_WIN);
+
+            fondo = new Texture(Constants.WIN_SCREEN);
             if(this.comingFrom == ScreenSel.FINALBOSS){
                 fondo = new Texture(Constants.FINAL_BOSS_WIN);
             }
             else{
                 switch (this.comingFrom){
                     case LIVERMORIO:
+                        DonChito.assetManager.load(Constants.LIVERMORIO_ITEM,Texture.class);
+                        DonChito.assetManager.finishLoading();
                         item = new SimpleAsset(Constants.LIVERMORIO_ITEM,0,0);
                         break;
                     case FLEVORIO:
+                        DonChito.assetManager.load(Constants.FLEVORIO_BOTONCENTRAL_PNG,Texture.class);
+                        DonChito.assetManager.finishLoading();
                         item = new SimpleAsset(Constants.FLEVORIO_BOTONCENTRAL_PNG,0,0);
                         break;
                     case ROMANSTRUGGLE:
-                        item = new SimpleAsset(Constants.LIVERMORIO_ITEM,0,0);
+                        DonChito.assetManager.load(Constants.ROMAN_HONDA,Texture.class);
+                        DonChito.assetManager.finishLoading();
+                        item = new SimpleAsset(Constants.ROMAN_HONDA,0,0);
                         break;
                     default:
-                        item = new SimpleAsset(Constants.LIVERMORIO_ITEM,0,0);
                         break;
                 }
                 item.setPosition(DonChito.ANCHO_MUNDO/2 - item.getSprite().getWidth()/2,DonChito.ALTO_MUNDO/2-item.getSprite().getHeight()/2);

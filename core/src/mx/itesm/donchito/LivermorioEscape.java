@@ -115,7 +115,7 @@ public class LivermorioEscape implements Screen {
             createdPlat[2] = true;
             createPlatforms(2);
         }
-        if(player.getX()>7500 && !createdPlat[3]){
+        if(player.getX()>7000 && !createdPlat[3]){
             createdPlat[3] = true;
             createPlatforms(3);
         }
@@ -402,7 +402,12 @@ public class LivermorioEscape implements Screen {
             DonChito.preferences.putBoolean(Constants.PREF_LIVERMORIO,true);
             DonChito.preferences.flush();
             dispose();
-            game.setScreen(new LoadingScreen(CUEVA,game,true,LIVERMORIO));
+            if(DonChito.preferences.getBoolean(Constants.PREF_LIVERMORIO,false)){
+                game.setScreen(new LoadingScreen(CUEVA,game,true,LIVERMORIO));
+            }else{
+                game.setScreen(new LoadingScreen(CUEVA,game));
+            }
+
         }
         if(player.getY()+player.getHeight()/2<0){
             dispose();
