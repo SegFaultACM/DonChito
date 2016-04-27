@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
 import java.util.Random;
 import static mx.itesm.donchito.LoadingScreen.ScreenSel.*;
 
@@ -390,7 +391,7 @@ public class LivermorioEscape implements Screen {
         }
         if(powerUpAs.getSprite().getBoundingRectangle().overlaps(new Rectangle(player.getX(),player.getY(),player.getWidth(),player.getHeight()))){
             powerUp = true;
-            DonChito.preferences.putBoolean("Livermorio",true);
+            DonChito.preferences.putBoolean(Constants.PREF_LIVERMORIO,true);
             DonChito.preferences.flush();
             dispose();
             game.setScreen(new LoadingScreen(CUEVA,game,true,LIVERMORIO));

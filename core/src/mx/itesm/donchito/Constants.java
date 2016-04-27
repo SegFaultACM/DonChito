@@ -145,4 +145,6 @@ public class Constants {
     //secuencia
     public static final String SECUENCIAS_HISTORIETA = "Imagenes/historieta/historieta.jpg";
     public static final String PREF_SECUENCIA = "Secuencia";
+    public static final String PREF_ROMAN_STRUGGLE = "RomanStruggle";
+    public static final String PREF_LIVERMORIO = "Livermorio";
 }

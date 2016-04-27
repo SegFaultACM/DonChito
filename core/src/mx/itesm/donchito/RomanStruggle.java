@@ -86,8 +86,8 @@ public class RomanStruggle implements Screen {
     }
     @Override
     public void show() {
-        if(!(DonChito.preferences.getBoolean("RomanStruggle",false))){
-            DonChito.preferences.putBoolean("RomanStruggle",false);
+        if(!(DonChito.preferences.getBoolean(Constants.PREF_ROMAN_STRUGGLE,false))){
+            DonChito.preferences.putBoolean(Constants.PREF_ROMAN_STRUGGLE,false);
             DonChito.preferences.flush();
         }
         player = new DonChitoLivermorio(640f,70f);
@@ -162,7 +162,7 @@ public class RomanStruggle implements Screen {
             tiempoEsperar = 5f;
             nivel++;
             if(nivel == 4){
-                DonChito.preferences.putBoolean("RomanStruggle",true);
+                DonChito.preferences.putBoolean(Constants.PREF_ROMAN_STRUGGLE,true);
                 DonChito.preferences.flush();
                 dispose();
                 game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game));
