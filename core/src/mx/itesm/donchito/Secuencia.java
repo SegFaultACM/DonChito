@@ -55,6 +55,7 @@ public class Secuencia implements Screen {
         cameraHUD.update();
 
         view = new FitViewport(DonChito.ANCHO_MUNDO, DonChito.ALTO_MUNDO, camera);
+        view.apply();
         batch = new SpriteBatch();
         historieta = new SimpleAsset(Constants.SECUENCIAS_HISTORIETA,0,0);
         botonPlay =  new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1100,0);
@@ -62,10 +63,11 @@ public class Secuencia implements Screen {
     }
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 0);    // r, g, b, alpha  //color NEGRO
+        Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(camera.combined);
+        view.apply();
         batch.begin();
 
         historieta.render(batch);
@@ -172,7 +174,7 @@ public class Secuencia implements Screen {
     }
     @Override
     public void resize(int width, int height) {
-
+        view.update(width, height);
     }
 
     @Override

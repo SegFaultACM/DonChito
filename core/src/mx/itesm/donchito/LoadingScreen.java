@@ -66,7 +66,6 @@ public class LoadingScreen implements Screen {
     public void loadResources(){
         switch (screenSel){
             case SPLASH:
-                assetManager.load(Constants.LOGO_TEC,Texture.class);
                 break;
             case CUEVA:
                 assetManager.load(Constants.CUEVA_FONDO_JPG,Texture.class);
