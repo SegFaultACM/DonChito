@@ -208,7 +208,7 @@ public class Secuencia implements Screen {
     private void leerEntrada() {
         Gdx.input.setInputProcessor(new InputAdapter() {
             public boolean touchDown(int x, int y, int pointer, int button) {
-                if(botonPlay.isTouched(x,y,cameraHUD)){
+                if(botonPlay.isTouched(x,y,cameraHUD,view)){
                     acabar = true;
                 }
                 return true;

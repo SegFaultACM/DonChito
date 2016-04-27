@@ -77,24 +77,24 @@ public class AcercaDe implements Screen {
             @Override
             public boolean touchUp (int x, int y, int pointer, int button) {
                 if(screenState == State.INIT) {
-                    if(imgJoel.isTouched(x,y,camera)){
+                    if(imgJoel.isTouched(x,y,camera,view)){
                         screenState = State.JOEL;
-                    }else if(imgKarla.isTouched(x,y,camera)){
+                    }else if(imgKarla.isTouched(x,y,camera,view)){
                         screenState = State.KARLA;
-                    }else if(imgLicho.isTouched(x,y,camera)){
+                    }else if(imgLicho.isTouched(x,y,camera,view)){
                         screenState = State.LICHO;
-                    }else if(imgSada.isTouched(x,y,camera)){
+                    }else if(imgSada.isTouched(x,y,camera,view)){
                         screenState = State.SADA;
-                    }else if(imgSteve.isTouched(x,y,camera)){
+                    }else if(imgSteve.isTouched(x,y,camera,view)){
                         screenState = State.STEVE;
-                    }else if(regresarMenu.isTouched(x,y,camera)){
+                    }else if(regresarMenu.isTouched(x,y,camera,view)){
                         game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
-                    }else if(btnHistorieta.isTouched(x,y,camera)){
+                    }else if(btnHistorieta.isTouched(x,y,camera,view)){
                         game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.SECUENCIA,game,false));
                     }
                     return true;
                 }else {
-                    if(background.isTouched(x,y,camera)){
+                    if(background.isTouched(x,y,camera,view)){
                         screenState = State.INIT;
                         return true;
                     }
