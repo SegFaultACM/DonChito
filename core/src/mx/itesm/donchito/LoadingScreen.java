@@ -22,12 +22,13 @@ public class LoadingScreen implements Screen {
 
     private DonChito game;
     private ScreenSel screenSel,comingFrom;
-    private boolean winStat; //winOrNot
+    private boolean winStat;
     private SimpleAsset loading;
     private AssetManager assetManager;
     private Camera camera;
     private GameText loadingTxt;
     private SpriteBatch batch;
+    private boolean cueva;
     private static final int LOADING_SIZE = 195;
 
     public LoadingScreen(ScreenSel screenSel,DonChito game) {
@@ -35,6 +36,14 @@ public class LoadingScreen implements Screen {
         this.screenSel = screenSel;
         this.assetManager = DonChito.assetManager;
         this.comingFrom = ScreenSel.NONE;
+        this.cueva = true;
+    }
+    public LoadingScreen(ScreenSel screenSel,DonChito game,boolean cueva) {
+        this.game = game;
+        this.screenSel = screenSel;
+        this.assetManager = DonChito.assetManager;
+        this.comingFrom = ScreenSel.NONE;
+        this.cueva = cueva;
     }
     public LoadingScreen(ScreenSel screenSel,DonChito game,boolean victory, ScreenSel comingFrom) {
         this.game = game;
@@ -42,6 +51,7 @@ public class LoadingScreen implements Screen {
         this.assetManager = DonChito.assetManager;
         this.winStat = victory;
         this.comingFrom = comingFrom;
+        this.cueva = true;
     }
 
     @Override
@@ -236,7 +246,7 @@ public class LoadingScreen implements Screen {
                     game.setScreen(new FinalBoss(game));
                     break;
                 case SECUENCIA:
-                    game.setScreen(new Secuencia(game));
+                    game.setScreen(new Secuencia(game,cueva));
                     break;
                 default:
                     game.setScreen(new MenuPrincipal(game));

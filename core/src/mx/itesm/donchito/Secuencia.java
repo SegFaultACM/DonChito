@@ -30,6 +30,7 @@ public class Secuencia implements Screen {
     private float tiempoEsperar = 5f;
     private int indicePosiciones = 0;
     private int maxPosiciones = 7;
+    private boolean cueva;
 
     private float currx = 300;
     private float curry = 1270;
@@ -41,8 +42,9 @@ public class Secuencia implements Screen {
 
     private SpriteBatch batch;
 
-    public Secuencia(DonChito game) {
+    public Secuencia(DonChito game, boolean cueva) {
         this.game = game;
+        this.cueva = cueva;
     }
     @Override
     public void show() {
@@ -78,7 +80,13 @@ public class Secuencia implements Screen {
             camera = new OrthographicCamera(DonChito.ANCHO_MUNDO/1.2f, DonChito.ALTO_MUNDO/1.2f);
         }
         if(acabar){
-            game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game));
+            dispose();
+            if(cueva){
+                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game));
+            }else{
+                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.ACERCA,game));
+            }
+
         }
         if(esperar(delta)){
             if (indicePosiciones < maxPosiciones - 1) {
@@ -194,7 +202,7 @@ public class Secuencia implements Screen {
 
     @Override
     public void dispose() {
-
+        DonChito.assetManager.clear();
     }
 
     private void leerEntrada() {

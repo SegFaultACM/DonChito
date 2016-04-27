@@ -33,7 +33,8 @@ public class DonChito extends Game {
         DonChito.assetManager.clear();
     }
 	public void initPref(){
-		DonChito.preferences.putBoolean("RomanStruggle",false);
-		DonChito.preferences.putBoolean("Livermorio",false);
+		DonChito.preferences.putBoolean(Constants.PREF_ROMAN_STRUGGLE,false);
+		DonChito.preferences.putBoolean(Constants.PREF_LIVERMORIO,false);
+		DonChito.preferences.putBoolean(Constants.PREF_SECUENCIA,false);
 	}
 }
