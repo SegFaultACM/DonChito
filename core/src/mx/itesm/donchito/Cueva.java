@@ -194,10 +194,7 @@ public class Cueva implements Screen{
             TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get(1);
             TiledMapTileLayer.Cell curr = capa.getCell(CellX, CellY);
 
-            //Gdx.app.log("",""+curr);
-
             if (curr == null) {
-                //Gdx.app.log("En x: "+touchpad.getKnobPercentX(),"En y: "+touchpad.getKnobPercentY());
                 ultX = donchito.getSprite().getX();
                 ultY = donchito.getSprite().getY();
 
@@ -205,12 +202,14 @@ public class Cueva implements Screen{
                     if(touchpad.getKnobPercentX()<0){
                         donchito.getSprite().setX(donchito.getSprite().getX() + touchpad.getKnobPercentX() * velocidad);
                         cancelarX = Direccion.NONE;
+                        cancelarY = Direccion.NONE;
                     }
                 }
                 else if(cancelarX == Direccion.LEFT){
                     if(touchpad.getKnobPercentX()>0){
                         donchito.getSprite().setX(donchito.getSprite().getX() + touchpad.getKnobPercentX() * velocidad);
                         cancelarX = Direccion.NONE;
+                        cancelarY = Direccion.NONE;
                     }
                 }
                 else {
@@ -220,12 +219,14 @@ public class Cueva implements Screen{
                 if(cancelarY == Direccion.UP){
                     if(touchpad.getKnobPercentY()<0){
                         donchito.getSprite().setY(donchito.getSprite().getY() + touchpad.getKnobPercentY() * velocidad);
+                        cancelarX = Direccion.NONE;
                         cancelarY = Direccion.NONE;
                     }
                 }
                 else if(cancelarY == Direccion.DOWN){
                     if(touchpad.getKnobPercentY()>0){
                         donchito.getSprite().setY(donchito.getSprite().getY() + touchpad.getKnobPercentY() * velocidad);
+                        cancelarX = Direccion.NONE;
                         cancelarY = Direccion.NONE;
                     }
                 }
@@ -251,8 +252,6 @@ public class Cueva implements Screen{
                     positivoY  =Direccion.NONE;
                 }
             } else {
-
-                Gdx.app.log("Colisionando llendo a ",positivoX+", "+positivoY);
 
                 cancelarX = positivoX;
                 cancelarY = positivoY;
