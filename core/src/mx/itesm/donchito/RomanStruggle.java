@@ -67,11 +67,10 @@ public class RomanStruggle implements Screen {
 
     private SpriteBatch batch;
 
-    private Music efectoBoton;
+    private Music efectoRomper;
     private Music efectoGanar;
     private Music efectoPerder;
     private Music musicaFondo;
-    private Music musicaIntro;
 
 
     public RomanStruggle(DonChito game) {
@@ -80,6 +79,10 @@ public class RomanStruggle implements Screen {
     private void cargarRecursos() {
         AssetManager assetManager = DonChito.assetManager;
 
+        musicaFondo = assetManager.get(Constants.ROMAN_MUSICA_FONDO_MP3);
+        musicaFondo.setLooping(true);
+        reproducirMusica(musicaFondo);
+        efectoRomper = assetManager.get(Constants.ROMAN_EFECTO_ROCA);
         efectoGanar = assetManager.get(Constants.FLEVORIO_SONIDOVICTORY_WAV);
         efectoPerder = assetManager.get(Constants.FLEVORIO_SONIDOFAIL_WAV);
 
@@ -152,6 +155,7 @@ public class RomanStruggle implements Screen {
     public void render(float delta) {
         if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
             dispose();
+            stopMusic();
             game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU, game));
         }
         camera.update();
@@ -168,6 +172,7 @@ public class RomanStruggle implements Screen {
                 DonChito.preferences.putBoolean(Constants.PREF_ROMAN_STRUGGLE,true);
                 DonChito.preferences.flush();
                 dispose();
+                stopMusic();
                 game.setScreen(new LoadingScreen(CUEVA,game,true,ROMANSTRUGGLE));
             }
             createFirstRocks(nivel);
@@ -248,6 +253,7 @@ public class RomanStruggle implements Screen {
             if (rocaX+roca.getRockWidth()>proyectil.getSprite().getX()&& rocaX-roca.getRockWidth()<proyectil.getSprite().getX()&&rocaY+roca.getRockHeight()<proyectil.getSprite().getY()+proyectil.getSprite().getHeight()){
                 proyectil.setPosition(1000,1000);
                 disparado = false;
+                reproducirMusica(efectoRomper);
                 if(roca.getEscala()/2 >= 0.25) {
                     RomanRock nuevo = new RomanRock(Constants.ROMAN_PIEDRA,roca.getSprite().getX(), roca.getSprite().getY(), 1, 0, roca.getEscala()/2,roca.getVelocidad());
                     rocas.add(nuevo);
@@ -312,6 +318,7 @@ public class RomanStruggle implements Screen {
                     //    musicaFondo.stop();
                     //}
                     dispose();
+                    stopMusic();
                     game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
                 }
                 if (botonSalirCueva.isTouched(x,y,camera,view) && estado == State.PAUSA) {
@@ -321,6 +328,7 @@ public class RomanStruggle implements Screen {
                     //    musicaFondo.stop();
                     //}
                     dispose();
+                    stopMusic();
                     game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game));
                 }
                 return true; // return true to indicate the event was handled
@@ -371,6 +379,27 @@ public class RomanStruggle implements Screen {
             }
         });
     }
+    private void stopMusic(){
+        if(efectoRomper.isPlaying()){
+            efectoRomper.stop();
+        }
+        if(efectoPerder.isPlaying()){
+            efectoPerder.stop();
+        }
+        if(efectoGanar.isPlaying()){
+            efectoGanar.stop();
+        }
+        if(musicaFondo.isPlaying()){
+            musicaFondo.stop();
+        }
+    }
+    private void reproducirMusica(Music musica){
+        musica.setVolume(1F);
+        if(!DonChito.preferences.getBoolean(Constants.MENUPRINCIPAL_SOUND_PREF,true)){
+            musica.setVolume(0f);
+        }
+        musica.play();
+    }
     public enum State
     {
         PAUSA,
@@ -385,6 +414,7 @@ public class RomanStruggle implements Screen {
     private void ejecutarInputs(){
         if(estado == State.DEATH){
             dispose();
+            stopMusic();
             game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
             return;
         }

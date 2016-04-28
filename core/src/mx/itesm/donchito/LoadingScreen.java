@@ -86,6 +86,8 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.GLOBAL_BOTON_PLAY_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_CONFIGURACION_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_SALIRMENU_PNG, Texture.class);
+                assetManager.load(Constants.CUEVA_MUSICA_FONDO, Music.class);
+                assetManager.load(Constants.CUEVA_EFECTOS_FONDO,Music.class);
                 break;
             case ACERCA:
                 assetManager.load(Constants.ACERCA_FONDO_JPG,Texture.class);
@@ -178,6 +180,8 @@ public class LoadingScreen implements Screen {
 
                 assetManager.load(Constants.FLEVORIO_SONIDOFAIL_WAV,Music.class);
                 assetManager.load(Constants.FLEVORIO_SONIDOVICTORY_WAV, Music.class);
+                assetManager.load(Constants.ROMAN_MUSICA_FONDO_MP3, Music.class);
+                assetManager.load(Constants.ROMAN_EFECTO_ROCA,Music.class);
                 //ROMAN_SPRITES_DONCHITO
                 assetManager.load(Constants.CTHULHU, Texture.class);
                 break;

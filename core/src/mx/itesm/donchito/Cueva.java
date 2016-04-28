@@ -56,6 +56,7 @@ public class Cueva implements Screen{
 
     private SpriteBatch batch;
     private Music musicaFondo;
+    private Music efectoFondo;
 
     private SimpleAsset fondoPantalla;
     private SimpleAsset donchito;
@@ -148,9 +149,10 @@ public class Cueva implements Screen{
 
     private void cargarAudio() {
         //TODO: Add correct music for this screen
-        //musicaFondo = Gdx.audio.newMusic(Gdx.files.internal(Constants.MUSICA_FLAVIO_SAYS_MP3));
-        //musicaFondo.setLooping(true);
-        //musicaFondo.play();
+        musicaFondo = Gdx.audio.newMusic(Gdx.files.internal(Constants.CUEVA_MUSICA_FONDO));
+        musicaFondo.setLooping(true);
+        //musicaFondo.play(); TODO revisar con preferences
+        efectoFondo = Gdx.audio.newMusic(Gdx.files.internal(Constants.CUEVA_EFECTOS_FONDO));
     }
 
 

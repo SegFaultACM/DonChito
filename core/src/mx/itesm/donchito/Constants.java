@@ -24,6 +24,8 @@ public class Constants {
     public static final String CUEVA_ARROW_LEFT = "Imagenes/Controles/controlizquierda.png";
     public static final String CUEVA_ARROW_RIGHT = "Imagenes/Controles/controlderecha.png";
     public static final String CUEVA_TILES = "Imagenes/Cueva/CuevaTiled.tmx";
+    public static final String CUEVA_MUSICA_FONDO = "Musica/cave.mp3";
+    public static final String CUEVA_EFECTOS_FONDO = "Musica/caveEff.mp3";
 
 
     //FlevorioSays
@@ -57,11 +59,13 @@ public class Constants {
     public static final String GLOBAL_MENU_PAUSA_PNG = "Imagenes/Pausa/marco_fondo.png";
     public static final String GLOBAL_BOTON_BACK_CAVE = "Imagenes/Extras/volvercueva.png";
 
-    public static final String FLEVORIO_SONIDOBOTON_WAV = "Musica/efectoBoton.wav";
+    public static final String FLEVORIO_SONIDOBOTON_WAV = "Musica/rocaFlevorio.mp3";
     public static final String FLEVORIO_SONIDOFAIL_WAV = "Musica/fail.wav";
     public static final String FLEVORIO_SONIDOVICTORY_WAV = "Musica/victory.wav";
     public static final String FLEVORIO_MUSICAINTRO_WAV = "Musica/flevorioIntro2.mp3";
     public static final String FLEVORIO_MUSICAFONDO_WAV = "Musica/flevorioFondo.mp3";
+    public static final String ROMAN_MUSICA_FONDO_MP3 = "Musica/romans.mp3";
+    public static final String ROMAN_EFECTO_ROCA = "Musica/romanEfecto.mp3";
 
     //RomanStruggle
     public static final String ROMAN_PIEDRA = "Imagenes/Romans_Struggle/piedra_grande.png";
