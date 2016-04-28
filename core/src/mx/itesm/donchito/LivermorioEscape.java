@@ -68,6 +68,7 @@ public class LivermorioEscape implements Screen {
     private int posPlatformsCarretas = 9;
     private int posPlatformsMadera = 9;
     private boolean powerUp = false;
+    private boolean isAvailable = false;
 
     private PlayerState playerState = PlayerState.NOTDEAD;
     private GameState gameState = GameState.PLAY;
@@ -75,6 +76,10 @@ public class LivermorioEscape implements Screen {
 
     private Music music;
 
+
+    private int randomAs;
+    private SimpleAsset temp;
+    private Random random;
 
     public LivermorioEscape(DonChito game) {
         this.game = game;
@@ -90,7 +95,7 @@ public class LivermorioEscape implements Screen {
         cameraHUD = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
         cameraHUD.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         cameraHUD.update();
-
+        random = new Random();
         view = new FitViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,camera);
         batch = new SpriteBatch();
         platformsCarretas = new Array<SimpleAsset>();
@@ -140,16 +145,28 @@ public class LivermorioEscape implements Screen {
     private void checkPlatforms() {
         if(platformsCarretas.get(0).getSprite().getX()+platformsCarretas.get(0).getSprite().getWidth()<player.getX()-1000){
             platformsCarretas.removeIndex(0);
-            int randomAs = (new Random()).nextInt(Constants.PLATFORMS_CARRETAS.length);
-            SimpleAsset temp = new SimpleAsset(Constants.PLATFORMS_CARRETAS[randomAs],CARRETAS_X[posPlatformsCarretas],CARRETAS_Y[posPlatformsCarretas]);
+            randomAs = random.nextInt(Constants.PLATFORMS_CARRETAS.length);
+            temp = new SimpleAsset(Constants.PLATFORMS_CARRETAS[randomAs],CARRETAS_X[posPlatformsCarretas],CARRETAS_Y[posPlatformsCarretas]);
+            if(!isAvailable && posPlatformsCarretas>15){
+                if(15 >= random.nextInt(CARRETAS_X.length)){
+                    isAvailable = true;
+                    powerUpAs.setPosition(CARRETAS_X[posPlatformsCarretas]+temp.getSprite().getWidth()/2,MADERAS_Y[posPlatformsCarretas]+temp.getSprite().getHeight());
+                }
+            }
             posPlatformsCarretas++;
             posPlatformsCarretas = posPlatformsCarretas %CARRETAS_X.length;
             platformsCarretas.add(temp);
         }
         if(platformsMadera.get(0).getSprite().getX()<player.getX()-1280){
             platformsMadera.removeIndex(0);
-            int randomAs = (new Random()).nextInt(Constants.PLATFORMS_MADERA.length);
-            SimpleAsset temp = new SimpleAsset(Constants.PLATFORMS_MADERA[randomAs],MADERAS_X[posPlatformsMadera],MADERAS_Y[posPlatformsMadera]);
+            randomAs = random.nextInt(Constants.PLATFORMS_MADERA.length);
+            temp = new SimpleAsset(Constants.PLATFORMS_MADERA[randomAs],MADERAS_X[posPlatformsMadera],MADERAS_Y[posPlatformsMadera]);
+            if(!isAvailable && posPlatformsCarretas>15){
+                if(15 >= random.nextInt(MADERAS_X.length)){
+                    isAvailable = true;
+                    powerUpAs.setPosition(MADERAS_X[posPlatformsMadera]+temp.getSprite().getWidth()/2,MADERAS_Y[posPlatformsMadera]+temp.getSprite().getHeight());
+                }
+            }
             posPlatformsMadera++;
             posPlatformsMadera = posPlatformsMadera % MADERAS_X.length;
             platformsMadera.add(temp);
