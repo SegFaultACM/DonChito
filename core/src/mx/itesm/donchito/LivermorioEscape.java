@@ -353,7 +353,7 @@ public class LivermorioEscape implements Screen {
             player.stand();
         }
         */
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             switch (player.getJumpState()) {
                 case GROUND:
                     player.startJump();
@@ -364,7 +364,6 @@ public class LivermorioEscape implements Screen {
         } else {
             player.endJump();
         }
-
     }
 
 

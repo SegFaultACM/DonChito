@@ -93,7 +93,7 @@ public class PostGameStatusScreen implements Screen {
     public void render(float delta) {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
-        if(((TimeUtils.millis()-startTime)/1000)<3){
+        if(((TimeUtils.millis()-startTime)/1000)<5){
             batch.begin();
             batch.draw(fondo,0,0);
             if(this.winStat && this.comingFrom != ScreenSel.FINALBOSS){
