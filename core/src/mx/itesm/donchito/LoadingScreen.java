@@ -213,6 +213,7 @@ public class LoadingScreen implements Screen {
             case MENU:
             default:
                 assetManager.load(Constants.MENUPRINCIPAL_FONDO_JPG,Texture.class);
+                assetManager.load(Constants.MENUPRINCIPAL_MARCO_PNG,Texture.class);
                 assetManager.load(Constants.MENUPRINCIPAL_CARGARPARTIDA_PNG,Texture.class);
                 assetManager.load(Constants.MENUPRINCIPAL_NUEVAPARTIDA_PNG,Texture.class);
                 assetManager.load(Constants.MENUPRINCIPAL_CARTELDONCHITO_PNG,Texture.class);

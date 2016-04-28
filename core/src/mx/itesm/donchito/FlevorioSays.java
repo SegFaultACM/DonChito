@@ -43,7 +43,6 @@ public class FlevorioSays implements Screen{
     private SimpleAsset fondoPantalla;
     private SimpleAsset fondoPausa;
 
-
     private State estado = State.PLAY;
 
     private float tiempoEsperar = 1f;
@@ -60,8 +59,6 @@ public class FlevorioSays implements Screen{
     private SimpleAsset fondo;
 
     private Array<SimpleAsset> rocas;
-
-
 
     private int[] combinaciones = new int[]{0,0,0,0,0,0,0,0,0,0};
     private boolean[] combinacionesPR = new boolean[]{false,false,false,false,false,false,false,false,false,false};
@@ -195,7 +192,6 @@ public class FlevorioSays implements Screen{
     @Override
     public void render(float delta) {
         if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
-            stopMusic();
             dispose();
             game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU, game));
         }
@@ -210,7 +206,6 @@ public class FlevorioSays implements Screen{
             if(nivel == 4){
                 DonChito.preferences.putBoolean("FlevorioSays",true);
                 DonChito.preferences.flush();
-                stopMusic();
                 jugando = false;
                 dispose();
                 game.setScreen(new LoadingScreen(FINALBOSS,game,true,FLEVORIO));
@@ -363,6 +358,7 @@ public class FlevorioSays implements Screen{
 
     @Override
     public void dispose() {
+        stopMusic();
         DonChito.assetManager.clear();
     }
     private void leerEntrada() {
@@ -402,11 +398,6 @@ public class FlevorioSays implements Screen{
                 if(estado == State.PAUSA){
                     if(botonSalirMenu.isTouched(x,y,camera,view) || botonSalirCueva.isTouched(x,y,camera,view)){
                         init();
-                        musicaFondo.setLooping(false);
-                        if(musicaFondo.isPlaying()) {
-                            musicaFondo.stop();
-                        }
-                        stopMusic();
                         dispose();
                         if(botonSalirCueva.isTouched(x,y,camera,view)){
                             game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA, game));

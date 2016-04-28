@@ -42,8 +42,6 @@ public class RomanStruggle implements Screen {
     private SimpleAsset botonSalirCueva;
     private SimpleAsset proyectil;
 
-    private SimpleAsset fondoDeath;
-
     private DonChitoLivermorio player;
     private MoveState moveState;
     private int leftPointer;
@@ -98,9 +96,6 @@ public class RomanStruggle implements Screen {
         camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         camera.update();
         view = new FitViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,camera);
-
-
-
         view.apply();
         leerEntrada();
 
@@ -110,8 +105,12 @@ public class RomanStruggle implements Screen {
 
         fondoPantalla = new SimpleAsset(Constants.ROMAN_FONDO,0,0);
         botonIzquierda = new SimpleAsset(Constants.ROMAN_BOTON_IZQUIERDA,20,50);
-        botonDerecha = new SimpleAsset(Constants.ROMAN_BOTON_DERECHA,270,50);
-        botonDisparo = new SimpleAsset(Constants.ROMAN_BOTON_DISPARA,1100,50);
+        botonDerecha = new SimpleAsset(Constants.ROMAN_BOTON_IZQUIERDA,270,50);
+        botonDisparo = new SimpleAsset(Constants.ROMAN_BOTON_IZQUIERDA,1100,50);
+
+        botonDerecha.setRotation(180);
+        botonDisparo.setRotation(90);
+
         botonIzquierda.setAlpha(0.5f);
         botonDerecha.setAlpha(0.5f);
         botonDisparo.setAlpha(0.5f);
@@ -129,8 +128,6 @@ public class RomanStruggle implements Screen {
         levelTxt = new GameText(150,700);
         pointsTxt = new GameText(900,700);
 
-        fondoDeath = new SimpleAsset(Constants.CTHULHU,0,0);
-
         proyectil = new SimpleAsset(Constants.ROMAN_PIEDRA,-1000f,-0912384f);
         proyectil.getSprite().setColor(Color.BLACK);
         proyectil.getSprite().setScale(0.3f);
@@ -147,7 +144,6 @@ public class RomanStruggle implements Screen {
     public void render(float delta) {
         if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
             dispose();
-            stopMusic();
             game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU, game));
         }
         camera.update();
@@ -164,7 +160,6 @@ public class RomanStruggle implements Screen {
                 DonChito.preferences.putBoolean(Constants.PREF_ROMAN_STRUGGLE,true);
                 DonChito.preferences.flush();
                 dispose();
-                stopMusic();
                 game.setScreen(new LoadingScreen(CUEVA,game,true,ROMANSTRUGGLE));
             }
             createFirstRocks(nivel);
@@ -195,7 +190,6 @@ public class RomanStruggle implements Screen {
             botonSalirCueva.render(batch);
         }
         else if(estado == State.DEATH) {
-            fondoDeath.render(batch);
             efectoPerder.play();
         }
         else{
@@ -233,10 +227,8 @@ public class RomanStruggle implements Screen {
         float rocaX = roca.getSprite().getX();
         float rocaY = roca.getSprite().getY();
 
-        if(rocaX+roca.getRockWidth()-50>player.getX()&& rocaX-roca.getRockWidth()+50<player.getX()){
-            if(rocaY<=player.getY()) {
-                estado = State.DEATH;
-            }
+        if(rocaX+roca.getRockWidth()-(50*roca.getEscala())>player.getX()&& rocaX-roca.getRockWidth()+(50*roca.getEscala())<player.getX() && rocaY<=player.getY()){
+            estado = State.DEATH;
         }
 
         if(disparado) {
@@ -278,6 +270,7 @@ public class RomanStruggle implements Screen {
 
     @Override
     public void dispose() {
+        stopMusic();
         DonChito.assetManager.clear();
     }
 
@@ -288,8 +281,6 @@ public class RomanStruggle implements Screen {
                     if(leftPointer == pointer){
                         moveState = MoveState.NONE;
                     }
-                }else{
-
                 }
                 if(botonPlay.isTouched(x,y,camera,view) || botonPausa.isTouched(x,y,camera,view)){
                     if(estado == State.PLAY){
@@ -303,12 +294,10 @@ public class RomanStruggle implements Screen {
                 }
                 if (botonSalirMenu.isTouched(x,y,camera,view) && estado == State.PAUSA) {
                     dispose();
-                    stopMusic();
                     game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
                 }
                 if (botonSalirCueva.isTouched(x,y,camera,view) && estado == State.PAUSA) {
                     dispose();
-                    stopMusic();
                     game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game));
                 }
                 return true;
@@ -394,8 +383,7 @@ public class RomanStruggle implements Screen {
     private void ejecutarInputs(){
         if(estado == State.DEATH){
             dispose();
-            stopMusic();
-            game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
+            game.setScreen(new LoadingScreen(CUEVA,game,false,ROMANSTRUGGLE));
             return;
         }
         float delta = Gdx.graphics.getDeltaTime();
