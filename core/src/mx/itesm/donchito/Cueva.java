@@ -46,7 +46,14 @@ public class Cueva implements Screen{
     private Music musicaFondo;
     private Music efectoFondo;
 
+    //TODO aplicar ANIMACIONES
     private SimpleAsset donchito;
+
+    private SimpleAsset fondoPausa;
+    private SimpleAsset botonPausa;
+    private SimpleAsset botonPlay;
+    private SimpleAsset botonSalirMenu;
+    private SimpleAsset botonConfiguracion;
 
     private static final float velocidad = 6.20f;
 
@@ -83,6 +90,15 @@ public class Cueva implements Screen{
         cargarElementos();
         cargarAudio();
         batch = new SpriteBatch();
+
+        fondoPausa = new SimpleAsset(Constants.GLOBAL_MENU_PAUSA_PNG,0,0);
+        botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1050,500);
+        botonConfiguracion = new SimpleAsset(Constants.GLOBAL_BOTON_CONFIGURACION_PNG,405,175);
+        botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,425,425);
+        botonPlay.setAlpha(0.5f);
+
+        botonPausa = new SimpleAsset(Constants.GLOBAL_BOTON_PAUSA_PNG,1050,500);
+        botonPausa.setAlpha(0.5f);
 
         rendererMapa = new OrthogonalTiledMapRenderer(mapa,batch);
         rendererMapa.setView(camera);
@@ -129,6 +145,20 @@ public class Cueva implements Screen{
             dispose();
             game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU, game));
         }
+        if(Gdx.input.justTouched()){
+            if(botonPausa.isTouched(Gdx.input.getX(),Gdx.input.getY(),cameraHUD)||botonPlay.isTouched(Gdx.input.getX(),Gdx.input.getY(),cameraHUD)){
+                if(estado == State.PAUSA){
+                    estado = State.PLAY;
+                }
+                else if(estado == State.PLAY){
+                    estado = State.PAUSA;
+                }
+            }
+            if(estado == State.PAUSA && botonSalirMenu.isTouched(Gdx.input.getX(),Gdx.input.getY(),cameraHUD)){
+                dispose();
+                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU, game));
+            }
+        }
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camera.combined);
@@ -138,52 +168,65 @@ public class Cueva implements Screen{
         donchito.render(batch);
         camera.position.set(CamX, CamY, 0);
         camera.update();
-
         batch.end();
         batch.setProjectionMatrix(cameraHUD.combined);
         batch.begin();
 
-        float x = donchito.getSprite().getX();
-        float y = donchito.getSprite().getY();
-        int CellX = xtoCell(x);
-        int CellY = ytoCell(y);
-        TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get(1);
-        TiledMapTileLayer.Cell curr = capa.getCell(CellX, CellY);
+        if(estado == State.PLAY) {
+            float x = donchito.getSprite().getX();
+            float y = donchito.getSprite().getY();
+            int CellX = xtoCell(x);
+            int CellY = ytoCell(y);
+            TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get(1);
+            TiledMapTileLayer.Cell curr = capa.getCell(CellX, CellY);
 
-        if (curr == null) {
-            donchito.getSprite().setX(donchito.getSprite().getX() + touchpad.getKnobPercentX() * velocidad);
-            donchito.getSprite().setY(donchito.getSprite().getY() + touchpad.getKnobPercentY() * velocidad);
-            float kPx = touchpad.getKnobPercentX();
-            float kPy = touchpad.getKnobPercentY();
-            if (kPx > 0) { positivoX = true;}
-            else{positivoX = false;}
+            if (curr == null) {
+                donchito.getSprite().setX(donchito.getSprite().getX() + touchpad.getKnobPercentX() * velocidad);
+                donchito.getSprite().setY(donchito.getSprite().getY() + touchpad.getKnobPercentY() * velocidad);
+                float kPx = touchpad.getKnobPercentX();
+                float kPy = touchpad.getKnobPercentY();
+                if (kPx > 0) {
+                    positivoX = true;
+                } else {
+                    positivoX = false;
+                }
 
-            if(kPy > 0){positivoY = true;}
-            else{positivoY = false;}
-        }
-        else{
-            if(positivoX)
-                donchito.getSprite().setX(donchito.getSprite().getX() + ((-1*Math.abs(touchpad.getKnobPercentX())) * velocidad));
-            else
-                donchito.getSprite().setX(donchito.getSprite().getX() + ((Math.abs(touchpad.getKnobPercentX())) * velocidad));
+                if (kPy > 0) {
+                    positivoY = true;
+                } else {
+                    positivoY = false;
+                }
+            } else {
+                if (positivoX)
+                    donchito.getSprite().setX(donchito.getSprite().getX() + ((-1 * Math.abs(touchpad.getKnobPercentX())) * velocidad));
+                else
+                    donchito.getSprite().setX(donchito.getSprite().getX() + ((Math.abs(touchpad.getKnobPercentX())) * velocidad));
 
-            if(positivoY)
-                donchito.getSprite().setY(donchito.getSprite().getY() + ((-1*Math.abs(touchpad.getKnobPercentY())) * velocidad));
-            else
-                donchito.getSprite().setY(donchito.getSprite().getY() + ((1*Math.abs(touchpad.getKnobPercentY())) * velocidad));
-        }
+                if (positivoY)
+                    donchito.getSprite().setY(donchito.getSprite().getY() + ((-1 * Math.abs(touchpad.getKnobPercentY())) * velocidad));
+                else
+                    donchito.getSprite().setY(donchito.getSprite().getY() + ((1 * Math.abs(touchpad.getKnobPercentY())) * velocidad));
+            }
 
-        if(donchito.getSprite().getY() > 1050) {
-            dispose();
-            game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.FLEVORIO, game));
+            if (donchito.getSprite().getY() > 1050) {
+                dispose();
+                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.FLEVORIO, game));
+            }
+            if (donchito.getSprite().getX() < 50) {
+                dispose();
+                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.LIVERMORIO, game));
+            }
+            if (donchito.getSprite().getX() > 1850) {
+                dispose();
+                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.ROMANSTRUGGLE, game));
+            }
+            botonPausa.render(batch);
         }
-        if(donchito.getSprite().getX() < 50){
-            dispose();
-            game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.LIVERMORIO,game));
-        }
-        if(donchito.getSprite().getX() > 1850){
-            dispose();
-            game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.ROMANSTRUGGLE,game));
+        if(estado == State.PAUSA){
+            fondoPausa.render(batch);
+            botonConfiguracion.render(batch);
+            botonSalirMenu.render(batch);
+            botonPlay.render(batch);
         }
 
         batch.end();
