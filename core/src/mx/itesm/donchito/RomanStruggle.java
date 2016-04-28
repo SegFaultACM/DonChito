@@ -109,7 +109,7 @@ public class RomanStruggle implements Screen {
         botonDisparo = new SimpleAsset(Constants.ROMAN_BOTON_IZQUIERDA,1100,50);
 
         botonDerecha.setRotation(180);
-        botonDisparo.setRotation(90);
+        botonDisparo.setRotation(270);
 
         botonIzquierda.setAlpha(0.5f);
         botonDerecha.setAlpha(0.5f);

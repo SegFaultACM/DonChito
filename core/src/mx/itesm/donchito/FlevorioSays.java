@@ -45,7 +45,7 @@ public class FlevorioSays implements Screen{
 
     private State estado = State.PLAY;
 
-    private float tiempoEsperar = 1f;
+    private float tiempoEsperar = 3f;
     private boolean reseted = false;
 
     private int indiceInstruccion = 0;
@@ -214,7 +214,9 @@ public class FlevorioSays implements Screen{
             indiceSecuencia = 0;
             if(nivel != 4 && !perdio){
                 efectoBoton.stop();
-                reproducirMusica(efectoGanar);
+                if(nivel !=1){
+                    reproducirMusica(efectoGanar);
+                }
                 perdio = false;
             }
         }
@@ -226,6 +228,7 @@ public class FlevorioSays implements Screen{
         if(nivel != 4 && instruccionesLeidas && jugando) {
             if (fondo.getSprite().getScaleX() >= 1f) {
                 if (!rocasCreadas) {
+                    reproducirMusica(efectoBoton);
                     crearRoca();
                 } else {
                     if (!musicaIntro.isPlaying()) {
