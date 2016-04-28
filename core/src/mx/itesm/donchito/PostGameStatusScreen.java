@@ -67,11 +67,20 @@ public class PostGameStatusScreen implements Screen {
                         DonChito.assetManager.load(Constants.ROMAN_HONDA,Texture.class);
                         DonChito.assetManager.finishLoading();
                         item = new SimpleAsset(Constants.ROMAN_HONDA,0,0);
+                        item.getSprite().setScale(0.25f);
                         break;
                     default:
                         break;
                 }
-                item.setPosition(DonChito.ANCHO_MUNDO/2 - item.getSprite().getWidth()/2,DonChito.ALTO_MUNDO/2-item.getSprite().getHeight()/2);
+                if(this.comingFrom == ScreenSel.ROMANSTRUGGLE){
+                    item.setPosition(DonChito.ANCHO_MUNDO / 2 - item.getSprite().getWidth() / 2, DonChito.ALTO_MUNDO / 2 - item.getSprite().getHeight()/1.75f);
+                }
+                else if(this.comingFrom == ScreenSel.FLEVORIO) {
+                    item.setPosition(DonChito.ANCHO_MUNDO / 2 - item.getSprite().getWidth() / 2, DonChito.ALTO_MUNDO / 2 - item.getSprite().getHeight() /1.5f);
+                }
+                else{
+                    item.setPosition(DonChito.ANCHO_MUNDO / 2 - item.getSprite().getWidth() / 2, DonChito.ALTO_MUNDO / 2 - item.getSprite().getHeight() / 2);
+                }
             }
 
         }else{

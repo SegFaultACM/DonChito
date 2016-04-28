@@ -17,6 +17,10 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import static mx.itesm.donchito.LoadingScreen.ScreenSel.CUEVA;
+import static mx.itesm.donchito.LoadingScreen.ScreenSel.LIVERMORIO;
+import static mx.itesm.donchito.LoadingScreen.ScreenSel.ROMANSTRUGGLE;
+
 public class RomanStruggle implements Screen {
 
     private OrthographicCamera camera;
@@ -160,11 +164,11 @@ public class RomanStruggle implements Screen {
             }
             tiempoEsperar = 5f;
             nivel++;
-            if(nivel == 4){
+            if(nivel == 2){
                 DonChito.preferences.putBoolean(Constants.PREF_ROMAN_STRUGGLE,true);
                 DonChito.preferences.flush();
                 dispose();
-                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game));
+                game.setScreen(new LoadingScreen(CUEVA,game,true,ROMANSTRUGGLE));
             }
             createFirstRocks(nivel);
         }

@@ -16,6 +16,11 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import static mx.itesm.donchito.LoadingScreen.ScreenSel.CUEVA;
+import static mx.itesm.donchito.LoadingScreen.ScreenSel.FINALBOSS;
+import static mx.itesm.donchito.LoadingScreen.ScreenSel.FLEVORIO;
+import static mx.itesm.donchito.LoadingScreen.ScreenSel.ROMANSTRUGGLE;
+
 /**
  * Created by Esteban on 2/16/2016.
  */
@@ -216,7 +221,7 @@ public class FlevorioSays implements Screen{
                 stopMusic();
                 jugando = false;
                 dispose();
-                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.FINALBOSS,game));
+                game.setScreen(new LoadingScreen(FINALBOSS,game,true,FLEVORIO));
             }
             crearCombinacion(nivel);
             indiceSecuencia = 0;
