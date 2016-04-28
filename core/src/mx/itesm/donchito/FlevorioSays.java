@@ -214,7 +214,9 @@ public class FlevorioSays implements Screen{
             indiceSecuencia = 0;
             if(nivel != 4 && !perdio){
                 efectoBoton.stop();
-                reproducirMusica(efectoGanar);
+                if(nivel !=1){
+                    reproducirMusica(efectoGanar);
+                }
                 perdio = false;
             }
         }

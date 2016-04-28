@@ -27,7 +27,7 @@ public class Secuencia implements Screen {
     private Camera cameraHUD;
     private Viewport view;
 
-    private float tiempoEsperar = 5f;
+    private float tiempoEsperar = 3f;
     private int indicePosiciones = 0;
     private int maxPosiciones = 7;
     private boolean cueva;
@@ -204,7 +204,7 @@ public class Secuencia implements Screen {
 
     private boolean esperar(float delta){
         if(tiempoEsperar <=0){
-            tiempoEsperar = 5f;
+            tiempoEsperar = 4f;
             return true;
         }
         tiempoEsperar -= delta;
