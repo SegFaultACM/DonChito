@@ -12,13 +12,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
-import com.badlogic.gdx.utils.IntFloatMap;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import static mx.itesm.donchito.LoadingScreen.ScreenSel.CUEVA;
-import static mx.itesm.donchito.LoadingScreen.ScreenSel.LIVERMORIO;
 import static mx.itesm.donchito.LoadingScreen.ScreenSel.ROMANSTRUGGLE;
 
 public class RomanStruggle implements Screen {
@@ -107,8 +104,6 @@ public class RomanStruggle implements Screen {
         view.apply();
         leerEntrada();
 
-        //musicaFondo.setLooping(true);
-        //musicaIntro.play();
         rocas = new DelayedRemovalArray<RomanRock>();
         batch = new SpriteBatch();
         createFirstRocks(nivel);
@@ -120,9 +115,6 @@ public class RomanStruggle implements Screen {
         botonIzquierda.setAlpha(0.5f);
         botonDerecha.setAlpha(0.5f);
         botonDisparo.setAlpha(0.5f);
-        //botonIzquierda.getSprite().setScale(1.2f);
-        //botonDerecha.getSprite().setScale(1.2f);
-        //botonDisparo.getSprite().setScale(1.2f);
 
         fondoPausa = new SimpleAsset(Constants.GLOBAL_MENU_PAUSA_PNG,0,0);
         botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1050,500);
@@ -241,14 +233,12 @@ public class RomanStruggle implements Screen {
         float rocaX = roca.getSprite().getX();
         float rocaY = roca.getSprite().getY();
 
-        //if(roca.getSprite().getY() <100){
-            if(rocaX+roca.getRockWidth()-50>player.getX()&& rocaX-roca.getRockWidth()+50<player.getX()){
-                if(rocaY<=player.getY()) {
-                    estado = State.DEATH;
-                    //Gdx.app.log("Colisiono en ","y");
-                }
+        if(rocaX+roca.getRockWidth()-50>player.getX()&& rocaX-roca.getRockWidth()+50<player.getX()){
+            if(rocaY<=player.getY()) {
+                estado = State.DEATH;
             }
-        //}
+        }
+
         if(disparado) {
             if (rocaX+roca.getRockWidth()>proyectil.getSprite().getX()&& rocaX-roca.getRockWidth()<proyectil.getSprite().getX()&&rocaY+roca.getRockHeight()<proyectil.getSprite().getY()+proyectil.getSprite().getHeight()){
                 proyectil.setPosition(1000,1000);
@@ -312,26 +302,16 @@ public class RomanStruggle implements Screen {
                     }
                 }
                 if (botonSalirMenu.isTouched(x,y,camera,view) && estado == State.PAUSA) {
-                    //init();
-                    //musicaFondo.setLooping(false);
-                    //if (musicaFondo.isPlaying()) {
-                    //    musicaFondo.stop();
-                    //}
                     dispose();
                     stopMusic();
                     game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
                 }
                 if (botonSalirCueva.isTouched(x,y,camera,view) && estado == State.PAUSA) {
-                    //init();
-                    //musicaFondo.setLooping(false);
-                    //if (musicaFondo.isPlaying()) {
-                    //    musicaFondo.stop();
-                    //}
                     dispose();
                     stopMusic();
                     game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game));
                 }
-                return true; // return true to indicate the event was handled
+                return true;
             }
 
             @Override
@@ -375,7 +355,7 @@ public class RomanStruggle implements Screen {
                     }
                 }
 
-                return true; // return true to indicate the event was handled
+                return true;
             }
         });
     }

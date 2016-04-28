@@ -15,8 +15,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import java.util.Random;
 
-import sun.java2d.pipe.SpanShapeRenderer;
-
 public class FinalBoss implements Screen {
     private OrthographicCamera camera;
     private final DonChito game;
@@ -70,7 +68,6 @@ public class FinalBoss implements Screen {
 
     private State estado = State.INTRO;
     private AtackState estadoAtaque = AtackState.IDLE;
-    private AtackMade ataqueHecho = AtackMade.DONCHITOBOTAS;
 
     private float healthHeight;
     private float healthWidth;
@@ -170,13 +167,6 @@ public class FinalBoss implements Screen {
     private void cargarRecursos() {
         AssetManager assetManager = DonChito.assetManager;
         musicaFondo = assetManager.get(Constants.FINAL_BOSS_MUSICA);
-        //efectoBoton = assetManager.get(Constants.FLEVORIO_SONIDOBOTON_WAV);
-        //efectoGanar = assetManager.get(Constants.FLEVORIO_SONIDOVICTORY_WAV);
-        //efectoPerder = assetManager.get(Constants.FLEVORIO_SONIDOFAIL_WAV);
-
-        //musicaFondo = assetManager.get(Constants.FLEVORIO_MUSICAFONDO_WAV);
-        //musicaIntro = assetManager.get(Constants.FLEVORIO_MUSICAINTRO_WAV);
-
     }
     private boolean flevorioAtaca() {
         if(!accionFlevorioDefinida) {
@@ -203,20 +193,6 @@ public class FinalBoss implements Screen {
         if(musicaFondo.isPlaying()){
             musicaFondo.stop();
         }
-        /*
-        if(musicaIntro.isPlaying()){
-            musicaIntro.stop();
-        }
-        if(efectoBoton.isPlaying()){
-            efectoBoton.stop();
-        }
-        if(efectoGanar.isPlaying()){
-            efectoGanar.stop();
-        }
-        if(efectoPerder.isPlaying()){
-            efectoPerder.stop();
-        }
-        */
     }
 
     private boolean esperar(float delta){
@@ -231,6 +207,7 @@ public class FinalBoss implements Screen {
     @Override
     public void render(float delta) {
         if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
+            stopMusic();
             dispose();
             game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU, game));
         }
@@ -245,7 +222,8 @@ public class FinalBoss implements Screen {
         }
         else if (estado == State.PLAY || estado == State.PAUSA){
             if(vidaDonChito == 0){
-                //efectoGanar.play();
+                stopMusic();
+                dispose();
                 game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game,false, LoadingScreen.ScreenSel.FINALBOSS));
             }
             else {
@@ -303,7 +281,6 @@ public class FinalBoss implements Screen {
                 botonResortera.render(batch);
                 botonPico.render(batch);
 
-
                 flevorioHealth.getSprite().setRegion(0, 0, (int) (vidaFlevorio * healthWidth / 700), (int) healthHeight);
                 flevorioHealth.getSprite().setSize(vidaFlevorio * healthWidth / 700, healthHeight);
                 donchitoHealth.getSprite().setRegion(0, 0, (int) vidaDonChito * healthWidth / 700, (int) healthHeight);
@@ -360,13 +337,13 @@ public class FinalBoss implements Screen {
         }
         else if (estado == State.TURNOFLEVORIO){
             if(vidaFlevorio == 0){
-                //efectoGanar.play();
+                stopMusic();
+                dispose();
                 game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game,true, LoadingScreen.ScreenSel.FINALBOSS));
             }
             else {
                 donchitoDam.setColor(1f, .1f, .1f, 1);
                 if (flevorioAtaca()){
-                    ataqueHecho = AtackMade.FLEVORIO;
                     if (flevorioAturdido) {
                         accionText.showMessage(batch, "¡Aturdiste a Flevorio con la resortera, \nno puede curarse");
                     } else {
@@ -422,7 +399,7 @@ public class FinalBoss implements Screen {
             }
             flevorioHealth.getSprite().setRegion(0, 0, (int) (vidaFlevorio * healthWidth / 700), (int) healthHeight);
             flevorioHealth.getSprite().setSize(vidaFlevorio * healthWidth / 700, healthHeight);
-            donchitoHealth.getSprite().setRegion(0, 0, (int) vidaDonChito * healthWidth / 700, (int) healthHeight);
+            donchitoHealth.getSprite().setRegion(0, 0, (int) (vidaDonChito * healthWidth / 700), (int) healthHeight);
             donchitoHealth.getSprite().setSize(vidaDonChito * healthWidth / 700, healthHeight);
             flevorioHealthBar.render(batch);
             flevorioHealth.render(batch);
@@ -543,14 +520,12 @@ public class FinalBoss implements Screen {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean touchDown (int x, int y, int pointexr, int button) {
-                Vector3 temp = camera.unproject(new Vector3(x, y, 0),view.getScreenX(),view.getScreenY(),view.getScreenWidth(),view.getScreenHeight());
                 if(estado == State.PLAY) {
                     if (botonPico.isTouched(x, y, camera, view)) {
                         estadoAtaque = AtackState.DONCHITOFORWARD;
                         estado = State.ACCION;
                         damage = randomIntGenerator.nextInt(100) + 30;
                         modoAtaque = "Pico";
-                        ataqueHecho = AtackMade.DONCHITOPICO;
                         if(turnoBloqueoBota <2){
                             turnoBloqueoBota++;
                             if(turnoBloqueoBota == 2 && DonChito.preferences.getBoolean("Livermorio", false)){
@@ -563,7 +538,6 @@ public class FinalBoss implements Screen {
                         }
 
                     } else if (botonCurar.isTouched(x, y, camera, view)) {
-                        ataqueHecho = AtackMade.DONCHITOCURAR;
                         estado = State.ACCION;
                         modoAtaque = "curar";
                         if(turnoBloqueoBota <2){
@@ -583,7 +557,6 @@ public class FinalBoss implements Screen {
                             estado = State.ACCION;
                             modoAtaque = "Botas Tribaleras";
                             turnoBloqueoBota = 0;
-                            ataqueHecho = AtackMade.DONCHITOBOTAS;
                             damage = randomIntGenerator.nextInt(100)+30;
                             if (flevorioAturdido) {
                                 flevorioAturdido = false;
@@ -599,7 +572,6 @@ public class FinalBoss implements Screen {
                         estado = State.ACCION;
                         modoAtaque = "Resortera";
                         damage = randomIntGenerator.nextInt(100)+10;
-                        ataqueHecho = AtackMade.DONCHITORESORTERA;
                         flevorioAturdido = true;
                         curacionFlevorio = true;
                         accionFlevorioDefinida = true;
@@ -621,23 +593,22 @@ public class FinalBoss implements Screen {
                     }
                     else if(botonSalirMenu.isTouched(x,y,camera,view)){
                         stopMusic();
+                        dispose();
                         game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
                     }
                     else if(botonSalirCueva.isTouched(x,y,camera,view)){
                         stopMusic();
+                        dispose();
                         game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game));
                     }
                 }
 
-                return true; // return true to indicate the event was handled
+                return true;
             }
 
             @Override
             public boolean touchUp (int x, int y, int pointer, int button) {
-                Vector3 temp = camera.unproject(new Vector3(x, y, 0),view.getScreenX(),view.getScreenY(),view.getScreenWidth(),view.getScreenHeight());
-
-
-                return true; // return true to indicate the event was handled
+                return true;
             }
         });
     }
@@ -656,13 +627,5 @@ public class FinalBoss implements Screen {
         FLEVORIOFORWARD,
         FLEVORIOBACKWARD,
         IDLE
-    }
-    public enum AtackMade
-    {
-        DONCHITOPICO,
-        DONCHITOCURAR,
-        DONCHITOBOTAS,
-        DONCHITORESORTERA,
-        FLEVORIO
     }
 }

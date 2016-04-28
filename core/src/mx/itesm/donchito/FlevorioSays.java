@@ -13,13 +13,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
-import static mx.itesm.donchito.LoadingScreen.ScreenSel.CUEVA;
 import static mx.itesm.donchito.LoadingScreen.ScreenSel.FINALBOSS;
 import static mx.itesm.donchito.LoadingScreen.ScreenSel.FLEVORIO;
-import static mx.itesm.donchito.LoadingScreen.ScreenSel.ROMANSTRUGGLE;
 
 /**
  * Created by Esteban on 2/16/2016.
@@ -33,7 +29,6 @@ public class FlevorioSays implements Screen{
     private boolean rocasCreadas = false;
     private boolean brillando = true;
     private boolean perdio = false;
-    private boolean salirMenu = false;
     private boolean instruccionesLeidas = false;
     private boolean jugando = true;
 
@@ -45,10 +40,8 @@ public class FlevorioSays implements Screen{
     private SimpleAsset botonSalirMenu;
     private SimpleAsset botonConfiguracion;
     private SimpleAsset botonSalirCueva;
-
     private SimpleAsset fondoPantalla;
     private SimpleAsset fondoPausa;
-
 
 
     private State estado = State.PLAY;
@@ -102,7 +95,6 @@ public class FlevorioSays implements Screen{
 
         leerEntrada();
         cargarRecursos();
-
 
         musicaFondo.setLooping(true);
         reproducirMusica(musicaIntro);
@@ -203,6 +195,7 @@ public class FlevorioSays implements Screen{
     @Override
     public void render(float delta) {
         if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
+            stopMusic();
             dispose();
             game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU, game));
         }
@@ -211,11 +204,10 @@ public class FlevorioSays implements Screen{
         batch.begin();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if(indiceSecuencia == nivel*2){
-            //correr animacion de SUCCEES!! NEXT LVL...
             lastRockPressed = 0;
             reseted = false;
             nivel++;
-            if(nivel == 2){ //cambiar a 4
+            if(nivel == 4){
                 DonChito.preferences.putBoolean("FlevorioSays",true);
                 DonChito.preferences.flush();
                 stopMusic();
@@ -225,7 +217,7 @@ public class FlevorioSays implements Screen{
             }
             crearCombinacion(nivel);
             indiceSecuencia = 0;
-            if(nivel != 1 && !perdio){
+            if(nivel != 4 && !perdio){
                 efectoBoton.stop();
                 reproducirMusica(efectoGanar);
                 perdio = false;
@@ -239,7 +231,6 @@ public class FlevorioSays implements Screen{
         if(nivel != 4 && instruccionesLeidas && jugando) {
             if (fondo.getSprite().getScaleX() >= 1f) {
                 if (!rocasCreadas) {
-                    // Sonido que se reproduce al abrir el proyector
                     reproducirMusica(efectoBoton);
                     crearRoca();
                 } else {
@@ -381,7 +372,6 @@ public class FlevorioSays implements Screen{
                 Vector3 temp = camera.unproject(new Vector3(x, y, 0),view.getScreenX(),view.getScreenY(),view.getScreenWidth(),view.getScreenHeight());
                 int xt =(int) temp.x;
                 int yt = (int) temp.y;
-                //Gdx.app.log("Coordenadas x,y","x: "+xt+"  y: "+yt);
                 if(!brillando){
                     int roca = 0;
                     float distancia = (float) Math.sqrt(Math.pow(625-xt,2)+Math.pow(348-yt,2));
@@ -410,7 +400,6 @@ public class FlevorioSays implements Screen{
                     shadowedAndUp = roca;
                 }
                 if(estado == State.PAUSA){
-                    //detectar los botones en el menu de pausa.
                     if(botonSalirMenu.isTouched(x,y,camera,view) || botonSalirCueva.isTouched(x,y,camera,view)){
                         init();
                         musicaFondo.setLooping(false);
@@ -427,7 +416,7 @@ public class FlevorioSays implements Screen{
                         }
                     }
                 }
-                return true; // return true to indicate the event was handled
+                return true;
             }
 
             @Override
@@ -505,17 +494,15 @@ public class FlevorioSays implements Screen{
                     }
                 }
                 if(estado == State.PAUSA){
-                    //detectar los botones en el menu de pausa.
                     if(botonSalirMenu.isTouched(x,y,camera,view)){
                         init();
                         musicaFondo.setLooping(false);
                         if(musicaFondo.isPlaying()) {
                             musicaFondo.stop();
                         }
-                        salirMenu = true;
                     }
                 }
-                return true; // return true to indicate the event was handled
+                return true;
             }
         });
     }
