@@ -109,9 +109,9 @@ public class LivermorioEscape implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         view.apply();
+        checkCollisions();
         updateCamera();
         renderCamera();
-        checkCollisions();
         checkPlatforms();
         if(playerState == PlayerState.NOTDEAD){
             if(gameState == GameState.PLAY){
@@ -143,18 +143,16 @@ public class LivermorioEscape implements Screen {
             int randomAs = (new Random()).nextInt(Constants.PLATFORMS_CARRETAS.length);
             SimpleAsset temp = new SimpleAsset(Constants.PLATFORMS_CARRETAS[randomAs],CARRETAS_X[posPlatformsCarretas],CARRETAS_Y[posPlatformsCarretas]);
             posPlatformsCarretas++;
-            posPlatformsCarretas = posPlatformsCarretas %Constants.PLATFORMS_CARRETAS.length;
+            posPlatformsCarretas = posPlatformsCarretas %CARRETAS_X.length;
             platformsCarretas.add(temp);
-            Gdx.app.log("Generar:","Se ha geneardo");
         }
         if(platformsMadera.get(0).getSprite().getX()<player.getX()-1280){
             platformsMadera.removeIndex(0);
             int randomAs = (new Random()).nextInt(Constants.PLATFORMS_MADERA.length);
             SimpleAsset temp = new SimpleAsset(Constants.PLATFORMS_MADERA[randomAs],MADERAS_X[posPlatformsMadera],MADERAS_Y[posPlatformsMadera]);
             posPlatformsMadera++;
-            posPlatformsMadera = posPlatformsMadera %Constants.PLATFORMS_MADERA.length;
+            posPlatformsMadera = posPlatformsMadera % MADERAS_X.length;
             platformsMadera.add(temp);
-            Gdx.app.log("Generar:","Se ha geneardo");
         }
     }
 
