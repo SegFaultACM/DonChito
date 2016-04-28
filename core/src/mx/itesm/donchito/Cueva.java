@@ -2,14 +2,12 @@ package mx.itesm.donchito;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
@@ -22,8 +20,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
-
-
 public class Cueva implements Screen{
     private OrthographicCamera camera;
     private OrthographicCamera cameraHUD;
@@ -33,21 +29,15 @@ public class Cueva implements Screen{
 
     private TiledMap mapa;
 
-
     public static final float ANCHO_MAPA = 1280;   // Ancho del mapa en pixeles
     public static final int TAM_CELDA = 16;
 
-
-    // Touchpad
     private Stage stage;
     private Touchpad touchpad;
     private Touchpad.TouchpadStyle touchpadStyle;
     private Skin touchpadSkin;
     private Drawable touchBackground;
     private Drawable touchKnob;
-    private Texture blockTexture;
-    private Sprite blockSprite;
-    private float blockSpeed;
 
     private boolean positivoX=true;
     private boolean positivoY=true;
@@ -56,21 +46,16 @@ public class Cueva implements Screen{
     private Music musicaFondo;
     private Music efectoFondo;
 
-    private SimpleAsset fondoPantalla;
     private SimpleAsset donchito;
 
-    private static final float velocidad = 6.20f; // Blaze it
+    private static final float velocidad = 6.20f;
 
 
     private State estado = State.PLAY;
-    private State estadoBoton = State.NOPRESIONADO;
-    private int botonPresionado = 0;
     public enum State
     {
         PAUSA,
-        PLAY,
-        PRESIONADO,
-        NOPRESIONADO
+        PLAY
     }
 
     private float CamX = 1100;
@@ -85,15 +70,10 @@ public class Cueva implements Screen{
     public void show() {
         Gdx.input.setCatchBackKey(true);
 
-        //TODO EASTER EGG AL ATRAVESAR PARED LOL ESTA HERMOSO
-
-        // Camara y viewport
         camera = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
         camera.position.set(0, 0, 0);
         camera.zoom = 1.2f;
         camera.update();
-
-        // Cargar frames
 
         cameraHUD = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
         cameraHUD.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
@@ -101,13 +81,11 @@ public class Cueva implements Screen{
 
         view = new FitViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,cameraHUD);
         cargarElementos();
-        leerEntrada();
         cargarAudio();
         batch = new SpriteBatch();
 
         rendererMapa = new OrthogonalTiledMapRenderer(mapa,batch);
         rendererMapa.setView(camera);
-
 
         touchpadSkin = new Skin();
         touchpadSkin.add("touchBackground", new Texture("Imagenes/Cueva/touchBackground.png"));
@@ -122,7 +100,6 @@ public class Cueva implements Screen{
         stage = new Stage(view);
         stage.addActor(touchpad);
         Gdx.input.setInputProcessor(stage);
-
     }
 
     private void cargarAudio() {
@@ -141,10 +118,8 @@ public class Cueva implements Screen{
 
 
     private void cargarElementos(){
-
         AssetManager assetManager = DonChito.assetManager;
         mapa = assetManager.get(Constants.CUEVA_TILES);
-        fondoPantalla = new SimpleAsset(Constants.CUEVA_FONDO_JPG,0,0);
         donchito = new SimpleAsset(Constants.CUEVA_DON_CHITO_PNG,DonChito.ANCHO_MUNDO-270,DonChito.ALTO_MUNDO-150);
     }
 
@@ -164,8 +139,6 @@ public class Cueva implements Screen{
         camera.position.set(CamX, CamY, 0);
         camera.update();
 
-
-        ejecutarInputs();
         batch.end();
         batch.setProjectionMatrix(cameraHUD.combined);
         batch.begin();
@@ -224,19 +197,13 @@ public class Cueva implements Screen{
     }
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() {}
 
     @Override
-    public void hide() {
-
-    }
+    public void hide() {}
     private void stopMusic(){
         if(musicaFondo.isPlaying()){
             musicaFondo.stop();
@@ -251,71 +218,6 @@ public class Cueva implements Screen{
         stopMusic();
         DonChito.assetManager.clear();
     }
-    private void leerEntrada() {
-        Gdx.input.setInputProcessor(new InputAdapter() {
-            public boolean touchUp (int x, int y, int pointer, int button) {
-                estadoBoton = State.NOPRESIONADO;
-                return true; // return true to indicate the event was handled
-            }
-            public boolean touchDown (int x, int y, int pointexr, int button) {
-                estadoBoton = State.PRESIONADO;
-
-                return true; // return true to indicate the event was handled
-            }
-        });
-
-    }
-    private void ejecutarInputs(){
-        if(estadoBoton == State.PRESIONADO){
-            int x = Gdx.app.getInput().getX();
-            int y = Gdx.app.getInput().getY();
-            int CellX = xtoCell(x);
-            int CellY = ytoCell(74-y);
-            TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get(1);
-            TiledMapTileLayer.Cell curr = capa.getCell(CellX, CellY);
-            if(x>0 && x<100 && y>427 && y<525) {
-                botonPresionado = 1;
-            }
-            else if(x>200 && x<300 && y>427 && y<525){
-                botonPresionado = 2;
-            }
-            else if(x>100 && x<200 && y>520 && y<620){
-                botonPresionado = 3;
-            }
-            else if(x>100 && x<200 && y>325 && y<425){
-                botonPresionado = 4;
-
-            }
-            else {
-                botonPresionado = 0;
-            }
-            switch(botonPresionado){
-                case 1:
-                    donchito.setPosition(donchito.getSprite().getX() - velocidad,donchito.getSprite().getY());
-                    if(CamX > 653)
-                        CamX = donchito.getSprite().getX();
-                    break;
-                case 2:
-                    donchito.setPosition(donchito.getSprite().getX() + velocidad, donchito.getSprite().getY());
-                    if(CamX < 1361)
-                        CamX = donchito.getSprite().getX();
-                    break;
-                case 3:
-                    donchito.setPosition(donchito.getSprite().getX(), donchito.getSprite().getY() - velocidad);
-                    if(CamY > 376)
-                        CamY = donchito.getSprite().getY();
-                    break;
-                case 4:
-                    donchito.setPosition(donchito.getSprite().getX(), donchito.getSprite().getY() + velocidad);
-                    if(CamY < 845.0)
-                        CamY = donchito.getSprite().getY();
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
     private int xtoCell(float x){
         return Math.round(x/16);
     }
@@ -329,6 +231,4 @@ public class Cueva implements Screen{
     private int Celltoy(int y){
         return y*16;
     }
-
-
 }
