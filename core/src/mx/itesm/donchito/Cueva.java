@@ -39,9 +39,6 @@ public class Cueva implements Screen{
     private Drawable touchBackground;
     private Drawable touchKnob;
 
-    private boolean positivoX=true;
-    private boolean positivoY=true;
-
     private SpriteBatch batch;
     private Music musicaFondo;
     private Music efectoFondo;
@@ -59,10 +56,27 @@ public class Cueva implements Screen{
 
 
     private State estado = State.PLAY;
-    public enum State
-    {
+
+    private Direccion positivoX = Direccion.NONE;
+    private Direccion positivoY = Direccion.NONE;
+
+    private Direccion cancelarX = Direccion.NONE;
+    private Direccion cancelarY = Direccion.NONE;
+
+    private float ultX;
+    private float ultY;
+
+    public enum State{
         PAUSA,
         PLAY
+    }
+
+    public enum Direccion{
+        LEFT,
+        RIGHT,
+        UP,
+        DOWN,
+        NONE
     }
 
     private float CamX = 1100;
@@ -180,32 +194,70 @@ public class Cueva implements Screen{
             TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get(1);
             TiledMapTileLayer.Cell curr = capa.getCell(CellX, CellY);
 
+            //Gdx.app.log("",""+curr);
+
             if (curr == null) {
-                donchito.getSprite().setX(donchito.getSprite().getX() + touchpad.getKnobPercentX() * velocidad);
-                donchito.getSprite().setY(donchito.getSprite().getY() + touchpad.getKnobPercentY() * velocidad);
+                //Gdx.app.log("En x: "+touchpad.getKnobPercentX(),"En y: "+touchpad.getKnobPercentY());
+                ultX = donchito.getSprite().getX();
+                ultY = donchito.getSprite().getY();
+
+                if(cancelarX == Direccion.RIGHT){
+                    if(touchpad.getKnobPercentX()<0){
+                        donchito.getSprite().setX(donchito.getSprite().getX() + touchpad.getKnobPercentX() * velocidad);
+                        cancelarX = Direccion.NONE;
+                    }
+                }
+                else if(cancelarX == Direccion.LEFT){
+                    if(touchpad.getKnobPercentX()>0){
+                        donchito.getSprite().setX(donchito.getSprite().getX() + touchpad.getKnobPercentX() * velocidad);
+                        cancelarX = Direccion.NONE;
+                    }
+                }
+                else {
+                    donchito.getSprite().setX(donchito.getSprite().getX() + touchpad.getKnobPercentX() * velocidad);
+                }
+
+                if(cancelarY == Direccion.UP){
+                    if(touchpad.getKnobPercentY()<0){
+                        donchito.getSprite().setY(donchito.getSprite().getY() + touchpad.getKnobPercentY() * velocidad);
+                        cancelarY = Direccion.NONE;
+                    }
+                }
+                else if(cancelarY == Direccion.DOWN){
+                    if(touchpad.getKnobPercentY()>0){
+                        donchito.getSprite().setY(donchito.getSprite().getY() + touchpad.getKnobPercentY() * velocidad);
+                        cancelarY = Direccion.NONE;
+                    }
+                }
+                else {
+                    donchito.getSprite().setY(donchito.getSprite().getY() + touchpad.getKnobPercentY() * velocidad);
+                }
                 float kPx = touchpad.getKnobPercentX();
                 float kPy = touchpad.getKnobPercentY();
                 if (kPx > 0) {
-                    positivoX = true;
-                } else {
-                    positivoX = false;
+                    positivoX = Direccion.RIGHT;
+                } else if(kPx<0){
+                    positivoX = Direccion.LEFT;
                 }
-
+                else {
+                    positivoY  = Direccion.NONE;
+                }
                 if (kPy > 0) {
-                    positivoY = true;
-                } else {
-                    positivoY = false;
+                    positivoY = Direccion.UP;
+                } else if(kPy<0){
+                    positivoY = Direccion.DOWN;
+                }
+                else {
+                    positivoY  =Direccion.NONE;
                 }
             } else {
-                if (positivoX)
-                    donchito.getSprite().setX(donchito.getSprite().getX() + ((-1 * Math.abs(touchpad.getKnobPercentX())) * velocidad));
-                else
-                    donchito.getSprite().setX(donchito.getSprite().getX() + ((Math.abs(touchpad.getKnobPercentX())) * velocidad));
 
-                if (positivoY)
-                    donchito.getSprite().setY(donchito.getSprite().getY() + ((-1 * Math.abs(touchpad.getKnobPercentY())) * velocidad));
-                else
-                    donchito.getSprite().setY(donchito.getSprite().getY() + ((1 * Math.abs(touchpad.getKnobPercentY())) * velocidad));
+                Gdx.app.log("Colisionando llendo a ",positivoX+", "+positivoY);
+
+                cancelarX = positivoX;
+                cancelarY = positivoY;
+
+                donchito.getSprite().setPosition(ultX,ultY);
             }
 
             if (donchito.getSprite().getY() > 1050) {
