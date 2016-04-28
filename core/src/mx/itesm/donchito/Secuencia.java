@@ -28,10 +28,13 @@ public class Secuencia implements Screen {
     private Viewport view;
 
     private float tiempoEsperar = 3f;
+
     private int indicePosiciones = 0;
     private int maxPosiciones = 7;
-    private boolean cueva;
 
+    private Music musicaFondo;
+
+    private boolean cueva;
     private boolean acabar = false;
 
     private float[] posicionesX = new float[]{671,2000,700,1800,671,2000,2000};
@@ -66,6 +69,7 @@ public class Secuencia implements Screen {
         historieta = new SimpleAsset(Constants.SECUENCIAS_HISTORIETA,0,0);
         botonPlay =  new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1100,0);
         leerEntrada();
+        cargarAudio();
     }
     @Override
     public void render(float delta) {
@@ -232,7 +236,13 @@ public class Secuencia implements Screen {
 
     @Override
     public void dispose() {
+        stopMusic();
         DonChito.assetManager.clear();
+    }
+    private void stopMusic(){
+        if(musicaFondo.isPlaying()){
+            musicaFondo.stop();
+        }
     }
 
     private void leerEntrada() {
@@ -246,7 +256,18 @@ public class Secuencia implements Screen {
         });
     }
     private void cargarAudio() {
+        AssetManager assetManager = DonChito.assetManager;
 
+        musicaFondo = assetManager.get(Constants.MENU_PRINCIPAL_MP3);
+        musicaFondo.setLooping(true);
+        reproducirMusica(musicaFondo);
+    }
+    private void reproducirMusica(Music musica){
+        musica.setVolume(1F);
+        if(!DonChito.preferences.getBoolean(Constants.MENUPRINCIPAL_SOUND_PREF,true)){
+            musica.setVolume(0f);
+        }
+        musica.play();
     }
 }
 

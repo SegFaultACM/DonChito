@@ -186,7 +186,7 @@ public class LoadingScreen implements Screen {
             case SECUENCIA:
                 assetManager.load(Constants.SECUENCIAS_HISTORIETA, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_PLAY_PNG, Texture.class);
-                //assetManager.load(Constants.FLEVORIO_SONIDOFAIL_WAV,Music.class);
+                assetManager.load(Constants.MENU_PRINCIPAL_MP3,Music.class);
                 break;
 
             case FINALBOSS:
