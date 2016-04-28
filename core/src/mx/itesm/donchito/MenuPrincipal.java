@@ -19,6 +19,9 @@ public class MenuPrincipal implements Screen {
     private final DonChito game;
     private Viewport view;
 
+    private GameText siNuevaPartida,
+                    confirmacion,
+                     noNuevaPartida;
 
     private SpriteBatch batch;
 
@@ -34,6 +37,9 @@ public class MenuPrincipal implements Screen {
                         btnAjustes,
                         botonSalirMenu,
                         fondoPausa,
+                        fondoNuevaPartida,
+                        botonSiPartida,
+                        botonNoPartida,
                         btnMusica;
 
 
@@ -67,6 +73,17 @@ public class MenuPrincipal implements Screen {
         btnAjustes = new SimpleAsset(Constants.AJUSTES_BOTON_PNG,50,475);
         fondoPausa = new SimpleAsset(Constants.PANTALLA_CONFIG_PNG,0,0);
         botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,405,400);
+
+        fondoNuevaPartida = new SimpleAsset(Constants.MENUPRINCIPAL_MARCO_PNG,0,0);
+        botonSiPartida = new SimpleAsset(Constants.MENUPRINCIPAL_MARCO_PNG,-150,-10);
+        botonNoPartida = new SimpleAsset(Constants.MENUPRINCIPAL_MARCO_PNG,150,-10);
+        siNuevaPartida = new GameText(490,370);
+        noNuevaPartida = new GameText(780,370);
+        confirmacion = new GameText(550,520);
+
+        botonSiPartida.getSprite().setScale(0.2f);
+        botonNoPartida.getSprite().setScale(0.2f);
+
         estado = State.MENU;
         leerEntrada();
         cargarAudio();
@@ -91,7 +108,8 @@ public class MenuPrincipal implements Screen {
                     if(btnNuevaPartida.isTouched(x,y,camera,view)){
                         clickOnButton = true;
                         isClick = true;
-                        pantallaSiguiente = Screen.NUEVAPARTIDA;
+                        estado = State.EMPEZARNUEVO;
+                        pantallaSiguiente = Screen.DONCHITO;
                         return true;
                     }
                     if(btnExtra.isTouched(x,y,camera,view)){
@@ -126,6 +144,18 @@ public class MenuPrincipal implements Screen {
                         }
                         DonChito.preferences.flush();
                         cargarAudio();
+                    }
+                }
+                if(isClick && estado == State.EMPEZARNUEVO) {
+                    if(botonNoPartida.isTouched(x,y,camera,view)) {
+                        estado = State.MENU;
+                        pantallaSiguiente = Screen.DONCHITO;
+                        return true;
+                    }
+                    if(botonSiPartida.isTouched(x,y,camera,view)){
+                        estado = State.MENU;
+                        pantallaSiguiente = Screen.NUEVAPARTIDA;
+                        return true;
                     }
                 }
                 return false;
@@ -188,14 +218,16 @@ public class MenuPrincipal implements Screen {
                             game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.ACERCA,game));
                             break;
                         case NUEVAPARTIDA:
-                            dispose();
-                            game.initPref();
-                            if(!DonChito.preferences.getBoolean(Constants.PREF_SECUENCIA,false)){
-                                DonChito.preferences.putBoolean(Constants.PREF_SECUENCIA,true);
-                                DonChito.preferences.flush();
-                                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.SECUENCIA,game));
-                            }else{
-                                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game));
+                            if(estado != State.EMPEZARNUEVO) {
+                                dispose();
+                                game.initPref();
+                                if (!DonChito.preferences.getBoolean(Constants.PREF_SECUENCIA, false)) {
+                                    DonChito.preferences.putBoolean(Constants.PREF_SECUENCIA, true);
+                                    DonChito.preferences.flush();
+                                    game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.SECUENCIA, game));
+                                } else {
+                                    game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA, game));
+                                }
                             }
                             break;
                         default:
@@ -247,6 +279,14 @@ public class MenuPrincipal implements Screen {
         btnExtra.render(batch);
         btnPala.render(batch);
         btnAjustes.render(batch);
+        if(estado == State.EMPEZARNUEVO){
+            fondoNuevaPartida.render(batch);
+            botonSiPartida.render(batch);
+            botonNoPartida.render(batch);
+            siNuevaPartida.showMessage(batch,"Si");
+            noNuevaPartida.showMessage(batch,"No");
+            confirmacion.showMessage(batch,"¿Borrar Partida anterior?");
+        }
         if(estado == State.PAUSA){
             fondoPausa.render(batch);
             botonSalirMenu.render(batch);
@@ -262,6 +302,10 @@ public class MenuPrincipal implements Screen {
 
     @Override
     public void pause() {
+
+    }
+
+    public void empezarNuevaPartida(){
 
     }
 
@@ -284,6 +328,7 @@ public class MenuPrincipal implements Screen {
     {
         PAUSA,
         MENU,
+        EMPEZARNUEVO
     }
     enum Screen{
         DONCHITO,

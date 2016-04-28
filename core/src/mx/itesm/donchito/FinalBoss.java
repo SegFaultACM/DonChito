@@ -140,21 +140,21 @@ public class FinalBoss implements Screen {
         flevorioNameText.setColor(0.618f,.111f,0.18f,1);
         donChitoNameText.setColor(0.618f,.111f,0.18f,1);
 
-        botonResortera = new SimpleAsset(Constants.FINAL_BOSS_RESORTERA, -100, -50);
+        botonResortera = new SimpleAsset(Constants.FINAL_BOSS_PICO, -100, -50);
         botonResortera.getSprite().setScale(0.5f);
 
         if(!DonChito.preferences.getBoolean("RomanStruggle", false)){
             botonResortera.getSprite().setColor(Color.BLACK);
             todosLosItems = false;
         }
-        botonTribalera = new SimpleAsset(Constants.FINAL_BOSS_BOTAS, 210, -50);
+        botonTribalera = new SimpleAsset(Constants.FINAL_BOSS_PICO, 210, -50);
         botonTribalera.getSprite().setScale(0.5f);
 
         if(!DonChito.preferences.getBoolean("Livermorio", false)){
             botonTribalera.getSprite().setColor(Color.BLACK);
             todosLosItems = false;
         }
-        botonCurar = new SimpleAsset(Constants.FINAL_BOSS_PIEDRA, -100, 70);
+        botonCurar = new SimpleAsset(Constants.FINAL_BOSS_PICO, -100, 70);
         botonCurar.getSprite().setScale(0.5f);
         botonPico = new SimpleAsset(Constants.FINAL_BOSS_PICO, 210, 70);
         botonPico.getSprite().setScale(0.5f);
