@@ -57,7 +57,7 @@ public class DonChitoLivermorio {
             animacion.setPlayMode(Animation.PlayMode.LOOP);
         }
 
-        public void update(float delta, Array<SimpleAsset> platforms,LivermorioEscape.GameState gameState) {
+        public void update(float delta, Array<SimpleAsset> platforms,Array<SimpleAsset> platforms2,LivermorioEscape.GameState gameState) {
             if(gameState == LivermorioEscape.GameState.PLAY){
                 lastFramePosition.set(position);
                 velocity.y -= GRAVITY;
@@ -66,6 +66,13 @@ public class DonChitoLivermorio {
                     jumpState = JumpState.FALLING;
 
                     for (SimpleAsset platform : platforms) {
+                        if (landedOnPlatform(platform)) {
+                            jumpState = JumpState.GROUND;
+                            velocity.y = 0;
+                            position.y = platform.getSprite().getY() + platform.getSprite().getHeight();
+                        }
+                    }
+                    for (SimpleAsset platform : platforms2) {
                         if (landedOnPlatform(platform)) {
                             jumpState = JumpState.GROUND;
                             velocity.y = 0;
