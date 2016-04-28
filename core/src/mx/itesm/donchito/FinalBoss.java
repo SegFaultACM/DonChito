@@ -207,7 +207,6 @@ public class FinalBoss implements Screen {
     @Override
     public void render(float delta) {
         if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
-            stopMusic();
             dispose();
             game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU, game));
         }
@@ -222,7 +221,6 @@ public class FinalBoss implements Screen {
         }
         else if (estado == State.PLAY || estado == State.PAUSA){
             if(vidaDonChito == 0){
-                stopMusic();
                 dispose();
                 game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game,false, LoadingScreen.ScreenSel.FINALBOSS));
             }
@@ -337,7 +335,6 @@ public class FinalBoss implements Screen {
         }
         else if (estado == State.TURNOFLEVORIO){
             if(vidaFlevorio == 0){
-                stopMusic();
                 dispose();
                 game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game,true, LoadingScreen.ScreenSel.FINALBOSS));
             }
@@ -514,6 +511,7 @@ public class FinalBoss implements Screen {
 
     @Override
     public void dispose() {
+        stopMusic();
         DonChito.assetManager.clear();
     }
     private void leerEntrada() {
@@ -592,12 +590,10 @@ public class FinalBoss implements Screen {
                         estado = State.PLAY;
                     }
                     else if(botonSalirMenu.isTouched(x,y,camera,view)){
-                        stopMusic();
                         dispose();
                         game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
                     }
                     else if(botonSalirCueva.isTouched(x,y,camera,view)){
-                        stopMusic();
                         dispose();
                         game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game));
                     }
