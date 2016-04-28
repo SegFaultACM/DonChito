@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -27,13 +26,11 @@ public class LivermorioEscape implements Screen {
     private static final float DEATH_MOVE_SPEED = 200;
     public static final int PLATFORM_WIDTH = 3512;
     private static final int BACKGROUND_SIZE = PLATFORM_WIDTH;
-    public static int positionPlatforms = 0;
     private final int[] CARRETAS_X = new int[]{114,600,1460,1952,2837,3024,3429,3994,4706,5107,5800,5952,7018,7016,7412,8560,8960,9336,8861,9528,9685,10036,10394};
     private final int[] CARRETAS_Y = new int[]{283,90,254,12,18,419,17,173,293,294,10,486,3,2,2,6,18,17,474,478,172,314,452};
 
     private final int[] MADERAS_X = new int[]{810,1217,1965,2206,3600,4029,4460,5064,6414,6339,6643,7119,7613,7963,8219,11001,10922,11404};
     private final int[] MADERAS_Y = new int[]{431,42,569,281,523,520,20,129,555,192,402,412,598,172,479,516,54,71};
-    private boolean createdPlat[] = new boolean[4];
 
     private OrthographicCamera camera,cameraHUD;
     private final DonChito game;
@@ -64,12 +61,6 @@ public class LivermorioEscape implements Screen {
     private float deathStartTime;
     private int nFondos = 2,posFondos = BACKGROUND_SIZE * 2;
     private TextureRegion regionDeath;
-
-
-    //pantalla->Plataformas->Coordenada
-
-
-    //sumar 12,000 a todas las x para ciclar
 
     private boolean powerUp = false;
 
@@ -104,24 +95,13 @@ public class LivermorioEscape implements Screen {
         cargarRecursos();
         leerEntrada();
         crearElementos();
-        createPlatforms(positionPlatforms);
+        createPlatforms();
     }
     public void render(float delta) {
 
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        if(player.getX()>2500 && !createdPlat[1]){
-            createdPlat[1] = true;
-            createPlatforms(1);
-        }
-        if(player.getX()>5000 && !createdPlat[2]){
-            createdPlat[2] = true;
-            createPlatforms(2);
-        }
-        if(player.getX()>7000 && !createdPlat[3]){
-            createdPlat[3] = true;
-            createPlatforms(3);
-        }
+
         view.apply();
         actualizarCamara();
         renderCamera();
@@ -168,88 +148,22 @@ public class LivermorioEscape implements Screen {
         //Change locations,when asset is available
         arrowUp = new SimpleAsset(Constants.CUEVA_ARROW_LEFT, 1110,50);
         arrowUp.setRotation(-90);
-        arrowRight = new SimpleAsset(Constants.CUEVA_ARROW_RIGHT, 200,50);
+        arrowRight = new SimpleAsset(Constants.CUEVA_ARROW_LEFT, 200,50);
+        arrowRight.setRotation(-180);
         arrowLeft = new SimpleAsset(Constants.CUEVA_ARROW_LEFT, 10,50);
 
     }
     private void cargaPosiciones(){
 
     }
-    private void createPlatforms(int position){
+    private void createPlatforms(){
         batch.setProjectionMatrix(camera.projection);
         batch.begin();
-        SimpleAsset tempCarretas,tempMadera;
+        SimpleAsset temp;
         int randomAs;
-        boolean isActive = false;
-        if(0 == position){
-            for (int i = 0; i < CARRETAS_X.length /4; i++) {
-                randomAs = (new Random()).nextInt(Constants.PLATFORMS_CARRETAS.length);
-                tempCarretas = new SimpleAsset(Constants.PLATFORMS_CARRETAS[randomAs],CARRETAS_X[i],CARRETAS_Y[i]);
-                platforms.add(tempCarretas);
-            }
-            for (int i = 0; i < MADERAS_X.length /4; i++) {
-                randomAs = (new Random()).nextInt(Constants.PLATFORMS_MADERA.length);
-                tempMadera = new SimpleAsset(Constants.PLATFORMS_MADERA[randomAs],MADERAS_X[i],MADERAS_Y[i]);
-                platforms.add(tempMadera);
-            }
-        }else if(1 == position){
-            for (int i = CARRETAS_X.length /4; i < CARRETAS_X.length/4 *2; i++) {
-                randomAs = (new Random()).nextInt(Constants.PLATFORMS_CARRETAS.length);
-                tempCarretas = new SimpleAsset(Constants.PLATFORMS_CARRETAS[randomAs],CARRETAS_X[i],CARRETAS_Y[i]);
-                if(!isActive && Math.round(Math.random()*8)+1 == 8){
-                    powerUpAs.setPosition(CARRETAS_X[i]+(tempCarretas.getSprite().getWidth()/2),CARRETAS_Y[i]+tempCarretas.getSprite().getHeight());
-                    isActive = true;
-                }
-                platforms.add(tempCarretas);
-            }
-            for (int i = MADERAS_X.length /4; i < MADERAS_X.length/4 *2; i++) {
-                randomAs = (new Random()).nextInt(Constants.PLATFORMS_MADERA.length);
-                tempMadera = new SimpleAsset(Constants.PLATFORMS_MADERA[randomAs],MADERAS_X[i],MADERAS_Y[i]);
-                if(!isActive && Math.round(Math.random()*8)+1 == 8){
-                    powerUpAs.setPosition(MADERAS_X[i]+(tempMadera.getSprite().getWidth()/2),MADERAS_Y[i]+tempMadera.getSprite().getHeight());
-                    isActive = true;
-                }
-                platforms.add(tempMadera);
-            }
-        }else if(2 == position){
-            for (int i = (CARRETAS_X.length/4)*2; i < CARRETAS_X.length/4 *3; i++) {
-                randomAs = (new Random()).nextInt(Constants.PLATFORMS_CARRETAS.length);
-                tempCarretas = new SimpleAsset(Constants.PLATFORMS_CARRETAS[randomAs],CARRETAS_X[i],CARRETAS_Y[i]);
-                if(!isActive && Math.round(Math.random()*8)+1 == 8){
-                    powerUpAs.setPosition(CARRETAS_X[i]+(tempCarretas.getSprite().getWidth()/2),CARRETAS_Y[i]+tempCarretas.getSprite().getHeight());
-                    isActive = true;
-                }
-                platforms.add(tempCarretas);
-            }
-            for (int i = (MADERAS_X.length/4)*2; i < MADERAS_X.length/4 *3; i++) {
-                randomAs = (new Random()).nextInt(Constants.PLATFORMS_MADERA.length);
-                tempMadera = new SimpleAsset(Constants.PLATFORMS_MADERA[randomAs],MADERAS_X[i],MADERAS_Y[i]);
-                if(!isActive && Math.round(Math.random()*8)+1 == 8){
-                    powerUpAs.setPosition(MADERAS_X[i]+(tempMadera.getSprite().getWidth()/2),MADERAS_Y[i]+tempMadera.getSprite().getHeight());
-                    isActive = true;
-                }
-                platforms.add(tempMadera);
-            }
-        }else if(3==position){
-            for (int i = CARRETAS_X.length/4 *3; i < CARRETAS_X.length; i++) {
-                randomAs = (new Random()).nextInt(Constants.PLATFORMS_CARRETAS.length);
-                tempCarretas = new SimpleAsset(Constants.PLATFORMS_CARRETAS[randomAs],CARRETAS_X[i],CARRETAS_Y[i]);
-                if(!isActive && Math.round(Math.random()*8)+1 == 8){
-                    powerUpAs.setPosition(CARRETAS_X[i]+(tempCarretas.getSprite().getWidth()/2),CARRETAS_Y[i]+tempCarretas.getSprite().getHeight());
-                    isActive = true;
-                }
-                platforms.add(tempCarretas);
-            }
-            for (int i = MADERAS_X.length/4 *3; i < MADERAS_X.length; i++) {
-                randomAs = (new Random()).nextInt(Constants.PLATFORMS_MADERA.length);
-                tempMadera = new SimpleAsset(Constants.PLATFORMS_MADERA[randomAs],MADERAS_X[i],MADERAS_Y[i]);
-                if(!isActive && Math.round(Math.random()*8)+1 == 8){
-                    powerUpAs.setPosition(MADERAS_X[i]+(tempMadera.getSprite().getWidth()/2),MADERAS_Y[i]+tempMadera.getSprite().getHeight());
-                    isActive = true;
-                }
-                platforms.add(tempMadera);
-            }
-        }
+        randomAs = (new Random()).nextInt(Constants.PLATFORMS_CARRETAS.length);
+        temp = new SimpleAsset(Constants.PLATFORMS_CARRETAS[randomAs],CARRETAS_X[0],CARRETAS_Y[0]);
+        platforms.add(temp);
         batch.end();
     }
     private void cargarRecursos() {

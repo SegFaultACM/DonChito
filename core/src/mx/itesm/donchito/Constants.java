@@ -21,8 +21,7 @@ public class Constants {
     //Cueva
     public static final String CUEVA_FONDO_JPG = "Imagenes/Cueva/Imagen_Cueva_fin.jpg";
     public static final String CUEVA_DON_CHITO_PNG = "Imagenes/Cueva/DonChito.png";
-    public static final String CUEVA_ARROW_LEFT = "Imagenes/Controles/controlizquierda.png";
-    public static final String CUEVA_ARROW_RIGHT = "Imagenes/Controles/controlderecha.png";
+    public static final String CUEVA_ARROW_LEFT = "Imagenes/Controles/controlizquierda.png"; //TODO Usar esta
     public static final String CUEVA_TILES = "Imagenes/Cueva/CuevaTiled.tmx";
     public static final String CUEVA_MUSICA_FONDO = "Musica/cave.mp3";
     public static final String CUEVA_EFECTOS_FONDO = "Musica/caveEff.mp3";
@@ -98,7 +97,7 @@ public class Constants {
     //Configuracion
     public static final String PANTALLA_CONFIG_PNG = "Imagenes/PantallasConfig/Configuracion.png";
 
-
+    /*
     // Texts
     public static final String TITULO_ACERCA_DE =  "Primer entregable de Videojuegos.";
     public static final String TEXTO_ACERCA_DE = "Don chito es un pueblerino ejemplar el \n" +
@@ -115,6 +114,7 @@ public class Constants {
     public static final String TITULO_OPCIONES = "Opciones del programa ";
     public static final String TEXTO_MUSICA_OPCIONES = "¿Habilitar música?";
     public static final String TEXTO_SONIDO_OPCIONES = "¿Habilitar sonido?";
+    */
 
 
     //Livermorio Escape

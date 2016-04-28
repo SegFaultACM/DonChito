@@ -154,8 +154,6 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.CTHULHU,Texture.class);
                 assetManager.load(Constants.LIVERMORIO_ITEM,Texture.class);
                 assetManager.load(Constants.CUEVA_ARROW_LEFT,Texture.class);
-                assetManager.load(Constants.CUEVA_ARROW_RIGHT,Texture.class);
-
                 assetManager.load(Constants.GLOBAL_MENU_PAUSA_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_PAUSA_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_PLAY_PNG, Texture.class);

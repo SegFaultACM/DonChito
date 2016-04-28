@@ -64,9 +64,6 @@ public class AcercaDe implements Screen {
         btnHistorieta = new SimpleAsset(Constants.ACERCA_HISTORIETA,30,75);
     }
 
-    private void cargarAudio() {
-
-    }
     private void leerEntrada() {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
