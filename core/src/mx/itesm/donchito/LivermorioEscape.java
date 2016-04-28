@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -75,6 +76,8 @@ public class LivermorioEscape implements Screen {
     private PlayerState playerState = PlayerState.NOTDEAD;
     private GameState gameState = GameState.PLAY;
     private MoveState moveState = MoveState.NONE;
+
+    private Music music;
 
 
     public LivermorioEscape(DonChito game) {
@@ -353,7 +356,15 @@ public class LivermorioEscape implements Screen {
         });
     }
     private void cargarAudio() {
-
+        if(DonChito.preferences.getBoolean(Constants.MENUPRINCIPAL_SOUND_PREF,true)){
+            music = DonChito.assetManager.get(Constants.LIVERMORIO_MUSIC);
+            music.setLooping(true);
+            music.play();
+        }else{
+            if(music != null && music.isPlaying()){
+                music.stop();
+            }
+        }
     }
 
 
@@ -455,7 +466,7 @@ public class LivermorioEscape implements Screen {
     public void update(float delta){
         player.update(delta, platforms,gameState);
         regionDeath = animationDeath.getKeyFrame(MathUtils.nanoToSec * (TimeUtils.nanoTime() - deathStartTime));
-        deathVelocity += delta*.01;
+        deathVelocity += delta*.04;
         DeathPosition.x += delta * DEATH_MOVE_SPEED * deathVelocity;
     }
     @Override

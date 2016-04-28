@@ -76,7 +76,7 @@ public class Constants {
     public static final String ROMAN_FONDO = "Imagenes/Romans_Struggle/Roman_escenario.jpg";
     public static final String ROMAN_HONDA = "Imagenes/Romans_Struggle/honda.png";
 
-    public static final String ROMAN_SPRITES_DONCHITO = "Imagenes/donchitosprites.png";
+    public static final String CUEVA_DONCHITO = "Imagenes/donchitosprites.png";
 
     //Ajustes
     public static final String AJUSTES_BOTON_PNG = "Imagenes/Pausa/pausa_herramientas.png";
@@ -129,6 +129,11 @@ public class Constants {
                                                 "Imagenes/Livermorio/Entintados/tabla4.png"};
 
     public static final String LIVERMORIO_FONDO_PNG = "Imagenes/Livermorio/Piedrasyfondo/fondo.jpg";
+    public static final String LIVERMORIO_EF_MP3 = "Musica/livermorioEf2.mp3";
+    public static final String LIVERMORIO_MUSIC = "Musica/LivermorioEscape.mp3";
+
+
+
     public static final String PLAYER_TEXTURE = "Imagenes/Livermorio/Sprites/spriteDonChito.png";
     public static final String DEATHBYROBOT = "Imagenes/Livermorio/Sprites/Deslave.png";
     public static final String CTHULHU = "Imagenes/deathscreen.jpg";
