@@ -165,8 +165,6 @@ public class LoadingScreen implements Screen {
                 break;
             case ROMANSTRUGGLE:
                 assetManager.load(Constants.ROMAN_BOTON_IZQUIERDA,Texture.class);
-                assetManager.load(Constants.ROMAN_BOTON_DERECHA, Texture.class);
-                assetManager.load(Constants.ROMAN_BOTON_DISPARA, Texture.class);
                 assetManager.load(Constants.ROMAN_PERSONAJE_DONCHITO, Texture.class);
                 assetManager.load(Constants.ROMAN_FONDO, Texture.class);
                 assetManager.load(Constants.ROMAN_PIEDRA, Texture.class);
@@ -195,10 +193,7 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.FINAL_BOSS_FONDO,Texture.class);
                 assetManager.load(Constants.FINAL_BOSS_DONCHITO,Texture.class);
                 assetManager.load(Constants.FINAL_BOSS_FLEVORIO,Texture.class);
-                assetManager.load(Constants.FINAL_BOSS_BOTAS,Texture.class);
-                assetManager.load(Constants.FINAL_BOSS_PIEDRA,Texture.class);
                 assetManager.load(Constants.FINAL_BOSS_PICO,Texture.class);
-                assetManager.load(Constants.FINAL_BOSS_RESORTERA,Texture.class);
                 assetManager.load(Constants.FINAL_BOSS_HEALTHBAR,Texture.class);
                 assetManager.load(Constants.FINAL_BOSS_HEALTHBARB,Texture.class);
                 assetManager.load(Constants.GLOBAL_MENU_PAUSA_PNG, Texture.class);

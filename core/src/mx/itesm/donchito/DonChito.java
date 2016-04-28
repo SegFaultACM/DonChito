@@ -36,5 +36,6 @@ public class DonChito extends Game {
 		DonChito.preferences.putBoolean(Constants.PREF_ROMAN_STRUGGLE,false);
 		DonChito.preferences.putBoolean(Constants.PREF_LIVERMORIO,false);
 		DonChito.preferences.putBoolean(Constants.PREF_SECUENCIA,false);
+		DonChito.preferences.flush();
 	}
 }

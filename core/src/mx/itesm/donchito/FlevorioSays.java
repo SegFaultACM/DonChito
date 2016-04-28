@@ -226,7 +226,6 @@ public class FlevorioSays implements Screen{
         if(nivel != 4 && instruccionesLeidas && jugando) {
             if (fondo.getSprite().getScaleX() >= 1f) {
                 if (!rocasCreadas) {
-                    reproducirMusica(efectoBoton);
                     crearRoca();
                 } else {
                     if (!musicaIntro.isPlaying()) {
