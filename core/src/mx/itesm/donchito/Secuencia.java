@@ -32,13 +32,16 @@ public class Secuencia implements Screen {
     private int maxPosiciones = 7;
     private boolean cueva;
 
-    private float currx = 300;
-    private float curry = 1270;
-
     private boolean acabar = false;
 
-    private float[] posicionesX = new float[]{300,900,300,850,300,600,900};
-    private float[] posicionesY = new float[]{1270,1270,800,800,300,300,300};
+    private float[] posicionesX = new float[]{671,2000,700,1800,671,2000,2000};
+    private float[] posicionesY = new float[]{3047,3058,1900,1800,630,630,680};
+
+    private float currx = posicionesX[0];
+    private float curry = posicionesY[0];
+
+    private float currCamaraX = DonChito.ANCHO_MUNDO;
+    private float currCamaraY = DonChito.ALTO_MUNDO;
 
     private SpriteBatch batch;
 
@@ -48,7 +51,8 @@ public class Secuencia implements Screen {
     }
     @Override
     public void show() {
-        camera = new OrthographicCamera(DonChito.ANCHO_MUNDO/2, DonChito.ALTO_MUNDO/2);
+        //camera = new OrthographicCamera(DonChito.ANCHO_MUNDO/2, DonChito.ALTO_MUNDO/2);
+        camera = new OrthographicCamera(DonChito.ANCHO_MUNDO, DonChito.ALTO_MUNDO);
         camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         camera.update();
 
@@ -74,11 +78,26 @@ public class Secuencia implements Screen {
 
         historieta.render(batch);
         if(indicePosiciones == 2){
-            camera = new OrthographicCamera(DonChito.ANCHO_MUNDO/1.5f, DonChito.ALTO_MUNDO/1.5f);
+            if(currCamaraX <DonChito.ANCHO_MUNDO*1.5f && currCamaraY<DonChito.ALTO_MUNDO*1.5f){
+                currCamaraY *= 1.005f;
+                currCamaraX *= 1.005f;
+            }
+            else{
+                currCamaraY  = DonChito.ALTO_MUNDO*1.5f;
+                currCamaraX = DonChito.ANCHO_MUNDO*1.5f;
+            }
         }
         else if(indicePosiciones == 4){
-            camera = new OrthographicCamera(DonChito.ANCHO_MUNDO/1.2f, DonChito.ALTO_MUNDO/1.2f);
+            if(currCamaraX <DonChito.ANCHO_MUNDO*1.8f && currCamaraY<DonChito.ALTO_MUNDO*1.8f){
+                currCamaraY *= 1.005f;
+                currCamaraX *= 1.005f;
+            }
+            else {
+                currCamaraY = DonChito.ALTO_MUNDO * 1.8f;
+                currCamaraX = DonChito.ANCHO_MUNDO * 1.8f;
+            }
         }
+        camera = new OrthographicCamera(currCamaraX,currCamaraY);
         if(acabar){
             dispose();
             if(cueva){
@@ -110,62 +129,73 @@ public class Secuencia implements Screen {
     private void hacerTransicion() {
         switch(indicePosiciones) {
             case 1:
-                if(currx<900) {
-                    currx += 5f;
+                if(currx<posicionesX[indicePosiciones]) {
+                    currx += 15f;
                 }
                 else{
-                    currx = 900;
+                    currx = posicionesX[indicePosiciones];
                 }
                 camera.position.set(currx, curry, 0);
                 break;
             case 2:
-                if(currx >300) {
+                if(currx >posicionesX[indicePosiciones]) {
                     currx -= 8f;
                 }
                 else{
-                    currx = 300;
+                    currx = posicionesX[indicePosiciones];
                 }
-                if(curry>800) {
+                if(curry>posicionesY[indicePosiciones]) {
                     curry -= 6f;
                 }
                 else{
-                    curry = 800;
+                    curry = posicionesY[indicePosiciones];
                 }
                 camera.position.set(currx, curry, 0);
                 break;
             case 3:
-                if(currx<850) {
+                if(currx<posicionesX[indicePosiciones]) {
                     currx += 5f;
                 }
                 else{
-                    currx = 850;
+                    currx = posicionesX[indicePosiciones];
                 }
                 camera.position.set(currx, curry, 0);
                 break;
             case 4:
-                if(currx >300) {
+                if(currx >posicionesX[indicePosiciones]) {
                     currx -= 8f;
                 }
                 else{
-                    currx = 300;
+                    currx = posicionesX[indicePosiciones];
                 }
-                if(curry>300) {
+                if(curry>posicionesY[indicePosiciones]) {
                     curry -= 6f;
                 }
                 else{
-                    curry = 300;
+                    curry = posicionesY[indicePosiciones];
                 }
                 camera.position.set(currx, curry, 0);
                 break;
-            case 5:case 6:
-                if(currx<900) {
-                    currx += 2f;
+            case 5:
+                if(currx<posicionesX[indicePosiciones]) {
+                    currx += 7f;
                 }
                 else{
-                    currx = 900;
+                    currx = posicionesX[indicePosiciones];
+                }
+                if(curry<posicionesY[indicePosiciones+1]) {
+                    curry += 3f;
+                }
+                else{
+                    curry = posicionesY[indicePosiciones+1];
                 }
                 camera.position.set(currx, curry, 0);
                 break;
+            case 6:
+
+                camera.position.set(currx, curry, 0);
+                break;
+
             case 0: default:
                 camera.position.set(posicionesX[indicePosiciones], posicionesY[indicePosiciones], 0);
                 break;

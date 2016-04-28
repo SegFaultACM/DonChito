@@ -1,5 +1,6 @@
 package mx.itesm.donchito;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
@@ -38,9 +39,11 @@ public class FlevorioSays implements Screen{
     private SimpleAsset botonPlay;
     private SimpleAsset botonSalirMenu;
     private SimpleAsset botonConfiguracion;
+    private SimpleAsset botonSalirCueva;
 
     private SimpleAsset fondoPantalla;
     private SimpleAsset fondoPausa;
+
 
 
     private State estado = State.PLAY;
@@ -110,6 +113,7 @@ public class FlevorioSays implements Screen{
         botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1050,10);
         botonConfiguracion = new SimpleAsset(Constants.GLOBAL_BOTON_CONFIGURACION_PNG,405,175);
         botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,405,425);
+        botonSalirCueva = new SimpleAsset(Constants.GLOBAL_BOTON_BACK_CAVE,685,195);
 
         instructionsTxt = new GameText(150,700);
         levelTxt = new GameText(1000,700);
@@ -193,6 +197,10 @@ public class FlevorioSays implements Screen{
 
     @Override
     public void render(float delta) {
+        if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
+            dispose();
+            game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU, game));
+        }
         camera.update();
         view.apply();
         batch.begin();
@@ -287,11 +295,7 @@ public class FlevorioSays implements Screen{
             botonPlay.render(batch);
             botonConfiguracion.render(batch);
             botonSalirMenu.render(batch);
-            if(salirMenu) {
-                stopMusic();
-                dispose();
-                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
-            }
+            botonSalirCueva.render(batch);
         }
         else {
             if(instruccionesLeidas) {
@@ -402,13 +406,20 @@ public class FlevorioSays implements Screen{
                 }
                 if(estado == State.PAUSA){
                     //detectar los botones en el menu de pausa.
-                    if(botonSalirMenu.isTouched(x,y,camera,view)){
+                    if(botonSalirMenu.isTouched(x,y,camera,view) || botonSalirCueva.isTouched(x,y,camera,view)){
                         init();
                         musicaFondo.setLooping(false);
                         if(musicaFondo.isPlaying()) {
                             musicaFondo.stop();
                         }
-                        salirMenu = true;
+                        stopMusic();
+                        dispose();
+                        if(botonSalirCueva.isTouched(x,y,camera,view)){
+                            game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA, game));
+                        }
+                        else {
+                            game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU, game));
+                        }
                     }
                 }
                 return true; // return true to indicate the event was handled

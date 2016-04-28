@@ -1,6 +1,7 @@
 package mx.itesm.donchito;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
@@ -13,6 +14,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import java.util.Random;
+
+import sun.java2d.pipe.SpanShapeRenderer;
 
 public class FinalBoss implements Screen {
     private OrthographicCamera camera;
@@ -63,6 +66,7 @@ public class FinalBoss implements Screen {
     private SimpleAsset fondoPausa;
     private SimpleAsset botonSalirMenu;
     private SimpleAsset botonConfiguracion;
+    private SimpleAsset botonSalirCueva;
 
     private State estado = State.INTRO;
     private AtackState estadoAtaque = AtackState.IDLE;
@@ -127,7 +131,7 @@ public class FinalBoss implements Screen {
         botonConfiguracion = new SimpleAsset(Constants.GLOBAL_BOTON_CONFIGURACION_PNG,405,175);
         botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,405,425);
         botonPausa = new SimpleAsset(Constants.GLOBAL_BOTON_PAUSA_PNG,1050,10);
-
+        botonSalirCueva = new SimpleAsset(Constants.GLOBAL_BOTON_BACK_CAVE,685,195);
 
         resorteraText.setColor(.323f,.4823f,.649f,1);
         botasText.setColor(.323f,.4823f,.649f,1);
@@ -141,11 +145,6 @@ public class FinalBoss implements Screen {
 
         botonResortera = new SimpleAsset(Constants.FINAL_BOSS_RESORTERA, -100, -50);
         botonResortera.getSprite().setScale(0.5f);
-
-        // TODO QUITAR CUANDO SE TERMINE LIVERMORIO
-        //DonChito.preferences.putBoolean("Livermorio",true);
-        //DonChito.preferences.putBoolean("RomanStruggle",true);
-        //
 
         if(!DonChito.preferences.getBoolean("RomanStruggle", false)){
             botonResortera.getSprite().setColor(Color.BLACK);
@@ -231,6 +230,10 @@ public class FinalBoss implements Screen {
 
     @Override
     public void render(float delta) {
+        if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
+            dispose();
+            game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU, game));
+        }
         camera.update();
         view.apply();
         batch.begin();
@@ -436,6 +439,7 @@ public class FinalBoss implements Screen {
             fondoPausa.render(batch);
             botonConfiguracion.render(batch);
             botonSalirMenu.render(batch);
+            botonSalirCueva.render(batch);
         }
         batch.end();
     }
@@ -619,6 +623,10 @@ public class FinalBoss implements Screen {
                     else if(botonSalirMenu.isTouched(x,y,camera,view)){
                         stopMusic();
                         game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
+                    }
+                    else if(botonSalirCueva.isTouched(x,y,camera,view)){
+                        stopMusic();
+                        game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game));
                     }
                 }
 

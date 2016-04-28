@@ -81,6 +81,11 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.CUEVA_FONDO_JPG,Texture.class);
                 assetManager.load(Constants.CUEVA_DON_CHITO_PNG,Texture.class);
                 assetManager.load(Constants.CUEVA_TILES, TiledMap.class);
+                assetManager.load(Constants.GLOBAL_MENU_PAUSA_PNG, Texture.class);
+                assetManager.load(Constants.GLOBAL_BOTON_PAUSA_PNG, Texture.class);
+                assetManager.load(Constants.GLOBAL_BOTON_PLAY_PNG, Texture.class);
+                assetManager.load(Constants.GLOBAL_BOTON_CONFIGURACION_PNG, Texture.class);
+                assetManager.load(Constants.GLOBAL_BOTON_SALIRMENU_PNG, Texture.class);
                 break;
             case ACERCA:
                 assetManager.load(Constants.ACERCA_FONDO_JPG,Texture.class);
@@ -119,6 +124,7 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.FLEVORIO_INSTRUCCION13, Texture.class);
                 assetManager.load(Constants.FLEVORIO_INSTRUCCION14, Texture.class);
                 assetManager.load(Constants.FLEVORIO_INSTRUCCION15, Texture.class);
+                assetManager.load(Constants.GLOBAL_BOTON_BACK_CAVE,Texture.class);
 
                 assetManager.load(Constants.GLOBAL_MENU_PAUSA_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_PAUSA_PNG, Texture.class);
@@ -168,6 +174,7 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.GLOBAL_BOTON_PLAY_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_CONFIGURACION_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_SALIRMENU_PNG, Texture.class);
+                assetManager.load(Constants.GLOBAL_BOTON_BACK_CAVE,Texture.class);
 
                 assetManager.load(Constants.FLEVORIO_SONIDOFAIL_WAV,Music.class);
                 assetManager.load(Constants.FLEVORIO_SONIDOVICTORY_WAV, Music.class);
@@ -195,6 +202,7 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.GLOBAL_BOTON_PLAY_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_CONFIGURACION_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_SALIRMENU_PNG, Texture.class);
+                assetManager.load(Constants.GLOBAL_BOTON_BACK_CAVE,Texture.class);
                 
                 assetManager.load(Constants.FINAL_BOSS_MUSICA, Music.class);
                 break;

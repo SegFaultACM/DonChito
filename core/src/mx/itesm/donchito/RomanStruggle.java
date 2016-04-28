@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.IntFloatMap;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -17,18 +18,16 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class RomanStruggle implements Screen {
-    //Ver transparencia en botones, que don chito pasa adelante de ellos
+
     private OrthographicCamera camera;
     private final DonChito game;
     private Viewport view;
 
     private int nivel = 1;
-    private int botonPresionado = 0;
     private int indiceRocas = 0;
 
     private int puntos = 0;
 
-    private float velocidad = 5f;
     private float velocidadBala = 5f;
     private float tiempoEsperar = 5f;
 
@@ -39,6 +38,7 @@ public class RomanStruggle implements Screen {
     private SimpleAsset botonPlay;
     private SimpleAsset botonSalirMenu;
     private SimpleAsset botonConfiguracion;
+    private SimpleAsset botonSalirCueva;
     private SimpleAsset proyectil;
 
     private SimpleAsset fondoDeath;
@@ -57,7 +57,6 @@ public class RomanStruggle implements Screen {
     RomanRock rocaP;
 
     private boolean disparado = false;
-    private boolean pasarNivel = true;
 
 
     private State estado = State.PLAY;
@@ -69,9 +68,6 @@ public class RomanStruggle implements Screen {
     private Music efectoPerder;
     private Music musicaFondo;
     private Music musicaIntro;
-
-    private float widthProyectil;
-    private float heigthProyectil;
 
 
     public RomanStruggle(DonChito game) {
@@ -124,7 +120,8 @@ public class RomanStruggle implements Screen {
         fondoPausa = new SimpleAsset(Constants.GLOBAL_MENU_PAUSA_PNG,0,0);
         botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1050,500);
         botonConfiguracion = new SimpleAsset(Constants.GLOBAL_BOTON_CONFIGURACION_PNG,405,175);
-        botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,405,425);
+        botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,425,425);
+        botonSalirCueva = new SimpleAsset(Constants.GLOBAL_BOTON_BACK_CAVE,685,195);
         botonPlay.setAlpha(0.5f);
 
         botonPausa = new SimpleAsset(Constants.GLOBAL_BOTON_PAUSA_PNG,1050,500);
@@ -138,8 +135,6 @@ public class RomanStruggle implements Screen {
         proyectil = new SimpleAsset(Constants.ROMAN_PIEDRA,-1000f,-0912384f);
         proyectil.getSprite().setColor(Color.BLACK);
         proyectil.getSprite().setScale(0.3f);
-        heigthProyectil = proyectil.getSprite().getHeight()/0.3f;
-        widthProyectil = proyectil.getSprite().getWidth()/0.3f;
     }
 
     private void createFirstRocks(int nivel) {
@@ -151,6 +146,10 @@ public class RomanStruggle implements Screen {
 
     @Override
     public void render(float delta) {
+        if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
+            dispose();
+            game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU, game));
+        }
         camera.update();
         view.apply();
         batch.setProjectionMatrix(camera.combined);
@@ -175,6 +174,12 @@ public class RomanStruggle implements Screen {
         pointsTxt.showMessage(batch,"Points: "+puntos);
         ejecutarInputs();
 
+        if(player.getX()>=1130){
+            player.position = new Vector2(1130,player.getY());
+        }
+        if(player.getX()<=42){
+            player.position = new Vector2(42,player.getY());
+        }
         player.render(batch);
         botonDerecha.render(batch);
         botonIzquierda.render(batch);
@@ -186,6 +191,7 @@ public class RomanStruggle implements Screen {
             botonPlay.render(batch);
             botonConfiguracion.render(batch);
             botonSalirMenu.render(batch);
+            botonSalirCueva.render(batch);
         }
         else if(estado == State.DEATH) {
             fondoDeath.render(batch);
@@ -303,6 +309,15 @@ public class RomanStruggle implements Screen {
                     //}
                     dispose();
                     game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
+                }
+                if (botonSalirCueva.isTouched(x,y,camera,view) && estado == State.PAUSA) {
+                    //init();
+                    //musicaFondo.setLooping(false);
+                    //if (musicaFondo.isPlaying()) {
+                    //    musicaFondo.stop();
+                    //}
+                    dispose();
+                    game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game));
                 }
                 return true; // return true to indicate the event was handled
             }
