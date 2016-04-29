@@ -154,7 +154,7 @@ public class LivermorioEscape implements Screen {
                 }
             }
             posPlatformsCarretas++;
-            posPlatformsCarretas = posPlatformsCarretas %CARRETAS_X.length;
+            posPlatformsCarretas = posPlatformsCarretas % CARRETAS_X.length;
             platformsCarretas.add(temp);
         }
         if(platformsMadera.get(0).getSprite().getX()<player.getX()-1280){

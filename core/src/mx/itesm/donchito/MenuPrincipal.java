@@ -211,7 +211,13 @@ public class MenuPrincipal implements Screen {
                     switch (pantallaSiguiente){
                         case CUEVA:
                             dispose();
-                            game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game));
+                            if (!DonChito.preferences.getBoolean(Constants.PREF_SECUENCIA, false)) {
+                                DonChito.preferences.putBoolean(Constants.PREF_SECUENCIA, true);
+                                DonChito.preferences.flush();
+                                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.SECUENCIA, game));
+                            } else {
+                                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA, game));
+                            }
                             break;
                         case ACERCA:
                             dispose();
