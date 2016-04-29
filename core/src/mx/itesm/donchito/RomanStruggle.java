@@ -156,7 +156,7 @@ public class RomanStruggle implements Screen {
             }
             tiempoEsperar = 5f;
             nivel++;
-            if(nivel == 2){
+            if(nivel == 4){
                 DonChito.preferences.putBoolean(Constants.PREF_ROMAN_STRUGGLE,true);
                 DonChito.preferences.flush();
                 dispose();
@@ -226,8 +226,11 @@ public class RomanStruggle implements Screen {
     private void revisarColisiones(RomanRock roca) {
         float rocaX = roca.getSprite().getX();
         float rocaY = roca.getSprite().getY();
-
-        if(rocaX+roca.getRockWidth()-(50*roca.getEscala())>player.getX()&& rocaX-roca.getRockWidth()+(50*roca.getEscala())<player.getX() && rocaY<=player.getY()){
+        int mod = 50;
+        if(roca.getEscala() == 0.25f){
+           mod = 25;
+        }
+        if(rocaX+roca.getRockWidth()-(mod*roca.getEscala())>player.getX()&& rocaX-roca.getRockWidth()+(mod*roca.getEscala())<player.getX() && rocaY<=player.getY()){
             estado = State.DEATH;
         }
 
