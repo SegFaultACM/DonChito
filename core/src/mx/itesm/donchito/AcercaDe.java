@@ -1,5 +1,6 @@
 package mx.itesm.donchito;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
@@ -31,6 +32,8 @@ public class AcercaDe implements Screen {
                         regresarMenu,
                         btnHistorieta;
     private State screenState = State.INIT;
+
+    private GameText musicByText;
     public AcercaDe(DonChito game) {
         this.game = game;
     }
@@ -62,6 +65,9 @@ public class AcercaDe implements Screen {
         descSteve = new SimpleAsset(Constants.ACERCA_DESC_STEVE_PNG,0,0);
         regresarMenu = new SimpleAsset(Constants.ACERCA_REGRESAR,1000,10);
         btnHistorieta = new SimpleAsset(Constants.ACERCA_HISTORIETA,30,75);
+
+        musicByText = new GameText(550,200);
+        musicByText.reSize();
     }
 
     private void leerEntrada() {
@@ -138,6 +144,7 @@ public class AcercaDe implements Screen {
                 imgKarla.render(batch);
                 regresarMenu.render(batch);
                 btnHistorieta.render(batch);
+                musicByText.showMessage(batch,"Music by:\n\tEric Stiff\n\tAngel Galileo García Hernández\n\twww.bensound.com/");
                 break;
         }
 

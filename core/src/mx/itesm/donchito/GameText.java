@@ -39,4 +39,9 @@ public class GameText
 
     public float getX(){return this.xcoord;}
     public float getY(){return this.ycoord;}
+
+    public void reSize(){
+        font.getData().setScale(0.6f);
+    }
+
 }
