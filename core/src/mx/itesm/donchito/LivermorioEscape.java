@@ -223,7 +223,7 @@ public class LivermorioEscape implements Screen {
         animationDeath = new Animation(.15f,texturaDeath[0][0],
                 texturaDeath[1][0], texturaDeath[2][0],texturaDeath[3][0]);
         animationDeath.setPlayMode(Animation.PlayMode.LOOP);
-        DeathPosition = new Vector2(-2000,0);
+        DeathPosition = new Vector2(-1270,0);
         deathStartTime = TimeUtils.nanoTime();
         regionDeath = animationDeath.getKeyFrame(deathStartTime);
 
@@ -432,7 +432,7 @@ public class LivermorioEscape implements Screen {
     public void update(float delta){
         player.update(delta, platformsCarretas,platformsMadera,gameState);
         regionDeath = animationDeath.getKeyFrame(MathUtils.nanoToSec * (TimeUtils.nanoTime() - deathStartTime));
-        deathVelocity += delta*.04;
+        deathVelocity += delta*.025;
         DeathPosition.x += delta * DEATH_MOVE_SPEED * deathVelocity;
     }
     @Override

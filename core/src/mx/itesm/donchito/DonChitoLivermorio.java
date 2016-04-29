@@ -31,10 +31,10 @@ public class DonChitoLivermorio {
         private TextureRegion region;
         public static final float PLAYER_STANCE_WIDTH = 85.0f;
         public static final float PLAYER_MOVE_SPEED = 300;
-        public static final double GRAVITY = 30;
+        public static final double GRAVITY = 25;
 
-        public static final float JUMP_FORCE = 775;
-        public static final float MAX_JUMP_DURATION = .25f;
+        public static final float JUMP_FORCE = 800;
+        public static final float MAX_JUMP_DURATION = .3f;
 
         private Animation animacion;
 
