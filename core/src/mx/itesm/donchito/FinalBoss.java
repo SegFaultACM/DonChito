@@ -518,7 +518,7 @@ public class FinalBoss implements Screen {
                             botonTribalera.getSprite().setColor(Color.GRAY);
                         }
 
-                    } else if (botonResortera.isTouched(x, y, camera, view) && DonChito.preferences.getBoolean("RomanStruggle", false)) {
+                    } else if (botonResortera.isTouched(x, y, camera, view) && DonChito.preferences.getBoolean("RomanStruggle", false) && !flevorioAturdido) {
                         realizarAtaque(2);
                     }
                     else if (botonPausa.isTouched(x,y,camera,view) || botonPlay.isTouched(x,y,camera,view)){
