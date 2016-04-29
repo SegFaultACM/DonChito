@@ -107,6 +107,8 @@ public class FinalBoss implements Screen {
         donChito = new SimpleAsset(Constants.FINAL_BOSS_DONCHITO, -300, 250);
         flevorio = new SimpleAsset(Constants.FINAL_BOSS_FLEVORIO, 2500, 200);
 
+        donChito.getSprite().setScale(2f);
+
         resorteraText = new GameText(140,80);
         botasText = new GameText(450,80);
         piedraText = new GameText(140,200);
@@ -390,7 +392,7 @@ public class FinalBoss implements Screen {
         if (estado == State.PAUSA){
             botonPlay.render(batch);
             fondoPausa.render(batch);
-            botonConfiguracion.render(batch);
+            //botonConfiguracion.render(batch);
             botonSalirMenu.render(batch);
             botonSalirCueva.render(batch);
         }

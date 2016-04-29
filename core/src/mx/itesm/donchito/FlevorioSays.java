@@ -82,7 +82,6 @@ public class FlevorioSays implements Screen{
             DonChito.preferences.flush();
         }
 
-
         init();
         camera = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
         camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
@@ -172,6 +171,11 @@ public class FlevorioSays implements Screen{
         rocas.add(nuevo);
     }
     public void stopMusic(){
+        efectoPerder.setVolume(0f);
+        musicaFondo.setVolume(0f);
+        musicaIntro.setVolume(0f);
+        efectoBoton.setVolume(0f);
+        efectoGanar.setVolume(0f);
         if(musicaFondo.isPlaying()){
             musicaFondo.stop();
         }
@@ -187,6 +191,7 @@ public class FlevorioSays implements Screen{
         if(efectoPerder.isPlaying()){
             efectoPerder.stop();
         }
+
     }
 
     @Override
@@ -250,7 +255,7 @@ public class FlevorioSays implements Screen{
                             for (int i = 0; i < nivel * 2; i++) {
                                 if(brillando){instructionsTxt.showMessage(batch,"PENSANDO");}
                                 if (!combinacionesPR[i]) {
-                                    if (!efectoBoton.isPlaying()) {
+                                    if (!efectoBoton.isPlaying() && jugando) {
                                         reproducirMusica(efectoBoton);
                                     }
                                     rocas.get(combinaciones[i] - 1).getSprite().setColor(103, 128, 150, 1);
@@ -286,7 +291,7 @@ public class FlevorioSays implements Screen{
         if(estado == State.PAUSA){
             fondoPausa.render(batch);
             botonPlay.render(batch);
-            botonConfiguracion.render(batch);
+            //botonConfiguracion.render(batch);
             botonSalirMenu.render(batch);
             botonSalirCueva.render(batch);
         }
@@ -452,7 +457,7 @@ public class FlevorioSays implements Screen{
                             roca = 4;
                         }
                     }
-                    if(roca !=0 && estado == State.PLAY && shadowedAndUp == roca){
+                    if(roca !=0 && estado == State.PLAY && shadowedAndUp == roca && jugando){
                         efectoBoton.stop();
                         reproducirMusica(efectoBoton);
                         if(roca == combinaciones[indiceSecuencia]){
@@ -471,7 +476,9 @@ public class FlevorioSays implements Screen{
                             indiceSecuencia = nivel*2;
                             brillando = true;
                             efectoBoton.stop();
-                            reproducirMusica(efectoPerder);
+                            if(jugando){
+                                reproducirMusica(efectoPerder);
+                            }
                             reseted = false;
                         }
                     }

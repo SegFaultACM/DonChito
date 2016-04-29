@@ -185,7 +185,7 @@ public class RomanStruggle implements Screen {
         if(estado == State.PAUSA){
             fondoPausa.render(batch);
             botonPlay.render(batch);
-            botonConfiguracion.render(batch);
+            //botonConfiguracion.render(batch);
             botonSalirMenu.render(batch);
             botonSalirCueva.render(batch);
         }
