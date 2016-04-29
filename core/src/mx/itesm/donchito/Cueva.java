@@ -47,16 +47,16 @@ public class Cueva implements Screen{
     //TODO aplicar ANIMACIONES
     private SimpleAsset donchito;
 
+    private DonChitoLivermorio player;
+
     private SimpleAsset fondoPausa;
     private SimpleAsset botonPausa;
     private SimpleAsset botonPlay;
     private SimpleAsset botonSalirMenu;
     private SimpleAsset botonConfiguracion;
 
-    private static final float velocidad = 3.20f;
-
-
     private State estado = State.PLAY;
+    private RomanStruggle.MoveState moveState;
 
     private Direccion positivoX = Direccion.NONE;
     private Direccion positivoY = Direccion.NONE;
@@ -97,6 +97,9 @@ public class Cueva implements Screen{
         cargarElementos();
         cargarAudio();
         batch = new SpriteBatch();
+
+        player = new DonChitoLivermorio(DonChito.ANCHO_MUNDO/2,DonChito.ALTO_MUNDO/2);
+        player.setJumpState();
 
         fondoPausa = new SimpleAsset(Constants.GLOBAL_MENU_PAUSA_PNG,0,0);
         botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1110,530);
@@ -174,70 +177,86 @@ public class Cueva implements Screen{
         rendererMapa.setView(camera);
         rendererMapa.render();
         batch.begin();
-        donchito.render(batch);
+        //donchito.render(batch);
         camera.update();
+        player.render(batch);
 
         if(estado == State.PLAY) {
-            float x = donchito.getSprite().getX();
-            float y = donchito.getSprite().getY();
+            float x = player.getX();
+            float y = player.getY();
             int CellX = xtoCell(x);
             int CellY = ytoCell(y);
             TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get(1);
             TiledMapTileLayer.Cell curr = capa.getCell(CellX, CellY);
 
             if (curr == null) {
-                ultX = donchito.getSprite().getX();
-                ultY = donchito.getSprite().getY();
+                ultX = player.getX();
+                ultY = player.getY();
 
                 if(cancelarX == Direccion.RIGHT){
                     if(touchpad.getKnobPercentX()<0){
-                        donchito.getSprite().setX(donchito.getSprite().getX() + touchpad.getKnobPercentX() * velocidad);
+                        player.moveLeft(touchpad.getKnobPercentX()*-delta/2);
                         cancelarX = Direccion.NONE;
                         cancelarY = Direccion.NONE;
                     }
                 }
                 else if(cancelarX == Direccion.LEFT){
                     if(touchpad.getKnobPercentX()>0){
-                        donchito.getSprite().setX(donchito.getSprite().getX() + touchpad.getKnobPercentX() * velocidad);
+                        player.moveRight(touchpad.getKnobPercentX()*delta/2);
                         cancelarX = Direccion.NONE;
                         cancelarY = Direccion.NONE;
                     }
                 }
                 else {
-                    donchito.getSprite().setX(donchito.getSprite().getX() + touchpad.getKnobPercentX() * velocidad);
+                    if(touchpad.getKnobPercentX()>0){
+                        player.moveRight(touchpad.getKnobPercentX() * delta/2);
+                    }
+                    else if(touchpad.getKnobPercentX()<0){
+                        player.moveLeft(touchpad.getKnobPercentX() * -delta/2);
+                    }
                 }
 
                 if(cancelarY == Direccion.UP){
                     if(touchpad.getKnobPercentY()<0){
-                        donchito.getSprite().setY(donchito.getSprite().getY() + touchpad.getKnobPercentY() * velocidad);
+                        player.moveVertical(touchpad.getKnobPercentY()*-delta/2,-1);
                         cancelarX = Direccion.NONE;
                         cancelarY = Direccion.NONE;
                     }
                 }
                 else if(cancelarY == Direccion.DOWN){
                     if(touchpad.getKnobPercentY()>0){
-                        donchito.getSprite().setY(donchito.getSprite().getY() + touchpad.getKnobPercentY() * velocidad);
+                        player.moveVertical(touchpad.getKnobPercentY()*delta/2,1);
                         cancelarX = Direccion.NONE;
                         cancelarY = Direccion.NONE;
                     }
                 }
                 else {
-                    donchito.getSprite().setY(donchito.getSprite().getY() + touchpad.getKnobPercentY() * velocidad);
+                    if(touchpad.getKnobPercentY()<0){
+                        player.moveVertical(touchpad.getKnobPercentY()*-delta/2,-1);
+                    }
+                    else if(touchpad.getKnobPercentY()>0){
+                        player.moveVertical(touchpad.getKnobPercentY()*delta/2,1);
+                    }
                 }
                 float kPx = touchpad.getKnobPercentX();
                 float kPy = touchpad.getKnobPercentY();
                 if (kPx > 0) {
                     positivoX = Direccion.RIGHT;
+                    player.moveRight(delta/2);
                 } else if(kPx<0){
                     positivoX = Direccion.LEFT;
+                    player.moveLeft(delta/2);
                 }
                 else {
                     positivoY  = Direccion.NONE;
+                    player.stand();
                 }
                 if (kPy > 0) {
                     positivoY = Direccion.UP;
+                    player.moveVertical(delta/2,1);
                 } else if(kPy<0){
                     positivoY = Direccion.DOWN;
+                    player.moveVertical(delta/2,-1);
                 }
                 else {
                     positivoY  =Direccion.NONE;
@@ -246,18 +265,18 @@ public class Cueva implements Screen{
 
                 cancelarX = positivoX;
                 cancelarY = positivoY;
-
-                donchito.getSprite().setPosition(ultX,ultY);
+                player.stand();
+                player.setPosition(ultX,ultY);
             }
-            if (donchito.getSprite().getY() > 700 ) {
+            if (player.getY() > 700 ) {
                 dispose();
                 game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.FLEVORIO, game));
             }
-            if (donchito.getSprite().getX() < 20) {
+            if (player.getX() < 20) {
                 dispose();
                 game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.LIVERMORIO, game));
             }
-            if (donchito.getSprite().getX() > 1240) {
+            if (player.getX() > 1240) {
                 dispose();
                 game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.ROMANSTRUGGLE, game));
             }

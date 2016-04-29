@@ -132,6 +132,10 @@ public class DonChitoLivermorio {
             position.x += delta * PLAYER_MOVE_SPEED;
         }
 
+        public void moveVertical(float delta,int caso) {
+            position.y += delta * PLAYER_MOVE_SPEED * caso;
+        }
+
 
         public void startJump() {
             jumpState = JumpState.JUMPING;
@@ -148,6 +152,11 @@ public class DonChitoLivermorio {
                     endJump();
                 }
             }
+        }
+
+        public void setPosition(float x, float y) {
+            position.x = x;
+            position.y = y;
         }
 
         public void endJump() {
