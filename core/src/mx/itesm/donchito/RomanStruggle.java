@@ -225,13 +225,15 @@ public class RomanStruggle implements Screen {
 
     private void revisarColisiones(RomanRock roca) {
         float rocaX = roca.getSprite().getX();
+        float rocaDerX = roca.getSprite().getX()+roca.getRockWidth();
         float rocaY = roca.getSprite().getY();
-        int mod = 50;
-        if(roca.getEscala() == 0.25f){
-           mod = 25;
-        }
-        if(rocaX+roca.getRockWidth()-(mod*roca.getEscala())>player.getX()&& rocaX-roca.getRockWidth()+(mod*roca.getEscala())<player.getX() && rocaY<=player.getY()){
-            estado = State.DEATH;
+        float playerCentro = player.getX()+(player.getWidth()/2);
+        
+        if(playerCentro>rocaX&&playerCentro<rocaDerX){
+            if(rocaY<=70+player.getHeight()){
+                Gdx.app.log("Muerto","");
+                //estado = State.DEATH;
+            }
         }
 
         if(disparado) {
@@ -328,6 +330,7 @@ public class RomanStruggle implements Screen {
             }
 
             public boolean touchDown(int x, int y, int pointer, int button) {
+                //Gdx.app.log("Jugador x: "+player.getX()+" y: "+player.getY(),"Real x: "+x+" y: "+y);
                 if (estado != State.PAUSA) {
                     if(botonIzquierda.isTouched(x,y,camera,view)){
                         moveState = MoveState.LEFT;
@@ -339,7 +342,7 @@ public class RomanStruggle implements Screen {
                     if(botonDisparo.isTouched(x,y,camera,view)){
                         if(!disparado){
                             batch.begin();
-                            proyectil.setPosition(player.getX(),player.getY()+30);
+                            proyectil.setPosition(player.getX()-(player.getWidth()/2),player.getY()+30);
                             proyectil.render(batch);
                             disparado = true;
                             batch.end();
