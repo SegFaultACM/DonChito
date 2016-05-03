@@ -83,6 +83,10 @@ public class FinalBoss implements Screen {
     Random randomIntGenerator = new Random();
 
     private Music musicaFondo;
+    private Music dialogo1;
+    private Music dialogo2;
+    private Music dialogo3;
+    private Music dialogo4;
 
     public FinalBoss(DonChito game) {
         this.game = game;
@@ -177,6 +181,10 @@ public class FinalBoss implements Screen {
     private void cargarRecursos() {
         AssetManager assetManager = DonChito.assetManager;
         musicaFondo = assetManager.get(Constants.FINAL_BOSS_MUSICA);
+        dialogo1 = assetManager.get(Constants.DIALOGO_1);
+        dialogo2 = assetManager.get(Constants.DIALOGO_2);
+        dialogo3 = assetManager.get(Constants.DIALOGO_3);
+        dialogo4 = assetManager.get(Constants.DIALOGO_4);
     }
     private boolean flevorioAtaca() {
         if(!accionFlevorioDefinida) {
@@ -515,13 +523,16 @@ public class FinalBoss implements Screen {
             public boolean touchDown (int x, int y, int pointexr, int button) {
                 if(estado == State.PLAY) {
                     if (botonPico.isTouched(x, y, camera, view)) {
+                        reproducirMusica(dialogo1);
                         realizarAtaque(1);
 
                     } else if (botonCurar.isTouched(x, y, camera, view)) {
+                        reproducirMusica(dialogo2);
                         realizarAtaque(3);
 
                     } else if (botonTribalera.isTouched(x, y, camera, view) && DonChito.preferences.getBoolean("Livermorio", false)) {
                         if(turnoBloqueoBota == 2) {
+                            reproducirMusica(dialogo3);
                             realizarAtaque(4);
                             turnoBloqueoBota = 0;
                             if (flevorioAturdido) {
@@ -533,6 +544,7 @@ public class FinalBoss implements Screen {
                         }
 
                     } else if (botonResortera.isTouched(x, y, camera, view) && DonChito.preferences.getBoolean("RomanStruggle", false) && !flevorioAturdido) {
+                        reproducirMusica(dialogo4);
                         realizarAtaque(2);
                     }
                     else if (botonPausa.isTouched(x,y,camera,view) || botonPlay.isTouched(x,y,camera,view)){

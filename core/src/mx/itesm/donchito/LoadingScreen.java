@@ -73,6 +73,7 @@ public class LoadingScreen implements Screen {
         loadResources();
     }
 
+
     public void loadResources(){
         switch (screenSel){
             case SPLASH:
@@ -207,6 +208,10 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.GLOBAL_BOTON_BACK_CAVE,Texture.class);
                 
                 assetManager.load(Constants.FINAL_BOSS_MUSICA, Music.class);
+                assetManager.load(Constants.DIALOGO_1, Music.class);
+                assetManager.load(Constants.DIALOGO_2, Music.class);
+                assetManager.load(Constants.DIALOGO_3, Music.class);
+                assetManager.load(Constants.DIALOGO_4, Music.class);
                 break;
             case MENU:
             default:

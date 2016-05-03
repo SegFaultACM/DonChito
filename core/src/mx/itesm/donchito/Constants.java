@@ -98,24 +98,17 @@ public class Constants {
     //Configuracion
     public static final String PANTALLA_CONFIG_PNG = "Imagenes/PantallasConfig/Configuracion.png";
 
-    /*
-    // Texts
-    public static final String TITULO_ACERCA_DE =  "Primer entregable de Videojuegos.";
-    public static final String TEXTO_ACERCA_DE = "Don chito es un pueblerino ejemplar el \n" +
-            "cual ha sido designado para proteger el mineral que \n" +
-            "hace que el pueblo Laurencio destaque de los demás. \n" +
-            "Siempre busca la honestidad,amabilidad,confianza,\n " +
-            "siempre busca el bienestar del prójimo.\n" +
-            " El será quien luche contra el enemigo para salvar al pueblo.\n\n" +
-            "Daniel Sada Caraveo A01169735\n" +
-            "Joel Lara Quintana A01374649\n" +
-            "Esteban Gil Martínez A01375048\n" +
-            "Luis Manuel Alcala Alcaraz   A01372538\n" +
-            "Karla Aidee Gonz\u00e1lez Vega A01373938\n";
-    public static final String TITULO_OPCIONES = "Opciones del programa ";
-    public static final String TEXTO_MUSICA_OPCIONES = "¿Habilitar música?";
-    public static final String TEXTO_SONIDO_OPCIONES = "¿Habilitar sonido?";
-    */
+
+    // Dialogos
+    public static final String DIALOGO_BOTAS = "dialogos/botas.mp3";
+    public static final String DIALOGO_PIEDRA = "dialogos/piedramagica.mp3";
+    public static final String DIALOGO_RESORTERA = "dialogos/resortera.mp3";
+    public static final String DIALOGO_1 = "dialogos/exp1.mp3";
+    public static final String DIALOGO_2 = "dialogos/exp2.mp3";
+    public static final String DIALOGO_3 = "dialogos/exp3.mp3";
+    public static final String DIALOGO_4 = "dialogos/exp4.mp3";
+    public static final String DIALOGO_PERDER1 = "dialogos/per1.mp3";
+    public static final String DIALOGO_PERDER2 = "dialogos/per2.mp3";
 
 
     //Livermorio Escape

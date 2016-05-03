@@ -190,7 +190,7 @@ public class RomanStruggle implements Screen {
             botonSalirCueva.render(batch);
         }
         else if(estado == State.DEATH) {
-            efectoPerder.play();
+
         }
         else{
             botonPausa.render(batch);
