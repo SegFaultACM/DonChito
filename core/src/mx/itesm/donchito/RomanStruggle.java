@@ -152,7 +152,7 @@ public class RomanStruggle implements Screen {
         batch.begin();
         if(rocas.size == 0){
             if(nivel!= 0){
-                efectoGanar.play();
+                reproducirMusica(efectoGanar);
             }
             tiempoEsperar = 5f;
             nivel++;
