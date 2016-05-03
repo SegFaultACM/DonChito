@@ -29,7 +29,7 @@ public class RomanStruggle implements Screen {
 
     private int puntos = 0;
 
-    private float velocidadBala = 5f;
+    private float velocidadBala = 10f;
     private float tiempoEsperar = 5f;
 
     private SimpleAsset botonIzquierda;

@@ -75,14 +75,14 @@ public class MenuPrincipal implements Screen {
         botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,405,400);
 
         fondoNuevaPartida = new SimpleAsset(Constants.MENUPRINCIPAL_MARCO_PNG,0,0);
-        botonSiPartida = new SimpleAsset(Constants.MENUPRINCIPAL_MARCO_PNG,-150,-10);
-        botonNoPartida = new SimpleAsset(Constants.MENUPRINCIPAL_MARCO_PNG,150,-10);
+        botonSiPartida = new SimpleAsset(Constants.MENUPRINCIPAL_BOTON,395,261);
+        botonNoPartida = new SimpleAsset(Constants.MENUPRINCIPAL_BOTON,690,258);
         siNuevaPartida = new GameText(490,370);
-        noNuevaPartida = new GameText(780,370);
+        noNuevaPartida = new GameText(780,365);
         confirmacion = new GameText(550,520);
 
-        botonSiPartida.getSprite().setScale(0.2f);
-        botonNoPartida.getSprite().setScale(0.2f);
+        //botonSiPartida.getSprite().setScale(0.2f);
+        //botonNoPartida.getSprite().setScale(0.2f);
 
         estado = State.MENU;
         leerEntrada();
