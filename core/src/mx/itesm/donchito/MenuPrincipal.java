@@ -19,10 +19,6 @@ public class MenuPrincipal implements Screen {
     private final DonChito game;
     private Viewport view;
 
-    private GameText siNuevaPartida,
-                    confirmacion,
-                     noNuevaPartida;
-
     private SpriteBatch batch;
 
     private State estado = State.MENU;
@@ -39,7 +35,6 @@ public class MenuPrincipal implements Screen {
                         btnMusica;
 
 
-    //TODO better code pls
     boolean clickOnButton;
     float tiempoRecorrido;
     int direccion;
@@ -137,12 +132,12 @@ public class MenuPrincipal implements Screen {
 
     private void cargarAudio() {
         if(DonChito.preferences.getBoolean(Constants.MENUPRINCIPAL_SOUND_PREF,true)){
-            btnMusica = new SimpleAsset(Constants.MENUPRINCIPAL_SOUND_ON,570,220);
+            btnMusica = new SimpleAsset(Constants.MENUPRINCIPAL_SOUND_ON,400,200);
             musicaFondo = DonChito.assetManager.get(Constants.MENU_PRINCIPAL_MP3);
             musicaFondo.setLooping(true);
             musicaFondo.play();
         }else{
-            btnMusica = new SimpleAsset(Constants.MENUPRINCIPAL_SOUND_OFF,570,220);
+            btnMusica = new SimpleAsset(Constants.MENUPRINCIPAL_SOUND_OFF,400,200);
             if(musicaFondo != null && musicaFondo.isPlaying()){
                 musicaFondo.stop();
             }
