@@ -164,10 +164,10 @@ public class FinalBoss implements Screen {
         botonPico = new SimpleAsset(Constants.FINAL_BOSS_PICO, 210, 70);
         botonPico.getSprite().setScale(0.5f);
 
-        healthIcon = new SimpleAsset(Constants.FINAL_BOSS_HEAL, -100, 70);
-        attackIcon1 = new SimpleAsset(Constants.FINAL_BOSS_ATTACK, -100, -50);
-        attackIcon2 = new SimpleAsset(Constants.FINAL_BOSS_ATTACK, 210, -50);
-        attackIcon3 = new SimpleAsset(Constants.FINAL_BOSS_ATTACK, 210, 70);
+        healthIcon = new SimpleAsset(Constants.FINAL_BOSS_HEAL, 30, 160);
+        attackIcon1 = new SimpleAsset(Constants.FINAL_BOSS_ATTACK,15, 40);
+        attackIcon2 = new SimpleAsset(Constants.FINAL_BOSS_ATTACK, 350, 50);
+        attackIcon3 = new SimpleAsset(Constants.FINAL_BOSS_ATTACK, 350, 160);
 
         healthHeight = flevorioHealthBar.getSprite().getHeight();
         healthWidth = flevorioHealthBar.getSprite().getWidth();
@@ -243,6 +243,7 @@ public class FinalBoss implements Screen {
                 botonTribalera.render(batch);
                 botonResortera.render(batch);
                 botonPico.render(batch);
+
                 healthIcon.render(batch);
                 attackIcon1.render(batch);
                 attackIcon2.render(batch);
