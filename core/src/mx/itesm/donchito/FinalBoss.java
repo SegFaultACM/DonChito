@@ -18,7 +18,7 @@ public class FinalBoss implements Screen {
     private OrthographicCamera camera;
     private final DonChito game;
     private Viewport view;
-
+    //meter voces, heal y atack icons...
     private boolean movimientoInicialFlevorio = false;
     private boolean movimientoInicialDonChito = false;
 
@@ -52,6 +52,11 @@ public class FinalBoss implements Screen {
     private SimpleAsset donchitoHealth;
     private SimpleAsset flevorioHealthBar;
     private SimpleAsset flevorioHealth;
+
+    private SimpleAsset healthIcon;
+    private SimpleAsset attackIcon1;
+    private SimpleAsset attackIcon2;
+    private SimpleAsset attackIcon3;
 
     private SimpleAsset botonCurar;
     private SimpleAsset botonTribalera;
@@ -143,7 +148,6 @@ public class FinalBoss implements Screen {
 
         botonResortera = new SimpleAsset(Constants.FINAL_BOSS_PICO, -100, -50);
         botonResortera.getSprite().setScale(0.5f);
-
         if(!DonChito.preferences.getBoolean("RomanStruggle", false)){
             botonResortera.getSprite().setColor(Color.BLACK);
             todosLosItems = false;
@@ -159,6 +163,11 @@ public class FinalBoss implements Screen {
         botonCurar.getSprite().setScale(0.5f);
         botonPico = new SimpleAsset(Constants.FINAL_BOSS_PICO, 210, 70);
         botonPico.getSprite().setScale(0.5f);
+
+        healthIcon = new SimpleAsset(Constants.FINAL_BOSS_HEAL, -100, 70);
+        attackIcon1 = new SimpleAsset(Constants.FINAL_BOSS_ATTACK, -100, -50);
+        attackIcon2 = new SimpleAsset(Constants.FINAL_BOSS_ATTACK, 210, -50);
+        attackIcon3 = new SimpleAsset(Constants.FINAL_BOSS_ATTACK, 210, 70);
 
         healthHeight = flevorioHealthBar.getSprite().getHeight();
         healthWidth = flevorioHealthBar.getSprite().getWidth();
@@ -234,6 +243,10 @@ public class FinalBoss implements Screen {
                 botonTribalera.render(batch);
                 botonResortera.render(batch);
                 botonPico.render(batch);
+                healthIcon.render(batch);
+                attackIcon1.render(batch);
+                attackIcon2.render(batch);
+                attackIcon3.render(batch);
 
                 flevorioHealth.getSprite().setRegion(0, 0, (int) (vidaFlevorio * healthWidth / 700), (int) healthHeight);
                 flevorioHealth.getSprite().setSize(vidaFlevorio * healthWidth / 700, healthHeight);

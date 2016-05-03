@@ -194,8 +194,11 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.FINAL_BOSS_DONCHITO,Texture.class);
                 assetManager.load(Constants.FINAL_BOSS_FLEVORIO,Texture.class);
                 assetManager.load(Constants.FINAL_BOSS_PICO,Texture.class);
-                assetManager.load(Constants.FINAL_BOSS_HEALTHBAR,Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_PICO,Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_ATTACK,Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_HEAL,Texture.class);
                 assetManager.load(Constants.FINAL_BOSS_HEALTHBARB,Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_HEALTHBAR,Texture.class);
                 assetManager.load(Constants.GLOBAL_MENU_PAUSA_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_PAUSA_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_PLAY_PNG, Texture.class);

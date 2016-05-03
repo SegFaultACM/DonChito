@@ -145,10 +145,9 @@ public class Constants {
     public static final String FINAL_BOSS_FONDO = "Imagenes/peleafinal/pelea.jpg";
     public static final String FINAL_BOSS_FLEVORIO = "Imagenes/peleafinal/flevrio.png";
     public static final String FINAL_BOSS_DONCHITO = "Imagenes/Cueva/DonChito.png";
-    public static final String FINAL_BOSS_BOTAS = "Imagenes/peleafinal/botas.png";
     public static final String FINAL_BOSS_PICO = "Imagenes/peleafinal/pico.png";
-    public static final String FINAL_BOSS_PIEDRA = "Imagenes/peleafinal/piedraCurativa.png";
-    public static final String FINAL_BOSS_RESORTERA = "Imagenes/peleafinal/resortera.png";
+    public static final String FINAL_BOSS_ATTACK = "Imagenes/peleafinal/explosion.png";
+    public static final String FINAL_BOSS_HEAL = "Imagenes/peleafinal/green_cross.png";
     public static final String FINAL_BOSS_HEALTHBAR = "Imagenes/peleafinal/healthbar.png";
     public static final String FINAL_BOSS_HEALTHBARB = "Imagenes/peleafinal/healthbarB.png";
     public static final String FINAL_BOSS_WIN = "Imagenes/peleafinal/radcliffedead.png";
