@@ -31,15 +31,11 @@ public class MenuPrincipal implements Screen {
     private SimpleAsset btnCargarPartida,
                         btnDonChito,
                         fondo,
-                        btnNuevaPartida,
                         btnExtra,
                         btnPala,
                         btnAjustes,
                         botonSalirMenu,
                         fondoPausa,
-                        fondoNuevaPartida,
-                        botonSiPartida,
-                        botonNoPartida,
                         btnMusica;
 
 
@@ -66,7 +62,6 @@ public class MenuPrincipal implements Screen {
 
         fondo = new SimpleAsset(Constants.MENUPRINCIPAL_FONDO_JPG,0,0);
         btnCargarPartida = new SimpleAsset(Constants.MENUPRINCIPAL_CARGARPARTIDA_PNG,870,290);
-        btnNuevaPartida = new SimpleAsset(Constants.MENUPRINCIPAL_NUEVAPARTIDA_PNG,480,575);
         btnDonChito = new SimpleAsset(Constants.MENUPRINCIPAL_CARTELDONCHITO_PNG,420,230);
         btnExtra = new SimpleAsset(Constants.MENUPRINCIPAL_EXTRA_PNG,800,100);
         btnPala = new SimpleAsset(Constants.MENUPRINCIPAL_PALA_PNG,820,125);
@@ -74,12 +69,6 @@ public class MenuPrincipal implements Screen {
         fondoPausa = new SimpleAsset(Constants.PANTALLA_CONFIG_PNG,0,0);
         botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,405,400);
 
-        fondoNuevaPartida = new SimpleAsset(Constants.MENUPRINCIPAL_MARCO_PNG,0,0);
-        botonSiPartida = new SimpleAsset(Constants.MENUPRINCIPAL_BOTON,395,261);
-        botonNoPartida = new SimpleAsset(Constants.MENUPRINCIPAL_BOTON,690,258);
-        siNuevaPartida = new GameText(490,370);
-        noNuevaPartida = new GameText(780,365);
-        confirmacion = new GameText(550,520);
 
         //botonSiPartida.getSprite().setScale(0.2f);
         //botonNoPartida.getSprite().setScale(0.2f);
@@ -105,13 +94,7 @@ public class MenuPrincipal implements Screen {
                         pantallaSiguiente = Screen.CUEVA;
                         return true;
                     }
-                    if(btnNuevaPartida.isTouched(x,y,camera,view)){
-                        clickOnButton = true;
-                        isClick = true;
-                        estado = State.EMPEZARNUEVO;
-                        pantallaSiguiente = Screen.DONCHITO;
-                        return true;
-                    }
+
                     if(btnExtra.isTouched(x,y,camera,view)){
                         clickOnButton = true;
                         isClick = true;
@@ -146,18 +129,7 @@ public class MenuPrincipal implements Screen {
                         cargarAudio();
                     }
                 }
-                if(isClick && estado == State.EMPEZARNUEVO) {
-                    if(botonNoPartida.isTouched(x,y,camera,view)) {
-                        estado = State.MENU;
-                        pantallaSiguiente = Screen.DONCHITO;
-                        return true;
-                    }
-                    if(botonSiPartida.isTouched(x,y,camera,view)){
-                        estado = State.MENU;
-                        pantallaSiguiente = Screen.NUEVAPARTIDA;
-                        return true;
-                    }
-                }
+
                 return false;
             }
         });
@@ -223,19 +195,6 @@ public class MenuPrincipal implements Screen {
                             dispose();
                             game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.ACERCA,game));
                             break;
-                        case NUEVAPARTIDA:
-                            if(estado != State.EMPEZARNUEVO) {
-                                dispose();
-                                game.initPref();
-                                if (!DonChito.preferences.getBoolean(Constants.PREF_SECUENCIA, false)) {
-                                    DonChito.preferences.putBoolean(Constants.PREF_SECUENCIA, true);
-                                    DonChito.preferences.flush();
-                                    game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.SECUENCIA, game));
-                                } else {
-                                    game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA, game));
-                                }
-                            }
-                            break;
                         default:
                             break;
                     }
@@ -246,9 +205,6 @@ public class MenuPrincipal implements Screen {
                     movimientosActual++;
                 }
                 switch (pantallaSiguiente){
-                    case NUEVAPARTIDA:
-                        btnNuevaPartida.setRotation(tiempoRecorrido);
-                        break;
                     case CUEVA:
                         btnCargarPartida.setRotation(tiempoRecorrido);
                         break;
@@ -281,18 +237,9 @@ public class MenuPrincipal implements Screen {
         }
         btnCargarPartida.render(batch);
         btnDonChito.render(batch);
-        btnNuevaPartida.render(batch);
         btnExtra.render(batch);
         btnPala.render(batch);
         btnAjustes.render(batch);
-        if(estado == State.EMPEZARNUEVO){
-            fondoNuevaPartida.render(batch);
-            botonSiPartida.render(batch);
-            botonNoPartida.render(batch);
-            siNuevaPartida.showMessage(batch,"Si");
-            noNuevaPartida.showMessage(batch,"No");
-            confirmacion.showMessage(batch,"¿Borrar Partida anterior?");
-        }
         if(estado == State.PAUSA){
             fondoPausa.render(batch);
             botonSalirMenu.render(batch);
@@ -308,10 +255,6 @@ public class MenuPrincipal implements Screen {
 
     @Override
     public void pause() {
-
-    }
-
-    public void empezarNuevaPartida(){
 
     }
 
@@ -334,7 +277,6 @@ public class MenuPrincipal implements Screen {
     {
         PAUSA,
         MENU,
-        EMPEZARNUEVO
     }
     enum Screen{
         DONCHITO,
@@ -343,7 +285,6 @@ public class MenuPrincipal implements Screen {
         LIVERMORIO,
         ROMANSTRUGGLE,
         RADCLIFF,
-        NUEVAPARTIDA,
         CUEVA,
         ACERCA,
         SETTINGS

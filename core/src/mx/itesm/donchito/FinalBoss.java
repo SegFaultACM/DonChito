@@ -168,7 +168,7 @@ public class FinalBoss implements Screen {
         botonPico = new SimpleAsset(Constants.FINAL_BOSS_PICO, 210, 70);
         botonPico.getSprite().setScale(0.5f);
 
-        healthIcon = new SimpleAsset(Constants.FINAL_BOSS_HEAL, 30, 160);
+        healthIcon = new SimpleAsset(Constants.FINAL_BOSS_HEAL, 35, 170);
         attackIcon1 = new SimpleAsset(Constants.FINAL_BOSS_ATTACK,15, 40);
         attackIcon2 = new SimpleAsset(Constants.FINAL_BOSS_ATTACK, 350, 50);
         attackIcon3 = new SimpleAsset(Constants.FINAL_BOSS_ATTACK, 350, 160);
