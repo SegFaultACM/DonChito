@@ -44,7 +44,6 @@ public class Cueva implements Screen{
     private Music musicaFondo;
     private Music efectoFondo;
 
-    //TODO aplicar ANIMACIONES
     private SimpleAsset donchito;
 
     private DonChitoLivermorio player;
@@ -182,92 +181,92 @@ public class Cueva implements Screen{
         player.render(batch);
 
         if(estado == State.PLAY) {
-            float x = player.getX();
-            float y = player.getY();
-            int CellX = xtoCell(x);
-            int CellY = ytoCell(y);
-            TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get(1);
-            TiledMapTileLayer.Cell curr = capa.getCell(CellX, CellY);
+            if(touchpad.isTouched()) {
+                float x = player.getX();
+                float y = player.getY();
+                int CellX = xtoCell(x);
+                int CellY = ytoCell(y);
+                TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get(1);
+                TiledMapTileLayer.Cell curr = capa.getCell(CellX, CellY),next;
 
-            if (curr == null) {
-                ultX = player.getX();
-                ultY = player.getY();
+                if (curr == null) {
+                    ultX = player.getX();
+                    ultY = player.getY();
 
-                if(cancelarX == Direccion.RIGHT){
-                    if(touchpad.getKnobPercentX()<0){
-                        player.moveLeft(touchpad.getKnobPercentX()*-delta/2);
-                        cancelarX = Direccion.NONE;
-                        cancelarY = Direccion.NONE;
+                    if (cancelarX == Direccion.RIGHT) {
+                        if (touchpad.getKnobPercentX() < 0) {
+                            next = capa.getCell(xtoCell(ultX - 16), CellY);
+                            if (next == null) {
+                                player.moveLeft(touchpad.getKnobPercentX() * -delta);
+                                cancelarX = Direccion.NONE;
+                                cancelarY = Direccion.NONE;
+                            }
+                        }
+                    } else if (cancelarX == Direccion.LEFT) {
+                        if (touchpad.getKnobPercentX() > 0) {
+                            next = capa.getCell(xtoCell(ultX + 16), CellY);
+                            if (next == null) {
+                                player.moveRight(touchpad.getKnobPercentX() * delta);
+                                cancelarX = Direccion.NONE;
+                                cancelarY = Direccion.NONE;
+                            }
+                        }
+                    } else {
+                        if (touchpad.getKnobPercentX() > 0) {
+                            next = capa.getCell(xtoCell(ultX + 16), CellY);
+                            if (next == null) {
+                                player.moveRight(touchpad.getKnobPercentX() * delta);
+                            }
+                        } else if (touchpad.getKnobPercentX() < 0) {
+                            next = capa.getCell(xtoCell(ultX - 16), CellY);
+                            if (next == null) {
+                                player.moveLeft(touchpad.getKnobPercentX() * -delta);
+                            }
+                        }
                     }
-                }
-                else if(cancelarX == Direccion.LEFT){
-                    if(touchpad.getKnobPercentX()>0){
-                        player.moveRight(touchpad.getKnobPercentX()*delta/2);
-                        cancelarX = Direccion.NONE;
-                        cancelarY = Direccion.NONE;
-                    }
-                }
-                else {
-                    if(touchpad.getKnobPercentX()>0){
-                        player.moveRight(touchpad.getKnobPercentX() * delta/2);
-                    }
-                    else if(touchpad.getKnobPercentX()<0){
-                        player.moveLeft(touchpad.getKnobPercentX() * -delta/2);
-                    }
-                }
 
-                if(cancelarY == Direccion.UP){
-                    if(touchpad.getKnobPercentY()<0){
-                        player.moveVertical(touchpad.getKnobPercentY()*-delta/2,-1);
-                        cancelarX = Direccion.NONE;
-                        cancelarY = Direccion.NONE;
+                    if (cancelarY == Direccion.UP) {
+                        if (touchpad.getKnobPercentY() < 0) {
+                            next = capa.getCell(CellX, ytoCell(ultY - 16));
+                            if (next == null) {
+                                player.moveVertical(touchpad.getKnobPercentY() * -delta, -1);
+                                cancelarX = Direccion.NONE;
+                                cancelarY = Direccion.NONE;
+                            }
+                        }
+                    } else if (cancelarY == Direccion.DOWN) {
+                        if (touchpad.getKnobPercentY() > 0) {
+                            next = capa.getCell(CellX, ytoCell(ultY + 16));
+                            if (next == null) {
+                                player.moveVertical(touchpad.getKnobPercentY() * delta, 1);
+                                cancelarX = Direccion.NONE;
+                                cancelarY = Direccion.NONE;
+                            }
+                        }
+                    } else {
+                        if (touchpad.getKnobPercentY() < 0) {
+                            next = capa.getCell(CellX, ytoCell(ultY - 16));
+                            if (next == null) {
+                                player.moveVertical(touchpad.getKnobPercentY() * -delta, -1);
+                            }
+                        } else if (touchpad.getKnobPercentY() > 0) {
+                            next = capa.getCell(CellX, ytoCell(ultY + 16));
+                            if (next == null) {
+                                player.moveVertical(touchpad.getKnobPercentY() * delta, 1);
+                            }
+                        }
                     }
-                }
-                else if(cancelarY == Direccion.DOWN){
-                    if(touchpad.getKnobPercentY()>0){
-                        player.moveVertical(touchpad.getKnobPercentY()*delta/2,1);
-                        cancelarX = Direccion.NONE;
-                        cancelarY = Direccion.NONE;
-                    }
-                }
-                else {
-                    if(touchpad.getKnobPercentY()<0){
-                        player.moveVertical(touchpad.getKnobPercentY()*-delta/2,-1);
-                    }
-                    else if(touchpad.getKnobPercentY()>0){
-                        player.moveVertical(touchpad.getKnobPercentY()*delta/2,1);
-                    }
-                }
-                float kPx = touchpad.getKnobPercentX();
-                float kPy = touchpad.getKnobPercentY();
-                if (kPx > 0) {
-                    positivoX = Direccion.RIGHT;
-                    player.moveRight(delta/2);
-                } else if(kPx<0){
-                    positivoX = Direccion.LEFT;
-                    player.moveLeft(delta/2);
-                }
-                else {
-                    positivoY  = Direccion.NONE;
+                } else {
+
+                    cancelarX = positivoX;
+                    cancelarY = positivoY;
                     player.stand();
+                    player.setPosition(ultX,ultY);
                 }
-                if (kPy > 0) {
-                    positivoY = Direccion.UP;
-                    player.moveVertical(delta/2,1);
-                } else if(kPy<0){
-                    positivoY = Direccion.DOWN;
-                    player.moveVertical(delta/2,-1);
-                }
-                else {
-                    positivoY  =Direccion.NONE;
-                }
-            } else {
-
-                cancelarX = positivoX;
-                cancelarY = positivoY;
+            }else{
                 player.stand();
-                player.setPosition(ultX,ultY);
             }
+
             if (player.getY() > 700 ) {
                 dispose();
                 game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.FLEVORIO, game));
