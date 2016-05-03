@@ -124,7 +124,7 @@ public class FinalBoss implements Screen {
         picoText = new GameText(450,200);
         donchitoDam = new GameText(410,300);
         flevorioDam = new GameText(830,370);
-        accionText = new GameText(300,500);
+        accionText = new GameText(200,150);
         donChitoNameText = new GameText(150,670);
         flevorioNameText = new GameText(1000,670);
 
@@ -272,13 +272,12 @@ public class FinalBoss implements Screen {
                 botasText.showMessage(batch, "Botas");
                 piedraText.showMessage(batch, "Piedra");
                 picoText.showMessage(batch, "Pico");
-                accionText.showMessage(batch, "¡Ataca!");
             }
 
         }
         else if (estado == State.ACCION){
             if(modoAtaque == "Curar"){
-                accionText.showMessage(batch, "Curandose con la piedra magica");
+                accionText.showMessage(batch, "Curandose con\n la piedra magica");
                 if (!danioInflinjido) {
                     damage += 40;
                     vidaDonChito += damage;
@@ -298,17 +297,14 @@ public class FinalBoss implements Screen {
                 donchitoDam.showMessage(batch,""+damage);
                 donchitoDam.setColor(0,1,0,1);
 
-                botonCurar.render(batch);
-                botonTribalera.render(batch);
-                botonResortera.render(batch);
-                botonPico.render(batch);
+
             }
             else {
                 if(modoAtaque == "Botas Tribaleras" && damage>=150){
                     accionText.showMessage(batch, "Flevorio estaba aturdido \ngolpe critico con botas tribaleras");
                 }
                 else {
-                    accionText.showMessage(batch, "¡Atacando con " + modoAtaque + "!");
+                    accionText.showMessage(batch, "¡Atacando con \n" + modoAtaque + "!");
                 }
                 if (estadoAtaque == AtackState.DONCHITOFORWARD || estadoAtaque == AtackState.DONCHITOBACKWARD) {
                     if (estadoAtaque == AtackState.DONCHITOBACKWARD) {
@@ -347,7 +343,7 @@ public class FinalBoss implements Screen {
                     if (flevorioAturdido) {
                         accionText.showMessage(batch, "¡Aturdiste a Flevorio con la resortera, \nno puede curarse");
                     } else {
-                        accionText.showMessage(batch, "¡Estas siendo atacado por Flevorio");
+                        accionText.showMessage(batch, "¡Estas siendo \natacado por Flevorio");
                     }
                     if (estadoAtaque == AtackState.FLEVORIOFORWARD || estadoAtaque == AtackState.FLEVORIOBACKWARD) {
                         if (estadoAtaque == AtackState.FLEVORIOBACKWARD) {
@@ -368,7 +364,7 @@ public class FinalBoss implements Screen {
                         }
                     }
                 } else {
-                    accionText.showMessage(batch, "Flevorio regenero salud con livermorio");
+                    accionText.showMessage(batch, "Flevorio regenero \nsalud con livermorio");
                     if (!danioInflinjido) {
                         damage = randomIntGenerator.nextInt(100)+50;
                         if (vidaFlevorio <= 100) {

@@ -176,10 +176,8 @@ public class Cueva implements Screen{
         rendererMapa.setView(camera);
         rendererMapa.render();
         batch.begin();
-        //donchito.render(batch);
         camera.update();
         player.render(batch);
-
         if(estado == State.PLAY) {
             if(touchpad.isTouched()) {
                 float x = player.getX();
