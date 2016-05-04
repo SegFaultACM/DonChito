@@ -145,6 +145,8 @@ public class Constants {
     public static final String FINAL_BOSS_HEALTHBAR = "Imagenes/peleafinal/healthbar.png";
     public static final String FINAL_BOSS_HEALTHBARB = "Imagenes/peleafinal/healthbarB.png";
     public static final String FINAL_BOSS_WIN = "Imagenes/peleafinal/radcliffedead.png";
+    public static final String FINAL_BOSS_IC_DONCHITO = "Imagenes/peleafinal/iconoDonChito.png";
+    public static final String FINAL_BOSS_IC_FLEVORIO= "Imagenes/peleafinal/iconoFlevorio.png";
 
     public static final String FINAL_BOSS_MUSICA = "Musica/finalBoss.mp3";
     public static final String LIVERMORIO_ITEM = "Imagenes/Livermorio/botaitem.png";
