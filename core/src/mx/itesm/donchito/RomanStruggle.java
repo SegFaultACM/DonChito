@@ -231,8 +231,8 @@ public class RomanStruggle implements Screen {
         
         if(playerCentro>rocaX&&playerCentro<rocaDerX){
             if(rocaY<=70+player.getHeight()){
-                Gdx.app.log("Muerto","");
-                //estado = State.DEATH;
+                //Gdx.app.log("Muerto","");
+                estado = State.DEATH;
             }
         }
 
