@@ -9,20 +9,17 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
-import com.badlogic.gdx.scenes.scene2d.Stage;
-
-public class Cueva implements Screen{
+public class Cueva implements Screen {
     private OrthographicCamera camera;
     private OrthogonalTiledMapRenderer rendererMapa;
     private final DonChito game;
@@ -66,12 +63,12 @@ public class Cueva implements Screen{
     private float ultX;
     private float ultY;
 
-    public enum State{
+    public enum State {
         PAUSA,
         PLAY
     }
 
-    public enum Direccion{
+    public enum Direccion {
         LEFT,
         RIGHT,
         UP,
@@ -87,30 +84,30 @@ public class Cueva implements Screen{
     public void show() {
         Gdx.input.setCatchBackKey(true);
 
-        camera = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
+        camera = new OrthographicCamera(DonChito.ANCHO_MUNDO, DonChito.ALTO_MUNDO);
         camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         camera.update();
 
-        view = new FitViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,camera);
+        view = new FitViewport(DonChito.ANCHO_MUNDO, DonChito.ALTO_MUNDO, camera);
         view.apply();
         cargarElementos();
         cargarAudio();
         batch = new SpriteBatch();
 
-        player = new DonChitoLivermorio(DonChito.ANCHO_MUNDO/2,DonChito.ALTO_MUNDO/2);
+        player = new DonChitoLivermorio(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2);
         player.setJumpState();
 
-        fondoPausa = new SimpleAsset(Constants.GLOBAL_MENU_PAUSA_PNG,0,0);
-        botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1110,530);
-        botonConfiguracion = new SimpleAsset(Constants.GLOBAL_BOTON_CONFIGURACION_PNG,405,175);
-        botonConfiguracion.getSprite().setColor(.1f,.1f,.1f,.5f);
-        botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,405,425);
+        fondoPausa = new SimpleAsset(Constants.GLOBAL_MENU_PAUSA_PNG, 0, 0);
+        botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG, 1110, 530);
+        botonConfiguracion = new SimpleAsset(Constants.GLOBAL_BOTON_CONFIGURACION_PNG, 405, 175);
+        botonConfiguracion.getSprite().setColor(.1f, .1f, .1f, .5f);
+        botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG, 405, 425);
         botonPlay.setAlpha(0.5f);
 
-        botonPausa = new SimpleAsset(Constants.GLOBAL_BOTON_PAUSA_PNG,1110,530);
+        botonPausa = new SimpleAsset(Constants.GLOBAL_BOTON_PAUSA_PNG, 1110, 530);
         botonPausa.setAlpha(0.5f);
 
-        rendererMapa = new OrthogonalTiledMapRenderer(mapa,batch);
+        rendererMapa = new OrthogonalTiledMapRenderer(mapa, batch);
         rendererMapa.setView(camera);
 
         touchpadSkin = new Skin();
@@ -134,38 +131,38 @@ public class Cueva implements Screen{
         reproducirMusica(musicaFondo);
         efectoFondo = Gdx.audio.newMusic(Gdx.files.internal(Constants.CUEVA_EFECTOS_FONDO));
     }
-    private void reproducirMusica(Music musica){
+
+    private void reproducirMusica(Music musica) {
         musica.setVolume(1F);
-        if(!DonChito.preferences.getBoolean(Constants.MENUPRINCIPAL_SOUND_PREF,true)){
+        if (!DonChito.preferences.getBoolean(Constants.MENUPRINCIPAL_SOUND_PREF, true)) {
             musica.setVolume(0f);
         }
         musica.play();
     }
 
 
-    private void cargarElementos(){
+    private void cargarElementos() {
         AssetManager assetManager = DonChito.assetManager;
         mapa = assetManager.get(Constants.CUEVA_TILES);
-        donchito = new SimpleAsset(Constants.CUEVA_DON_CHITO_PNG,DonChito.ANCHO_MUNDO/2,DonChito.ALTO_MUNDO/2);
+        donchito = new SimpleAsset(Constants.CUEVA_DON_CHITO_PNG, DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2);
     }
 
     @Override
     public void render(float delta) {
         view.apply();
-        if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
             dispose();
             game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU, game));
         }
-        if(Gdx.input.justTouched()){
-            if(botonPausa.isTouched(Gdx.input.getX(),Gdx.input.getY(),camera,view)||botonPlay.isTouched(Gdx.input.getX(),Gdx.input.getY(),camera,view)){
-                if(estado == State.PAUSA){
+        if (Gdx.input.justTouched()) {
+            if (botonPausa.isTouched(Gdx.input.getX(), Gdx.input.getY(), camera, view) || botonPlay.isTouched(Gdx.input.getX(), Gdx.input.getY(), camera, view)) {
+                if (estado == State.PAUSA) {
                     estado = State.PLAY;
-                }
-                else if(estado == State.PLAY){
+                } else if (estado == State.PLAY) {
                     estado = State.PAUSA;
                 }
             }
-            if(estado == State.PAUSA && botonSalirMenu.isTouched(Gdx.input.getX(),Gdx.input.getY(),camera,view)){
+            if (estado == State.PAUSA && botonSalirMenu.isTouched(Gdx.input.getX(), Gdx.input.getY(), camera, view)) {
                 dispose();
                 game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU, game));
             }
@@ -178,14 +175,14 @@ public class Cueva implements Screen{
         batch.begin();
         camera.update();
         player.render(batch);
-        if(estado == State.PLAY) {
-            if(touchpad.isTouched()) {
+        if (estado == State.PLAY) {
+            if (touchpad.isTouched()) {
                 float x = player.getX();
                 float y = player.getY();
                 int CellX = xtoCell(x);
                 int CellY = ytoCell(y);
                 TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get(1);
-                TiledMapTileLayer.Cell curr = capa.getCell(CellX, CellY),next;
+                TiledMapTileLayer.Cell curr = capa.getCell(CellX, CellY), next;
 
                 if (curr == null) {
                     ultX = player.getX();
@@ -259,13 +256,13 @@ public class Cueva implements Screen{
                     cancelarX = positivoX;
                     cancelarY = positivoY;
                     player.stand();
-                    player.setPosition(ultX,ultY);
+                    player.setPosition(ultX, ultY);
                 }
-            }else{
+            } else {
                 player.stand();
             }
 
-            if (player.getY() > 700 ) {
+            if (player.getY() > 700) {
                 dispose();
                 game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.FLEVORIO, game));
             }
@@ -279,7 +276,7 @@ public class Cueva implements Screen{
             }
             botonPausa.render(batch);
         }
-        if(estado == State.PAUSA){
+        if (estado == State.PAUSA) {
             fondoPausa.render(batch);
             botonConfiguracion.render(batch);
             botonSalirMenu.render(batch);
@@ -293,22 +290,26 @@ public class Cueva implements Screen{
 
     @Override
     public void resize(int width, int height) {
-        view.update(width,height);
+        view.update(width, height);
     }
 
     @Override
-    public void pause() {}
+    public void pause() {
+    }
 
     @Override
-    public void resume() {}
+    public void resume() {
+    }
 
     @Override
-    public void hide() {}
-    private void stopMusic(){
-        if(musicaFondo.isPlaying()){
+    public void hide() {
+    }
+
+    private void stopMusic() {
+        if (musicaFondo.isPlaying()) {
             musicaFondo.stop();
         }
-        if(efectoFondo.isPlaying()){
+        if (efectoFondo.isPlaying()) {
             efectoFondo.stop();
         }
     }
@@ -318,17 +319,20 @@ public class Cueva implements Screen{
         stopMusic();
         DonChito.assetManager.clear();
     }
-    private int xtoCell(float x){
-        return Math.round(x/16);
-    }
-    private int ytoCell(float y){
-        return Math.round(y/16);
+
+    private int xtoCell(float x) {
+        return Math.round(x / 16);
     }
 
-    private int Celltox(int x){
-        return x*16;
+    private int ytoCell(float y) {
+        return Math.round(y / 16);
     }
-    private int Celltoy(int y){
-        return y*16;
+
+    private int Celltox(int x) {
+        return x * 16;
+    }
+
+    private int Celltoy(int y) {
+        return y * 16;
     }
 }

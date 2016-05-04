@@ -32,8 +32,8 @@ public class Secuencia implements Screen {
     private boolean cueva;
     private boolean acabar = false;
 
-    private float[] posicionesX = new float[]{671,2000,700,1800,671,2000,2000};
-    private float[] posicionesY = new float[]{3047,3058,1900,1800,630,630,680};
+    private float[] posicionesX = new float[]{671, 2000, 700, 1800, 671, 2000, 2000};
+    private float[] posicionesY = new float[]{3047, 3058, 1900, 1800, 630, 630, 680};
 
     private float currx = posicionesX[0];
     private float curry = posicionesY[0];
@@ -47,6 +47,7 @@ public class Secuencia implements Screen {
         this.game = game;
         this.cueva = cueva;
     }
+
     @Override
     public void show() {
         //camera = new OrthographicCamera(DonChito.ANCHO_MUNDO/2, DonChito.ALTO_MUNDO/2);
@@ -54,18 +55,19 @@ public class Secuencia implements Screen {
         camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         camera.update();
 
-        cameraHUD = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
+        cameraHUD = new OrthographicCamera(DonChito.ANCHO_MUNDO, DonChito.ALTO_MUNDO);
         cameraHUD.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         cameraHUD.update();
 
         view = new FitViewport(DonChito.ANCHO_MUNDO, DonChito.ALTO_MUNDO, camera);
         view.apply();
         batch = new SpriteBatch();
-        historieta = new SimpleAsset(Constants.SECUENCIAS_HISTORIETA,0,0);
-        botonPlay =  new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1100,0);
+        historieta = new SimpleAsset(Constants.SECUENCIAS_HISTORIETA, 0, 0);
+        botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG, 1100, 0);
         leerEntrada();
         cargarAudio();
     }
+
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 0);
@@ -76,44 +78,40 @@ public class Secuencia implements Screen {
         batch.begin();
 
         historieta.render(batch);
-        if(indicePosiciones == 2){
-            if(currCamaraX <DonChito.ANCHO_MUNDO*1.5f && currCamaraY<DonChito.ALTO_MUNDO*1.5f){
+        if (indicePosiciones == 2) {
+            if (currCamaraX < DonChito.ANCHO_MUNDO * 1.5f && currCamaraY < DonChito.ALTO_MUNDO * 1.5f) {
                 currCamaraY *= 1.005f;
                 currCamaraX *= 1.005f;
+            } else {
+                currCamaraY = DonChito.ALTO_MUNDO * 1.5f;
+                currCamaraX = DonChito.ANCHO_MUNDO * 1.5f;
             }
-            else{
-                currCamaraY  = DonChito.ALTO_MUNDO*1.5f;
-                currCamaraX = DonChito.ANCHO_MUNDO*1.5f;
-            }
-        }
-        else if(indicePosiciones == 4){
-            if(currCamaraX <DonChito.ANCHO_MUNDO*1.8f && currCamaraY<DonChito.ALTO_MUNDO*1.8f){
+        } else if (indicePosiciones == 4) {
+            if (currCamaraX < DonChito.ANCHO_MUNDO * 1.8f && currCamaraY < DonChito.ALTO_MUNDO * 1.8f) {
                 currCamaraY *= 1.005f;
                 currCamaraX *= 1.005f;
-            }
-            else {
+            } else {
                 currCamaraY = DonChito.ALTO_MUNDO * 1.8f;
                 currCamaraX = DonChito.ANCHO_MUNDO * 1.8f;
             }
         }
-        camera = new OrthographicCamera(currCamaraX,currCamaraY);
-        if(acabar){
+        camera = new OrthographicCamera(currCamaraX, currCamaraY);
+        if (acabar) {
             dispose();
-            if(cueva){
-                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA,game));
-            }else{
-                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.ACERCA,game));
+            if (cueva) {
+                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA, game));
+            } else {
+                game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.ACERCA, game));
             }
 
         }
-        if(esperar(delta)){
+        if (esperar(delta)) {
             if (indicePosiciones < maxPosiciones - 1) {
                 indicePosiciones++;
             } else {
                 acabar = true;
             }
-        }
-        else{
+        } else {
             hacerTransicion();
         }
         camera.update();
@@ -126,67 +124,59 @@ public class Secuencia implements Screen {
     }
 
     private void hacerTransicion() {
-        switch(indicePosiciones) {
+        switch (indicePosiciones) {
             case 1:
-                if(currx<posicionesX[indicePosiciones]) {
+                if (currx < posicionesX[indicePosiciones]) {
                     currx += 15f;
-                }
-                else{
+                } else {
                     currx = posicionesX[indicePosiciones];
                 }
                 camera.position.set(currx, curry, 0);
                 break;
             case 2:
-                if(currx >posicionesX[indicePosiciones]) {
+                if (currx > posicionesX[indicePosiciones]) {
                     currx -= 8f;
-                }
-                else{
+                } else {
                     currx = posicionesX[indicePosiciones];
                 }
-                if(curry>posicionesY[indicePosiciones]) {
+                if (curry > posicionesY[indicePosiciones]) {
                     curry -= 6f;
-                }
-                else{
+                } else {
                     curry = posicionesY[indicePosiciones];
                 }
                 camera.position.set(currx, curry, 0);
                 break;
             case 3:
-                if(currx<posicionesX[indicePosiciones]) {
+                if (currx < posicionesX[indicePosiciones]) {
                     currx += 5f;
-                }
-                else{
+                } else {
                     currx = posicionesX[indicePosiciones];
                 }
                 camera.position.set(currx, curry, 0);
                 break;
             case 4:
-                if(currx >posicionesX[indicePosiciones]) {
+                if (currx > posicionesX[indicePosiciones]) {
                     currx -= 8f;
-                }
-                else{
+                } else {
                     currx = posicionesX[indicePosiciones];
                 }
-                if(curry>posicionesY[indicePosiciones]) {
+                if (curry > posicionesY[indicePosiciones]) {
                     curry -= 6f;
-                }
-                else{
+                } else {
                     curry = posicionesY[indicePosiciones];
                 }
                 camera.position.set(currx, curry, 0);
                 break;
             case 5:
-                if(currx<posicionesX[indicePosiciones]) {
+                if (currx < posicionesX[indicePosiciones]) {
                     currx += 7f;
-                }
-                else{
+                } else {
                     currx = posicionesX[indicePosiciones];
                 }
-                if(curry<posicionesY[indicePosiciones+1]) {
+                if (curry < posicionesY[indicePosiciones + 1]) {
                     curry += 3f;
-                }
-                else{
-                    curry = posicionesY[indicePosiciones+1];
+                } else {
+                    curry = posicionesY[indicePosiciones + 1];
                 }
                 camera.position.set(currx, curry, 0);
                 break;
@@ -195,20 +185,22 @@ public class Secuencia implements Screen {
                 camera.position.set(currx, curry, 0);
                 break;
 
-            case 0: default:
+            case 0:
+            default:
                 camera.position.set(posicionesX[indicePosiciones], posicionesY[indicePosiciones], 0);
                 break;
         }
     }
 
-    private boolean esperar(float delta){
-        if(tiempoEsperar <=0){
+    private boolean esperar(float delta) {
+        if (tiempoEsperar <= 0) {
             tiempoEsperar = 4f;
             return true;
         }
         tiempoEsperar -= delta;
         return false;
     }
+
     @Override
     public void resize(int width, int height) {
         view.update(width, height);
@@ -234,8 +226,9 @@ public class Secuencia implements Screen {
         stopMusic();
         DonChito.assetManager.clear();
     }
-    private void stopMusic(){
-        if(musicaFondo.isPlaying()){
+
+    private void stopMusic() {
+        if (musicaFondo.isPlaying()) {
             musicaFondo.stop();
         }
     }
@@ -243,13 +236,14 @@ public class Secuencia implements Screen {
     private void leerEntrada() {
         Gdx.input.setInputProcessor(new InputAdapter() {
             public boolean touchDown(int x, int y, int pointer, int button) {
-                if(botonPlay.isTouched(x,y,cameraHUD,view)){
+                if (botonPlay.isTouched(x, y, cameraHUD, view)) {
                     acabar = true;
                 }
                 return true;
             }
         });
     }
+
     private void cargarAudio() {
         AssetManager assetManager = DonChito.assetManager;
 
@@ -257,9 +251,10 @@ public class Secuencia implements Screen {
         musicaFondo.setLooping(true);
         reproducirMusica(musicaFondo);
     }
-    private void reproducirMusica(Music musica){
+
+    private void reproducirMusica(Music musica) {
         musica.setVolume(1F);
-        if(!DonChito.preferences.getBoolean(Constants.MENUPRINCIPAL_SOUND_PREF,true)){
+        if (!DonChito.preferences.getBoolean(Constants.MENUPRINCIPAL_SOUND_PREF, true)) {
             musica.setVolume(0f);
         }
         musica.play();

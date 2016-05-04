@@ -1,6 +1,5 @@
 package mx.itesm.donchito;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
@@ -19,31 +18,33 @@ public class AcercaDe implements Screen {
 
     private SpriteBatch batch;
     private SimpleAsset background,
-                        imgJoel,
-                        imgSteve,
-                        imgLicho,
-                        imgKarla,
-                        imgSada,
-                        descJoel,
-                        descKarla,
-                        descLicho,
-                        descSada,
-                        descSteve,
-                        regresarMenu,
-                        btnHistorieta;
+            imgJoel,
+            imgSteve,
+            imgLicho,
+            imgKarla,
+            imgSada,
+            descJoel,
+            descKarla,
+            descLicho,
+            descSada,
+            descSteve,
+            regresarMenu,
+            btnHistorieta;
     private State screenState = State.INIT;
 
     private GameText musicByText;
+
     public AcercaDe(DonChito game) {
         this.game = game;
     }
+
     @Override
     public void show() {
         Gdx.input.setCatchBackKey(true);
-        camera = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
+        camera = new OrthographicCamera(DonChito.ANCHO_MUNDO, DonChito.ALTO_MUNDO);
         camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         camera.update();
-        view = new FitViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,camera);
+        view = new FitViewport(DonChito.ANCHO_MUNDO, DonChito.ALTO_MUNDO, camera);
         batch = new SpriteBatch();
         // Assets and text declaration
         crearElementos();
@@ -51,53 +52,53 @@ public class AcercaDe implements Screen {
         leerEntrada();
     }
 
-    private void crearElementos(){
-        background = new SimpleAsset(Constants.ACERCA_FONDO_JPG,0,0);
-        imgJoel = new SimpleAsset(Constants.ACERCA_JOEL_PNG,805,275);
-        imgKarla = new SimpleAsset(Constants.ACERCA_KARLA_PNG,230,275);
-        imgLicho = new SimpleAsset(Constants.ACERCA_LICHO_PNG,0,275);
-        imgSada = new SimpleAsset(Constants.ACERCA_SADA_PNG,1035,275);
-        imgSteve = new SimpleAsset(Constants.ACERCA_STEVE_PNG,575,275);
-        descJoel = new SimpleAsset(Constants.ACERCA_DESC_JOEL_PNG,0,0);
-        descKarla = new SimpleAsset(Constants.ACERCA_DESC_KARLA_PNG,0,0);
-        descLicho = new SimpleAsset(Constants.ACERCA_DESC_LICHO_PNG,0,0);
-        descSada = new SimpleAsset(Constants.ACERCA_DESC_SADA_PNG,0,0);
-        descSteve = new SimpleAsset(Constants.ACERCA_DESC_STEVE_PNG,0,0);
-        regresarMenu = new SimpleAsset(Constants.ACERCA_REGRESAR,1000,10);
-        btnHistorieta = new SimpleAsset(Constants.ACERCA_HISTORIETA,30,75);
+    private void crearElementos() {
+        background = new SimpleAsset(Constants.ACERCA_FONDO_JPG, 0, 0);
+        imgJoel = new SimpleAsset(Constants.ACERCA_JOEL_PNG, 805, 275);
+        imgKarla = new SimpleAsset(Constants.ACERCA_KARLA_PNG, 230, 275);
+        imgLicho = new SimpleAsset(Constants.ACERCA_LICHO_PNG, 0, 275);
+        imgSada = new SimpleAsset(Constants.ACERCA_SADA_PNG, 1035, 275);
+        imgSteve = new SimpleAsset(Constants.ACERCA_STEVE_PNG, 575, 275);
+        descJoel = new SimpleAsset(Constants.ACERCA_DESC_JOEL_PNG, 0, 0);
+        descKarla = new SimpleAsset(Constants.ACERCA_DESC_KARLA_PNG, 0, 0);
+        descLicho = new SimpleAsset(Constants.ACERCA_DESC_LICHO_PNG, 0, 0);
+        descSada = new SimpleAsset(Constants.ACERCA_DESC_SADA_PNG, 0, 0);
+        descSteve = new SimpleAsset(Constants.ACERCA_DESC_STEVE_PNG, 0, 0);
+        regresarMenu = new SimpleAsset(Constants.ACERCA_REGRESAR, 1000, 10);
+        btnHistorieta = new SimpleAsset(Constants.ACERCA_HISTORIETA, 30, 75);
 
-        musicByText = new GameText(550,200);
+        musicByText = new GameText(550, 200);
         musicByText.reSize();
     }
 
     private void leerEntrada() {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
-            public boolean touchDown (int x, int y, int pointexr, int button) {
+            public boolean touchDown(int x, int y, int pointexr, int button) {
                 return false;
             }
 
             @Override
-            public boolean touchUp (int x, int y, int pointer, int button) {
-                if(screenState == State.INIT) {
-                    if(imgJoel.isTouched(x,y,camera,view)){
+            public boolean touchUp(int x, int y, int pointer, int button) {
+                if (screenState == State.INIT) {
+                    if (imgJoel.isTouched(x, y, camera, view)) {
                         screenState = State.JOEL;
-                    }else if(imgKarla.isTouched(x,y,camera,view)){
+                    } else if (imgKarla.isTouched(x, y, camera, view)) {
                         screenState = State.KARLA;
-                    }else if(imgLicho.isTouched(x,y,camera,view)){
+                    } else if (imgLicho.isTouched(x, y, camera, view)) {
                         screenState = State.LICHO;
-                    }else if(imgSada.isTouched(x,y,camera,view)){
+                    } else if (imgSada.isTouched(x, y, camera, view)) {
                         screenState = State.SADA;
-                    }else if(imgSteve.isTouched(x,y,camera,view)){
+                    } else if (imgSteve.isTouched(x, y, camera, view)) {
                         screenState = State.STEVE;
-                    }else if(regresarMenu.isTouched(x,y,camera,view)){
-                        game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU,game));
-                    }else if(btnHistorieta.isTouched(x,y,camera,view)){
-                        game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.SECUENCIA,game,false));
+                    } else if (regresarMenu.isTouched(x, y, camera, view)) {
+                        game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU, game));
+                    } else if (btnHistorieta.isTouched(x, y, camera, view)) {
+                        game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.SECUENCIA, game, false));
                     }
                     return true;
-                }else {
-                    if(background.isTouched(x,y,camera,view)){
+                } else {
+                    if (background.isTouched(x, y, camera, view)) {
                         screenState = State.INIT;
                         return true;
                     }
@@ -107,6 +108,7 @@ public class AcercaDe implements Screen {
         });
 
     }
+
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 0);
@@ -115,12 +117,12 @@ public class AcercaDe implements Screen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
             dispose();
             game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU, game));
         }
         background.render(batch);
-        switch (screenState){
+        switch (screenState) {
             case SADA:
                 descSada.render(batch);
                 break;
@@ -144,7 +146,7 @@ public class AcercaDe implements Screen {
                 imgKarla.render(batch);
                 regresarMenu.render(batch);
                 btnHistorieta.render(batch);
-                musicByText.showMessage(batch,"Music by:\n\tEric Stiff\n\tAngel Galileo García Hernández\n\twww.bensound.com/");
+                musicByText.showMessage(batch, "Music by:\n\tEric Stiff\n\tAngel Galileo García Hernández\n\twww.bensound.com/");
                 break;
         }
 
@@ -154,7 +156,7 @@ public class AcercaDe implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        view.update(width,height);
+        view.update(width, height);
     }
 
     @Override
@@ -176,7 +178,8 @@ public class AcercaDe implements Screen {
     public void dispose() {
         DonChito.assetManager.clear();
     }
-    enum State{
+
+    enum State {
         INIT,
         SADA,
         STEVE,

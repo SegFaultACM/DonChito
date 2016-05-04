@@ -26,19 +26,20 @@ public class SplashScreen implements Screen {
     private OrthographicCamera camera;
     private Viewport view;
 
-    public SplashScreen(DonChito game){
+    public SplashScreen(DonChito game) {
         this.game = game;
     }
+
     @Override
     public void show() {
-        DonChito.assetManager.load(Constants.LOGO_TEC,Texture.class);
+        DonChito.assetManager.load(Constants.LOGO_TEC, Texture.class);
         DonChito.assetManager.finishLoading();
         batch = new SpriteBatch();
-        camera = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
+        camera = new OrthographicCamera(DonChito.ANCHO_MUNDO, DonChito.ALTO_MUNDO);
         camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         camera.update();
-        view = new FitViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,camera);
-        logoTec = new SimpleAsset(Constants.LOGO_TEC,0,0);
+        view = new FitViewport(DonChito.ANCHO_MUNDO, DonChito.ALTO_MUNDO, camera);
+        logoTec = new SimpleAsset(Constants.LOGO_TEC, 0, 0);
         startTime = TimeUtils.millis();
 
     }
@@ -51,10 +52,10 @@ public class SplashScreen implements Screen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        if(((TimeUtils.millis()-startTime)/1000)>2.5){
+        if (((TimeUtils.millis() - startTime) / 1000) > 2.5) {
             dispose();
             game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU, game));
-        }else{
+        } else {
             logoTec.render(batch);
         }
         batch.end();
@@ -62,7 +63,7 @@ public class SplashScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        view.update(width,height);
+        view.update(width, height);
     }
 
     @Override

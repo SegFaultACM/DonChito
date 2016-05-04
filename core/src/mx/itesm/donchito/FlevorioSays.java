@@ -1,4 +1,5 @@
 package mx.itesm.donchito;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
@@ -14,13 +15,14 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
 import static mx.itesm.donchito.LoadingScreen.ScreenSel.FINALBOSS;
 import static mx.itesm.donchito.LoadingScreen.ScreenSel.FLEVORIO;
 
 /**
  * Created by Esteban on 2/16/2016.
  */
-public class FlevorioSays implements Screen{
+public class FlevorioSays implements Screen {
     private OrthographicCamera camera;
     private final DonChito game;
     private static final float INCREMENTO = 0.6f;
@@ -60,8 +62,8 @@ public class FlevorioSays implements Screen{
 
     private Array<SimpleAsset> rocas;
 
-    private int[] combinaciones = new int[]{0,0,0,0,0,0,0,0,0,0};
-    private boolean[] combinacionesPR = new boolean[]{false,false,false,false,false,false,false,false,false,false};
+    private int[] combinaciones = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    private boolean[] combinacionesPR = new boolean[]{false, false, false, false, false, false, false, false, false, false};
     private SimpleAsset[] instrucciones = new SimpleAsset[15];
 
     private Music efectoBoton;
@@ -77,17 +79,17 @@ public class FlevorioSays implements Screen{
 
     @Override
     public void show() {
-        if(!(DonChito.preferences.getBoolean("FlevorioSays",false))){
-            DonChito.preferences.putBoolean("FlevorioSays",false);
+        if (!(DonChito.preferences.getBoolean("FlevorioSays", false))) {
+            DonChito.preferences.putBoolean("FlevorioSays", false);
             DonChito.preferences.flush();
         }
 
         init();
-        camera = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
+        camera = new OrthographicCamera(DonChito.ANCHO_MUNDO, DonChito.ALTO_MUNDO);
         camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
         camera.update();
 
-        view = new FitViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,camera);
+        view = new FitViewport(DonChito.ANCHO_MUNDO, DonChito.ALTO_MUNDO, camera);
 
         leerEntrada();
         cargarRecursos();
@@ -97,39 +99,40 @@ public class FlevorioSays implements Screen{
 
         batch = new SpriteBatch();
         batch.setProjectionMatrix(camera.combined);
-        fondoPantalla = new SimpleAsset(Constants.FLEVORIO_FONDOPANTALLA_PNG,0,0);
-        fondo = new SimpleAsset(Constants.FLEVORIO_FONDO_PNG,0,0);
+        fondoPantalla = new SimpleAsset(Constants.FLEVORIO_FONDOPANTALLA_PNG, 0, 0);
+        fondo = new SimpleAsset(Constants.FLEVORIO_FONDO_PNG, 0, 0);
         fondo.getSprite().scale(1);
         fondo.getSprite().setScale(0.1f);
 
-        fondoPausa = new SimpleAsset(Constants.GLOBAL_MENU_PAUSA_PNG,0,0);
-        botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1050,10);
-        botonConfiguracion = new SimpleAsset(Constants.GLOBAL_BOTON_CONFIGURACION_PNG,405,175);
-        botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,405,425);
-        botonSalirCueva = new SimpleAsset(Constants.GLOBAL_BOTON_BACK_CAVE,685,195);
+        fondoPausa = new SimpleAsset(Constants.GLOBAL_MENU_PAUSA_PNG, 0, 0);
+        botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG, 1050, 10);
+        botonConfiguracion = new SimpleAsset(Constants.GLOBAL_BOTON_CONFIGURACION_PNG, 405, 175);
+        botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG, 405, 425);
+        botonSalirCueva = new SimpleAsset(Constants.GLOBAL_BOTON_BACK_CAVE, 685, 195);
 
-        instructionsTxt = new GameText(150,700);
-        levelTxt = new GameText(1000,700);
+        instructionsTxt = new GameText(150, 700);
+        levelTxt = new GameText(1000, 700);
 
-        botonPausa = new SimpleAsset(Constants.GLOBAL_BOTON_PAUSA_PNG,1050,10);
+        botonPausa = new SimpleAsset(Constants.GLOBAL_BOTON_PAUSA_PNG, 1050, 10);
 
-        instrucciones[0] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION1,0,0);
-        instrucciones[1] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION2,0,0);
-        instrucciones[2] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION3,0,0);
-        instrucciones[3] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION4,0,0);
-        instrucciones[4] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION5,0,0);
-        instrucciones[5] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION6,0,0);
-        instrucciones[6] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION7,0,0);
-        instrucciones[7] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION8,0,0);
-        instrucciones[8] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION9,0,0);
-        instrucciones[9] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION10,0,0);
-        instrucciones[10] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION11,0,0);
-        instrucciones[11] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION12,0,0);
-        instrucciones[12] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION13,0,0);
-        instrucciones[13] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION14,0,0);
-        instrucciones[14] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION15,0,0);
+        instrucciones[0] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION1, 0, 0);
+        instrucciones[1] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION2, 0, 0);
+        instrucciones[2] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION3, 0, 0);
+        instrucciones[3] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION4, 0, 0);
+        instrucciones[4] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION5, 0, 0);
+        instrucciones[5] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION6, 0, 0);
+        instrucciones[6] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION7, 0, 0);
+        instrucciones[7] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION8, 0, 0);
+        instrucciones[8] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION9, 0, 0);
+        instrucciones[9] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION10, 0, 0);
+        instrucciones[10] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION11, 0, 0);
+        instrucciones[11] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION12, 0, 0);
+        instrucciones[12] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION13, 0, 0);
+        instrucciones[13] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION14, 0, 0);
+        instrucciones[14] = new SimpleAsset(Constants.FLEVORIO_INSTRUCCION15, 0, 0);
 
     }
+
     private void init() {
         nivel = 0;
         indiceSecuencia = 0;
@@ -152,43 +155,44 @@ public class FlevorioSays implements Screen{
 
         rocas = new Array<SimpleAsset>(3);
 
-        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTONCENTRAL_PNG,505,250);
+        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTONCENTRAL_PNG, 505, 250);
         nuevo.getSprite().setScale(1.1f);
         rocas.add(nuevo);
 
-        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON2_PNG,370,365);
+        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON2_PNG, 370, 365);
         rocas.add(nuevo);
-        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON2_PNG,370,135);
+        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON2_PNG, 370, 135);
         nuevo.setRotation(180f);
         rocas.add(nuevo);
 
-        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON3_PNG,253,370);
+        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON3_PNG, 253, 370);
         nuevo.getSprite().setScale(0.98f);
         rocas.add(nuevo);
-        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON3_PNG,253,18);
+        nuevo = new SimpleAsset(Constants.FLEVORIO_BOTON3_PNG, 253, 18);
         nuevo.setRotation(180f);
         nuevo.getSprite().setScale(0.98f);
         rocas.add(nuevo);
     }
-    public void stopMusic(){
+
+    public void stopMusic() {
         efectoPerder.setVolume(0f);
         musicaFondo.setVolume(0f);
         musicaIntro.setVolume(0f);
         efectoBoton.setVolume(0f);
         efectoGanar.setVolume(0f);
-        if(musicaFondo.isPlaying()){
+        if (musicaFondo.isPlaying()) {
             musicaFondo.stop();
         }
-        if(musicaIntro.isPlaying()){
+        if (musicaIntro.isPlaying()) {
             musicaIntro.stop();
         }
-        if(efectoBoton.isPlaying()){
+        if (efectoBoton.isPlaying()) {
             efectoBoton.stop();
         }
-        if(efectoGanar.isPlaying()){
+        if (efectoGanar.isPlaying()) {
             efectoGanar.stop();
         }
-        if(efectoPerder.isPlaying()){
+        if (efectoPerder.isPlaying()) {
             efectoPerder.stop();
         }
 
@@ -196,7 +200,7 @@ public class FlevorioSays implements Screen{
 
     @Override
     public void render(float delta) {
-        if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
             dispose();
             game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU, game));
         }
@@ -204,22 +208,22 @@ public class FlevorioSays implements Screen{
         view.apply();
         batch.begin();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        if(indiceSecuencia == nivel*2){
+        if (indiceSecuencia == nivel * 2) {
             lastRockPressed = 0;
             reseted = false;
             nivel++;
-            if(nivel == 4){
-                DonChito.preferences.putBoolean("FlevorioSays",true);
+            if (nivel == 4) {
+                DonChito.preferences.putBoolean("FlevorioSays", true);
                 DonChito.preferences.flush();
                 jugando = false;
                 dispose();
-                game.setScreen(new LoadingScreen(FINALBOSS,game,true,FLEVORIO));
+                game.setScreen(new LoadingScreen(FINALBOSS, game, true, FLEVORIO));
             }
             crearCombinacion(nivel);
             indiceSecuencia = 0;
-            if(nivel != 4 && !perdio){
+            if (nivel != 4 && !perdio) {
                 efectoBoton.stop();
-                if(nivel !=1){
+                if (nivel != 1) {
                     reproducirMusica(efectoGanar);
                 }
                 perdio = false;
@@ -227,17 +231,17 @@ public class FlevorioSays implements Screen{
         }
         fondoPantalla.render(batch);
         fondo.render(batch);
-        if(!instruccionesLeidas){
+        if (!instruccionesLeidas) {
             leerInstrucciones(delta);
         }
-        if(nivel != 4 && instruccionesLeidas && jugando) {
+        if (nivel != 4 && instruccionesLeidas && jugando) {
             if (fondo.getSprite().getScaleX() >= 1f) {
                 if (!rocasCreadas) {
                     reproducirMusica(efectoBoton);
                     crearRoca();
                 } else {
                     if (!musicaIntro.isPlaying()) {
-                        levelTxt.showMessage(batch,"Nivel : "+nivel);
+                        levelTxt.showMessage(batch, "Nivel : " + nivel);
                         if (!musicaFondo.isPlaying()) {
                             reproducirMusica(musicaFondo);
                         }
@@ -245,7 +249,7 @@ public class FlevorioSays implements Screen{
                             roca.render(batch);
                         }
                         if (!efectoGanar.isPlaying() && !efectoPerder.isPlaying()) {
-                            if(!reseted) {
+                            if (!reseted) {
                                 for (SimpleAsset roca : rocas) {
                                     roca.getSprite().setColor(Color.WHITE);
                                     roca.render(batch);
@@ -253,7 +257,9 @@ public class FlevorioSays implements Screen{
                                 reseted = true;
                             }
                             for (int i = 0; i < nivel * 2; i++) {
-                                if(brillando){instructionsTxt.showMessage(batch,"PENSANDO");}
+                                if (brillando) {
+                                    instructionsTxt.showMessage(batch, "PENSANDO");
+                                }
                                 if (!combinacionesPR[i]) {
                                     if (!efectoBoton.isPlaying() && jugando) {
                                         reproducirMusica(efectoBoton);
@@ -267,8 +273,8 @@ public class FlevorioSays implements Screen{
                                     break;
                                 }
                             }
-                            if(!brillando){
-                                instructionsTxt.showMessage(batch,"JUEGA");
+                            if (!brillando) {
+                                instructionsTxt.showMessage(batch, "JUEGA");
                             }
                             brillando = false;
                             for (int i = 0; i < nivel * 2; i++) {
@@ -278,9 +284,8 @@ public class FlevorioSays implements Screen{
                                 }
                             }
                         }
-                    }
-                    else {
-                        instructionsTxt.showMessage(batch,"ESPERA");
+                    } else {
+                        instructionsTxt.showMessage(batch, "ESPERA");
                     }
                 }
 
@@ -288,18 +293,16 @@ public class FlevorioSays implements Screen{
                 fondo.getSprite().setScale(MathUtils.clamp(delta * INCREMENTO + fondo.getSprite().getScaleX(), .1f, 1f));
             }
         }
-        if(estado == State.PAUSA){
+        if (estado == State.PAUSA) {
             fondoPausa.render(batch);
             botonPlay.render(batch);
             //botonConfiguracion.render(batch);
             botonSalirMenu.render(batch);
             botonSalirCueva.render(batch);
-        }
-        else {
-            if(instruccionesLeidas) {
+        } else {
+            if (instruccionesLeidas) {
                 botonPausa.render(batch);
-            }
-            else{
+            } else {
                 botonPlay.render(batch);
             }
         }
@@ -307,25 +310,26 @@ public class FlevorioSays implements Screen{
     }
 
     private void leerInstrucciones(float delta) {
-        if(indiceInstruccion >=15){
+        if (indiceInstruccion >= 15) {
             instruccionesLeidas = true;
             return;
         }
         instrucciones[indiceInstruccion].render(batch);
-        if(esperar(delta)){
+        if (esperar(delta)) {
             indiceInstruccion++;
         }
     }
-    private void reproducirMusica(Music musica){
+
+    private void reproducirMusica(Music musica) {
         musica.setVolume(1F);
-        if(!DonChito.preferences.getBoolean(Constants.MENUPRINCIPAL_SOUND_PREF,true)){
+        if (!DonChito.preferences.getBoolean(Constants.MENUPRINCIPAL_SOUND_PREF, true)) {
             musica.setVolume(0f);
         }
         musica.play();
     }
 
-    private boolean esperar(float delta){
-        if(tiempoEsperar <=0){
+    private boolean esperar(float delta) {
+        if (tiempoEsperar <= 0) {
             tiempoEsperar = 1f;
             return true;
         }
@@ -334,18 +338,18 @@ public class FlevorioSays implements Screen{
     }
 
     private void crearCombinacion(int nivel) {
-        for(int i=0;i<combinaciones.length;i++){
+        for (int i = 0; i < combinaciones.length; i++) {
             combinaciones[i] = 0;
             combinacionesPR[i] = false;
         }
-        for(int i=0;i<nivel*2;i++){
-            combinaciones[i] = MathUtils.random(1,5);
+        for (int i = 0; i < nivel * 2; i++) {
+            combinaciones[i] = MathUtils.random(1, 5);
         }
     }
 
     @Override
     public void resize(int width, int height) {
-        view.update(width,height);
+        view.update(width, height);
     }
 
     @Override
@@ -368,48 +372,46 @@ public class FlevorioSays implements Screen{
         stopMusic();
         DonChito.assetManager.clear();
     }
+
     private void leerEntrada() {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
-            public boolean touchDown (int x, int y, int pointexr, int button) {
-                Vector3 temp = camera.unproject(new Vector3(x, y, 0),view.getScreenX(),view.getScreenY(),view.getScreenWidth(),view.getScreenHeight());
-                int xt =(int) temp.x;
+            public boolean touchDown(int x, int y, int pointexr, int button) {
+                Vector3 temp = camera.unproject(new Vector3(x, y, 0), view.getScreenX(), view.getScreenY(), view.getScreenWidth(), view.getScreenHeight());
+                int xt = (int) temp.x;
                 int yt = (int) temp.y;
-                if(!brillando){
+                if (!brillando) {
                     int roca = 0;
-                    float distancia = (float) Math.sqrt(Math.pow(625-xt,2)+Math.pow(348-yt,2));
-                    if(distancia>=0 && distancia<= 164){
+                    float distancia = (float) Math.sqrt(Math.pow(625 - xt, 2) + Math.pow(348 - yt, 2));
+                    if (distancia >= 0 && distancia <= 164) {
                         roca = 1;
                     }
-                    if(distancia>=165 && distancia<= 269){
-                        if(yt<358){
+                    if (distancia >= 165 && distancia <= 269) {
+                        if (yt < 358) {
                             roca = 3;
-                        }
-                        else{
+                        } else {
                             roca = 2;
                         }
                     }
-                    if(distancia>=270 && distancia<= 396){
-                        if(yt<358){
+                    if (distancia >= 270 && distancia <= 396) {
+                        if (yt < 358) {
                             roca = 5;
-                        }
-                        else{
+                        } else {
                             roca = 4;
                         }
                     }
-                    if(roca !=0 && estado == State.PLAY){
-                        rocas.get(roca-1).getSprite().setColor(Color.GRAY);
+                    if (roca != 0 && estado == State.PLAY) {
+                        rocas.get(roca - 1).getSprite().setColor(Color.GRAY);
                     }
                     shadowedAndUp = roca;
                 }
-                if(estado == State.PAUSA){
-                    if(botonSalirMenu.isTouched(x,y,camera,view) || botonSalirCueva.isTouched(x,y,camera,view)){
+                if (estado == State.PAUSA) {
+                    if (botonSalirMenu.isTouched(x, y, camera, view) || botonSalirCueva.isTouched(x, y, camera, view)) {
                         init();
                         dispose();
-                        if(botonSalirCueva.isTouched(x,y,camera,view)){
+                        if (botonSalirCueva.isTouched(x, y, camera, view)) {
                             game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.CUEVA, game));
-                        }
-                        else {
+                        } else {
                             game.setScreen(new LoadingScreen(LoadingScreen.ScreenSel.MENU, game));
                         }
                     }
@@ -418,13 +420,13 @@ public class FlevorioSays implements Screen{
             }
 
             @Override
-            public boolean touchUp (int x, int y, int pointer, int button) {
-                Vector3 temp = camera.unproject(new Vector3(x, y, 0),view.getScreenX(),view.getScreenY(),view.getScreenWidth(),view.getScreenHeight());
-                int xt =(int) temp.x;
+            public boolean touchUp(int x, int y, int pointer, int button) {
+                Vector3 temp = camera.unproject(new Vector3(x, y, 0), view.getScreenX(), view.getScreenY(), view.getScreenWidth(), view.getScreenHeight());
+                int xt = (int) temp.x;
                 int yt = (int) temp.y;
-                if(!instruccionesLeidas){
-                    if(botonPlay.isTouched(x,y,camera,view)){
-                        if(musicaIntro.isPlaying()){
+                if (!instruccionesLeidas) {
+                    if (botonPlay.isTouched(x, y, camera, view)) {
+                        if (musicaIntro.isPlaying()) {
                             musicaIntro.stop();
                         }
                         indiceInstruccion = 15;
@@ -432,72 +434,67 @@ public class FlevorioSays implements Screen{
                         instruccionesLeidas = true;
                     }
                 }
-                if(!brillando){
+                if (!brillando) {
                     for (SimpleAsset roca : rocas) {
                         roca.getSprite().setColor(Color.WHITE);
                     }
                     int roca = 0;
-                    float distancia = (float) Math.sqrt(Math.pow(625-xt,2)+Math.pow(348-yt,2));
-                    if(distancia>=0 && distancia<= 164){
+                    float distancia = (float) Math.sqrt(Math.pow(625 - xt, 2) + Math.pow(348 - yt, 2));
+                    if (distancia >= 0 && distancia <= 164) {
                         roca = 1;
                     }
-                    if(distancia>=165 && distancia<= 269){
-                        if(yt<358){
+                    if (distancia >= 165 && distancia <= 269) {
+                        if (yt < 358) {
                             roca = 3;
-                        }
-                        else{
+                        } else {
                             roca = 2;
                         }
                     }
-                    if(distancia>=270 && distancia<= 396){
-                        if(yt<358){
+                    if (distancia >= 270 && distancia <= 396) {
+                        if (yt < 358) {
                             roca = 5;
-                        }
-                        else{
+                        } else {
                             roca = 4;
                         }
                     }
-                    if(roca !=0 && estado == State.PLAY && shadowedAndUp == roca && jugando){
+                    if (roca != 0 && estado == State.PLAY && shadowedAndUp == roca && jugando) {
                         efectoBoton.stop();
                         reproducirMusica(efectoBoton);
-                        if(roca == combinaciones[indiceSecuencia]){
-                            if(lastRockPressed != 0){
-                                rocas.get(lastRockPressed-1).getSprite().setColor(Color.WHITE);
+                        if (roca == combinaciones[indiceSecuencia]) {
+                            if (lastRockPressed != 0) {
+                                rocas.get(lastRockPressed - 1).getSprite().setColor(Color.WHITE);
                             }
-                            rocas.get(roca-1).getSprite().setColor(103, 128, 150, 1);
+                            rocas.get(roca - 1).getSprite().setColor(103, 128, 150, 1);
                             indiceSecuencia++;
                             perdio = false;
                             lastRockPressed = roca;
-                        }
-                        else{
-                            rocas.get(roca-1).getSprite().setColor(Color.RED);
-                            nivel --;
+                        } else {
+                            rocas.get(roca - 1).getSprite().setColor(Color.RED);
+                            nivel--;
                             perdio = true;
-                            indiceSecuencia = nivel*2;
+                            indiceSecuencia = nivel * 2;
                             brillando = true;
                             efectoBoton.stop();
-                            if(jugando){
+                            if (jugando) {
                                 reproducirMusica(efectoPerder);
                             }
                             reseted = false;
                         }
-                    }
-                    else{
-                        if(botonPausa.isTouched(x,y,camera,view)||botonPlay.isTouched(x,y,camera,view)){
-                            if(estado == State.PLAY){
+                    } else {
+                        if (botonPausa.isTouched(x, y, camera, view) || botonPlay.isTouched(x, y, camera, view)) {
+                            if (estado == State.PLAY) {
                                 estado = State.PAUSA;
-                            }
-                            else{
+                            } else {
                                 estado = State.PLAY;
                             }
                         }
                     }
                 }
-                if(estado == State.PAUSA){
-                    if(botonSalirMenu.isTouched(x,y,camera,view)){
+                if (estado == State.PAUSA) {
+                    if (botonSalirMenu.isTouched(x, y, camera, view)) {
                         init();
                         musicaFondo.setLooping(false);
-                        if(musicaFondo.isPlaying()) {
+                        if (musicaFondo.isPlaying()) {
                             musicaFondo.stop();
                         }
                     }
@@ -506,8 +503,8 @@ public class FlevorioSays implements Screen{
             }
         });
     }
-    public enum State
-    {
+
+    public enum State {
         PAUSA,
         PLAY
     }

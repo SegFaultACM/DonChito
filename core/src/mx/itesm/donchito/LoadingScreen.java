@@ -21,7 +21,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 public class LoadingScreen implements Screen {
 
     private DonChito game;
-    private ScreenSel screenSel,comingFrom;
+    private ScreenSel screenSel, comingFrom;
     private boolean winStat;
     private SimpleAsset loading;
     private AssetManager assetManager;
@@ -31,21 +31,23 @@ public class LoadingScreen implements Screen {
     private boolean cueva;
     private static final int LOADING_SIZE = 195;
 
-    public LoadingScreen(ScreenSel screenSel,DonChito game) {
+    public LoadingScreen(ScreenSel screenSel, DonChito game) {
         this.game = game;
         this.screenSel = screenSel;
         this.assetManager = DonChito.assetManager;
         this.comingFrom = ScreenSel.NONE;
         this.cueva = true;
     }
-    public LoadingScreen(ScreenSel screenSel,DonChito game,boolean cueva) {
+
+    public LoadingScreen(ScreenSel screenSel, DonChito game, boolean cueva) {
         this.game = game;
         this.screenSel = screenSel;
         this.assetManager = DonChito.assetManager;
         this.comingFrom = ScreenSel.NONE;
         this.cueva = cueva;
     }
-    public LoadingScreen(ScreenSel screenSel,DonChito game,boolean victory, ScreenSel comingFrom) {
+
+    public LoadingScreen(ScreenSel screenSel, DonChito game, boolean victory, ScreenSel comingFrom) {
         this.game = game;
         this.screenSel = screenSel;
         this.assetManager = DonChito.assetManager;
@@ -56,7 +58,7 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void show() {
-        if(comingFrom != ScreenSel.NONE){
+        if (comingFrom != ScreenSel.NONE) {
             dispose();
             game.setScreen(new PostGameStatusScreen(screenSel, game, winStat, comingFrom));
         }
@@ -65,22 +67,22 @@ public class LoadingScreen implements Screen {
         camera.update();
         assetManager.load(Constants.ROMAN_PIEDRA, Texture.class);
         assetManager.finishLoading();
-        loading = new SimpleAsset(Constants.ROMAN_PIEDRA,DonChito.ANCHO_MUNDO / 2 - LOADING_SIZE /2,DonChito.ALTO_MUNDO/2-LOADING_SIZE/2);
-        loadingTxt = new GameText(DonChito.ANCHO_MUNDO / 2 - LOADING_SIZE /2+50,DonChito.ALTO_MUNDO/2-LOADING_SIZE/2 - 75);
-        loadingTxt.setColor(.323f,.4823f,.649f,1);
+        loading = new SimpleAsset(Constants.ROMAN_PIEDRA, DonChito.ANCHO_MUNDO / 2 - LOADING_SIZE / 2, DonChito.ALTO_MUNDO / 2 - LOADING_SIZE / 2);
+        loadingTxt = new GameText(DonChito.ANCHO_MUNDO / 2 - LOADING_SIZE / 2 + 50, DonChito.ALTO_MUNDO / 2 - LOADING_SIZE / 2 - 75);
+        loadingTxt.setColor(.323f, .4823f, .649f, 1);
         batch = new SpriteBatch();
 
         loadResources();
     }
 
 
-    public void loadResources(){
-        switch (screenSel){
+    public void loadResources() {
+        switch (screenSel) {
             case SPLASH:
                 break;
             case CUEVA:
-                assetManager.load(Constants.CUEVA_FONDO_JPG,Texture.class);
-                assetManager.load(Constants.CUEVA_DON_CHITO_PNG,Texture.class);
+                assetManager.load(Constants.CUEVA_FONDO_JPG, Texture.class);
+                assetManager.load(Constants.CUEVA_DON_CHITO_PNG, Texture.class);
                 assetManager.load(Constants.CUEVA_TILES, TiledMap.class);
                 assetManager.load(Constants.GLOBAL_MENU_PAUSA_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_PAUSA_PNG, Texture.class);
@@ -88,26 +90,26 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.GLOBAL_BOTON_CONFIGURACION_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_SALIRMENU_PNG, Texture.class);
                 assetManager.load(Constants.CUEVA_MUSICA_FONDO, Music.class);
-                assetManager.load(Constants.CUEVA_EFECTOS_FONDO,Music.class);
+                assetManager.load(Constants.CUEVA_EFECTOS_FONDO, Music.class);
                 break;
             case ACERCA:
-                assetManager.load(Constants.ACERCA_FONDO_JPG,Texture.class);
-                assetManager.load(Constants.ACERCA_JOEL_PNG,Texture.class);
-                assetManager.load(Constants.ACERCA_KARLA_PNG,Texture.class);
-                assetManager.load(Constants.ACERCA_LICHO_PNG,Texture.class);
-                assetManager.load(Constants.ACERCA_SADA_PNG,Texture.class);
-                assetManager.load(Constants.ACERCA_STEVE_PNG,Texture.class);
-                assetManager.load(Constants.ACERCA_DESC_JOEL_PNG,Texture.class);
-                assetManager.load(Constants.ACERCA_DESC_KARLA_PNG,Texture.class);
-                assetManager.load(Constants.ACERCA_DESC_LICHO_PNG,Texture.class);
-                assetManager.load(Constants.ACERCA_DESC_SADA_PNG,Texture.class);
-                assetManager.load(Constants.ACERCA_DESC_STEVE_PNG,Texture.class);
-                assetManager.load(Constants.ACERCA_REGRESAR,Texture.class);
-                assetManager.load(Constants.ACERCA_HISTORIETA,Texture.class);
+                assetManager.load(Constants.ACERCA_FONDO_JPG, Texture.class);
+                assetManager.load(Constants.ACERCA_JOEL_PNG, Texture.class);
+                assetManager.load(Constants.ACERCA_KARLA_PNG, Texture.class);
+                assetManager.load(Constants.ACERCA_LICHO_PNG, Texture.class);
+                assetManager.load(Constants.ACERCA_SADA_PNG, Texture.class);
+                assetManager.load(Constants.ACERCA_STEVE_PNG, Texture.class);
+                assetManager.load(Constants.ACERCA_DESC_JOEL_PNG, Texture.class);
+                assetManager.load(Constants.ACERCA_DESC_KARLA_PNG, Texture.class);
+                assetManager.load(Constants.ACERCA_DESC_LICHO_PNG, Texture.class);
+                assetManager.load(Constants.ACERCA_DESC_SADA_PNG, Texture.class);
+                assetManager.load(Constants.ACERCA_DESC_STEVE_PNG, Texture.class);
+                assetManager.load(Constants.ACERCA_REGRESAR, Texture.class);
+                assetManager.load(Constants.ACERCA_HISTORIETA, Texture.class);
                 break;
             case FLEVORIO:
-                assetManager.load(Constants.FLEVORIO_FONDOPANTALLA_PNG,Texture.class);
-                assetManager.load(Constants.FLEVORIO_FONDO_PNG,Texture.class);
+                assetManager.load(Constants.FLEVORIO_FONDOPANTALLA_PNG, Texture.class);
+                assetManager.load(Constants.FLEVORIO_FONDO_PNG, Texture.class);
                 assetManager.load(Constants.FLEVORIO_BOTONCENTRAL_PNG, Texture.class);
                 assetManager.load(Constants.FLEVORIO_BOTON2_PNG, Texture.class);
                 assetManager.load(Constants.FLEVORIO_BOTON3_PNG, Texture.class);
@@ -127,7 +129,7 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.FLEVORIO_INSTRUCCION13, Texture.class);
                 assetManager.load(Constants.FLEVORIO_INSTRUCCION14, Texture.class);
                 assetManager.load(Constants.FLEVORIO_INSTRUCCION15, Texture.class);
-                assetManager.load(Constants.GLOBAL_BOTON_BACK_CAVE,Texture.class);
+                assetManager.load(Constants.GLOBAL_BOTON_BACK_CAVE, Texture.class);
 
                 assetManager.load(Constants.GLOBAL_MENU_PAUSA_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_PAUSA_PNG, Texture.class);
@@ -136,36 +138,36 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.GLOBAL_BOTON_SALIRMENU_PNG, Texture.class);
 
                 assetManager.load(Constants.FLEVORIO_SONIDOBOTON_WAV, Music.class);
-                assetManager.load(Constants.FLEVORIO_SONIDOFAIL_WAV,Music.class);
+                assetManager.load(Constants.FLEVORIO_SONIDOFAIL_WAV, Music.class);
                 assetManager.load(Constants.FLEVORIO_SONIDOVICTORY_WAV, Music.class);
                 assetManager.load(Constants.FLEVORIO_MUSICAINTRO_WAV, Music.class);
-                assetManager.load(Constants.FLEVORIO_MUSICAFONDO_WAV,Music.class);
+                assetManager.load(Constants.FLEVORIO_MUSICAFONDO_WAV, Music.class);
                 break;
             case LIVERMORIO:
-                for (String platform:Constants.PLATFORMS_CARRETAS
+                for (String platform : Constants.PLATFORMS_CARRETAS
                         ) {
-                    assetManager.load(platform,Texture.class);
+                    assetManager.load(platform, Texture.class);
                 }
-                for (String platform:Constants.PLATFORMS_MADERA
+                for (String platform : Constants.PLATFORMS_MADERA
                         ) {
-                    assetManager.load(platform,Texture.class);
+                    assetManager.load(platform, Texture.class);
                 }
                 assetManager.load(Constants.LIVERMORIO_FONDO_PNG, Texture.class);
-                assetManager.load(Constants.DEATHBYROBOT,Texture.class);
-                assetManager.load(Constants.CTHULHU,Texture.class);
-                assetManager.load(Constants.LIVERMORIO_ITEM,Texture.class);
-                assetManager.load(Constants.CUEVA_ARROW_LEFT,Texture.class);
+                assetManager.load(Constants.DEATHBYROBOT, Texture.class);
+                assetManager.load(Constants.CTHULHU, Texture.class);
+                assetManager.load(Constants.LIVERMORIO_ITEM, Texture.class);
+                assetManager.load(Constants.CUEVA_ARROW_LEFT, Texture.class);
                 assetManager.load(Constants.GLOBAL_MENU_PAUSA_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_PAUSA_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_PLAY_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_CONFIGURACION_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_SALIRMENU_PNG, Texture.class);
-                assetManager.load(Constants.GLOBAL_BOTON_BACK_CAVE,Texture.class);
-                assetManager.load(Constants.LIVERMORIO_MUSIC,Music.class);
-                assetManager.load(Constants.LIVERMORIO_EF_MP3,Music.class);
+                assetManager.load(Constants.GLOBAL_BOTON_BACK_CAVE, Texture.class);
+                assetManager.load(Constants.LIVERMORIO_MUSIC, Music.class);
+                assetManager.load(Constants.LIVERMORIO_EF_MP3, Music.class);
                 break;
             case ROMANSTRUGGLE:
-                assetManager.load(Constants.ROMAN_BOTON_IZQUIERDA,Texture.class);
+                assetManager.load(Constants.ROMAN_BOTON_IZQUIERDA, Texture.class);
                 assetManager.load(Constants.ROMAN_PERSONAJE_DONCHITO, Texture.class);
                 assetManager.load(Constants.ROMAN_FONDO, Texture.class);
                 assetManager.load(Constants.ROMAN_PIEDRA, Texture.class);
@@ -175,40 +177,40 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.GLOBAL_BOTON_PLAY_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_CONFIGURACION_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_SALIRMENU_PNG, Texture.class);
-                assetManager.load(Constants.GLOBAL_BOTON_BACK_CAVE,Texture.class);
+                assetManager.load(Constants.GLOBAL_BOTON_BACK_CAVE, Texture.class);
 
-                assetManager.load(Constants.FLEVORIO_SONIDOFAIL_WAV,Music.class);
+                assetManager.load(Constants.FLEVORIO_SONIDOFAIL_WAV, Music.class);
                 assetManager.load(Constants.FLEVORIO_SONIDOVICTORY_WAV, Music.class);
                 assetManager.load(Constants.ROMAN_MUSICA_FONDO_MP3, Music.class);
-                assetManager.load(Constants.ROMAN_EFECTO_ROCA,Music.class);
+                assetManager.load(Constants.ROMAN_EFECTO_ROCA, Music.class);
                 //ROMAN_SPRITES_DONCHITO
                 assetManager.load(Constants.CTHULHU, Texture.class);
                 break;
             case SECUENCIA:
                 assetManager.load(Constants.SECUENCIAS_HISTORIETA, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_PLAY_PNG, Texture.class);
-                assetManager.load(Constants.MENU_PRINCIPAL_MP3,Music.class);
+                assetManager.load(Constants.MENU_PRINCIPAL_MP3, Music.class);
                 break;
 
             case FINALBOSS:
-                assetManager.load(Constants.FINAL_BOSS_FONDO,Texture.class);
-                assetManager.load(Constants.FINAL_BOSS_DONCHITO,Texture.class);
-                assetManager.load(Constants.FINAL_BOSS_FLEVORIO,Texture.class);
-                assetManager.load(Constants.FINAL_BOSS_PICO,Texture.class);
-                assetManager.load(Constants.FINAL_BOSS_PICO,Texture.class);
-                assetManager.load(Constants.FINAL_BOSS_ATTACK,Texture.class);
-                assetManager.load(Constants.FINAL_BOSS_HEAL,Texture.class);
-                assetManager.load(Constants.FINAL_BOSS_HEALTHBARB,Texture.class);
-                assetManager.load(Constants.FINAL_BOSS_HEALTHBAR,Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_FONDO, Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_DONCHITO, Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_FLEVORIO, Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_PICO, Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_PICO, Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_ATTACK, Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_HEAL, Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_HEALTHBARB, Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_HEALTHBAR, Texture.class);
                 assetManager.load(Constants.GLOBAL_MENU_PAUSA_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_PAUSA_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_PLAY_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_CONFIGURACION_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_SALIRMENU_PNG, Texture.class);
-                assetManager.load(Constants.GLOBAL_BOTON_BACK_CAVE,Texture.class);
-                assetManager.load(Constants.FINAL_BOSS_IC_DONCHITO,Texture.class);
-                assetManager.load(Constants.FINAL_BOSS_IC_FLEVORIO,Texture.class);
-                
+                assetManager.load(Constants.GLOBAL_BOTON_BACK_CAVE, Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_IC_DONCHITO, Texture.class);
+                assetManager.load(Constants.FINAL_BOSS_IC_FLEVORIO, Texture.class);
+
                 assetManager.load(Constants.FINAL_BOSS_MUSICA, Music.class);
                 assetManager.load(Constants.DIALOGO_1, Music.class);
                 assetManager.load(Constants.DIALOGO_2, Music.class);
@@ -217,16 +219,16 @@ public class LoadingScreen implements Screen {
                 break;
             case MENU:
             default:
-                assetManager.load(Constants.MENUPRINCIPAL_FONDO_JPG,Texture.class);
-                assetManager.load(Constants.MENUPRINCIPAL_MARCO_PNG,Texture.class);
-                assetManager.load(Constants.MENUPRINCIPAL_BOTON,Texture.class);
-                assetManager.load(Constants.MENUPRINCIPAL_CARGARPARTIDA_PNG,Texture.class);
-                assetManager.load(Constants.MENUPRINCIPAL_CARTELDONCHITO_PNG,Texture.class);
-                assetManager.load(Constants.MENUPRINCIPAL_RESET,Texture.class);
-                assetManager.load(Constants.MENUPRINCIPAL_EXTRA_PNG,Texture.class);
-                assetManager.load(Constants.MENUPRINCIPAL_PALA_PNG,Texture.class);
-                assetManager.load(Constants.AJUSTES_BOTON_PNG,Texture.class);
-                assetManager.load(Constants.MENU_PRINCIPAL_MP3,Music.class);
+                assetManager.load(Constants.MENUPRINCIPAL_FONDO_JPG, Texture.class);
+                assetManager.load(Constants.MENUPRINCIPAL_MARCO_PNG, Texture.class);
+                assetManager.load(Constants.MENUPRINCIPAL_BOTON, Texture.class);
+                assetManager.load(Constants.MENUPRINCIPAL_CARGARPARTIDA_PNG, Texture.class);
+                assetManager.load(Constants.MENUPRINCIPAL_CARTELDONCHITO_PNG, Texture.class);
+                assetManager.load(Constants.MENUPRINCIPAL_RESET, Texture.class);
+                assetManager.load(Constants.MENUPRINCIPAL_EXTRA_PNG, Texture.class);
+                assetManager.load(Constants.MENUPRINCIPAL_PALA_PNG, Texture.class);
+                assetManager.load(Constants.AJUSTES_BOTON_PNG, Texture.class);
+                assetManager.load(Constants.MENU_PRINCIPAL_MP3, Music.class);
                 assetManager.load(Constants.PANTALLA_CONFIG_PNG, Texture.class);
                 assetManager.load(Constants.GLOBAL_BOTON_SALIRMENU_PNG, Texture.class);
                 assetManager.load(Constants.MENUPRINCIPAL_SOUND_ON, Texture.class);
@@ -234,6 +236,7 @@ public class LoadingScreen implements Screen {
                 break;
         }
     }
+
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 0);
@@ -241,7 +244,7 @@ public class LoadingScreen implements Screen {
 
         updateScreen();
         if (assetManager.update()) {
-            switch(this.screenSel){
+            switch (this.screenSel) {
                 case MENU:
                     game.setScreen(new MenuPrincipal(game));
                     break;
@@ -267,7 +270,7 @@ public class LoadingScreen implements Screen {
                     game.setScreen(new FinalBoss(game));
                     break;
                 case SECUENCIA:
-                    game.setScreen(new Secuencia(game,cueva));
+                    game.setScreen(new Secuencia(game, cueva));
                     break;
                 default:
                     game.setScreen(new MenuPrincipal(game));
@@ -280,13 +283,14 @@ public class LoadingScreen implements Screen {
 
         batch.begin();
         loading.render(batch);
-        loadingTxt.showMessage(batch,"Loading...");
+        loadingTxt.showMessage(batch, "Loading...");
         batch.end();
     }
 
-    public void updateScreen(){
+    public void updateScreen() {
 
     }
+
     @Override
     public void resize(int width, int height) {
 
@@ -311,6 +315,7 @@ public class LoadingScreen implements Screen {
     public void dispose() {
 
     }
+
     enum ScreenSel {
         MENU,
         FLEVORIO,

@@ -71,7 +71,7 @@ public class Constants {
     //RomanStruggle
     public static final String ROMAN_PIEDRA = "Imagenes/Romans_Struggle/piedra_grande.png";
     public static final String ROMAN_BOTON_IZQUIERDA = "Imagenes/Controles/controlizquierda.png";
-    public static final String ROMAN_BOTON_DERECHA= "Imagenes/Controles/controlderecha.png";
+    public static final String ROMAN_BOTON_DERECHA = "Imagenes/Controles/controlderecha.png";
     public static final String ROMAN_BOTON_DISPARA = "Imagenes/Controles/controlarriba.png";
     public static final String ROMAN_PERSONAJE_DONCHITO = "Imagenes/Cueva/DonChito.png";
     public static final String ROMAN_FONDO = "Imagenes/Romans_Struggle/Roman_escenario.jpg";
@@ -114,19 +114,18 @@ public class Constants {
 
     //Livermorio Escape
     public static final String[] PLATFORMS_CARRETAS = {"Imagenes/Livermorio/Entintados/carreta1.1.png",
-                                                "Imagenes/Livermorio/Entintados/carreta1.png",
-                                                "Imagenes/Livermorio/Entintados/carreta3.1.png",
-                                                "Imagenes/Livermorio/Entintados/carreta3.png"};
+            "Imagenes/Livermorio/Entintados/carreta1.png",
+            "Imagenes/Livermorio/Entintados/carreta3.1.png",
+            "Imagenes/Livermorio/Entintados/carreta3.png"};
     public static final String[] PLATFORMS_MADERA = {
-                                                "Imagenes/Livermorio/Entintados/tabla1.png",
-                                                "Imagenes/Livermorio/Entintados/tabla2.png",
-                                                "Imagenes/Livermorio/Entintados/tabla3.png",
-                                                "Imagenes/Livermorio/Entintados/tabla4.png"};
+            "Imagenes/Livermorio/Entintados/tabla1.png",
+            "Imagenes/Livermorio/Entintados/tabla2.png",
+            "Imagenes/Livermorio/Entintados/tabla3.png",
+            "Imagenes/Livermorio/Entintados/tabla4.png"};
 
     public static final String LIVERMORIO_FONDO_PNG = "Imagenes/Livermorio/Piedrasyfondo/fondo.jpg";
     public static final String LIVERMORIO_EF_MP3 = "Musica/livermorioEf2.mp3";
     public static final String LIVERMORIO_MUSIC = "Musica/LivermorioEscape.mp3";
-
 
 
     public static final String PLAYER_TEXTURE = "Imagenes/Livermorio/Sprites/spriteDonChito.png";
@@ -146,7 +145,7 @@ public class Constants {
     public static final String FINAL_BOSS_HEALTHBARB = "Imagenes/peleafinal/healthbarB.png";
     public static final String FINAL_BOSS_WIN = "Imagenes/peleafinal/radcliffedead.png";
     public static final String FINAL_BOSS_IC_DONCHITO = "Imagenes/peleafinal/iconoDonChito.png";
-    public static final String FINAL_BOSS_IC_FLEVORIO= "Imagenes/peleafinal/iconoFlevorio.png";
+    public static final String FINAL_BOSS_IC_FLEVORIO = "Imagenes/peleafinal/iconoFlevorio.png";
 
     public static final String FINAL_BOSS_MUSICA = "Musica/finalBoss.mp3";
     public static final String LIVERMORIO_ITEM = "Imagenes/Livermorio/botaitem.png";

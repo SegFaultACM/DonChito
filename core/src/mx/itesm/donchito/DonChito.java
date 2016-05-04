@@ -12,30 +12,33 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 public class DonChito extends Game {
     public static final float ANCHO_MUNDO = 1280;
-	public static final float ALTO_MUNDO = 720;
+    public static final float ALTO_MUNDO = 720;
 
-    public  static final AssetManager assetManager = new AssetManager();
-	public static Preferences preferences;
-	@Override
-	public void create() {
-		DonChito.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-		preferences = Gdx.app.getPreferences(Constants.GLOBAL_PREFERENCES);
-		this.setScreen(new SplashScreen(this));
-}
+    public static final AssetManager assetManager = new AssetManager();
+    public static Preferences preferences;
 
-	@Override
-	public void setScreen(Screen screen) {
-		super.setScreen(screen);
-	}
+    @Override
+    public void create() {
+        DonChito.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        preferences = Gdx.app.getPreferences(Constants.GLOBAL_PREFERENCES);
+        this.setScreen(new SplashScreen(this));
+    }
+
+    @Override
+    public void setScreen(Screen screen) {
+        super.setScreen(screen);
+    }
+
     @Override
     public void dispose() {
         super.dispose();
         DonChito.assetManager.clear();
     }
-	public void initPref(){
-		DonChito.preferences.putBoolean(Constants.PREF_ROMAN_STRUGGLE,false);
-		DonChito.preferences.putBoolean(Constants.PREF_LIVERMORIO,false);
-		DonChito.preferences.putBoolean(Constants.PREF_SECUENCIA,false);
-		DonChito.preferences.flush();
-	}
+
+    public void initPref() {
+        DonChito.preferences.putBoolean(Constants.PREF_ROMAN_STRUGGLE, false);
+        DonChito.preferences.putBoolean(Constants.PREF_LIVERMORIO, false);
+        DonChito.preferences.putBoolean(Constants.PREF_SECUENCIA, false);
+        DonChito.preferences.flush();
+    }
 }
