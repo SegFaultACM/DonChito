@@ -29,8 +29,6 @@ public class FinalBoss implements Screen {
     private GameText donchitoDam;
     private GameText flevorioDam;
     private GameText accionText;
-    private GameText donChitoNameText;
-    private GameText flevorioNameText;
 
     private boolean danioInflinjido = false;
     private boolean accionFlevorioDefinida = false;
@@ -69,6 +67,8 @@ public class FinalBoss implements Screen {
     private SimpleAsset botonSalirMenu;
     private SimpleAsset botonConfiguracion;
     private SimpleAsset botonSalirCueva;
+    private SimpleAsset iconoDonChito;
+    private SimpleAsset iconoFlevorio;
 
     private State estado = State.INTRO;
     private AtackState estadoAtaque = AtackState.IDLE;
@@ -125,14 +125,14 @@ public class FinalBoss implements Screen {
         donchitoDam = new GameText(410,300);
         flevorioDam = new GameText(830,370);
         accionText = new GameText(200,150);
-        donChitoNameText = new GameText(150,670);
-        flevorioNameText = new GameText(1000,670);
 
-        donchitoHealth = new SimpleAsset(Constants.FINAL_BOSS_HEALTHBAR, 60, 600);
-        donChitoHealthBar = new SimpleAsset(Constants.FINAL_BOSS_HEALTHBARB, 60, 600);
-        flevorioHealth= new SimpleAsset(Constants.FINAL_BOSS_HEALTHBAR, 900, 600);
-        flevorioHealthBar= new SimpleAsset(Constants.FINAL_BOSS_HEALTHBARB, 900, 600);
 
+        donchitoHealth = new SimpleAsset(Constants.FINAL_BOSS_HEALTHBAR, 30, 625);
+        donChitoHealthBar = new SimpleAsset(Constants.FINAL_BOSS_HEALTHBARB, 30, 625);
+        flevorioHealth= new SimpleAsset(Constants.FINAL_BOSS_HEALTHBAR, 950, 625);
+        flevorioHealthBar= new SimpleAsset(Constants.FINAL_BOSS_HEALTHBARB, 950, 625);
+        iconoDonChito =  new SimpleAsset(Constants.FINAL_BOSS_IC_DONCHITO,340,550);
+        iconoFlevorio =  new SimpleAsset(Constants.FINAL_BOSS_IC_FLEVORIO,770,550);
         fondoPausa = new SimpleAsset(Constants.GLOBAL_MENU_PAUSA_PNG,0,0);
         botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG,1050,10);
         botonConfiguracion = new SimpleAsset(Constants.GLOBAL_BOTON_CONFIGURACION_PNG,405,175);
@@ -147,8 +147,7 @@ public class FinalBoss implements Screen {
         accionText.setColor(0.618f,.111f,0.18f,1);
         donchitoDam.setColor(1f,.1f,.1f,1);
         flevorioDam.setColor(1f,.1f,.1f,1);
-        flevorioNameText.setColor(0.618f,.111f,0.18f,1);
-        donChitoNameText.setColor(0.618f,.111f,0.18f,1);
+
 
         botonResortera = new SimpleAsset(Constants.FINAL_BOSS_PICO, -100, -50);
         botonResortera.getSprite().setScale(0.5f);
@@ -263,10 +262,11 @@ public class FinalBoss implements Screen {
                 donchitoHealth.getSprite().setSize(vidaDonChito * healthWidth / 700, healthHeight);
                 flevorioHealthBar.render(batch);
                 flevorioHealth.render(batch);
+                iconoDonChito.render(batch);
+                iconoFlevorio.render(batch);
                 donChitoHealthBar.render(batch);
                 donchitoHealth.render(batch);
-                donChitoNameText.showMessage(batch,"Don Chito: "+vidaDonChito);
-                flevorioNameText.showMessage(batch,"Flevorio: "+vidaFlevorio);
+
 
                 resorteraText.showMessage(batch, "Resortera");
                 botasText.showMessage(batch, "Botas");
@@ -341,7 +341,7 @@ public class FinalBoss implements Screen {
                 donchitoDam.setColor(1f, .1f, .1f, 1);
                 if (flevorioAtaca()){
                     if (flevorioAturdido) {
-                        accionText.showMessage(batch, "¡Aturdiste a Flevorio con la resortera, \nno puede curarse");
+                        accionText.showMessage(batch, "¡Aturdiste a Flevorio \ncon la resortera, \nno puede curarse");
                     } else {
                         accionText.showMessage(batch, "¡Estas siendo \natacado por Flevorio");
                     }
@@ -402,8 +402,8 @@ public class FinalBoss implements Screen {
         flevorioHealth.render(batch);
         donChitoHealthBar.render(batch);
         donchitoHealth.render(batch);
-        donChitoNameText.showMessage(batch,"Don Chito: "+vidaDonChito);
-        flevorioNameText.showMessage(batch,"Flevorio: "+vidaFlevorio);
+        iconoDonChito.render(batch);
+        iconoFlevorio.render(batch);
 
         flevorio.render(batch);
         donChito.render(batch);
