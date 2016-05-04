@@ -228,9 +228,12 @@ public class RomanStruggle implements Screen {
         float rocaDerX = roca.getSprite().getX()+roca.getRockWidth();
         float rocaY = roca.getSprite().getY();
         float playerCentro = player.getX()+(player.getWidth()/2);
-        
+        if(roca.getEscala() == 0.25f){
+            rocaX -= 15;
+            rocaDerX += 10;
+        }
         if(playerCentro>rocaX&&playerCentro<rocaDerX){
-            if(rocaY<=70+player.getHeight()){
+            if(rocaY<=70){
                 //Gdx.app.log("Muerto","");
                 estado = State.DEATH;
             }
