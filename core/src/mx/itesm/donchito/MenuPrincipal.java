@@ -56,7 +56,7 @@ public class MenuPrincipal implements Screen {
         batch = new SpriteBatch();
 
         fondo = new SimpleAsset(Constants.MENUPRINCIPAL_FONDO_JPG,0,0);
-        btnCargarPartida = new SimpleAsset(Constants.MENUPRINCIPAL_CARGARPARTIDA_PNG,870,290);
+        btnCargarPartida = new SimpleAsset(Constants.MENUPRINCIPAL_CARGARPARTIDA_PNG,870,330);
         btnDonChito = new SimpleAsset(Constants.MENUPRINCIPAL_CARTELDONCHITO_PNG,420,230);
         btnExtra = new SimpleAsset(Constants.MENUPRINCIPAL_EXTRA_PNG,800,100);
         btnPala = new SimpleAsset(Constants.MENUPRINCIPAL_PALA_PNG,820,125);

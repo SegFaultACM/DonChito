@@ -341,7 +341,7 @@ public class FinalBoss implements Screen {
                 donchitoDam.setColor(1f, .1f, .1f, 1);
                 if (flevorioAtaca()){
                     if (flevorioAturdido) {
-                        accionText.showMessage(batch, "¡Aturdiste a Flevorio con la resortera, \nno puede curarse");
+                        accionText.showMessage(batch, "¡Aturdiste a Flevorio \ncon la resortera, \nno puede curarse");
                     } else {
                         accionText.showMessage(batch, "¡Estas siendo \natacado por Flevorio");
                     }
