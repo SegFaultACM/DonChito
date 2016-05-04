@@ -19,7 +19,6 @@ public class FinalBoss implements Screen {
     private OrthographicCamera camera;
     private final DonChito game;
     private Viewport view;
-    //meter voces, heal y atack icons...
     private boolean movimientoInicialFlevorio = false;
     private boolean movimientoInicialDonChito = false;
 
@@ -30,6 +29,7 @@ public class FinalBoss implements Screen {
     private GameText donchitoDam;
     private GameText flevorioDam;
     private GameText accionText;
+    private GameText ayuda;
 
     private boolean danioInflinjido = false;
     private boolean accionFlevorioDefinida = false;
@@ -125,6 +125,9 @@ public class FinalBoss implements Screen {
         donchitoDam = new GameText(410, 300);
         flevorioDam = new GameText(830, 370);
         accionText = new GameText(200, 150);
+
+        ayuda = new GameText(200, 460);
+        //ayuda.setColor(0.618f, .111f, 0.18f, 1);
 
 
         donchitoHealth = new SimpleAsset(Constants.FINAL_BOSS_HEALTHBAR, 30, 625);
@@ -241,6 +244,9 @@ public class FinalBoss implements Screen {
                 botonTribalera.render(batch);
                 botonResortera.render(batch);
                 botonPico.render(batch);
+                if(!todosLosItems){
+                    ayuda.showMessage(batch,"Deberia conseguir todos \nlos items primero...");
+                }
 
                 healthIcon.render(batch);
                 attackIcon1.render(batch);
