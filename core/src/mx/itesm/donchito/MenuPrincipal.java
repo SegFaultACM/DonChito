@@ -63,7 +63,7 @@ public class MenuPrincipal implements Screen {
         btnAjustes = new SimpleAsset(Constants.AJUSTES_BOTON_PNG,50,475);
         fondoPausa = new SimpleAsset(Constants.PANTALLA_CONFIG_PNG,0,0);
         botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,405,400);
-
+        resetBtn = new SimpleAsset(Constants.MENUPRINCIPAL_RESET,650,200);
         //botonSiPartida.getSprite().setScale(0.2f);
         //botonNoPartida.getSprite().setScale(0.2f);
 
@@ -121,6 +121,9 @@ public class MenuPrincipal implements Screen {
                         }
                         DonChito.preferences.flush();
                         cargarAudio();
+                    }
+                    if(resetBtn.isTouched(x,y,camera,view)){
+                        game.initPref();
                     }
                 }
 
@@ -238,6 +241,7 @@ public class MenuPrincipal implements Screen {
             fondoPausa.render(batch);
             botonSalirMenu.render(batch);
             btnMusica.render(batch);
+            resetBtn.render(batch);
         }
         batch.end();
     }

@@ -221,8 +221,8 @@ public class LoadingScreen implements Screen {
                 assetManager.load(Constants.MENUPRINCIPAL_MARCO_PNG,Texture.class);
                 assetManager.load(Constants.MENUPRINCIPAL_BOTON,Texture.class);
                 assetManager.load(Constants.MENUPRINCIPAL_CARGARPARTIDA_PNG,Texture.class);
-                assetManager.load(Constants.MENUPRINCIPAL_NUEVAPARTIDA_PNG,Texture.class);
                 assetManager.load(Constants.MENUPRINCIPAL_CARTELDONCHITO_PNG,Texture.class);
+                assetManager.load(Constants.MENUPRINCIPAL_RESET,Texture.class);
                 assetManager.load(Constants.MENUPRINCIPAL_EXTRA_PNG,Texture.class);
                 assetManager.load(Constants.MENUPRINCIPAL_PALA_PNG,Texture.class);
                 assetManager.load(Constants.AJUSTES_BOTON_PNG,Texture.class);
