@@ -32,8 +32,11 @@ public class MenuPrincipal implements Screen {
                         btnAjustes,
                         botonSalirMenu,
                         fondoPausa,
-                        btnMusica,resetBtn;
-
+                        btnMusica,
+                        resetBtn,
+                        yesBtn,
+                        noBtn;
+    private GameText yesText,noText,descText;
 
     boolean clickOnButton;
     float tiempoRecorrido;
@@ -49,29 +52,13 @@ public class MenuPrincipal implements Screen {
     @Override
     public void show() {
         Gdx.input.setCatchBackKey(true);
-        camera = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
-        camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
-        camera.update();
-        view = new FitViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,camera);
-        batch = new SpriteBatch();
-
-        fondo = new SimpleAsset(Constants.MENUPRINCIPAL_FONDO_JPG,0,0);
-        btnCargarPartida = new SimpleAsset(Constants.MENUPRINCIPAL_CARGARPARTIDA_PNG,870,330);
-        btnDonChito = new SimpleAsset(Constants.MENUPRINCIPAL_CARTELDONCHITO_PNG,420,230);
-        btnExtra = new SimpleAsset(Constants.MENUPRINCIPAL_EXTRA_PNG,800,100);
-        btnPala = new SimpleAsset(Constants.MENUPRINCIPAL_PALA_PNG,820,125);
-        btnAjustes = new SimpleAsset(Constants.AJUSTES_BOTON_PNG,50,475);
-        fondoPausa = new SimpleAsset(Constants.PANTALLA_CONFIG_PNG,0,0);
-        botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,405,400);
-        resetBtn = new SimpleAsset(Constants.MENUPRINCIPAL_RESET,650,200);
-        //botonSiPartida.getSprite().setScale(0.2f);
-        //botonNoPartida.getSprite().setScale(0.2f);
-
+        loadAssets();
         estado = State.MENU;
         leerEntrada();
         cargarAudio();
         init();
     }
+
     private void leerEntrada() {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
@@ -107,7 +94,7 @@ public class MenuPrincipal implements Screen {
                         pantallaSiguiente = Screen.SETTINGS;
                         return true;
                     }
-                }
+                }else
                 if(!isClick && estado == State.PAUSA) {
                     if(botonSalirMenu.isTouched(x,y,camera,view)) {
                         estado = State.MENU;
@@ -123,7 +110,15 @@ public class MenuPrincipal implements Screen {
                         cargarAudio();
                     }
                     if(resetBtn.isTouched(x,y,camera,view)){
+                        estado = State.RESET;
+                    }
+                }else
+                if(!isClick && estado == State.RESET){
+                    if(yesBtn.isTouched(x,y,camera,view)){
                         game.initPref();
+                        estado = State.PAUSA;
+                    }else if(noBtn.isTouched(x,y,camera,view)){
+                        estado = State.PAUSA;
                     }
                 }
 
@@ -134,12 +129,12 @@ public class MenuPrincipal implements Screen {
 
     private void cargarAudio() {
         if(DonChito.preferences.getBoolean(Constants.MENUPRINCIPAL_SOUND_PREF,true)){
-            btnMusica = new SimpleAsset(Constants.MENUPRINCIPAL_SOUND_ON,400,200);
+            btnMusica = new SimpleAsset(Constants.MENUPRINCIPAL_SOUND_ON,400,180);
             musicaFondo = DonChito.assetManager.get(Constants.MENU_PRINCIPAL_MP3);
             musicaFondo.setLooping(true);
             musicaFondo.play();
         }else{
-            btnMusica = new SimpleAsset(Constants.MENUPRINCIPAL_SOUND_OFF,400,200);
+            btnMusica = new SimpleAsset(Constants.MENUPRINCIPAL_SOUND_OFF,400,180);
             if(musicaFondo != null && musicaFondo.isPlaying()){
                 musicaFondo.stop();
             }
@@ -243,9 +238,38 @@ public class MenuPrincipal implements Screen {
             btnMusica.render(batch);
             resetBtn.render(batch);
         }
+        if(estado == State.RESET){
+            fondoPausa.render(batch);
+            yesBtn.render(batch);
+            noBtn.render(batch);
+            yesText.showMessage(batch,"¡Sí!");
+            noText.showMessage(batch,"¡No!");
+            descText.showMessage(batch,"¿Desea reiniciar \nsu progreso?");
+        }
         batch.end();
     }
+    private void loadAssets(){
+        camera = new OrthographicCamera(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO);
+        camera.position.set(DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2, 0);
+        camera.update();
+        view = new FitViewport(DonChito.ANCHO_MUNDO,DonChito.ALTO_MUNDO,camera);
+        batch = new SpriteBatch();
 
+        fondo = new SimpleAsset(Constants.MENUPRINCIPAL_FONDO_JPG,0,0);
+        btnCargarPartida = new SimpleAsset(Constants.MENUPRINCIPAL_CARGARPARTIDA_PNG,870,330);
+        btnDonChito = new SimpleAsset(Constants.MENUPRINCIPAL_CARTELDONCHITO_PNG,420,230);
+        btnExtra = new SimpleAsset(Constants.MENUPRINCIPAL_EXTRA_PNG,800,100);
+        btnPala = new SimpleAsset(Constants.MENUPRINCIPAL_PALA_PNG,820,125);
+        btnAjustes = new SimpleAsset(Constants.AJUSTES_BOTON_PNG,50,475);
+        fondoPausa = new SimpleAsset(Constants.PANTALLA_CONFIG_PNG,0,0);
+        botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,405,400);
+        resetBtn = new SimpleAsset(Constants.MENUPRINCIPAL_RESET,700,180);
+        yesBtn = new SimpleAsset(Constants.MENUPRINCIPAL_BOTON,400,180);
+        noBtn = new SimpleAsset(Constants.MENUPRINCIPAL_BOTON,700,180);
+        yesText = new GameText(480,280);
+        noText = new GameText(775,280);
+        descText = new GameText(600,470);
+    }
     @Override
     public void resize(int width, int height) {
         view.update(width, height);
@@ -257,6 +281,7 @@ public class MenuPrincipal implements Screen {
     }
 
     @Override
+
     public void resume() {
 
     }
@@ -275,6 +300,7 @@ public class MenuPrincipal implements Screen {
     {
         PAUSA,
         MENU,
+        RESET
     }
     enum Screen{
         DONCHITO,
