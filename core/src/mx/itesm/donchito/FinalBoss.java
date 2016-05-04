@@ -301,7 +301,7 @@ public class FinalBoss implements Screen {
             }
             else {
                 if(modoAtaque == "Botas Tribaleras" && damage>=150){
-                    accionText.showMessage(batch, "Flevorio estaba aturdido \ngolpe critico con botas tribaleras");
+                    accionText.showMessage(batch, "Flevorio estaba aturdido \ngolpe critico con \nbotas tribaleras");
                 }
                 else {
                     accionText.showMessage(batch, "¡Atacando con \n" + modoAtaque + "!");
