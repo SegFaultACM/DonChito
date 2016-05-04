@@ -29,10 +29,6 @@ public class GameText {
         font.draw(batch, glyp, this.xcoord - anchoTexto / 3, this.ycoord);
     }
 
-    public void setPosition(float x, float y) {
-        this.xcoord = x;
-        this.ycoord = y;
-    }
 
     public void setColor(float r, float g, float b, float a) {
         font.setColor(r, g, b, a);

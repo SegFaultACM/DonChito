@@ -27,21 +27,14 @@ public class Cueva implements Screen {
 
     private TiledMap mapa;
 
-    public static final float ANCHO_MAPA = 1280;   // Ancho del mapa en pixeles
-    public static final int TAM_CELDA = 16;
 
     private Stage stage;
     private Touchpad touchpad;
-    private Touchpad.TouchpadStyle touchpadStyle;
-    private Skin touchpadSkin;
-    private Drawable touchBackground;
-    private Drawable touchKnob;
 
     private SpriteBatch batch;
     private Music musicaFondo;
     private Music efectoFondo;
 
-    private SimpleAsset donchito;
 
     private DonChitoLivermorio player;
 
@@ -52,7 +45,6 @@ public class Cueva implements Screen {
     private SimpleAsset botonConfiguracion;
 
     private State estado = State.PLAY;
-    private RomanStruggle.MoveState moveState;
 
     private Direccion positivoX = Direccion.NONE;
     private Direccion positivoY = Direccion.NONE;
@@ -110,12 +102,12 @@ public class Cueva implements Screen {
         rendererMapa = new OrthogonalTiledMapRenderer(mapa, batch);
         rendererMapa.setView(camera);
 
-        touchpadSkin = new Skin();
+        Skin touchpadSkin = new Skin();
         touchpadSkin.add("touchBackground", new Texture("Imagenes/Cueva/touchBackground.png"));
         touchpadSkin.add("touchKnob", new Texture("Imagenes/Cueva/touchKnob.png"));
-        touchpadStyle = new Touchpad.TouchpadStyle();
-        touchBackground = touchpadSkin.getDrawable("touchBackground");
-        touchKnob = touchpadSkin.getDrawable("touchKnob");
+        Touchpad.TouchpadStyle touchpadStyle = new Touchpad.TouchpadStyle();
+        Drawable touchBackground = touchpadSkin.getDrawable("touchBackground");
+        Drawable touchKnob = touchpadSkin.getDrawable("touchKnob");
         touchpadStyle.background = touchBackground;
         touchpadStyle.knob = touchKnob;
         touchpad = new Touchpad(10, touchpadStyle);
@@ -144,7 +136,6 @@ public class Cueva implements Screen {
     private void cargarElementos() {
         AssetManager assetManager = DonChito.assetManager;
         mapa = assetManager.get(Constants.CUEVA_TILES);
-        donchito = new SimpleAsset(Constants.CUEVA_DON_CHITO_PNG, DonChito.ANCHO_MUNDO / 2, DonChito.ALTO_MUNDO / 2);
     }
 
     @Override
@@ -326,13 +317,5 @@ public class Cueva implements Screen {
 
     private int ytoCell(float y) {
         return Math.round(y / 16);
-    }
-
-    private int Celltox(int x) {
-        return x * 16;
-    }
-
-    private int Celltoy(int y) {
-        return y * 16;
     }
 }

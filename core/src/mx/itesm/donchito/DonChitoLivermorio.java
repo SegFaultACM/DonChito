@@ -29,7 +29,6 @@ public class DonChitoLivermorio {
     long walkStartTime;
     long jumpStartTime;
 
-    private TextureRegion region;
     public static final float PLAYER_STANCE_WIDTH = 85.0f;
     public static final float PLAYER_MOVE_SPEED = 300;
     public static final double GRAVITY = 25;
@@ -168,7 +167,7 @@ public class DonChitoLivermorio {
     }
 
     public void render(SpriteBatch batch) {
-        region = animacion.getKeyFrame(0); //DonChito.getAssetManager().get(Constants.PLAYER_STAND_RIGHT);
+        TextureRegion region = animacion.getKeyFrame(0);
 
         if (facing == Facing.RIGHT && jumpState != JumpState.GROUND) {
             //region = DonChito.getAssetManager().get(Constants.PLAYER_JUMP_RIGHT);

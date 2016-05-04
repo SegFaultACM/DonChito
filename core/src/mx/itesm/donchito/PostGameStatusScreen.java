@@ -38,8 +38,6 @@ public class PostGameStatusScreen implements Screen {
     Random randomIntGenerator = new Random();
     private Music dialogo;
 
-    private AssetManager assetManager;
-
     public PostGameStatusScreen(ScreenSel screenSel, DonChito game, boolean victory, ScreenSel comingFrom) {
         this.game = game;
         this.screenSel = screenSel;
@@ -56,6 +54,7 @@ public class PostGameStatusScreen implements Screen {
         view.apply();
         batch = new SpriteBatch();
 
+        AssetManager assetManager;
         if (this.winStat) {
             fondo = new Texture(Constants.WIN_SCREEN);
             if (this.comingFrom == ScreenSel.FINALBOSS) {

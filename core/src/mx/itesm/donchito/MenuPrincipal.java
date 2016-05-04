@@ -305,10 +305,6 @@ public class MenuPrincipal implements Screen {
     enum Screen {
         DONCHITO,
         NONE,
-        FLEVORIO,
-        LIVERMORIO,
-        ROMANSTRUGGLE,
-        RADCLIFF,
         CUEVA,
         ACERCA,
         SETTINGS

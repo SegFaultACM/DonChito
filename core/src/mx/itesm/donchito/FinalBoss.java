@@ -66,7 +66,6 @@ public class FinalBoss implements Screen {
     private SimpleAsset botonPlay;
     private SimpleAsset fondoPausa;
     private SimpleAsset botonSalirMenu;
-    private SimpleAsset botonConfiguracion;
     private SimpleAsset botonSalirCueva;
     private SimpleAsset iconoDonChito;
     private SimpleAsset iconoFlevorio;
@@ -136,7 +135,6 @@ public class FinalBoss implements Screen {
         iconoFlevorio = new SimpleAsset(Constants.FINAL_BOSS_IC_FLEVORIO, 770, 550);
         fondoPausa = new SimpleAsset(Constants.GLOBAL_MENU_PAUSA_PNG, 0, 0);
         botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG, 1050, 10);
-        botonConfiguracion = new SimpleAsset(Constants.GLOBAL_BOTON_CONFIGURACION_PNG, 405, 175);
         botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG, 405, 425);
         botonPausa = new SimpleAsset(Constants.GLOBAL_BOTON_PAUSA_PNG, 1050, 10);
         botonSalirCueva = new SimpleAsset(Constants.GLOBAL_BOTON_BACK_CAVE, 685, 195);
@@ -192,11 +190,7 @@ public class FinalBoss implements Screen {
             if (vidaFlevorio <= 200) {
                 curacionFlevorio = false;
             } else if (vidaFlevorio <= 550) {
-                if (randomIntGenerator.nextInt(3) == 0) {
-                    curacionFlevorio = false;
-                } else {
-                    curacionFlevorio = true;
-                }
+                curacionFlevorio = randomIntGenerator.nextInt(3) != 0;
             } else {
                 curacionFlevorio = true;
             }
@@ -255,7 +249,7 @@ public class FinalBoss implements Screen {
 
                 flevorioHealth.getSprite().setRegion(0, 0, (int) (vidaFlevorio * healthWidth / 700), (int) healthHeight);
                 flevorioHealth.getSprite().setSize(vidaFlevorio * healthWidth / 700, healthHeight);
-                donchitoHealth.getSprite().setRegion(0, 0, (int) vidaDonChito * healthWidth / 700, (int) healthHeight);
+                donchitoHealth.getSprite().setRegion(0, 0,  vidaDonChito * healthWidth / 700, (int) healthHeight);
                 donchitoHealth.getSprite().setSize(vidaDonChito * healthWidth / 700, healthHeight);
                 flevorioHealthBar.render(batch);
                 flevorioHealth.render(batch);
@@ -272,7 +266,7 @@ public class FinalBoss implements Screen {
             }
 
         } else if (estado == State.ACCION) {
-            if (modoAtaque == "Curar") {
+            if (modoAtaque.equals("Curar")) {
                 accionText.showMessage(batch, "Curandose con\n la piedra magica");
                 if (!danioInflinjido) {
                     damage += 40;
@@ -295,7 +289,7 @@ public class FinalBoss implements Screen {
 
 
             } else {
-                if (modoAtaque == "Botas Tribaleras" && damage >= 150) {
+                if (modoAtaque.equals("Botas Tribaleras") && damage >= 150) {
                     accionText.showMessage(batch, "Flevorio estaba aturdido \ngolpe critico con \nbotas tribaleras");
                 } else {
                     accionText.showMessage(batch, "¡Atacando con \n" + modoAtaque + "!");
@@ -371,7 +365,7 @@ public class FinalBoss implements Screen {
                         danioInflinjido = true;
                         flevorioHealth.getSprite().setRegion(0, 0, (int) (vidaFlevorio * healthWidth / 700), (int) healthHeight);
                         flevorioHealth.getSprite().setSize(vidaFlevorio * healthWidth / 700, healthHeight);
-                        donchitoHealth.getSprite().setRegion(0, 0, (int) vidaDonChito * healthWidth / 700, (int) healthHeight);
+                        donchitoHealth.getSprite().setRegion(0, 0, vidaDonChito * healthWidth / 700, (int) healthHeight);
                         donchitoHealth.getSprite().setSize(vidaDonChito * healthWidth / 700, healthHeight);
                     }
                     if (esperar(delta)) {

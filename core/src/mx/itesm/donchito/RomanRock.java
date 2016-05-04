@@ -11,13 +11,6 @@ public class RomanRock extends SimpleAsset {
     private SimpleAsset simpelasset;
     private int direccionH; // 1 es derecha, 0 es izquierda
 
-    public int getDireccionV() {
-        return direccionV;
-    }
-
-    public int getDireccionH() {
-        return direccionH;
-    }
 
     private int direccionV; //1 es abajo, 0 es arriba cambiar a ENUM
     private float velocidad;
@@ -55,8 +48,8 @@ public class RomanRock extends SimpleAsset {
     }
 
     public void updateRock() {
-        float movimientoX = 0;
-        float movimientoY = 0;
+        float movimientoX;
+        float movimientoY;
         if (this.direccionV == 1) { //si se esta moviendo hacia abajo
             if (this.velocidad >= this.velocidadLimite) {
                 this.velocidad = this.velocidadLimite;

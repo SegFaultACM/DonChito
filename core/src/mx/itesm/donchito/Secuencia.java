@@ -17,7 +17,6 @@ public class Secuencia implements Screen {
     private final DonChito game;
     private SimpleAsset botonPlay;
     private SimpleAsset historieta;
-    private AssetManager assetManager;
     private Camera camera;
     private Camera cameraHUD;
     private Viewport view;

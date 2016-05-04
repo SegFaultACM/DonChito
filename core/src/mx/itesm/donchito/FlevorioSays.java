@@ -40,7 +40,6 @@ public class FlevorioSays implements Screen {
     private SimpleAsset botonPausa;
     private SimpleAsset botonPlay;
     private SimpleAsset botonSalirMenu;
-    private SimpleAsset botonConfiguracion;
     private SimpleAsset botonSalirCueva;
     private SimpleAsset fondoPantalla;
     private SimpleAsset fondoPausa;
@@ -106,7 +105,6 @@ public class FlevorioSays implements Screen {
 
         fondoPausa = new SimpleAsset(Constants.GLOBAL_MENU_PAUSA_PNG, 0, 0);
         botonPlay = new SimpleAsset(Constants.GLOBAL_BOTON_PLAY_PNG, 1050, 10);
-        botonConfiguracion = new SimpleAsset(Constants.GLOBAL_BOTON_CONFIGURACION_PNG, 405, 175);
         botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG, 405, 425);
         botonSalirCueva = new SimpleAsset(Constants.GLOBAL_BOTON_BACK_CAVE, 685, 195);
 
