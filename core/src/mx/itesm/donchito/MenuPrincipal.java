@@ -32,7 +32,7 @@ public class MenuPrincipal implements Screen {
                         btnAjustes,
                         botonSalirMenu,
                         fondoPausa,
-                        btnMusica;
+                        btnMusica,resetBtn;
 
 
     boolean clickOnButton;
@@ -63,7 +63,6 @@ public class MenuPrincipal implements Screen {
         btnAjustes = new SimpleAsset(Constants.AJUSTES_BOTON_PNG,50,475);
         fondoPausa = new SimpleAsset(Constants.PANTALLA_CONFIG_PNG,0,0);
         botonSalirMenu = new SimpleAsset(Constants.GLOBAL_BOTON_SALIRMENU_PNG,405,400);
-
 
         //botonSiPartida.getSprite().setScale(0.2f);
         //botonNoPartida.getSprite().setScale(0.2f);
